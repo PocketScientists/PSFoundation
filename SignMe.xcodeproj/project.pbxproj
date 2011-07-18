@@ -22,19 +22,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		A90F77A813D4A345009277B2 /* PBXContainerItemProxy */ = {
+		A90F77C013D4D232009277B2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = A90F77A113D4A344009277B2 /* DocuSign.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A90F779113D4A310009277B2;
-			remoteInfo = DocuSign;
-		};
-		A90F77B413D4A357009277B2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A90F77AD13D4A356009277B2 /* box.xcodeproj */;
+			containerPortal = A90F77B913D4D231009277B2 /* box.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = A90F777613D4A2D0009277B2;
 			remoteInfo = box;
+		};
+		A90F77CC13D4D244009277B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A90F77C513D4D243009277B2 /* DocuSign.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A90F779113D4A310009277B2;
+			remoteInfo = DocuSign;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -57,8 +57,8 @@
 		A90F776213D4A21D009277B2 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		A90F776313D4A21D009277B2 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		A90F776413D4A21D009277B2 /* itunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = itunesArtwork; sourceTree = "<group>"; };
-		A90F77A113D4A344009277B2 /* DocuSign.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DocuSign.xcodeproj; path = ../DocuSign/DocuSign.xcodeproj; sourceTree = "<group>"; };
-		A90F77AD13D4A356009277B2 /* box.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box.xcodeproj; path = ../box.net/box.xcodeproj; sourceTree = "<group>"; };
+		A90F77B913D4D231009277B2 /* box.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box.xcodeproj; path = external/box.net/box.xcodeproj; sourceTree = "<group>"; };
+		A90F77C513D4D243009277B2 /* DocuSign.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DocuSign.xcodeproj; path = external/DocuSign/DocuSign.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,8 +95,8 @@
 		A90F774013D4A101009277B2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A90F77AD13D4A356009277B2 /* box.xcodeproj */,
-				A90F77A113D4A344009277B2 /* DocuSign.xcodeproj */,
+				A90F77C513D4D243009277B2 /* DocuSign.xcodeproj */,
+				A90F77B913D4D231009277B2 /* box.xcodeproj */,
 				A90F774113D4A101009277B2 /* UIKit.framework */,
 				A90F774313D4A101009277B2 /* Foundation.framework */,
 				A90F774513D4A101009277B2 /* CoreGraphics.framework */,
@@ -149,18 +149,18 @@
 			name = Logos;
 			sourceTree = "<group>";
 		};
-		A90F77A213D4A344009277B2 /* Products */ = {
+		A90F77BA13D4D231009277B2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A90F77A913D4A345009277B2 /* libDocuSign.a */,
+				A90F77C113D4D232009277B2 /* libbox.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A90F77AE13D4A356009277B2 /* Products */ = {
+		A90F77C613D4D243009277B2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A90F77B513D4A357009277B2 /* libbox.a */,
+				A90F77CD13D4D244009277B2 /* libDocuSign.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -202,12 +202,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = A90F77AE13D4A356009277B2 /* Products */;
-					ProjectRef = A90F77AD13D4A356009277B2 /* box.xcodeproj */;
+					ProductGroup = A90F77BA13D4D231009277B2 /* Products */;
+					ProjectRef = A90F77B913D4D231009277B2 /* box.xcodeproj */;
 				},
 				{
-					ProductGroup = A90F77A213D4A344009277B2 /* Products */;
-					ProjectRef = A90F77A113D4A344009277B2 /* DocuSign.xcodeproj */;
+					ProductGroup = A90F77C613D4D243009277B2 /* Products */;
+					ProjectRef = A90F77C513D4D243009277B2 /* DocuSign.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -218,18 +218,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		A90F77A913D4A345009277B2 /* libDocuSign.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libDocuSign.a;
-			remoteRef = A90F77A813D4A345009277B2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A90F77B513D4A357009277B2 /* libbox.a */ = {
+		A90F77C113D4D232009277B2 /* libbox.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libbox.a;
-			remoteRef = A90F77B413D4A357009277B2 /* PBXContainerItemProxy */;
+			remoteRef = A90F77C013D4D232009277B2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A90F77CD13D4D244009277B2 /* libDocuSign.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libDocuSign.a;
+			remoteRef = A90F77CC13D4D244009277B2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
