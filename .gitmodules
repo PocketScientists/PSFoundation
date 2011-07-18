@@ -1,0 +1,6 @@
+[submodule "external/DocuSign"]
+	path = external/DocuSign
+	url = ../DocuSign.git
+[submodule "external/box.net"]
+	path = external/box.net
+	url = ../box.net.git
