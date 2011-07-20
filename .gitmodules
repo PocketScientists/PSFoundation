@@ -4,3 +4,18 @@
 [submodule "external/box.net"]
 	path = external/box.net
 	url = ../box.net.git
+[submodule "PSFoundation"]
+	path = PSFoundation
+	url = https://github.com/steipete/PSFoundation.git
+[submodule "asi-http-request"]
+	path = asi-http-request
+	url = https://github.com/pokeb/asi-http-request.git
+[submodule "JSONKit"]
+	path = JSONKit
+	url = https://github.com/johnezang/JSONKit.git
+[submodule "HockeyKit"]
+	path = HockeyKit
+	url = git://github.com/TheRealKerni/HockeyKit.git
+[submodule "DCIntrospect"]
+	path = DCIntrospect
+	url = https://github.com/domesticcatsoftware/DCIntrospect.git
