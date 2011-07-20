@@ -63,12 +63,6 @@
     window_.rootViewController = navigationController_;
     [window_ makeKeyAndVisible];
     
-    // fade animation!
-#ifdef kIntroFadeAnimation
-    MTSplashScreen *splashScreen = [MTSplashScreen splashScreen];
-    [self.navigationController presentModalViewController:splashScreen animated:NO];
-#endif
-    
     // visual debugging!
 #ifdef kDCIntrospectEnabled
     [[DCIntrospect sharedIntrospector] start];

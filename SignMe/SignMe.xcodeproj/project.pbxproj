@@ -12,10 +12,13 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
+		3900891F13D77B8E0093E0B0 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900891E13D77B8E0093E0B0 /* iCarousel.m */; };
+		3900892213D77F790093E0B0 /* RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892113D77F790093E0B0 /* RBForm.m */; };
+		3900892513D780A30093E0B0 /* RBCarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892413D780A30093E0B0 /* RBCarouselView.m */; };
+		3900892813D780D10093E0B0 /* RBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892713D780D10093E0B0 /* RBClient.m */; };
 		394B916A13D64BB1007BFF2E /* PSBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916913D64BB1007BFF2E /* PSBaseTableViewController.m */; };
 		394B916E13D64C62007BFF2E /* RBHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916D13D64C62007BFF2E /* RBHomeViewController.m */; };
 		394B917213D64CE3007BFF2E /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 394B916F13D64CE3007BFF2E /* Default-Landscape~ipad.png */; };
-		394B917313D64CE3007BFF2E /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 394B917013D64CE3007BFF2E /* Default-Portrait~ipad.png */; };
 		394B917413D64CE3007BFF2E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 394B917113D64CE3007BFF2E /* Icon.png */; };
 		395EEF2513D72E39003C4DA8 /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = 395EEF2413D72E39003C4DA8 /* Background.png */; };
 		395EEF2913D72E85003C4DA8 /* RBTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 395EEF2813D72E85003C4DA8 /* RBTimeView.m */; };
@@ -134,6 +137,14 @@
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AAE50D9B0CCF005BE974 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3900891D13D77B8E0093E0B0 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
+		3900891E13D77B8E0093E0B0 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
+		3900892013D77F790093E0B0 /* RBForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBForm.h; sourceTree = "<group>"; };
+		3900892113D77F790093E0B0 /* RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBForm.m; sourceTree = "<group>"; };
+		3900892313D780A30093E0B0 /* RBCarouselView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBCarouselView.h; sourceTree = "<group>"; };
+		3900892413D780A30093E0B0 /* RBCarouselView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBCarouselView.m; sourceTree = "<group>"; };
+		3900892613D780D10093E0B0 /* RBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBClient.h; sourceTree = "<group>"; };
+		3900892713D780D10093E0B0 /* RBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBClient.m; sourceTree = "<group>"; };
 		394B914E13D6491A007BFF2E /* box.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box.xcodeproj; path = ../external/box.net/box.xcodeproj; sourceTree = "<group>"; };
 		394B915B13D64923007BFF2E /* DocuSign.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DocuSign.xcodeproj; path = ../external/DocuSign/DocuSign.xcodeproj; sourceTree = "<group>"; };
 		394B916813D64BB1007BFF2E /* PSBaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSBaseTableViewController.h; sourceTree = "<group>"; };
@@ -141,7 +152,6 @@
 		394B916C13D64C62007BFF2E /* RBHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBHomeViewController.h; sourceTree = "<group>"; };
 		394B916D13D64C62007BFF2E /* RBHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBHomeViewController.m; sourceTree = "<group>"; };
 		394B916F13D64CE3007BFF2E /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "../Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		394B917013D64CE3007BFF2E /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "../Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		394B917113D64CE3007BFF2E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Icon.png; sourceTree = "<group>"; };
 		395EEF2413D72E39003C4DA8 /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Background.png; path = Images/Background.png; sourceTree = "<group>"; };
 		395EEF2713D72E85003C4DA8 /* RBTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTimeView.h; sourceTree = "<group>"; };
@@ -292,7 +302,6 @@
 				395EEF2613D72E3C003C4DA8 /* Images */,
 				78BCBB2612B5323D0093AE0C /* Localization */,
 				394B916F13D64CE3007BFF2E /* Default-Landscape~ipad.png */,
-				394B917013D64CE3007BFF2E /* Default-Portrait~ipad.png */,
 				394B917113D64CE3007BFF2E /* Icon.png */,
 				787251DF130DABEE00571A6E /* Info.plist */,
 				787251DE130DABEE00571A6E /* Build-Info.plist */,
@@ -306,6 +315,7 @@
 				394B915B13D64923007BFF2E /* DocuSign.xcodeproj */,
 				394B914E13D6491A007BFF2E /* box.xcodeproj */,
 				7856A47312B444A80025424F /* PSFoundation.xcodeproj */,
+				3900891C13D77B8E0093E0B0 /* iCarousel */,
 				78E9B21212B44DDA00B32768 /* asi-http-request */,
 				7856A44C12B4445C0025424F /* CrashReporterSender */,
 				39C917C513983B890045489C /* DCIntrospect */,
@@ -328,6 +338,16 @@
 				7856A41312B441F40025424F /* libz.1.1.3.dylib */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3900891C13D77B8E0093E0B0 /* iCarousel */ = {
+			isa = PBXGroup;
+			children = (
+				3900891D13D77B8E0093E0B0 /* iCarousel.h */,
+				3900891E13D77B8E0093E0B0 /* iCarousel.m */,
+			);
+			name = iCarousel;
+			path = ../iCarousel/iCarousel;
 			sourceTree = "<group>";
 		};
 		394B914F13D6491A007BFF2E /* Products */ = {
@@ -378,6 +398,10 @@
 		39C917B91398367C0045489C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3900892013D77F790093E0B0 /* RBForm.h */,
+				3900892113D77F790093E0B0 /* RBForm.m */,
+				3900892613D780D10093E0B0 /* RBClient.h */,
+				3900892713D780D10093E0B0 /* RBClient.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -387,6 +411,8 @@
 			children = (
 				395EEF2713D72E85003C4DA8 /* RBTimeView.h */,
 				395EEF2813D72E85003C4DA8 /* RBTimeView.m */,
+				3900892313D780A30093E0B0 /* RBCarouselView.h */,
+				3900892413D780A30093E0B0 /* RBCarouselView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -644,7 +670,6 @@
 				7856A45412B4445C0025424F /* CrashReporter.strings in Resources */,
 				78BCBB2A12B5323D0093AE0C /* Localizable.strings in Resources */,
 				394B917213D64CE3007BFF2E /* Default-Landscape~ipad.png in Resources */,
-				394B917313D64CE3007BFF2E /* Default-Portrait~ipad.png in Resources */,
 				394B917413D64CE3007BFF2E /* Icon.png in Resources */,
 				395EEF2513D72E39003C4DA8 /* Background.png in Resources */,
 			);
@@ -695,6 +720,10 @@
 				394B916A13D64BB1007BFF2E /* PSBaseTableViewController.m in Sources */,
 				394B916E13D64C62007BFF2E /* RBHomeViewController.m in Sources */,
 				395EEF2913D72E85003C4DA8 /* RBTimeView.m in Sources */,
+				3900891F13D77B8E0093E0B0 /* iCarousel.m in Sources */,
+				3900892213D77F790093E0B0 /* RBForm.m in Sources */,
+				3900892513D780A30093E0B0 /* RBCarouselView.m in Sources */,
+				3900892813D780D10093E0B0 /* RBClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -803,7 +832,7 @@
 				);
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -867,7 +896,7 @@
 				);
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -904,7 +933,7 @@
 				);
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;

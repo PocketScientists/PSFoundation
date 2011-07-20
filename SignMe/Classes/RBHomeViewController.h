@@ -7,7 +7,17 @@
 //
 
 #import "PSBaseViewController.h"
+#import "iCarousel.h"
 
-@interface RBHomeViewController : PSBaseViewController
+
+@interface RBHomeViewController : PSBaseViewController <iCarouselDataSource, iCarouselDelegate>
+
+@property (nonatomic, retain) UILabel *formsLabel;
+@property (nonatomic, retain) iCarousel *formsCarousel;
+
+@property (nonatomic, retain) UILabel *clientsLabel;
+@property (nonatomic, retain) iCarousel *clientsCarousel;
+
+@property (nonatomic, retain) iCarousel *detailCarousel;
 
 @end

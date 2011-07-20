@@ -19,3 +19,6 @@
 [submodule "DCIntrospect"]
 	path = DCIntrospect
 	url = https://github.com/domesticcatsoftware/DCIntrospect.git
+[submodule "iCarousel"]
+	path = iCarousel
+	url = https://github.com/demosthenese/iCarousel.git
