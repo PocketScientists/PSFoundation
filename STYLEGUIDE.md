@@ -10,6 +10,7 @@
 * Experimental feature branches are prefixed with 'x-'
 * Only letters from 'a' to 'z' and hyphens are used in branch names
 * Use properties
+* Always use properties
 
 # Code Style Example
 
