@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "PSIncludes.h"
+#import "RBTimeView.h"
 
 @interface PSBaseViewController : UIViewController <PSReachabilityAware> 
 
 @property (nonatomic, retain) UIImageView *backgroundImageView;
+@property (nonatomic, retain) RBTimeView *timeView;
 
 @end

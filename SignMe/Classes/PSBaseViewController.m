@@ -12,6 +12,7 @@
 @implementation PSBaseViewController
 
 @synthesize backgroundImageView = backgroundImageView_;
+@synthesize timeView = timeView_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -28,6 +29,7 @@
 
 - (void)dealloc {
     MCRelease(backgroundImageView_);
+    MCRelease(timeView_);
     
     [super dealloc];
 }
@@ -44,6 +46,9 @@
     
     self.backgroundImageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background"]] autorelease];
     [self.view addSubview:self.backgroundImageView];
+    
+    self.timeView = [[[RBTimeView alloc] initWithFrame:CGRectMake(920, 30, 70, 80)] autorelease];
+    [self.view addSubview:self.timeView];
 }
 
 - (void)viewDidUnload {
@@ -52,6 +57,18 @@
     [[PSReachability sharedPSReachability] shutdownReachabilityFor:self];
     
     self.backgroundImageView = nil;
+    self.timeView = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
 }
 
 ////////////////////////////////////////////////////////////////////////

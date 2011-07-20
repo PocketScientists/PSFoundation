@@ -18,6 +18,7 @@
 		394B917313D64CE3007BFF2E /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 394B917013D64CE3007BFF2E /* Default-Portrait~ipad.png */; };
 		394B917413D64CE3007BFF2E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 394B917113D64CE3007BFF2E /* Icon.png */; };
 		395EEF2513D72E39003C4DA8 /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = 395EEF2413D72E39003C4DA8 /* Background.png */; };
+		395EEF2913D72E85003C4DA8 /* RBTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 395EEF2813D72E85003C4DA8 /* RBTimeView.m */; };
 		3994620C12C91F1D005574A6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620B12C91F1D005574A6 /* CoreLocation.framework */; };
 		3994621012C91F27005574A6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620F12C91F27005574A6 /* MapKit.framework */; };
 		39C917CF13983B890045489C /* DCCrossHairView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C917C713983B890045489C /* DCCrossHairView.m */; };
@@ -143,6 +144,8 @@
 		394B917013D64CE3007BFF2E /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "../Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		394B917113D64CE3007BFF2E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Icon.png; sourceTree = "<group>"; };
 		395EEF2413D72E39003C4DA8 /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Background.png; path = Images/Background.png; sourceTree = "<group>"; };
+		395EEF2713D72E85003C4DA8 /* RBTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTimeView.h; sourceTree = "<group>"; };
+		395EEF2813D72E85003C4DA8 /* RBTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTimeView.m; sourceTree = "<group>"; };
 		3994620B12C91F1D005574A6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3994620F12C91F27005574A6 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		39C917BB139837940045489C /* PSIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSIncludes.h; sourceTree = "<group>"; };
@@ -382,6 +385,8 @@
 		39C917BA139836840045489C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				395EEF2713D72E85003C4DA8 /* RBTimeView.h */,
+				395EEF2813D72E85003C4DA8 /* RBTimeView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -689,6 +694,7 @@
 				39F772A513B63DD9006E12AF /* PSBaseViewController.m in Sources */,
 				394B916A13D64BB1007BFF2E /* PSBaseTableViewController.m in Sources */,
 				394B916E13D64C62007BFF2E /* RBHomeViewController.m in Sources */,
+				395EEF2913D72E85003C4DA8 /* RBTimeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
