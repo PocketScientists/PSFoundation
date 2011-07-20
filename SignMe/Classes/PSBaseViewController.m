@@ -7,8 +7,11 @@
 //
 
 #import "PSBaseViewController.h"
+#import "PSIncludes.h"
 
 @implementation PSBaseViewController
+
+@synthesize backgroundImageView = backgroundImageView_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -24,6 +27,7 @@
 }
 
 - (void)dealloc {
+    MCRelease(backgroundImageView_);
     
     [super dealloc];
 }
@@ -37,12 +41,26 @@
     [super viewDidLoad];
     
     [[PSReachability sharedPSReachability] setupReachabilityFor:self];
+    
+    self.backgroundImageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background"]] autorelease];
+    [self.view addSubview:self.backgroundImageView];
 }
 
 - (void)viewDidUnload {
     [super viewDidUnload];
     
     [[PSReachability sharedPSReachability] shutdownReachabilityFor:self];
+    
+    self.backgroundImageView = nil;
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Rotation
+////////////////////////////////////////////////////////////////////////
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
 
 @end

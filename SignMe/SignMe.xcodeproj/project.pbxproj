@@ -17,6 +17,7 @@
 		394B917213D64CE3007BFF2E /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 394B916F13D64CE3007BFF2E /* Default-Landscape~ipad.png */; };
 		394B917313D64CE3007BFF2E /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 394B917013D64CE3007BFF2E /* Default-Portrait~ipad.png */; };
 		394B917413D64CE3007BFF2E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 394B917113D64CE3007BFF2E /* Icon.png */; };
+		395EEF2513D72E39003C4DA8 /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = 395EEF2413D72E39003C4DA8 /* Background.png */; };
 		3994620C12C91F1D005574A6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620B12C91F1D005574A6 /* CoreLocation.framework */; };
 		3994621012C91F27005574A6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620F12C91F27005574A6 /* MapKit.framework */; };
 		39C917CF13983B890045489C /* DCCrossHairView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C917C713983B890045489C /* DCCrossHairView.m */; };
@@ -141,6 +142,7 @@
 		394B916F13D64CE3007BFF2E /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "../Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		394B917013D64CE3007BFF2E /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "../Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		394B917113D64CE3007BFF2E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Icon.png; sourceTree = "<group>"; };
+		395EEF2413D72E39003C4DA8 /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Background.png; path = Images/Background.png; sourceTree = "<group>"; };
 		3994620B12C91F1D005574A6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3994620F12C91F27005574A6 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		39C917BB139837940045489C /* PSIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSIncludes.h; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				395EEF2613D72E3C003C4DA8 /* Images */,
 				78BCBB2612B5323D0093AE0C /* Localization */,
 				394B916F13D64CE3007BFF2E /* Default-Landscape~ipad.png */,
 				394B917013D64CE3007BFF2E /* Default-Portrait~ipad.png */,
@@ -349,6 +352,14 @@
 				394B916913D64BB1007BFF2E /* PSBaseTableViewController.m */,
 			);
 			name = Base;
+			sourceTree = "<group>";
+		};
+		395EEF2613D72E3C003C4DA8 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				395EEF2413D72E39003C4DA8 /* Background.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 		39C917B8139836750045489C /* View Controller */ = {
@@ -630,6 +641,7 @@
 				394B917213D64CE3007BFF2E /* Default-Landscape~ipad.png in Resources */,
 				394B917313D64CE3007BFF2E /* Default-Portrait~ipad.png in Resources */,
 				394B917413D64CE3007BFF2E /* Icon.png in Resources */,
+				395EEF2513D72E39003C4DA8 /* Background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

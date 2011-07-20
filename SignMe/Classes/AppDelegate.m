@@ -58,6 +58,7 @@
     
     // Add the navigation controller's view to the window and display.
     navigationController_ = [[UINavigationController alloc] initWithRootViewController:homeViewController];
+    navigationController_.navigationBarHidden = YES;
     window_ = [[PSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     window_.rootViewController = navigationController_;
     [window_ makeKeyAndVisible];

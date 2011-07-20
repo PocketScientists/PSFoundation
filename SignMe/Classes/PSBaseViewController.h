@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "PSIncludes.h"
 
-@interface PSBaseViewController : UIViewController <PSReachabilityAware> {
-    
-}
+@interface PSBaseViewController : UIViewController <PSReachabilityAware> 
+
+@property (nonatomic, retain) UIImageView *backgroundImageView;
 
 @end
