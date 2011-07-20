@@ -9,6 +9,7 @@
 * Development is done on the 'develop' branch created by git-flow, never on master
 * Experimental feature branches are prefixed with 'x-'
 * Only letters from 'a' to 'z' and hyphens are used in branch names
+* Use properties
 
 # Code Style Example
 
