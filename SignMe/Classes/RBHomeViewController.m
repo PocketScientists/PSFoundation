@@ -159,8 +159,8 @@
     [self.formsCarousel reloadData];
     [self.clientsCarousel reloadData];
     
-    self.formsCarousel.scrollEnabled = self.formsCarousel.numberOfItems >= kMinNumberOfItemsToEnableScrolling;
-    self.clientsCarousel.scrollEnabled = self.clientsCarousel.numberOfItems >= kMinNumberOfItemsToEnableScrolling;
+    //self.formsCarousel.scrollEnabled = self.formsCarousel.numberOfItems >= kMinNumberOfItemsToEnableScrolling;
+    //self.clientsCarousel.scrollEnabled = self.clientsCarousel.numberOfItems >= kMinNumberOfItemsToEnableScrolling;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
@@ -215,6 +215,13 @@
     return kCarouselItemWidth;
 }
 
+- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
+    // update detail view if user scrolled to new form while detailView is visible
+    if (carousel == self.formsCarousel && self.detailView.alpha == 1.f) {
+        [self.detailView reloadData];
+    }
+}
+
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
     if (carousel == self.formsCarousel) {
         [self formsCarouseldidSelectItemAtIndex:index];
@@ -230,18 +237,21 @@
         [self hideDetailView];
         
         [self performBlock:^(void) {
-            [self.formsCarousel scrollToItemAtIndex:index animated:YES];
-            
             if (self.formsCarousel.currentItemIndex != index) {
+                [self.formsCarousel scrollToItemAtIndex:index animated:YES];
                 [self showDetailViewWithDelay:0.4];
             }
         } afterDelay:kAnimationDuration];
     } 
     
-    // Is not selected currently -> item gets selected
+    // detail view is not visible currently -> show it
     else {
-        [self.formsCarousel scrollToItemAtIndex:index animated:YES];
-        [self showDetailViewWithDelay:self.formsCarousel.currentItemIndex == index ? 0 : 0.4];
+        if (self.formsCarousel.currentItemIndex != index) {
+            [self.formsCarousel scrollToItemAtIndex:index animated:YES];
+            [self showDetailViewWithDelay:0.4];
+        } else {
+            [self showDetailViewWithDelay:0];
+        }
     }
 }
 
