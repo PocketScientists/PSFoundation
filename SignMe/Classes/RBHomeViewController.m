@@ -41,6 +41,9 @@
 - (void)showDetailViewWithDelay:(NSTimeInterval)delay;
 - (void)hideDetailView;
 
+- (void)toggleSearchScreen;
+
+- (void)keyboardWillHide:(NSNotification *)notification;
 - (void)handleSearchClientPress:(id)sender;
 
 @end
@@ -158,6 +161,14 @@
     
     self.formsCarousel.scrollEnabled = self.formsCarousel.numberOfItems >= kMinNumberOfItemsToEnableScrolling;
     self.clientsCarousel.scrollEnabled = self.clientsCarousel.numberOfItems >= kMinNumberOfItemsToEnableScrolling;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -287,6 +298,43 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)handleSearchClientPress:(id)sender {
+    [self toggleSearchScreen];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    [self toggleSearchScreen];
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Private
+////////////////////////////////////////////////////////////////////////
+
+- (UILabel *)headerLabelForView:(UIView *)view text:(NSString *)text {
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 25)] autorelease];
+    
+    label.text = text;
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = [UIColor blackColor];
+    label.font = [UIFont boldSystemFontOfSize:18.];
+    label.frameLeft = view.frameLeft + 10.f;
+    label.frameTop = view.frameTop - label.frameHeight - 5.f;
+    
+    return label;
+}
+
+- (void)setupCarousel:(iCarousel *)carousel {
+    carousel.backgroundColor = kRBCarouselColor;
+    carousel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    carousel.delegate = self;
+    carousel.dataSource = self;
+}
+
+- (BOOL)formsCarouselIsSelected {
+    return !CGRectEqualToRect(self.formsCarousel.frame, kFormsCarouselFrame);
+}
+
+- (void)toggleSearchScreen {
     if (self.searchField.superview == nil) {
         [UIView animateWithDuration:0.4 animations:^(void) {
             // Hide forms & detail
@@ -329,35 +377,6 @@
             }
         }];
     }
-}
-
-////////////////////////////////////////////////////////////////////////
-#pragma mark -
-#pragma mark Private
-////////////////////////////////////////////////////////////////////////
-
-- (UILabel *)headerLabelForView:(UIView *)view text:(NSString *)text {
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 25)] autorelease];
-    
-    label.text = text;
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor blackColor];
-    label.font = [UIFont boldSystemFontOfSize:18.];
-    label.frameLeft = view.frameLeft + 10.f;
-    label.frameTop = view.frameTop - label.frameHeight - 5.f;
-    
-    return label;
-}
-
-- (void)setupCarousel:(iCarousel *)carousel {
-    carousel.backgroundColor = kRBCarouselColor;
-    carousel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    carousel.delegate = self;
-    carousel.dataSource = self;
-}
-
-- (BOOL)formsCarouselIsSelected {
-    return !CGRectEqualToRect(self.formsCarousel.frame, kFormsCarouselFrame);
 }
 
 @end
