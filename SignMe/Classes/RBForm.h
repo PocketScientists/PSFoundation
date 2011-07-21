@@ -16,5 +16,18 @@ typedef enum {
     RBFormTypeUnknown = -1
 } RBFormType;
 
+
 NSString *RBFormTypeStringRepresentation(RBFormType formType);
 RBFormType RBFormTypeForIndex(NSUInteger index);
+
+
+@interface RBForm : NSObject 
+
++ (RBForm *)formWithID:(NSUInteger)formID name:(NSString *)name;
+
+- (id)initWithID:(NSUInteger)formID name:(NSString *)name;
+
+@property (nonatomic, readonly) NSUInteger formID;
+@property (nonatomic, readonly) NSString *name;
+
+@end

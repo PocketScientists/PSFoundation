@@ -13,7 +13,7 @@
 #define kCarouselViewFrame  CGRectMake(0,0,170,105)
 #define kCarouselItemWidth  (CGRectGetWidth(kCarouselViewFrame) * 1.5)
 
-@interface RBCarouselView : UIView
+@interface RBCarouselView : UIControl
 
 @property (nonatomic, retain) UILabel *textLabel;
 

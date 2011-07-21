@@ -10,14 +10,17 @@
 #import "RBForm.h"
 #import "RBCarouselView.h"
 
+#define kMinNumberOfItemsToEnableScrolling   5
+
 #define kAnimationDuration      0.25
 #define kFormsYOffset            80.f
 #define kClientsYOffset         120.f
 #define kDetailYOffset           95.f
 
-#define kFormsCarouselFrame     CGRectMake(0,200,self.view.bounds.size.width,170)
-#define kDetailViewFrame        CGRectMake(0,200,self.view.bounds.size.width,240)
-#define kClientsCarouselFrame   CGRectMake(0,450,self.view.bounds.size.width,170)
+#define kFormsCarouselFrame     CGRectMake(0.f,200.f,self.view.bounds.size.width,170.f)
+#define kDetailViewFrame        CGRectMake(0.f,200.f,self.view.bounds.size.width,235.f)
+#define kClientsViewFrame       CGRectMake(0.f,420.f,self.view.bounds.size.width,200.f)
+#define kClientsCarouselFrame   CGRectMake(0.f,30.f,self.view.bounds.size.width,170.f)
 
 
 @interface RBHomeViewController ()
@@ -34,6 +37,7 @@
 - (void)formsCarouseldidSelectItemAtIndex:(NSInteger)index;
 - (void)clientsCarouseldidSelectItemAtIndex:(NSInteger)index;
 
+- (void)showDetailView; // delay = 0
 - (void)showDetailViewWithDelay:(NSTimeInterval)delay;
 - (void)hideDetailView;
 
@@ -43,8 +47,11 @@
 
 @synthesize formsLabel = formsLabel_;
 @synthesize formsCarousel = formsCarousel_;
+@synthesize clientsView = clientsView_;
 @synthesize clientsCarousel = clientsCarousel_;
 @synthesize clientsLabel = clientsLabel_;
+@synthesize searchClientButton = clientsFilter_;
+@synthesize addClientButton = addClientButton_;
 @synthesize detailView = detailView_;
 @synthesize detailCarousel = detailCarousel_;
 
@@ -56,8 +63,11 @@
 - (void)dealloc {
     MCRelease(formsLabel_);
     MCRelease(formsCarousel_);
+    MCRelease(clientsView_);
     MCRelease(clientsCarousel_);
     MCRelease(clientsLabel_);
+    MCRelease(clientsFilter_);
+    MCRelease(addClientButton_);
     MCRelease(detailView_);
     MCRelease(detailCarousel_);
     
@@ -73,28 +83,48 @@
     [super viewDidLoad];
     
     self.formsCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
+    [self setupCarousel:self.formsCarousel];
+    self.formsCarousel.centerItemWhenSelected = NO;
+    [self.formsCarousel scrollToItemAtIndex:RBFormTypePreSignature animated:NO];
+    self.formsLabel = [self headerLabelForView:self.formsCarousel text:@"FORMS"];
+    
+    self.clientsView = [[[UIView alloc] initWithFrame:kClientsViewFrame] autorelease];
+    self.clientsView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.clientsCarousel = [[[iCarousel alloc] initWithFrame:kClientsCarouselFrame] autorelease];
+    [self setupCarousel:self.clientsCarousel];
+    self.clientsLabel = [self headerLabelForView:self.clientsCarousel text:@"CLIENTS"];
+    self.searchClientButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.addClientButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
+    //[self.searchClientButton setImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
+    [self.searchClientButton setTitle:@"Filter" forState:UIControlStateNormal];
+    [self.addClientButton setTitle:@"New" forState:UIControlStateNormal];
+    
+    self.searchClientButton.frame = CGRectMake(0, 0, 60, 30);
+    self.addClientButton.frame = CGRectMake(0, 0, 60, 30);
+    self.searchClientButton.frameLeft = self.view.bounds.size.width - 140;
+    self.addClientButton.frameLeft = self.view.bounds.size.width - 70;
+    
+    self.searchClientButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    self.addClientButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    
+    // self.detailCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
+    // [self setupCarousel:self.detailCarousel];
     
     self.detailView = [[[RBFormDetailView alloc] initWithFrame:kDetailViewFrame] autorelease];
-    // self.detailCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
-    
-    [self setupCarousel:self.formsCarousel];
-    [self setupCarousel:self.clientsCarousel];
-    [self setupCarousel:self.detailCarousel];
-    
     self.detailView.alpha = 0.f;
     
-    [self.formsCarousel scrollToItemAtIndex:RBFormTypePreSignature animated:NO];
-    self.formsCarousel.scrollEnabled = NO;
     
-    self.formsLabel = [self headerLabelForView:self.formsCarousel text:@"FORMS"];
-    self.clientsLabel = [self headerLabelForView:self.clientsCarousel text:@"CLIENTS"];
     
     [self.view addSubview:self.detailView];
     [self.view addSubview:self.formsLabel];
     [self.view addSubview:self.formsCarousel];
-    [self.view addSubview:self.clientsLabel];
-    [self.view addSubview:self.clientsCarousel];
+    
+    [self.clientsView addSubview:self.clientsLabel];
+    [self.clientsView addSubview:self.clientsCarousel];
+    [self.clientsView addSubview:self.searchClientButton];
+    [self.clientsView addSubview:self.addClientButton];
+    [self.view addSubview:self.clientsView];
 }
 
 - (void) viewDidUnload {
@@ -103,6 +133,9 @@
     self.formsLabel = nil;
     self.formsCarousel = nil;
     self.detailCarousel = nil;
+    self.clientsView = nil;
+    self.searchClientButton = nil;
+    self.addClientButton = nil;
     self.clientsLabel = nil;
     self.clientsCarousel = nil;
     self.detailView = nil;
@@ -113,6 +146,9 @@
     
     [self.formsCarousel reloadData];
     [self.clientsCarousel reloadData];
+    
+    self.formsCarousel.scrollEnabled = self.formsCarousel.numberOfItems >= kMinNumberOfItemsToEnableScrolling;
+    self.clientsCarousel.scrollEnabled = self.clientsCarousel.numberOfItems >= kMinNumberOfItemsToEnableScrolling;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -172,13 +208,20 @@
 - (void)formsCarouseldidSelectItemAtIndex:(NSInteger)index {
     if ([self formsCarouselIsSelected]) {
         [self hideDetailView];
-        self.formsCarousel.centerItemWhenSelected = YES;
+        
+        [self performBlock:^(void) {
+            [self.formsCarousel scrollToItemAtIndex:index animated:YES];
+            
+            if (self.formsCarousel.currentItemIndex != index) {
+                [self performSelector:@selector(showDetailView) afterDelay:0.4 + kAnimationDuration];
+            }
+        } afterDelay:kAnimationDuration];
     } 
     
     // Is not selected currently -> item gets selected
     else {
+        [self.formsCarousel scrollToItemAtIndex:index animated:YES];
         [self showDetailViewWithDelay:self.formsCarousel.currentItemIndex == index ? 0 : 0.4];
-        self.formsCarousel.centerItemWhenSelected = NO;
     }
 }
 
@@ -191,6 +234,10 @@
 #pragma mark Moving Animations
 ////////////////////////////////////////////////////////////////////////
 
+             - (void)showDetailView {
+                 [self showDetailViewWithDelay:0.];
+             }
+             
 - (void)showDetailViewWithDelay:(NSTimeInterval)delay {
     [UIView animateWithDuration:kAnimationDuration
                           delay:delay
@@ -220,8 +267,7 @@
     self.detailView.alpha = MIN(1.f, factor+1.f); // factor = 1 -> alpha = 1, factor = -1 -> alpha = 0
     
     self.formsCarousel.frameTop -= kFormsYOffset * factor;
-    self.clientsLabel.frameTop += kClientsYOffset * factor;
-    self.clientsCarousel.frameTop += kClientsYOffset * factor;
+    self.clientsView.frameTop += kClientsYOffset * factor;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -230,7 +276,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (UILabel *)headerLabelForView:(UIView *)view text:(NSString *)text {
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 30)] autorelease];
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 25)] autorelease];
     
     label.text = text;
     label.backgroundColor = [UIColor clearColor];

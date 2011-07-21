@@ -56,6 +56,30 @@
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
+#pragma mark UIView
+////////////////////////////////////////////////////////////////////////
+
+- (void)drawRect:(CGRect)rect {
+    if (self.highlighted) {
+        CGFloat stroke = 2.0;
+        CGContextRef c = UIGraphicsGetCurrentContext(); 
+        
+        [[UIColor whiteColor] set];
+        CGContextSetLineWidth(c,stroke);
+        
+        // draw border
+        CGContextBeginPath(c);
+        CGContextMoveToPoint(c,0,0);
+        CGContextAddLineToPoint(c, self.bounds.size.width, 0);
+        CGContextAddLineToPoint(c, self.bounds.size.width, self.bounds.size.height);
+        CGContextAddLineToPoint(c, 0, self.bounds.size.height);
+        CGContextClosePath(c);
+        CGContextStrokePath(c);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
 #pragma mark RBCarouselView
 ////////////////////////////////////////////////////////////////////////
 

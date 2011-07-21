@@ -16,8 +16,11 @@
 @property (nonatomic, retain) UILabel *formsLabel;
 @property (nonatomic, retain) iCarousel *formsCarousel;
 
+@property (nonatomic, retain) UIView *clientsView;
 @property (nonatomic, retain) UILabel *clientsLabel;
 @property (nonatomic, retain) iCarousel *clientsCarousel;
+@property (nonatomic, retain) UIButton *searchClientButton;
+@property (nonatomic, retain) UIButton *addClientButton;
 
 @property (nonatomic, retain) RBFormDetailView *detailView;
 @property (nonatomic, retain) iCarousel *detailCarousel;
