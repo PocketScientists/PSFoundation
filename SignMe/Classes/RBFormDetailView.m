@@ -45,4 +45,8 @@
     CGContextStrokePath(c);
 }
 
+- (void)reloadData {
+    // TODO: update UI
+}
+
 @end

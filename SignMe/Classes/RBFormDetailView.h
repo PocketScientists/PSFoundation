@@ -10,4 +10,6 @@
 
 @interface RBFormDetailView : UIView
 
+- (void)reloadData;
+
 @end

@@ -213,7 +213,7 @@
             [self.formsCarousel scrollToItemAtIndex:index animated:YES];
             
             if (self.formsCarousel.currentItemIndex != index) {
-                [self performSelector:@selector(showDetailView) afterDelay:0.4 + kAnimationDuration];
+                [self showDetailViewWithDelay:0.4];
             }
         } afterDelay:kAnimationDuration];
     } 
@@ -239,6 +239,8 @@
              }
              
 - (void)showDetailViewWithDelay:(NSTimeInterval)delay {
+    [self.detailView reloadData];
+    
     [UIView animateWithDuration:kAnimationDuration
                           delay:delay
                         options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
