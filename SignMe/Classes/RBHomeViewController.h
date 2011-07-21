@@ -19,6 +19,7 @@
 @property (nonatomic, retain) UIView *clientsView;
 @property (nonatomic, retain) UILabel *clientsLabel;
 @property (nonatomic, retain) iCarousel *clientsCarousel;
+@property (nonatomic, retain) UITextField *searchField;
 @property (nonatomic, retain) UIButton *searchClientButton;
 @property (nonatomic, retain) UIButton *addClientButton;
 

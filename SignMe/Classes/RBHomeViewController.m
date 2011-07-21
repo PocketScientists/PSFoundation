@@ -41,6 +41,8 @@
 - (void)showDetailViewWithDelay:(NSTimeInterval)delay;
 - (void)hideDetailView;
 
+- (void)handleSearchClientPress:(id)sender;
+
 @end
 
 @implementation RBHomeViewController
@@ -50,10 +52,11 @@
 @synthesize clientsView = clientsView_;
 @synthesize clientsCarousel = clientsCarousel_;
 @synthesize clientsLabel = clientsLabel_;
-@synthesize searchClientButton = clientsFilter_;
+@synthesize searchClientButton = searchClientButton_;
 @synthesize addClientButton = addClientButton_;
 @synthesize detailView = detailView_;
 @synthesize detailCarousel = detailCarousel_;
+@synthesize searchField = searchField_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -66,7 +69,8 @@
     MCRelease(clientsView_);
     MCRelease(clientsCarousel_);
     MCRelease(clientsLabel_);
-    MCRelease(clientsFilter_);
+    MCRelease(searchField_);
+    MCRelease(searchClientButton_);
     MCRelease(addClientButton_);
     MCRelease(detailView_);
     MCRelease(detailCarousel_);
@@ -104,9 +108,14 @@
     self.addClientButton.frame = CGRectMake(0, 0, 60, 30);
     self.searchClientButton.frameLeft = self.view.bounds.size.width - 140;
     self.addClientButton.frameLeft = self.view.bounds.size.width - 70;
-    
     self.searchClientButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     self.addClientButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    
+    [self.searchClientButton addTarget:self action:@selector(handleSearchClientPress:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.searchField = [[[UITextField alloc] initWithFrame:CGRectMake(100, 152, 300, 27)] autorelease];
+    self.searchField.backgroundColor = [UIColor clearColor];
+    self.searchField.borderStyle = UITextBorderStyleNone;
     
     // self.detailCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
     // [self setupCarousel:self.detailCarousel];
@@ -234,10 +243,10 @@
 #pragma mark Moving Animations
 ////////////////////////////////////////////////////////////////////////
 
-             - (void)showDetailView {
-                 [self showDetailViewWithDelay:0.];
-             }
-             
+- (void)showDetailView {
+    [self showDetailViewWithDelay:0.];
+}
+
 - (void)showDetailViewWithDelay:(NSTimeInterval)delay {
     [self.detailView reloadData];
     
@@ -270,6 +279,56 @@
     
     self.formsCarousel.frameTop -= kFormsYOffset * factor;
     self.clientsView.frameTop += kClientsYOffset * factor;
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Target/Action
+////////////////////////////////////////////////////////////////////////
+
+- (void)handleSearchClientPress:(id)sender {
+    if (self.searchField.superview == nil) {
+        [UIView animateWithDuration:0.4 animations:^(void) {
+            // Hide forms & detail
+            self.formsLabel.alpha = 0.f;
+            self.formsCarousel.alpha = 0.f;
+            self.detailView.hidden = YES;
+            
+            // Move Clients-View up
+            self.clientsView.frameTop = 150.f;
+        } completion:^(BOOL finished) {
+            self.clientsLabel.text = @"CLIENTS:";
+            [self.view addSubview:self.searchField];
+            [self.searchField becomeFirstResponder];
+        }];
+    }
+    
+    else {
+        BOOL detailViewHidden = YES;
+        
+        [self.searchField resignFirstResponder];
+        [self.searchField removeFromSuperview];
+        self.clientsLabel.text = @"CLIENTS";
+        
+        if (self.detailView.alpha == 1.f) {
+            self.detailView.alpha = 0.f;
+            detailViewHidden = NO;
+        }
+        
+        self.detailView.hidden = NO;
+        
+        [UIView animateWithDuration:0.4 animations:^(void) {
+            // Show forms & detail
+            self.formsLabel.alpha = 1.f;
+            self.formsCarousel.alpha = 1.f;
+            // Move Clients-View down to original position
+            self.clientsView.frameTop = CGRectGetMinY(kClientsViewFrame) + ([self formsCarouselIsSelected] ? kClientsYOffset : 0);
+            
+            if (!detailViewHidden) {
+                self.detailView.alpha = 1.0;
+            }
+        }];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
