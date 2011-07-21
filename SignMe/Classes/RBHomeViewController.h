@@ -8,6 +8,7 @@
 
 #import "PSBaseViewController.h"
 #import "iCarousel.h"
+#import "RBFormDetailView.h"
 
 
 @interface RBHomeViewController : PSBaseViewController <iCarouselDataSource, iCarouselDelegate>
@@ -18,6 +19,7 @@
 @property (nonatomic, retain) UILabel *clientsLabel;
 @property (nonatomic, retain) iCarousel *clientsCarousel;
 
+@property (nonatomic, retain) RBFormDetailView *detailView;
 @property (nonatomic, retain) iCarousel *detailCarousel;
 
 @end

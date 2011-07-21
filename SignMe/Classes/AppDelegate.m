@@ -152,8 +152,8 @@
 
 // launched via post selector to speed up launch time
 - (void)postFinishLaunch {
-    [[PSReachability sharedPSReachability] startCheckingHostAddress:kReachabilityHostURL];
-    [[PSReachability sharedPSReachability] setupReachabilityFor:self];
+    //[[PSReachability sharedPSReachability] startCheckingHostAddress:kReachabilityHostURL];
+    //[[PSReachability sharedPSReachability] setupReachabilityFor:self];
 }
 
 @end

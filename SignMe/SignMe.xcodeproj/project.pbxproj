@@ -16,6 +16,8 @@
 		3900892213D77F790093E0B0 /* RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892113D77F790093E0B0 /* RBForm.m */; };
 		3900892513D780A30093E0B0 /* RBCarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892413D780A30093E0B0 /* RBCarouselView.m */; };
 		3900892813D780D10093E0B0 /* RBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892713D780D10093E0B0 /* RBClient.m */; };
+		3900892B13D799530093E0B0 /* RBFormDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892A13D799530093E0B0 /* RBFormDetailView.m */; };
+		3900894A13D882760093E0B0 /* RBArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900894913D882760093E0B0 /* RBArrowView.m */; };
 		394B916A13D64BB1007BFF2E /* PSBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916913D64BB1007BFF2E /* PSBaseTableViewController.m */; };
 		394B916E13D64C62007BFF2E /* RBHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916D13D64C62007BFF2E /* RBHomeViewController.m */; };
 		394B917213D64CE3007BFF2E /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 394B916F13D64CE3007BFF2E /* Default-Landscape~ipad.png */; };
@@ -145,6 +147,10 @@
 		3900892413D780A30093E0B0 /* RBCarouselView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBCarouselView.m; sourceTree = "<group>"; };
 		3900892613D780D10093E0B0 /* RBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBClient.h; sourceTree = "<group>"; };
 		3900892713D780D10093E0B0 /* RBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBClient.m; sourceTree = "<group>"; };
+		3900892913D799520093E0B0 /* RBFormDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFormDetailView.h; sourceTree = "<group>"; };
+		3900892A13D799530093E0B0 /* RBFormDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFormDetailView.m; sourceTree = "<group>"; };
+		3900894813D882760093E0B0 /* RBArrowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBArrowView.h; sourceTree = "<group>"; };
+		3900894913D882760093E0B0 /* RBArrowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBArrowView.m; sourceTree = "<group>"; };
 		394B914E13D6491A007BFF2E /* box.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box.xcodeproj; path = ../external/box.net/box.xcodeproj; sourceTree = "<group>"; };
 		394B915B13D64923007BFF2E /* DocuSign.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DocuSign.xcodeproj; path = ../external/DocuSign/DocuSign.xcodeproj; sourceTree = "<group>"; };
 		394B916813D64BB1007BFF2E /* PSBaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSBaseTableViewController.h; sourceTree = "<group>"; };
@@ -413,6 +419,10 @@
 				395EEF2813D72E85003C4DA8 /* RBTimeView.m */,
 				3900892313D780A30093E0B0 /* RBCarouselView.h */,
 				3900892413D780A30093E0B0 /* RBCarouselView.m */,
+				3900892913D799520093E0B0 /* RBFormDetailView.h */,
+				3900892A13D799530093E0B0 /* RBFormDetailView.m */,
+				3900894813D882760093E0B0 /* RBArrowView.h */,
+				3900894913D882760093E0B0 /* RBArrowView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -724,6 +734,8 @@
 				3900892213D77F790093E0B0 /* RBForm.m in Sources */,
 				3900892513D780A30093E0B0 /* RBCarouselView.m in Sources */,
 				3900892813D780D10093E0B0 /* RBClient.m in Sources */,
+				3900892B13D799530093E0B0 /* RBFormDetailView.m in Sources */,
+				3900894A13D882760093E0B0 /* RBArrowView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

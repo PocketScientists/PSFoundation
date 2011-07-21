@@ -11,10 +11,12 @@
 #import "RBCarouselView.h"
 
 #define kAnimationDuration      0.25
-#define kFormsYOffset           55.f
-#define kClientsYOffset         110.f
+#define kFormsYOffset            80.f
+#define kClientsYOffset         120.f
+#define kDetailYOffset           95.f
 
 #define kFormsCarouselFrame     CGRectMake(0,200,self.view.bounds.size.width,170)
+#define kDetailViewFrame        CGRectMake(0,200,self.view.bounds.size.width,240)
 #define kClientsCarouselFrame   CGRectMake(0,450,self.view.bounds.size.width,170)
 
 
@@ -25,10 +27,15 @@
 - (void)setupCarousel:(iCarousel *)carousel;
 
 // move a view vertically
-- (void)moveView:(UIView *)view upBy:(CGFloat)yOffset;
-- (void)moveView:(UIView *)view downBy:(CGFloat)yOffset;
+- (void)moveViewsWithFactor:(CGFloat)factor;
 
 - (BOOL)formsCarouselIsSelected;
+
+- (void)formsCarouseldidSelectItemAtIndex:(NSInteger)index;
+- (void)clientsCarouseldidSelectItemAtIndex:(NSInteger)index;
+
+- (void)showDetailViewWithDelay:(NSTimeInterval)delay;
+- (void)hideDetailView;
 
 @end
 
@@ -38,6 +45,7 @@
 @synthesize formsCarousel = formsCarousel_;
 @synthesize clientsCarousel = clientsCarousel_;
 @synthesize clientsLabel = clientsLabel_;
+@synthesize detailView = detailView_;
 @synthesize detailCarousel = detailCarousel_;
 
 ////////////////////////////////////////////////////////////////////////
@@ -50,6 +58,7 @@
     MCRelease(formsCarousel_);
     MCRelease(clientsCarousel_);
     MCRelease(clientsLabel_);
+    MCRelease(detailView_);
     MCRelease(detailCarousel_);
     
     [super dealloc];
@@ -64,12 +73,16 @@
     [super viewDidLoad];
     
     self.formsCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
-    self.detailCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
     self.clientsCarousel = [[[iCarousel alloc] initWithFrame:kClientsCarouselFrame] autorelease];
+    
+    self.detailView = [[[RBFormDetailView alloc] initWithFrame:kDetailViewFrame] autorelease];
+    // self.detailCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
     
     [self setupCarousel:self.formsCarousel];
     [self setupCarousel:self.clientsCarousel];
     [self setupCarousel:self.detailCarousel];
+    
+    self.detailView.alpha = 0.f;
     
     [self.formsCarousel scrollToItemAtIndex:RBFormTypePreSignature animated:NO];
     self.formsCarousel.scrollEnabled = NO;
@@ -77,6 +90,7 @@
     self.formsLabel = [self headerLabelForView:self.formsCarousel text:@"FORMS"];
     self.clientsLabel = [self headerLabelForView:self.clientsCarousel text:@"CLIENTS"];
     
+    [self.view addSubview:self.detailView];
     [self.view addSubview:self.formsLabel];
     [self.view addSubview:self.formsCarousel];
     [self.view addSubview:self.clientsLabel];
@@ -91,6 +105,7 @@
     self.detailCarousel = nil;
     self.clientsLabel = nil;
     self.clientsCarousel = nil;
+    self.detailView = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -146,20 +161,67 @@
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
     if (carousel == self.formsCarousel) {
-        if ([self formsCarouselIsSelected]) {
-            [self.formsCarousel setFrame:kFormsCarouselFrame duration:kAnimationDuration];
-            [self.clientsCarousel setFrame:kClientsCarouselFrame duration:kAnimationDuration];
-            [self moveView:self.clientsLabel upBy:kClientsYOffset];
-        } else {
-            [self moveView:self.formsCarousel upBy:kFormsYOffset];
-            [self moveView:self.clientsLabel downBy:kClientsYOffset];
-            [self moveView:self.clientsCarousel downBy:kClientsYOffset];
-        }
+        [self formsCarouseldidSelectItemAtIndex:index];
     }
     
     else if (carousel == self.clientsCarousel) {
-        
+        [self clientsCarouseldidSelectItemAtIndex:index];
     }
+}
+
+- (void)formsCarouseldidSelectItemAtIndex:(NSInteger)index {
+    if ([self formsCarouselIsSelected]) {
+        [self hideDetailView];
+        self.formsCarousel.centerItemWhenSelected = YES;
+    } 
+    
+    // Is not selected currently -> item gets selected
+    else {
+        [self showDetailViewWithDelay:self.formsCarousel.currentItemIndex == index ? 0 : 0.4];
+        self.formsCarousel.centerItemWhenSelected = NO;
+    }
+}
+
+- (void)clientsCarouseldidSelectItemAtIndex:(NSInteger)index {
+    
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Moving Animations
+////////////////////////////////////////////////////////////////////////
+
+- (void)showDetailViewWithDelay:(NSTimeInterval)delay {
+    [UIView animateWithDuration:kAnimationDuration
+                          delay:delay
+                        options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
+                     animations:^(void) {
+                         [self moveViewsWithFactor:1.f];
+                     } completion:^(BOOL finished) {
+                         [self.view bringSubviewToFront:self.detailView];
+                     }];
+}
+
+- (void)hideDetailView {
+    [self.view bringSubviewToFront:self.formsCarousel];
+    
+    [UIView animateWithDuration:kAnimationDuration
+                          delay:0.
+                        options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
+                     animations:^(void) {
+                         [self moveViewsWithFactor:-1.f];
+                     } completion:^(BOOL finished) {
+                         
+                     }];
+}
+
+- (void)moveViewsWithFactor:(CGFloat)factor {
+    self.detailView.frameTop += kDetailYOffset * factor;
+    self.detailView.alpha = MIN(1.f, factor+1.f); // factor = 1 -> alpha = 1, factor = -1 -> alpha = 0
+    
+    self.formsCarousel.frameTop -= kFormsYOffset * factor;
+    self.clientsLabel.frameTop += kClientsYOffset * factor;
+    self.clientsCarousel.frameTop += kClientsYOffset * factor;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -173,15 +235,15 @@
     label.text = text;
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor blackColor];
-    label.font = [UIFont boldSystemFontOfSize:18];
-    label.frameLeft = view.frameLeft + 10;
-    label.frameTop = view.frameTop - label.frameHeight - 10;
+    label.font = [UIFont boldSystemFontOfSize:18.];
+    label.frameLeft = view.frameLeft + 10.f;
+    label.frameTop = view.frameTop - label.frameHeight - 5.f;
     
     return label;
 }
 
 - (void)setupCarousel:(iCarousel *)carousel {
-    carousel.backgroundColor = [UIColor lightGrayColor];
+    carousel.backgroundColor = kRBCarouselColor;
     carousel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     carousel.delegate = self;
     carousel.dataSource = self;
@@ -189,14 +251,6 @@
 
 - (BOOL)formsCarouselIsSelected {
     return !CGRectEqualToRect(self.formsCarousel.frame, kFormsCarouselFrame);
-}
-
-- (void)moveView:(UIView *)view upBy:(CGFloat)yOffset {
-    [view setFrame:CGRectMake(view.frameLeft,view.frameTop-yOffset,view.frameWidth,view.frameHeight) duration:kAnimationDuration];
-}
-
-- (void)moveView:(UIView *)view downBy:(CGFloat)yOffset {
-    [self moveView:view upBy:-yOffset];
 }
 
 @end

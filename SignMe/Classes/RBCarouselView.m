@@ -26,7 +26,7 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
-        self.backgroundColor = [UIColor darkGrayColor];
+        self.backgroundColor = kRBCarouselViewColor;
         
         textLabel_ = [[UILabel alloc] initWithFrame:CGRectInset(self.bounds,1.f,1.f)];
         // [textLabel_ setCornerRadius:0 borderWidth:2 borderColor:[UIColor blackColor]];
