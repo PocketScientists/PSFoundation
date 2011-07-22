@@ -9,21 +9,22 @@
 #import <UIKit/UIKit.h>
 
 typedef enum {
-    RBFormTypeNew = 0,
-    RBFormTypePreSignature,
-    RBFormTypeSigned,
-    RBFormTypeCount,
-    RBFormTypeUnknown = -1
-} RBFormType;
+    RBFormStatusNew = 0,
+    RBFormStatusPreSignature,
+    RBFormStatusSigned,
+    RBFormStatusCount,
+    RBFormStatusUnknown = -1
+} RBFormStatus;
 
 
-NSString *RBFormTypeStringRepresentation(RBFormType formType);
-RBFormType RBFormTypeForIndex(NSUInteger index);
+NSString *RBFormStatusStringRepresentation(RBFormStatus formType);
+RBFormStatus RBFormStatusForIndex(NSUInteger index);
 
 
 @interface RBForm : NSObject 
 
 + (RBForm *)formWithID:(NSUInteger)formID name:(NSString *)name;
++ (NSArray *)allForms;
 
 - (id)initWithID:(NSUInteger)formID name:(NSString *)name;
 

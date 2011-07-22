@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="848" systemVersion="11A511" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="RBClient" representedClassName="RBClient">
+        <attribute name="imageURL" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String" defaultValueString="Unknown" indexed="YES"/>
+        <attribute name="visible" optional="YES" attributeType="Boolean" defaultValueString="YES" indexed="YES"/>
+        <relationship name="documents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RBDocument" inverseName="client" inverseEntity="RBDocument"/>
+    </entity>
+    <entity name="RBDocument" representedClassName="RBDocument">
+        <attribute name="date" optional="YES" attributeType="Date"/>
+        <attribute name="fileURL" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String" indexed="YES"/>
+        <attribute name="status" attributeType="Integer 16" defaultValueString="0"/>
+        <relationship name="client" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBClient" inverseName="documents" inverseEntity="RBClient"/>
+    </entity>
+    <elements>
+        <element name="RBClient" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="RBDocument" positionX="-173" positionY="42" width="128" height="120"/>
+    </elements>
+</model>

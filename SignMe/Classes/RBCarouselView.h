@@ -19,7 +19,7 @@
 
 + (RBCarouselView *)carouselView;
 
-- (void)setFromFormType:(RBFormType)formType;
+- (void)setFromFormStatus:(RBFormStatus)formType;
 - (void)setFromClient:(RBClient *)client;
 
 @end

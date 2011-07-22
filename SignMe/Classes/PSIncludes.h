@@ -12,3 +12,4 @@
 
 #import "PSDefines.h"
 #import "PSFoundation.h"
+#import "PSFoundation_CoreData.h"

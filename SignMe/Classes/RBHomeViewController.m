@@ -9,6 +9,7 @@
 #import "RBHomeViewController.h"
 #import "RBForm.h"
 #import "RBCarouselView.h"
+#import "RBClient.h"
 
 #define kMinNumberOfItemsToEnableScrolling   5
 
@@ -60,6 +61,7 @@
 @synthesize detailView = detailView_;
 @synthesize detailCarousel = detailCarousel_;
 @synthesize searchField = searchField_;
+@synthesize clientsFetchController = clientsFetchController_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -77,8 +79,39 @@
     MCRelease(addClientButton_);
     MCRelease(detailView_);
     MCRelease(detailCarousel_);
+    MCRelease(clientsFetchController_);
     
     [super dealloc];
+}
+
+- (void)insertTempData {
+    [RBClient truncateAll];
+    
+    RBClient *c = nil;
+    
+    c = [RBClient createEntity];
+    c.name = @"Client 1";
+    
+    c = [RBClient createEntity];
+    c.name = @"Client 2";
+    
+    c = [RBClient createEntity];
+    c.name = @"Client 3";
+    
+    c = [RBClient createEntity];
+    c.name = @"Client 4";
+    
+    c = [RBClient createEntity];
+    c.name = @"Client 5";
+    
+    c = [RBClient createEntity];
+    c.name = @"Alfred";
+    
+    c = [RBClient createEntity];
+    c.name = @"Judokus";
+    
+    c = [RBClient createEntity];
+    c.name = @"Quark";
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -89,10 +122,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self insertTempData];
+    
+    // Perform CoreData fetch
+    NSError *error;
+	if (self.clientsFetchController != nil && ![self.clientsFetchController performFetch:&error]) {
+		DDLogError(@"Unresolved error %@, %@", error, [error userInfo]);
+	} 
+    
+    
     self.formsCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
     [self setupCarousel:self.formsCarousel];
     self.formsCarousel.centerItemWhenSelected = NO;
-    [self.formsCarousel scrollToItemAtIndex:RBFormTypePreSignature animated:NO];
+    [self.formsCarousel scrollToItemAtIndex:RBFormStatusPreSignature animated:NO];
     self.formsLabel = [self headerLabelForView:self.formsCarousel text:@"FORMS"];
     
     self.clientsView = [[[UIView alloc] initWithFrame:kClientsViewFrame] autorelease];
@@ -151,10 +193,13 @@
     self.clientsLabel = nil;
     self.clientsCarousel = nil;
     self.detailView = nil;
+    MCReleaseNil(clientsFetchController_);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    self.clientsFetchController.delegate = self;
     
     [self.formsCarousel reloadData];
     [self.clientsCarousel reloadData];
@@ -168,6 +213,8 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    self.clientsFetchController.delegate = nil;
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
@@ -178,11 +225,18 @@
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
     if (carousel == self.formsCarousel) {
-        return RBFormTypeCount;
+        return RBFormStatusCount;
     }
     
     else if (carousel == self.clientsCarousel) {
+        NSInteger numberOfRows = 0;
         
+        if (self.clientsFetchController.sections.count > 0) {
+            id <NSFetchedResultsSectionInfo> sectionInfo = [self.clientsFetchController.sections objectAtIndex:0];
+            numberOfRows = [sectionInfo numberOfObjects];
+        }
+        
+        return numberOfRows;
     }
     
     return 0;
@@ -192,11 +246,12 @@
     RBCarouselView *view = [RBCarouselView carouselView];
     
     if (carousel == self.formsCarousel) {
-        [view setFromFormType:RBFormTypeForIndex(index)];
+        [view setFromFormStatus:RBFormStatusForIndex(index)];
     } 
     
     else if (carousel == self.clientsCarousel) {
-        
+        RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+        [view setFromClient:client];
     }
     
     return view;
@@ -257,6 +312,44 @@
 
 - (void)clientsCarouseldidSelectItemAtIndex:(NSInteger)index {
     
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark NSFetchedResultsControllerDelegate
+////////////////////////////////////////////////////////////////////////
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller { 
+    [self.clientsCarousel reloadData];
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Core Data Persistence
+////////////////////////////////////////////////////////////////////////
+
+- (NSFetchedResultsController *)clientsFetchController {
+    if (clientsFetchController_ != nil) {
+        return clientsFetchController_;
+    }
+    
+	NSFetchRequest *fetchRequest = [[[NSFetchRequest alloc] init] autorelease];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([RBClient class])
+                                              inManagedObjectContext:[NSManagedObjectContext defaultContext]];
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"visible = YES"]];
+    
+    NSSortDescriptor *idSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:idSortDescriptor]];
+    
+    // create sections for beginDate
+    clientsFetchController_ = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                  managedObjectContext:[NSManagedObjectContext defaultContext]
+                                                                    sectionNameKeyPath:nil
+                                                                             cacheName:@"RBClientCache"];
+    clientsFetchController_.delegate = self;
+    
+    return clientsFetchController_;
 }
 
 ////////////////////////////////////////////////////////////////////////

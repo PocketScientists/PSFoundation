@@ -48,6 +48,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self configureLogger];
+    // setup CoreData
+	[ActiveRecordHelpers setupCoreDataStack];
         
     // check for NSZombie (memory leak if enabled, but very useful!)
     if(getenv("NSZombieEnabled") || getenv("NSAutoreleaseFreedObjectCheckEnabled")) {
@@ -94,6 +96,8 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     [self appplicationPrepareForBackgroundOrTermination:application];
+    
+    [ActiveRecordHelpers cleanUp];
 }
 
 

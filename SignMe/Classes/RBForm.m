@@ -9,33 +9,33 @@
 #import "RBForm.h"
 #import "PSIncludes.h"
 
-NSString *RBFormTypeStringRepresentation(RBFormType formType) {
+NSString *RBFormStatusStringRepresentation(RBFormStatus formType) {
     switch (formType) {
-        case RBFormTypeNew:
+        case RBFormStatusNew:
             return @"New";
 
-        case RBFormTypePreSignature:
+        case RBFormStatusPreSignature:
             return @"Pre-Signature";
             
-        case RBFormTypeSigned:
+        case RBFormStatusSigned:
             return @"Signed";
             
-        case RBFormTypeCount:
+        case RBFormStatusCount:
             return @"";
             
-        case RBFormTypeUnknown:
+        case RBFormStatusUnknown:
             return @"Unknown";
     }
     
     return @"";
 }
 
-RBFormType RBFormTypeForIndex(NSUInteger index) {
-    if (index < RBFormTypeCount) {
-        return (RBFormType)index;
+RBFormStatus RBFormStatusForIndex(NSUInteger index) {
+    if (index < RBFormStatusCount) {
+        return (RBFormStatus)index;
     }
     
-    return RBFormTypeUnknown;
+    return RBFormStatusUnknown;
 }
 
 
@@ -53,7 +53,8 @@ RBFormType RBFormTypeForIndex(NSUInteger index) {
     return [[[RBForm alloc] initWithID:formID name:name] autorelease];
 }
 
-+ (NSArray *)forms {
++ (NSArray *)allForms {
+    // TODO: Read from plist
     return XARRAY([RBForm formWithID:1 name:@"Partnership Agreement"],
                   [RBForm formWithID:2 name:@"W-9"],
                   [RBForm formWithID:3 name:@"Terms and Condition"],

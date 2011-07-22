@@ -15,9 +15,13 @@
 		3900891F13D77B8E0093E0B0 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900891E13D77B8E0093E0B0 /* iCarousel.m */; };
 		3900892213D77F790093E0B0 /* RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892113D77F790093E0B0 /* RBForm.m */; };
 		3900892513D780A30093E0B0 /* RBCarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892413D780A30093E0B0 /* RBCarouselView.m */; };
-		3900892813D780D10093E0B0 /* RBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892713D780D10093E0B0 /* RBClient.m */; };
 		3900892B13D799530093E0B0 /* RBFormDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892A13D799530093E0B0 /* RBFormDetailView.m */; };
 		3900894A13D882760093E0B0 /* RBArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900894913D882760093E0B0 /* RBArrowView.m */; };
+		390DD51A13D9D21400EB1EFD /* SignMe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 390DD51813D9D21400EB1EFD /* SignMe.xcdatamodeld */; };
+		390DD52313D9D53300EB1EFD /* RBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 390DD52213D9D53300EB1EFD /* RBDocument.m */; };
+		390DD52613D9D53300EB1EFD /* RBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 390DD52513D9D53300EB1EFD /* RBClient.m */; };
+		390DD52713D9E25300EB1EFD /* libPSFoundation_CoreData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A47C12B444A80025424F /* libPSFoundation_CoreData.a */; };
+		390DD52913D9E26600EB1EFD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 390DD52813D9E26600EB1EFD /* CoreData.framework */; };
 		394B916A13D64BB1007BFF2E /* PSBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916913D64BB1007BFF2E /* PSBaseTableViewController.m */; };
 		394B916E13D64C62007BFF2E /* RBHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916D13D64C62007BFF2E /* RBHomeViewController.m */; };
 		394B917213D64CE3007BFF2E /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 394B916F13D64CE3007BFF2E /* Default-Landscape~ipad.png */; };
@@ -145,12 +149,16 @@
 		3900892113D77F790093E0B0 /* RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBForm.m; sourceTree = "<group>"; };
 		3900892313D780A30093E0B0 /* RBCarouselView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBCarouselView.h; sourceTree = "<group>"; };
 		3900892413D780A30093E0B0 /* RBCarouselView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBCarouselView.m; sourceTree = "<group>"; };
-		3900892613D780D10093E0B0 /* RBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBClient.h; sourceTree = "<group>"; };
-		3900892713D780D10093E0B0 /* RBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBClient.m; sourceTree = "<group>"; };
 		3900892913D799520093E0B0 /* RBFormDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFormDetailView.h; sourceTree = "<group>"; };
 		3900892A13D799530093E0B0 /* RBFormDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFormDetailView.m; sourceTree = "<group>"; };
 		3900894813D882760093E0B0 /* RBArrowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBArrowView.h; sourceTree = "<group>"; };
 		3900894913D882760093E0B0 /* RBArrowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBArrowView.m; sourceTree = "<group>"; };
+		390DD51913D9D21400EB1EFD /* SignMe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SignMe.xcdatamodel; sourceTree = "<group>"; };
+		390DD52113D9D53300EB1EFD /* RBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDocument.h; sourceTree = "<group>"; };
+		390DD52213D9D53300EB1EFD /* RBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDocument.m; sourceTree = "<group>"; };
+		390DD52413D9D53300EB1EFD /* RBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBClient.h; sourceTree = "<group>"; };
+		390DD52513D9D53300EB1EFD /* RBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBClient.m; sourceTree = "<group>"; };
+		390DD52813D9E26600EB1EFD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		394B914E13D6491A007BFF2E /* box.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box.xcodeproj; path = ../external/box.net/box.xcodeproj; sourceTree = "<group>"; };
 		394B915B13D64923007BFF2E /* DocuSign.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DocuSign.xcodeproj; path = ../external/DocuSign/DocuSign.xcodeproj; sourceTree = "<group>"; };
 		394B916813D64BB1007BFF2E /* PSBaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSBaseTableViewController.h; sourceTree = "<group>"; };
@@ -236,6 +244,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				390DD52913D9E26600EB1EFD /* CoreData.framework in Frameworks */,
+				390DD52713D9E25300EB1EFD /* libPSFoundation_CoreData.a in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
@@ -305,6 +315,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				390DD51713D9D1FE00EB1EFD /* Model */,
 				395EEF2613D72E3C003C4DA8 /* Images */,
 				78BCBB2612B5323D0093AE0C /* Localization */,
 				394B916F13D64CE3007BFF2E /* Default-Landscape~ipad.png */,
@@ -328,6 +339,7 @@
 				78E9B18912B449B800B32768 /* FlurryLib */,
 				787BC4EF12DB0C62008DC03C /* JSON */,
 				78E9B20812B44D4300B32768 /* regexkitlite */,
+				390DD52813D9E26600EB1EFD /* CoreData.framework */,
 				7856A44B12B4445C0025424F /* CrashReporter.framework */,
 				78E9B1C212B44BB900B32768 /* QuartzCore.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
@@ -354,6 +366,14 @@
 			);
 			name = iCarousel;
 			path = ../iCarousel/iCarousel;
+			sourceTree = "<group>";
+		};
+		390DD51713D9D1FE00EB1EFD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				390DD51813D9D21400EB1EFD /* SignMe.xcdatamodeld */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		394B914F13D6491A007BFF2E /* Products */ = {
@@ -406,8 +426,10 @@
 			children = (
 				3900892013D77F790093E0B0 /* RBForm.h */,
 				3900892113D77F790093E0B0 /* RBForm.m */,
-				3900892613D780D10093E0B0 /* RBClient.h */,
-				3900892713D780D10093E0B0 /* RBClient.m */,
+				390DD52413D9D53300EB1EFD /* RBClient.h */,
+				390DD52513D9D53300EB1EFD /* RBClient.m */,
+				390DD52113D9D53300EB1EFD /* RBDocument.h */,
+				390DD52213D9D53300EB1EFD /* RBDocument.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -733,9 +755,11 @@
 				3900891F13D77B8E0093E0B0 /* iCarousel.m in Sources */,
 				3900892213D77F790093E0B0 /* RBForm.m in Sources */,
 				3900892513D780A30093E0B0 /* RBCarouselView.m in Sources */,
-				3900892813D780D10093E0B0 /* RBClient.m in Sources */,
 				3900892B13D799530093E0B0 /* RBFormDetailView.m in Sources */,
 				3900894A13D882760093E0B0 /* RBArrowView.m in Sources */,
+				390DD51A13D9D21400EB1EFD /* SignMe.xcdatamodeld in Sources */,
+				390DD52313D9D53300EB1EFD /* RBDocument.m in Sources */,
+				390DD52613D9D53300EB1EFD /* RBClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -993,6 +1017,19 @@
 			defaultConfigurationName = Distribution;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		390DD51813D9D21400EB1EFD /* SignMe.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				390DD51913D9D21400EB1EFD /* SignMe.xcdatamodel */,
+			);
+			currentVersion = 390DD51913D9D21400EB1EFD /* SignMe.xcdatamodel */;
+			path = SignMe.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
 }

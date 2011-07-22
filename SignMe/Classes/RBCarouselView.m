@@ -83,11 +83,11 @@
 #pragma mark RBCarouselView
 ////////////////////////////////////////////////////////////////////////
 
-- (void)setFromFormType:(RBFormType)formType {
-    self.textLabel.text = RBFormTypeStringRepresentation(formType);
+- (void)setFromFormStatus:(RBFormStatus)formType {
+    self.textLabel.text = RBFormStatusStringRepresentation(formType);
 }
 
 - (void)setFromClient:(RBClient *)client {
-    self.textLabel.text = @"TODO: Client";
+    self.textLabel.text = client.name;
 }
 @end
