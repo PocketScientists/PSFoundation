@@ -19,6 +19,7 @@
 
 + (RBCarouselView *)carouselView;
 
+- (void)setText:(NSString *)text;
 - (void)setFromFormStatus:(RBFormStatus)formType;
 - (void)setFromClient:(RBClient *)client;
 

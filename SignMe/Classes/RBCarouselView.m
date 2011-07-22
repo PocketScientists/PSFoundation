@@ -83,6 +83,10 @@
 #pragma mark RBCarouselView
 ////////////////////////////////////////////////////////////////////////
 
+- (void)setText:(NSString *)text {
+    self.textLabel.text = text;
+}
+
 - (void)setFromFormStatus:(RBFormStatus)formType {
     self.textLabel.text = RBFormStatusStringRepresentation(formType);
 }

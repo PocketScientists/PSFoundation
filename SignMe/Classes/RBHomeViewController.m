@@ -17,20 +17,15 @@
 
 #define kAnimationDuration      0.25
 #define kFormsYOffset            80.f
-#define kClientsYOffset         120.f
+#define kClientsYOffset         110.f
+#define kDetailViewHeight       230.f
 #define kDetailYOffset           95.f
-
-#define kFormsCarouselFrame     CGRectMake(0.f,200.f,self.view.bounds.size.width,170.f)
-#define kDetailViewFrame        CGRectMake(0.f,200.f,self.view.bounds.size.width,235.f)
-#define kClientsViewFrame       CGRectMake(0.f,420.f,self.view.bounds.size.width,200.f)
-#define kClientsCarouselFrame   CGRectMake(0.f,30.f,self.view.bounds.size.width,170.f)
 
 
 @interface RBHomeViewController ()
 
 // header label for a carousel
 - (UILabel *)headerLabelForView:(UIView *)view text:(NSString *)text;
-- (void)setupCarousel:(iCarousel *)carousel;
 
 // move a view vertically
 - (void)moveViewsWithFactor:(CGFloat)factor;
@@ -44,31 +39,31 @@
 - (void)showDetailViewWithDelay:(NSTimeInterval)delay;
 - (void)hideDetailView;
 
-- (void)toggleSearchScreen;
+- (void)showSearchScreen;
+- (void)hideSearchScreen;
 
+- (void)keyboardWillShow:(NSNotification *)notification;
 - (void)keyboardWillHide:(NSNotification *)notification;
-- (void)handleSearchClientPress:(id)sender;
-
 - (void)updateClientsWithSearchTerm:(NSString *)searchTerm;
-
-- (void)textFieldDidEndEditing:(UITextField *)textField;
-- (void)textFieldDidChangeValue:(UITextField *)textField;
 
 @end
 
 @implementation RBHomeViewController
 
+@synthesize clientsFetchController = clientsFetchController_;
+@synthesize formsViewDefaultY = formsViewDefaultY_;
+@synthesize clientsViewDefaultY = clientsViewDefaultY_;
+@synthesize timeView = timeView_;
 @synthesize formsLabel = formsLabel_;
+@synthesize clientsLabel = clientsLabel_;
+@synthesize formsView = formsView_;
 @synthesize formsCarousel = formsCarousel_;
 @synthesize clientsView = clientsView_;
 @synthesize clientsCarousel = clientsCarousel_;
-@synthesize clientsLabel = clientsLabel_;
-@synthesize searchClientButton = searchClientButton_;
 @synthesize addClientButton = addClientButton_;
 @synthesize detailView = detailView_;
 @synthesize detailCarousel = detailCarousel_;
 @synthesize searchField = searchField_;
-@synthesize clientsFetchController = clientsFetchController_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -76,13 +71,14 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)dealloc {
+    MCRelease(timeView_);
     MCRelease(formsLabel_);
+    MCRelease(clientsLabel_);
+    MCRelease(formsView_);
     MCRelease(formsCarousel_);
     MCRelease(clientsView_);
     MCRelease(clientsCarousel_);
-    MCRelease(clientsLabel_);
     MCRelease(searchField_);
-    MCRelease(searchClientButton_);
     MCRelease(addClientButton_);
     MCRelease(detailView_);
     MCRelease(detailCarousel_);
@@ -129,7 +125,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // TODO: remove
     [self insertTempData];
+    
+    self.formsViewDefaultY = self.formsView.frameTop;
+    self.clientsViewDefaultY = self.clientsView.frameTop;
     
     // Perform CoreData fetch
     NSError *error;
@@ -137,76 +137,42 @@
 		DDLogError(@"Unresolved error %@, %@", error, [error userInfo]);
 	} 
     
-    self.clientsFetchController.delegate = self;
+    self.formsLabel = [self headerLabelForView:self.formsCarousel text:@"FORMS"];
+    self.clientsLabel = [self headerLabelForView:self.clientsCarousel text:@"CLIENTS"];
     
-    self.formsCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
-    [self setupCarousel:self.formsCarousel];
+    [self.formsView addSubview:self.formsLabel];
+    [self.clientsView addSubview:self.clientsLabel];
+    
     self.formsCarousel.centerItemWhenSelected = NO;
     [self.formsCarousel scrollToItemAtIndex:RBFormStatusPreSignature animated:NO];
-    self.formsLabel = [self headerLabelForView:self.formsCarousel text:@"FORMS"];
     
-    self.clientsView = [[[UIView alloc] initWithFrame:kClientsViewFrame] autorelease];
-    self.clientsView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.clientsCarousel = [[[iCarousel alloc] initWithFrame:kClientsCarouselFrame] autorelease];
-    [self setupCarousel:self.clientsCarousel];
-    self.clientsLabel = [self headerLabelForView:self.clientsCarousel text:@"CLIENTS"];
-    self.searchClientButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    self.addClientButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    
-    //[self.searchClientButton setImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
-    [self.searchClientButton setTitle:@"Filter" forState:UIControlStateNormal];
-    [self.addClientButton setTitle:@"New" forState:UIControlStateNormal];
-    
-    self.searchClientButton.frame = CGRectMake(0, 0, 60, 30);
-    self.addClientButton.frame = CGRectMake(0, 0, 60, 30);
-    self.searchClientButton.frameLeft = self.view.bounds.size.width - 140;
-    self.addClientButton.frameLeft = self.view.bounds.size.width - 70;
-    self.searchClientButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-    self.addClientButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-    
-    [self.searchClientButton addTarget:self action:@selector(handleSearchClientPress:) forControlEvents:UIControlEventTouchUpInside];
-    
-    self.searchField = [[[UITextField alloc] initWithFrame:CGRectMake(100, 152, 300, 27)] autorelease];
-    self.searchField.backgroundColor = [UIColor clearColor];
-    self.searchField.borderStyle = UITextBorderStyleNone;
-    
-    [self.searchField addTarget:self
-                         action:@selector(textFieldDidEndEditing:)
-               forControlEvents:UIControlEventEditingDidEndOnExit];
-    
-    [self.searchField addTarget:self
-                         action:@selector(textFieldDidChangeValue:)
-               forControlEvents:UIControlEventEditingChanged];
+    //self.addClientButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    //[self.addClientButton setTitle:@"New" forState:UIControlStateNormal];
     
     // self.detailCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
     // [self setupCarousel:self.detailCarousel];
     
-    self.detailView = [[[RBFormDetailView alloc] initWithFrame:kDetailViewFrame] autorelease];
+    self.detailView = [[[RBFormDetailView alloc] initWithFrame:self.formsView.frame] autorelease];
+    self.detailView.frameHeight = kDetailViewHeight;
     self.detailView.alpha = 0.f;
     
+    [self.view insertSubview:self.detailView belowSubview:self.formsView];
     
-    
-    [self.view addSubview:self.detailView];
-    [self.view addSubview:self.formsLabel];
-    [self.view addSubview:self.formsCarousel];
-    
-    [self.clientsView addSubview:self.clientsLabel];
-    [self.clientsView addSubview:self.clientsCarousel];
-    [self.clientsView addSubview:self.searchClientButton];
-    [self.clientsView addSubview:self.addClientButton];
-    [self.view addSubview:self.clientsView];
+    self.timeView = [[[RBTimeView alloc] initWithFrame:CGRectMake(920, 30, 70, 80)] autorelease];
+    [self.view addSubview:self.timeView];
 }
 
 - (void) viewDidUnload {
     [super viewDidUnload];
     
+    self.timeView = nil;
     self.formsLabel = nil;
+    self.clientsLabel = nil;
+    self.formsView = nil;
     self.formsCarousel = nil;
     self.detailCarousel = nil;
     self.clientsView = nil;
-    self.searchClientButton = nil;
     self.addClientButton = nil;
-    self.clientsLabel = nil;
     self.clientsCarousel = nil;
     self.detailView = nil;
     MCReleaseNil(clientsFetchController_);
@@ -219,10 +185,8 @@
     
     [self.formsCarousel reloadData];
     [self.clientsCarousel reloadData];
-    
-    //self.formsCarousel.scrollEnabled = self.formsCarousel.numberOfItems >= kMinNumberOfItemsToEnableScrolling;
-    //self.clientsCarousel.scrollEnabled = self.clientsCarousel.numberOfItems >= kMinNumberOfItemsToEnableScrolling;
-    
+        
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
@@ -231,6 +195,7 @@
     
     self.clientsFetchController.delegate = nil;
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
@@ -266,8 +231,13 @@
     } 
     
     else if (carousel == self.clientsCarousel) {
-        RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-        [view setFromClient:client];
+        // Should not be needed, but even though count = 0 viewForItem gets called
+        if ([self numberOfItemsInCarousel:carousel] > 0) {
+            RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+            [view setFromClient:client];
+        } else {
+            [view setText:@"Nothing Found"];
+        }
     }
     
     return view;
@@ -394,6 +364,7 @@
 }
 
 - (void)showDetailViewWithDelay:(NSTimeInterval)delay {
+    [self.view bringSubviewToFront:self.formsView];
     [self.detailView reloadData];
     
     [UIView animateWithDuration:kAnimationDuration
@@ -407,7 +378,7 @@
 }
 
 - (void)hideDetailView {
-    [self.view bringSubviewToFront:self.formsCarousel];
+    [self.view bringSubviewToFront:self.formsView];
     
     [UIView animateWithDuration:kAnimationDuration
                           delay:0.
@@ -423,7 +394,7 @@
     self.detailView.frameTop += kDetailYOffset * factor;
     self.detailView.alpha = MIN(1.f, factor+1.f); // factor = 1 -> alpha = 1, factor = -1 -> alpha = 0
     
-    self.formsCarousel.frameTop -= kFormsYOffset * factor;
+    self.formsView.frameTop -= kFormsYOffset * factor;
     self.clientsView.frameTop += kClientsYOffset * factor;
 }
 
@@ -432,12 +403,18 @@
 #pragma mark Target/Action
 ////////////////////////////////////////////////////////////////////////
 
-- (void)handleSearchClientPress:(id)sender {
-    [self toggleSearchScreen];
+- (void)keyboardWillShow:(NSNotification *)notification {
+    CGRect keyboardFrame;
+    
+    [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardFrame];
+    
+    if (CGRectIntersectsRect(keyboardFrame, self.view.frame)) {
+        [self showSearchScreen];
+    }
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
-    [self toggleSearchScreen];
+    [self hideSearchScreen];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -446,72 +423,49 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (UILabel *)headerLabelForView:(UIView *)view text:(NSString *)text {
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 25)] autorelease];
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, view.bounds.size.height, view.frameLeft)] autorelease];
     
     label.text = text;
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor blackColor];
-    label.font = [UIFont boldSystemFontOfSize:18.];
-    label.frameLeft = view.frameLeft + 10.f;
-    label.frameTop = view.frameTop - label.frameHeight - 5.f;
+    label.textAlignment = UITextAlignmentCenter;
+    label.transform = CGAffineTransformMakeRotation(MTDegreesToRadian(90));
+    label.backgroundColor = [UIColor colorWithRed:0.7804f green:0.0000f blue:0.2941f alpha:1.0000f];
+    label.textColor = [UIColor whiteColor];
+    label.font = [UIFont systemFontOfSize:20.];
+    label.frameLeft = 0;
+    label.frameBottom = view.frameBottom;
     
     return label;
 }
 
-- (void)setupCarousel:(iCarousel *)carousel {
-    carousel.backgroundColor = kRBCarouselColor;
-    carousel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    carousel.delegate = self;
-    carousel.dataSource = self;
-}
-
 - (BOOL)formsCarouselIsSelected {
-    return !CGRectEqualToRect(self.formsCarousel.frame, kFormsCarouselFrame);
+    return self.detailView.alpha > 0;
 }
 
-- (void)toggleSearchScreen {
-    if (self.searchField.superview == nil) {
-        [UIView animateWithDuration:0.4 animations:^(void) {
-            // Hide forms & detail
-            self.formsLabel.alpha = 0.f;
-            self.formsCarousel.alpha = 0.f;
-            self.detailView.hidden = YES;
-            
-            // Move Clients-View up
-            self.clientsView.frameTop = 150.f;
-        } completion:^(BOOL finished) {
-            self.clientsLabel.text = @"CLIENTS:";
-            [self.view addSubview:self.searchField];
-            [self.searchField becomeFirstResponder];
-        }];
-    }
+- (void)showSearchScreen {
+    self.formsView.userInteractionEnabled = NO;
+    self.detailView.frameTop = self.formsViewDefaultY;
+    self.detailView.alpha = 0.f;
     
-    else {
-        BOOL detailViewHidden = YES;
+    [UIView animateWithDuration:0.4 animations:^(void) {
+        // 44.f = height of search-area -> clients-carousel is on same spot as forms-carousel before
+        CGFloat newClientsY = self.formsViewDefaultY - 44.f;
+        CGFloat diffY = self.clientsViewDefaultY - newClientsY;
         
-        [self.searchField resignFirstResponder];
-        [self.searchField removeFromSuperview];
-        self.clientsLabel.text = @"CLIENTS";
-        
-        if (self.detailView.alpha == 1.f) {
-            self.detailView.alpha = 0.f;
-            detailViewHidden = NO;
-        }
-        
-        self.detailView.hidden = NO;
-        
-        [UIView animateWithDuration:0.4 animations:^(void) {
-            // Show forms & detail
-            self.formsLabel.alpha = 1.f;
-            self.formsCarousel.alpha = 1.f;
-            // Move Clients-View down to original position
-            self.clientsView.frameTop = CGRectGetMinY(kClientsViewFrame) + ([self formsCarouselIsSelected] ? kClientsYOffset : 0);
-            
-            if (!detailViewHidden) {
-                self.detailView.alpha = 1.0;
-            }
-        }];
-    }
+        // Move views up
+        self.formsView.alpha = 0.2;
+        self.formsView.frameTop = self.formsViewDefaultY - diffY;
+        self.clientsView.frameTop = newClientsY;
+    }];
+}
+
+- (void)hideSearchScreen {
+    self.formsView.userInteractionEnabled = YES;
+    
+    [UIView animateWithDuration:0.4 animations:^(void) {
+        self.formsView.alpha = 1.f;
+        self.formsView.frameTop = self.formsViewDefaultY;
+        self.clientsView.frameTop = self.clientsViewDefaultY;
+    }];
 }
 
 - (void)updateClientsWithSearchTerm:(NSString *)searchTerm {

@@ -30,6 +30,10 @@
 		395EEF2913D72E85003C4DA8 /* RBTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 395EEF2813D72E85003C4DA8 /* RBTimeView.m */; };
 		3994620C12C91F1D005574A6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620B12C91F1D005574A6 /* CoreLocation.framework */; };
 		3994621012C91F27005574A6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620F12C91F27005574A6 /* MapKit.framework */; };
+		39A7F07713D9FF2D008338A4 /* NGPDFManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A7F07613D9FF2D008338A4 /* NGPDFManager.m */; };
+		39A7F07913D9FFC3008338A4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39A7F07813D9FFC3008338A4 /* CoreText.framework */; };
+		39A7F07C13DA0316008338A4 /* NGPDFDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A7F07B13DA0316008338A4 /* NGPDFDocument.m */; };
+		39A7F07E13DA207A008338A4 /* RBHomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39A7F07D13DA207A008338A4 /* RBHomeView.xib */; };
 		39C917CF13983B890045489C /* DCCrossHairView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C917C713983B890045489C /* DCCrossHairView.m */; };
 		39C917D013983B890045489C /* DCFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C917C913983B890045489C /* DCFrameView.m */; };
 		39C917D113983B890045489C /* DCIntrospect.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C917CB13983B890045489C /* DCIntrospect.m */; };
@@ -172,6 +176,12 @@
 		395EEF2813D72E85003C4DA8 /* RBTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTimeView.m; sourceTree = "<group>"; };
 		3994620B12C91F1D005574A6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3994620F12C91F27005574A6 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		39A7F07513D9FF2D008338A4 /* NGPDFManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGPDFManager.h; sourceTree = "<group>"; };
+		39A7F07613D9FF2D008338A4 /* NGPDFManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGPDFManager.m; sourceTree = "<group>"; };
+		39A7F07813D9FFC3008338A4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		39A7F07A13DA0316008338A4 /* NGPDFDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGPDFDocument.h; sourceTree = "<group>"; };
+		39A7F07B13DA0316008338A4 /* NGPDFDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGPDFDocument.m; sourceTree = "<group>"; };
+		39A7F07D13DA207A008338A4 /* RBHomeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RBHomeView.xib; sourceTree = "<group>"; };
 		39C917BB139837940045489C /* PSIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSIncludes.h; sourceTree = "<group>"; };
 		39C917C613983B890045489C /* DCCrossHairView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCrossHairView.h; sourceTree = "<group>"; };
 		39C917C713983B890045489C /* DCCrossHairView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCrossHairView.m; sourceTree = "<group>"; };
@@ -244,6 +254,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39A7F07913D9FFC3008338A4 /* CoreText.framework in Frameworks */,
 				390DD52913D9E26600EB1EFD /* CoreData.framework in Frameworks */,
 				390DD52713D9E25300EB1EFD /* libPSFoundation_CoreData.a in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
@@ -270,6 +281,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				39A7F07413D9FF0E008338A4 /* PDF */,
 				39C918581398EBA10045489C /* Includes */,
 				39C917B91398367C0045489C /* Model */,
 				39C917BA139836840045489C /* Views */,
@@ -339,6 +351,7 @@
 				78E9B18912B449B800B32768 /* FlurryLib */,
 				787BC4EF12DB0C62008DC03C /* JSON */,
 				78E9B20812B44D4300B32768 /* regexkitlite */,
+				39A7F07813D9FFC3008338A4 /* CoreText.framework */,
 				390DD52813D9E26600EB1EFD /* CoreData.framework */,
 				7856A44B12B4445C0025424F /* CrashReporter.framework */,
 				78E9B1C212B44BB900B32768 /* QuartzCore.framework */,
@@ -411,12 +424,32 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		39A7F07413D9FF0E008338A4 /* PDF */ = {
+			isa = PBXGroup;
+			children = (
+				39A7F07513D9FF2D008338A4 /* NGPDFManager.h */,
+				39A7F07613D9FF2D008338A4 /* NGPDFManager.m */,
+				39A7F07A13DA0316008338A4 /* NGPDFDocument.h */,
+				39A7F07B13DA0316008338A4 /* NGPDFDocument.m */,
+			);
+			name = PDF;
+			sourceTree = "<group>";
+		};
+		39A7F07F13DA208A008338A4 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				394B916C13D64C62007BFF2E /* RBHomeViewController.h */,
+				394B916D13D64C62007BFF2E /* RBHomeViewController.m */,
+				39A7F07D13DA207A008338A4 /* RBHomeView.xib */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
 		39C917B8139836750045489C /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
 				394B916B13D64C1C007BFF2E /* Base */,
-				394B916C13D64C62007BFF2E /* RBHomeViewController.h */,
-				394B916D13D64C62007BFF2E /* RBHomeViewController.m */,
+				39A7F07F13DA208A008338A4 /* Home */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -704,6 +737,7 @@
 				394B917213D64CE3007BFF2E /* Default-Landscape~ipad.png in Resources */,
 				394B917413D64CE3007BFF2E /* Icon.png in Resources */,
 				395EEF2513D72E39003C4DA8 /* Background.png in Resources */,
+				39A7F07E13DA207A008338A4 /* RBHomeView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -760,6 +794,8 @@
 				390DD51A13D9D21400EB1EFD /* SignMe.xcdatamodeld in Sources */,
 				390DD52313D9D53300EB1EFD /* RBDocument.m in Sources */,
 				390DD52613D9D53300EB1EFD /* RBClient.m in Sources */,
+				39A7F07713D9FF2D008338A4 /* NGPDFManager.m in Sources */,
+				39A7F07C13DA0316008338A4 /* NGPDFDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -56,7 +56,7 @@
         DDLogWarn(@"NSZombieEnabled / NSAutoreleaseFreedObjectCheckEnabled enabled! Disable for release.");
     }
     
-    RBHomeViewController *homeViewController = [[[RBHomeViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    RBHomeViewController *homeViewController = [[[RBHomeViewController alloc] initWithNibName:@"RBHomeView" bundle:nil] autorelease];
     
     // Add the navigation controller's view to the window and display.
     navigationController_ = [[UINavigationController alloc] initWithRootViewController:homeViewController];

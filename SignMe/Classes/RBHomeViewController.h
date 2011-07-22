@@ -9,23 +9,33 @@
 #import "PSBaseViewController.h"
 #import "iCarousel.h"
 #import "RBFormDetailView.h"
+#import "RBTimeView.h"
 
 
 @interface RBHomeViewController : PSBaseViewController <iCarouselDataSource, iCarouselDelegate, NSFetchedResultsControllerDelegate>
 
-@property (nonatomic, retain) UILabel *formsLabel;
-@property (nonatomic, retain) iCarousel *formsCarousel;
+@property (nonatomic, readonly) NSFetchedResultsController *clientsFetchController;
 
-@property (nonatomic, retain) UIView *clientsView;
+@property (nonatomic, assign) CGFloat formsViewDefaultY;
+@property (nonatomic, assign) CGFloat clientsViewDefaultY;
+
+@property (nonatomic, retain) RBTimeView *timeView;
+@property (nonatomic, retain) UILabel *formsLabel;
 @property (nonatomic, retain) UILabel *clientsLabel;
-@property (nonatomic, retain) iCarousel *clientsCarousel;
-@property (nonatomic, retain) UITextField *searchField;
-@property (nonatomic, retain) UIButton *searchClientButton;
-@property (nonatomic, retain) UIButton *addClientButton;
 
 @property (nonatomic, retain) RBFormDetailView *detailView;
 @property (nonatomic, retain) iCarousel *detailCarousel;
 
-@property (nonatomic, readonly) NSFetchedResultsController *clientsFetchController;
+@property (nonatomic, retain) IBOutlet UIView *formsView;
+@property (nonatomic, retain) IBOutlet iCarousel *formsCarousel;
+@property (nonatomic, retain) IBOutlet UIView *clientsView;
+@property (nonatomic, retain) IBOutlet iCarousel *clientsCarousel;
+
+@property (nonatomic, retain) IBOutlet UITextField *searchField;
+@property (nonatomic, retain) UIButton *addClientButton;
+
+
+- (IBAction)textFieldDidEndEditing:(UITextField *)textField;
+- (IBAction)textFieldDidChangeValue:(UITextField *)textField;
 
 @end
