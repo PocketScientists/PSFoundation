@@ -13,6 +13,8 @@
 
 #define kMinNumberOfItemsToEnableScrolling   5
 
+#define kClientCacheName        @"RBClientCache"
+
 #define kAnimationDuration      0.25
 #define kFormsYOffset            80.f
 #define kClientsYOffset         120.f
@@ -46,6 +48,11 @@
 
 - (void)keyboardWillHide:(NSNotification *)notification;
 - (void)handleSearchClientPress:(id)sender;
+
+- (void)updateClientsWithSearchTerm:(NSString *)searchTerm;
+
+- (void)textFieldDidEndEditing:(UITextField *)textField;
+- (void)textFieldDidChangeValue:(UITextField *)textField;
 
 @end
 
@@ -130,6 +137,7 @@
 		DDLogError(@"Unresolved error %@, %@", error, [error userInfo]);
 	} 
     
+    self.clientsFetchController.delegate = self;
     
     self.formsCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
     [self setupCarousel:self.formsCarousel];
@@ -161,6 +169,14 @@
     self.searchField = [[[UITextField alloc] initWithFrame:CGRectMake(100, 152, 300, 27)] autorelease];
     self.searchField.backgroundColor = [UIColor clearColor];
     self.searchField.borderStyle = UITextBorderStyleNone;
+    
+    [self.searchField addTarget:self
+                         action:@selector(textFieldDidEndEditing:)
+               forControlEvents:UIControlEventEditingDidEndOnExit];
+    
+    [self.searchField addTarget:self
+                         action:@selector(textFieldDidChangeValue:)
+               forControlEvents:UIControlEventEditingChanged];
     
     // self.detailCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
     // [self setupCarousel:self.detailCarousel];
@@ -316,10 +332,26 @@
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
+#pragma mark UITextFieldDelegate
+////////////////////////////////////////////////////////////////////////
+
+- (void)textFieldDidChangeValue:(UITextField *)textField {
+    [self updateClientsWithSearchTerm:textField.text];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    
+    [textField resignFirstResponder];
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
 #pragma mark NSFetchedResultsControllerDelegate
 ////////////////////////////////////////////////////////////////////////
 
+// TODO: Y U NO GETTING FIRED??
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller { 
+    DDLogFunction();
     [self.clientsCarousel reloadData];
 }
 
@@ -346,7 +378,7 @@
     clientsFetchController_ = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                   managedObjectContext:[NSManagedObjectContext defaultContext]
                                                                     sectionNameKeyPath:nil
-                                                                             cacheName:@"RBClientCache"];
+                                                                             cacheName:kClientCacheName];
     clientsFetchController_.delegate = self;
     
     return clientsFetchController_;
@@ -481,5 +513,26 @@
         }];
     }
 }
+
+- (void)updateClientsWithSearchTerm:(NSString *)searchTerm {
+    NSPredicate *predicate = nil;
+    
+    if (!IsEmpty(searchTerm)) {
+        predicate = [NSPredicate predicateWithFormat:@"visible = YES AND name contains[cd] %@", searchTerm];
+    } else {
+        predicate = [NSPredicate predicateWithFormat:@"visible = YES"];
+    }
+    
+    [NSFetchedResultsController deleteCacheWithName:kClientCacheName];
+    self.clientsFetchController.fetchRequest.predicate = predicate;
+	
+    NSError *error = nil;
+    if (![self.clientsFetchController performFetch:&error]) {
+        DDLogError(@"Unresolved error %@, %@", error, [error userInfo]);
+    }  
+    
+    [self.clientsCarousel reloadData];
+} 
+
 
 @end
