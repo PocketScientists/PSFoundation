@@ -11,7 +11,7 @@
 #import "RBCarouselView.h"
 #import "RBClient.h"
 
-#define kMinNumberOfItemsToEnableScrolling   5
+#define kMinNumberOfItemsToWrap   6
 
 #define kClientCacheName        @"RBClientCache"
 
@@ -279,7 +279,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (BOOL)carouselShouldWrap:(iCarousel *)carousel {
-    return carousel == self.clientsCarousel;
+    return carousel.numberOfItems >= kMinNumberOfItemsToWrap;
 }
 
 - (float)carouselItemWidth:(iCarousel *)carousel {
