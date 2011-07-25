@@ -225,9 +225,8 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
 #pragma mark Document
 ////////////////////////////////////////////////////////////////////////
 
-- (void)saveAsDocument {
-    DDLogInfo(@"Writing to filePath: %@", self.filePath);
-    [self.formData writeToFile:self.filePath atomically:YES];
+- (BOOL)saveAsDocument {
+    return [self.formData writeToFile:self.filePath atomically:YES];
 }
 
 ////////////////////////////////////////////////////////////////////////

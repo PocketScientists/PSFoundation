@@ -56,6 +56,6 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index);
 - (void)setValue:(id)value forField:(NSString *)fieldID inSection:(NSUInteger)section;
 
 // Document
-- (void)saveAsDocument;
+- (BOOL)saveAsDocument;
 
 @end
