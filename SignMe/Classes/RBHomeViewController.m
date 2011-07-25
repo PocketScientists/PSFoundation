@@ -39,12 +39,14 @@
 - (void)showDetailViewWithDelay:(NSTimeInterval)delay;
 - (void)hideDetailView;
 
-- (void)showSearchScreen;
-- (void)hideSearchScreen;
+- (void)showSearchScreenWithDuration:(NSTimeInterval)duration;
+- (void)hideSearchScreenWithDuration:(NSTimeInterval)duration;
 
 - (void)keyboardWillShow:(NSNotification *)notification;
 - (void)keyboardWillHide:(NSNotification *)notification;
 - (void)updateClientsWithSearchTerm:(NSString *)searchTerm;
+
+- (void)addNewClientWithName:(NSString *)name;
 
 @end
 
@@ -144,7 +146,6 @@
     [self.clientsView addSubview:self.clientsLabel];
     
     self.formsCarousel.centerItemWhenSelected = NO;
-    [self.formsCarousel scrollToItemAtIndex:RBFormStatusPreSignature animated:NO];
     
     // self.detailCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
     // [self setupCarousel:self.detailCarousel];
@@ -182,7 +183,9 @@
     
     [self.formsCarousel reloadData];
     [self.clientsCarousel reloadData];
-        
+    
+    [self.formsCarousel scrollToItemAtIndex:RBFormStatusPreSignature animated:NO];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
@@ -233,7 +236,8 @@
             RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
             [view setFromClient:client];
         } else {
-            [view setText:@"Nothing Found"];
+            view.isAddClientView = YES;
+            [view setText:[NSString stringWithFormat:@"Add client\n'%@'",self.searchField.text]];
         }
     }
     
@@ -294,7 +298,11 @@
 }
 
 - (void)clientsCarouseldidSelectItemAtIndex:(NSInteger)index {
+    RBCarouselView *selectedView = (RBCarouselView *)self.clientsCarousel.selectedItem;
     
+    if (selectedView.isAddClientView) {
+        [self addNewClientWithName:self.searchField.text];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -312,9 +320,7 @@
 }
 
 - (IBAction)handleAddNewClientPress:(id)sender {
-    RBClient *newClient = [RBClient createEntity];
-    
-    newClient.name = @"Ein neuer Client";
+    [self addNewClientWithName:@"New Client"];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -406,17 +412,26 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)keyboardWillShow:(NSNotification *)notification {
+    NSTimeInterval animationDuration;
     CGRect keyboardFrame;
     
+    // retreive frame of keyboard
     [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardFrame];
+    // retreive duration of animation
+    animationDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
     if (CGRectIntersectsRect(keyboardFrame, self.view.frame)) {
-        [self showSearchScreen];
+        [self showSearchScreenWithDuration:animationDuration];
     }
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
-    [self hideSearchScreen];
+    NSTimeInterval animationDuration;
+    
+    // retreive duration of animation
+    animationDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    [self hideSearchScreenWithDuration:animationDuration];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -443,30 +458,41 @@
     return self.detailView.alpha > 0;
 }
 
-- (void)showSearchScreen {
+- (void)showSearchScreenWithDuration:(NSTimeInterval)duration {
     self.formsView.userInteractionEnabled = NO;
     self.detailView.frameTop = self.formsViewDefaultY;
     self.detailView.alpha = 0.f;
     
-    [UIView animateWithDuration:0.4 animations:^(void) {
-        // 44.f = height of search-area -> clients-carousel is on same spot as forms-carousel before
-        CGFloat newClientsY = self.formsViewDefaultY - 44.f;
-        CGFloat diffY = self.clientsViewDefaultY - newClientsY;
-        
-        // Move views up
-        self.formsView.alpha = 0.2;
-        self.formsView.frameTop = self.formsViewDefaultY - diffY;
-        self.clientsView.frameTop = newClientsY;
-    }];
+    [UIView animateWithDuration:duration
+                          delay:0.f 
+                        options:UIViewAnimationOptionAllowUserInteraction
+                     animations:^(void) {
+                         // 44.f = height of search-area -> clients-carousel is on same spot as forms-carousel before
+                         CGFloat newClientsY = self.formsViewDefaultY - 44.f;
+                         CGFloat diffY = self.clientsViewDefaultY - newClientsY;
+                         
+                         // Move views up
+                         self.formsView.alpha = 0.2;
+                         self.formsView.frameTop = self.formsViewDefaultY - diffY;
+                         self.clientsView.frameTop = newClientsY;
+                         // Make clients-carousel expand width to cover add button
+                         self.clientsCarousel.frame = CGRectMake(self.addNewClientButton.frameLeft, self.clientsCarousel.frameTop,
+                                                                 self.clientsView.frameWidth - self.clientsLabel.frameWidth, self.clientsCarousel.frameHeight);
+                     } 
+                     completion:nil];
 }
 
-- (void)hideSearchScreen {
+- (void)hideSearchScreenWithDuration:(NSTimeInterval)duration {
     self.formsView.userInteractionEnabled = YES;
     
-    [UIView animateWithDuration:0.4 animations:^(void) {
+    [UIView animateWithDuration:duration animations:^(void) {
         self.formsView.alpha = 1.f;
         self.formsView.frameTop = self.formsViewDefaultY;
         self.clientsView.frameTop = self.clientsViewDefaultY;
+        // show add-button again
+        // Make clients-carousel expand width to cover add button
+        self.clientsCarousel.frame = CGRectMake(self.addNewClientButton.frameRight, self.clientsCarousel.frameTop,
+                                                self.clientsView.frameWidth - self.clientsLabel.frameWidth - self.addNewClientButton.frameWidth, self.clientsCarousel.frameHeight);
     }];
 }
 
@@ -490,5 +516,10 @@
     [self.clientsCarousel reloadData];
 } 
 
+- (void)addNewClientWithName:(NSString *)name {
+    RBClient *newClient = [RBClient createEntity];
+    
+    newClient.name = name;
+}
 
 @end

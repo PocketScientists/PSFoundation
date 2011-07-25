@@ -16,6 +16,7 @@
 @interface RBCarouselView : UIControl
 
 @property (nonatomic, retain) UILabel *textLabel;
+@property (nonatomic, assign) BOOL isAddClientView;
 
 + (RBCarouselView *)carouselView;
 

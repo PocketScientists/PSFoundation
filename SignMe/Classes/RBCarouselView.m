@@ -14,6 +14,7 @@
 @implementation RBCarouselView
 
 @synthesize textLabel = textLabel_;
+@synthesize isAddClientView = isAddClientView_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -34,6 +35,8 @@
         textLabel_.textColor = [UIColor whiteColor];
         textLabel_.backgroundColor = [UIColor clearColor];
         textLabel_.textAlignment = UITextAlignmentCenter;
+        
+        isAddClientView_ = NO;
         
         [self addSubview:textLabel_];
         
