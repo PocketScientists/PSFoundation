@@ -5,6 +5,8 @@
 //  Created by Peter Steinberger on 12.12.10.
 //
 
+#import "PSIncludes.h"
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Template Configuration
@@ -17,12 +19,6 @@
 
 #ifdef DEBUG
 #define kMemoryWarningAfterDeviceShake
-#endif
-
-#ifdef APPSTORE
-  #define kUseFlurryStatistics
-#else
-  #define kUseAutoUpdater
 #endif
 
 ////////////////////////////////////////////////////////////////////////
@@ -40,12 +36,7 @@
 #pragma mark URLs
 ////////////////////////////////////////////////////////////////////////
 
-#ifndef APPSTORE
-  #define kHockeyUpdateDistributionUrl @"http://petersteinberger.com/appstore"
-#endif
-
-#define kCrashReporterUrl       @"http://path-to-crashreporter.com/crashreporter/crash_v200.php"
-#define kReachabilityHostURL    @"www.apple.com"
+#define kReachabilityHostURL    @"www.box.net"
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -54,6 +45,12 @@
 
 #define kRBCarouselColor        [UIColor lightGrayColor]
 #define kRBCarouselViewColor    [UIColor darkGrayColor]
+
+#define kRBFormDataType         @"plist"
+#define kRBFormExtension        @"." kRBFormDataType
+#define kRBFormDirectoryName    @"Forms"
+#define kRBFormDirectoryPath    ([NSDocumentsFolder() stringByAppendingPathComponent:kRBFormDirectoryName])
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

@@ -22,6 +22,11 @@
 		390DD52613D9D53300EB1EFD /* RBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 390DD52513D9D53300EB1EFD /* RBClient.m */; };
 		390DD52713D9E25300EB1EFD /* libPSFoundation_CoreData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A47C12B444A80025424F /* libPSFoundation_CoreData.a */; };
 		390DD52913D9E26600EB1EFD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 390DD52813D9E26600EB1EFD /* CoreData.framework */; };
+		3925C7D413DDE72B008810AF /* RBUIGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D313DDE72B008810AF /* RBUIGenerator.m */; };
+		3925C7D713DDE75C008810AF /* RBFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D613DDE75C008810AF /* RBFormView.m */; };
+		3925C7E013DDE863008810AF /* RBFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7DF13DDE863008810AF /* RBFormViewController.m */; };
+		3925C7E313DDF01C008810AF /* W-9.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3925C7E213DDF01C008810AF /* W-9.plist */; };
+		3925C7E513DDF028008810AF /* Partnership Agreement.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3925C7E413DDF028008810AF /* Partnership Agreement.plist */; };
 		394B916A13D64BB1007BFF2E /* PSBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916913D64BB1007BFF2E /* PSBaseTableViewController.m */; };
 		394B916E13D64C62007BFF2E /* RBHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916D13D64C62007BFF2E /* RBHomeViewController.m */; };
 		394B917213D64CE3007BFF2E /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 394B916F13D64CE3007BFF2E /* Default-Landscape~ipad.png */; };
@@ -163,6 +168,14 @@
 		390DD52413D9D53300EB1EFD /* RBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBClient.h; sourceTree = "<group>"; };
 		390DD52513D9D53300EB1EFD /* RBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBClient.m; sourceTree = "<group>"; };
 		390DD52813D9E26600EB1EFD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		3925C7D213DDE72B008810AF /* RBUIGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBUIGenerator.h; sourceTree = "<group>"; };
+		3925C7D313DDE72B008810AF /* RBUIGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBUIGenerator.m; sourceTree = "<group>"; };
+		3925C7D513DDE75C008810AF /* RBFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFormView.h; sourceTree = "<group>"; };
+		3925C7D613DDE75C008810AF /* RBFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFormView.m; sourceTree = "<group>"; };
+		3925C7DE13DDE863008810AF /* RBFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFormViewController.h; sourceTree = "<group>"; };
+		3925C7DF13DDE863008810AF /* RBFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFormViewController.m; sourceTree = "<group>"; };
+		3925C7E213DDF01C008810AF /* W-9.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "W-9.plist"; sourceTree = "<group>"; };
+		3925C7E413DDF028008810AF /* Partnership Agreement.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Partnership Agreement.plist"; sourceTree = "<group>"; };
 		394B914E13D6491A007BFF2E /* box.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box.xcodeproj; path = ../external/box.net/box.xcodeproj; sourceTree = "<group>"; };
 		394B915B13D64923007BFF2E /* DocuSign.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DocuSign.xcodeproj; path = ../external/DocuSign/DocuSign.xcodeproj; sourceTree = "<group>"; };
 		394B916813D64BB1007BFF2E /* PSBaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSBaseTableViewController.h; sourceTree = "<group>"; };
@@ -281,7 +294,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				39A7F07413D9FF0E008338A4 /* PDF */,
+				3925C7D013DDE70B008810AF /* Utils */,
 				39C918581398EBA10045489C /* Includes */,
 				39C917B91398367C0045489C /* Model */,
 				39C917BA139836840045489C /* Views */,
@@ -327,6 +340,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3925C7E113DDF009008810AF /* Forms */,
 				390DD51713D9D1FE00EB1EFD /* Model */,
 				395EEF2613D72E3C003C4DA8 /* Images */,
 				78BCBB2612B5323D0093AE0C /* Localization */,
@@ -387,6 +401,42 @@
 				390DD51813D9D21400EB1EFD /* SignMe.xcdatamodeld */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		3925C7D013DDE70B008810AF /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				3925C7D113DDE718008810AF /* UI Generation */,
+				39A7F07413D9FF0E008338A4 /* PDF */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		3925C7D113DDE718008810AF /* UI Generation */ = {
+			isa = PBXGroup;
+			children = (
+				3925C7D213DDE72B008810AF /* RBUIGenerator.h */,
+				3925C7D313DDE72B008810AF /* RBUIGenerator.m */,
+			);
+			name = "UI Generation";
+			sourceTree = "<group>";
+		};
+		3925C7D813DDE82C008810AF /* Form */ = {
+			isa = PBXGroup;
+			children = (
+				3925C7DE13DDE863008810AF /* RBFormViewController.h */,
+				3925C7DF13DDE863008810AF /* RBFormViewController.m */,
+			);
+			name = Form;
+			sourceTree = "<group>";
+		};
+		3925C7E113DDF009008810AF /* Forms */ = {
+			isa = PBXGroup;
+			children = (
+				3925C7E213DDF01C008810AF /* W-9.plist */,
+				3925C7E413DDF028008810AF /* Partnership Agreement.plist */,
+			);
+			name = Forms;
 			sourceTree = "<group>";
 		};
 		394B914F13D6491A007BFF2E /* Products */ = {
@@ -450,6 +500,7 @@
 			children = (
 				394B916B13D64C1C007BFF2E /* Base */,
 				39A7F07F13DA208A008338A4 /* Home */,
+				3925C7D813DDE82C008810AF /* Form */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -478,6 +529,8 @@
 				3900892A13D799530093E0B0 /* RBFormDetailView.m */,
 				3900894813D882760093E0B0 /* RBArrowView.h */,
 				3900894913D882760093E0B0 /* RBArrowView.m */,
+				3925C7D513DDE75C008810AF /* RBFormView.h */,
+				3925C7D613DDE75C008810AF /* RBFormView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -738,6 +791,8 @@
 				394B917413D64CE3007BFF2E /* Icon.png in Resources */,
 				395EEF2513D72E39003C4DA8 /* Background.png in Resources */,
 				39A7F07E13DA207A008338A4 /* RBHomeView.xib in Resources */,
+				3925C7E313DDF01C008810AF /* W-9.plist in Resources */,
+				3925C7E513DDF028008810AF /* Partnership Agreement.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -796,6 +851,9 @@
 				390DD52613D9D53300EB1EFD /* RBClient.m in Sources */,
 				39A7F07713D9FF2D008338A4 /* NGPDFManager.m in Sources */,
 				39A7F07C13DA0316008338A4 /* NGPDFDocument.m in Sources */,
+				3925C7D413DDE72B008810AF /* RBUIGenerator.m in Sources */,
+				3925C7D713DDE75C008810AF /* RBFormView.m in Sources */,
+				3925C7E013DDE863008810AF /* RBFormViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

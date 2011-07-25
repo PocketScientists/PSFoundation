@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "PSIncludes.h"
 #import "RBHomeViewController.h"
+#import "RBForm.h"
 
 #ifdef kDCIntrospectEnabled
 #import "DCIntrospect.h"
@@ -47,7 +48,10 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // setup CocoaLumberJack-Logging
     [self configureLogger];
+    // copy plist-files for forms from bundle to documents-directory
+    [RBForm copyFormsFromBundle];
     // setup CoreData
 	[ActiveRecordHelpers setupCoreDataStack];
         
@@ -73,6 +77,8 @@
     if (kPostFinishLaunchDelay > 0) {
         [self performSelector:@selector(postFinishLaunch) withObject:nil afterDelay:kPostFinishLaunchDelay];
     }
+    
+    MTLog([RBForm allForms]);
    
     return YES;
 }
