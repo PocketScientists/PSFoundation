@@ -10,14 +10,10 @@
 
 @implementation RBUIGenerator
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        // Initialization code here.
-    }
+- (RBFormView *)viewFromForm:(RBForm *)form withFrame:(CGRect)frame {
+    RBFormView *view = [[[RBFormView alloc] initWithFrame:frame] autorelease];
     
-    return self;
+    return view;
 }
 
 @end

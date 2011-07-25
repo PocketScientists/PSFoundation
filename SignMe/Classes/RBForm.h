@@ -32,11 +32,12 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index);
 
 // Creation
 
-+ (RBForm *)formWithName:(NSString *)name;
++ (RBForm *)emptyFormWithName:(NSString *)name;
 + (NSArray *)allForms;
 + (void)copyFormsFromBundle;
 
 - (id)initWithName:(NSString *)name;
+- (id)initWithPath:(NSString *)path;
 
 /** All fields stored in the plist, e.g. name, sections, ... */
  @property (nonatomic, retain, readonly) NSDictionary *formData;

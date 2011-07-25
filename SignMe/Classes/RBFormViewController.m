@@ -7,54 +7,98 @@
 //
 
 #import "RBFormViewController.h"
+#import "RBUIGenerator.h"
+#import "PSIncludes.h"
+
+
+@interface RBFormViewController ()
+
+- (void)handleCancelButtonPress:(id)sender;
+- (void)handleDoneButtonPress:(id)sender;
+
+@end
 
 @implementation RBFormViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+@synthesize form = form_;
+@synthesize formView = formView_;
+@synthesize cancelButton = cancelButton_;
+@synthesize doneButton = doneButton_;
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Lifecycle
+////////////////////////////////////////////////////////////////////////
+
+- (id)initWithForm:(RBForm *)form {
+    if ((self = [super initWithNibName:nil bundle:nil])) {
+        form_ = [form retain];
     }
+    
     return self;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
+- (void)dealloc {
+    MCRelease(form_);
+    MCRelease(formView_);
+    MCRelease(cancelButton_);
+    MCRelease(doneButton_);
+    
+    [super dealloc];
+}
+
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
-    // Release any cached data, images, etc that aren't in use.
 }
 
-#pragma mark - View lifecycle
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIView
+////////////////////////////////////////////////////////////////////////
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
-
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
+    
+    RBUIGenerator *generator = [[[RBUIGenerator alloc] init] autorelease];
+    
+    self.formView = [generator viewFromForm:self.form withFrame:self.view.bounds];
+    [self.view addSubview:self.formView];
+    
+    self.cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    self.cancelButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
+    self.cancelButton.frame = CGRectMake(550, 30, 80, 44);
+    [self.cancelButton addTarget:self action:@selector(handleCancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.doneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.doneButton setTitle:@"Done" forState:UIControlStateNormal];
+    self.doneButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
+    self.doneButton.frame = CGRectMake(650, 30, 80, 44);
+    [self.doneButton addTarget:self action:@selector(handleDoneButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:self.cancelButton];
+    [self.view addSubview:self.doneButton];
 }
-*/
 
-- (void)viewDidUnload
-{
+- (void)viewDidUnload {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    
+    self.formView = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Target/Action
+////////////////////////////////////////////////////////////////////////
+
+- (void)handleCancelButtonPress:(id)sender {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)handleDoneButtonPress:(id)sender {
+    
 }
 
 @end

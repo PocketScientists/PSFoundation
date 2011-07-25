@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RBFormView.h"
+#import "RBForm.h"
 
 @interface RBUIGenerator : NSObject
+
+- (RBFormView *)viewFromForm:(RBForm *)form withFrame:(CGRect)frame;
 
 @end

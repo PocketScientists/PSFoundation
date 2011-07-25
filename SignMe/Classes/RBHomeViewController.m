@@ -7,6 +7,7 @@
 //
 
 #import "RBHomeViewController.h"
+#import "RBFormViewController.h"
 #import "RBForm.h"
 #import "RBCarouselView.h"
 #import "RBClient.h"
@@ -48,6 +49,8 @@
 - (void)updateClientsWithSearchTerm:(NSString *)searchTerm;
 
 - (void)addNewClientWithName:(NSString *)name;
+
+- (void)presentViewControllerForForm:(RBForm *)form;
 
 @end
 
@@ -301,6 +304,9 @@
 - (void)clientsCarouseldidSelectItemAtIndex:(NSInteger)index {
     if ([self clientCarouselShowsAddItem] && index == 0) {
         [self addNewClientWithName:self.searchField.text];
+    } else {
+        RBForm *form = [RBForm emptyFormWithName:@"W-9"];
+        [self presentViewControllerForForm:form];
     }
 }
 
@@ -543,6 +549,15 @@
     RBClient *newClient = [RBClient createEntity];
     
     newClient.name = name;
+}
+
+- (void)presentViewControllerForForm:(RBForm *)form {
+    RBFormViewController *viewController = [[[RBFormViewController alloc] initWithForm:form] autorelease];
+    
+    viewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    viewController.modalPresentationStyle = UIModalPresentationFullScreen;
+    
+    [self presentModalViewController:viewController animated:YES];
 }
 
 @end

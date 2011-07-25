@@ -69,7 +69,7 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
 #pragma mark Class Methods
 ////////////////////////////////////////////////////////////////////////
 
-+ (RBForm *)formWithName:(NSString *)name {
++ (RBForm *)emptyFormWithName:(NSString *)name {
     return [[[RBForm alloc] initWithName:name] autorelease];
 }
 
@@ -87,7 +87,7 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
     // Create array of RBForm-Objects with the given names
     for (NSString *fileName in formNames) {
         if ([fileName hasSuffix:kRBFormExtension]) {
-            [allForms addObject:[RBForm formWithName:fileName]];
+            [allForms addObject:[RBForm emptyFormWithName:fileName]];
         }
     }
     
@@ -128,16 +128,29 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
 ////////////////////////////////////////////////////////////////////////
 
 - (id)initWithName:(NSString *)name {
+    // delete file extension if already specified
+    if ([name hasSuffix:kRBFormExtension]) {
+        name = [name substringToIndex:[name rangeOfString:kRBFormExtension].location];
+    }
+    
+    NSString *fullPath = [[kRBFormDirectoryPath stringByAppendingPathComponent:name] stringByAppendingPathExtension:kRBFormDataType];
+    
+    return [self initWithPath:fullPath];
+}
+
+- (id)initWithPath:(NSString *)path {
     if ((self = [super init])) {
-        // delete file extension if already specified
-        if ([name hasSuffix:kRBFormExtension]) {
-            name = [name substringToIndex:[name rangeOfString:kRBFormExtension].location];
+        formData_ = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
+        
+        // remove extension from name
+        path = [path lastPathComponent];
+        
+        NSRange dotRange = [path rangeOfString:@"."];
+        if (dotRange.location != NSNotFound) {
+            path = [path substringToIndex:dotRange.location];
         }
         
-        name_ = [name copy];
-        
-        NSString *fullPath = [[kRBFormDirectoryPath stringByAppendingPathComponent:name] stringByAppendingPathExtension:kRBFormDataType];
-        formData_ = [[NSMutableDictionary alloc] initWithContentsOfFile:fullPath];
+        name_ = [path copy];
     }
     
     return self;
