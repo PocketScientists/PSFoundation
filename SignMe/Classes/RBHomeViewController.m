@@ -143,13 +143,17 @@
 		DDLogError(@"Unresolved error %@, %@", error, [error userInfo]);
 	} 
     
-    self.formsLabel = [self headerLabelForView:self.formsCarousel text:@"FORMS"];
-    self.clientsLabel = [self headerLabelForView:self.addNewClientButton text:@"CLIENTS"];
+    self.formsLabel = [self headerLabelForView:self.formsCarousel text:@"Forms"];
+    self.clientsLabel = [self headerLabelForView:self.addNewClientButton text:@"Clients"];
     
     [self.formsView addSubview:self.formsLabel];
     [self.clientsView addSubview:self.clientsLabel];
     
+    // we control centering for this carousel on our own
     self.formsCarousel.centerItemWhenSelected = NO;
+    // we inset the viewpoint s.t. items in both carousel have same x-pos (clientsCarousel has other frame than formsCarousel)
+    // we also add another item width, s.t. the first item (that is ususally centered) appears on first position
+    self.clientsCarousel.viewpointOffset = CGSizeMake(self.addNewClientButton.frameWidth/2 + kCarouselItemWidth, 0);
     
     // self.detailCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
     // [self setupCarousel:self.detailCarousel];

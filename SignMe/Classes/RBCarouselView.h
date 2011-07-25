@@ -11,7 +11,7 @@
 #import "RBClient.h"
 
 #define kCarouselViewFrame  CGRectMake(0,0,170,105)
-#define kCarouselItemWidth  (CGRectGetWidth(kCarouselViewFrame) * 1.25)
+#define kCarouselItemWidth  (CGRectGetWidth(kCarouselViewFrame) * 1.4)
 
 @interface RBCarouselView : UIControl
 

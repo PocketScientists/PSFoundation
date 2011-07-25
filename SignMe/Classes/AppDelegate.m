@@ -71,7 +71,7 @@
     
     // visual debugging!
 #ifdef kDCIntrospectEnabled
-    [[DCIntrospect sharedIntrospector] start];
+    // [[DCIntrospect sharedIntrospector] start];
 #endif
     
     if (kPostFinishLaunchDelay > 0) {

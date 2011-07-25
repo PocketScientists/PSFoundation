@@ -44,22 +44,24 @@
         topInputField.frameTop = kRBOriginTop;
         topInputField.frameLeft = kRBInputFieldX + section * realViewWidth;
         
-        MTLog(topLabel.frame);
-        
         // iterate over all fields in the section
         for (NSString *fieldID in fieldIDs) {
+            // get values
             NSString *labelText = [form valueForKey:kRBFormKeyLabel ofField:fieldID inSection:section];
             NSString *value = [form valueForKey:kRBFormKeyValue ofField:fieldID inSection:section];
             NSString *datatype = [form valueForKey:kRBFormKeyDatatype ofField:fieldID inSection:section];
+            // create label and input field
             UILabel *label = [self labelWithText:labelText];
             UIControl *inputField = [self inputFieldWithValue:value datatype:datatype];
             
+            // position in Grid depending on anchor-views
             [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
             [inputField positionUnderView:topInputField padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
             
             [view addSubview:label];
             [view addSubview:inputField];
             
+            // set new frames for anchor-views
             topLabel.frame = label.frame;
             topInputField.frame = inputField.frame;
         }
@@ -82,9 +84,9 @@
     label.autoresizingMask = UIViewAutoresizingNone;
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor blackColor];
-    label.font = [UIFont boldSystemFontOfSize:15];
+    label.font = [UIFont boldSystemFontOfSize:16];
     label.textAlignment = UITextAlignmentRight;
-    label.text = text;
+    label.text = [text uppercaseString];
     
     return label;
 }
