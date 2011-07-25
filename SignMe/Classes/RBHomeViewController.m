@@ -60,7 +60,7 @@
 @synthesize formsCarousel = formsCarousel_;
 @synthesize clientsView = clientsView_;
 @synthesize clientsCarousel = clientsCarousel_;
-@synthesize addClientButton = addClientButton_;
+@synthesize addNewClientButton = addNewClientButton_;
 @synthesize detailView = detailView_;
 @synthesize detailCarousel = detailCarousel_;
 @synthesize searchField = searchField_;
@@ -79,7 +79,7 @@
     MCRelease(clientsView_);
     MCRelease(clientsCarousel_);
     MCRelease(searchField_);
-    MCRelease(addClientButton_);
+    MCRelease(addNewClientButton_);
     MCRelease(detailView_);
     MCRelease(detailCarousel_);
     MCRelease(clientsFetchController_);
@@ -138,16 +138,13 @@
 	} 
     
     self.formsLabel = [self headerLabelForView:self.formsCarousel text:@"FORMS"];
-    self.clientsLabel = [self headerLabelForView:self.clientsCarousel text:@"CLIENTS"];
+    self.clientsLabel = [self headerLabelForView:self.addNewClientButton text:@"CLIENTS"];
     
     [self.formsView addSubview:self.formsLabel];
     [self.clientsView addSubview:self.clientsLabel];
     
     self.formsCarousel.centerItemWhenSelected = NO;
     [self.formsCarousel scrollToItemAtIndex:RBFormStatusPreSignature animated:NO];
-    
-    //self.addClientButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    //[self.addClientButton setTitle:@"New" forState:UIControlStateNormal];
     
     // self.detailCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
     // [self setupCarousel:self.detailCarousel];
@@ -172,7 +169,7 @@
     self.formsCarousel = nil;
     self.detailCarousel = nil;
     self.clientsView = nil;
-    self.addClientButton = nil;
+    self.addNewClientButton = nil;
     self.clientsCarousel = nil;
     self.detailView = nil;
     MCReleaseNil(clientsFetchController_);
@@ -302,7 +299,7 @@
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
-#pragma mark UITextFieldDelegate
+#pragma mark Target/Action
 ////////////////////////////////////////////////////////////////////////
 
 - (void)textFieldDidChangeValue:(UITextField *)textField {
@@ -314,6 +311,12 @@
     [textField resignFirstResponder];
 }
 
+- (IBAction)handleAddNewClientPress:(id)sender {
+    RBClient *newClient = [RBClient createEntity];
+    
+    newClient.name = @"Ein neuer Client";
+}
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark NSFetchedResultsControllerDelegate
@@ -321,7 +324,6 @@
 
 // TODO: Y U NO GETTING FIRED??
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller { 
-    DDLogFunction();
     [self.clientsCarousel reloadData];
 }
 
@@ -400,7 +402,7 @@
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
-#pragma mark Target/Action
+#pragma mark UIKeyboard Handling
 ////////////////////////////////////////////////////////////////////////
 
 - (void)keyboardWillShow:(NSNotification *)notification {

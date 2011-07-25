@@ -29,13 +29,15 @@
 @property (nonatomic, retain) IBOutlet UIView *formsView;
 @property (nonatomic, retain) IBOutlet iCarousel *formsCarousel;
 @property (nonatomic, retain) IBOutlet UIView *clientsView;
+@property (nonatomic, retain) IBOutlet UIButton *addNewClientButton;
 @property (nonatomic, retain) IBOutlet iCarousel *clientsCarousel;
 
 @property (nonatomic, retain) IBOutlet UITextField *searchField;
-@property (nonatomic, retain) UIButton *addClientButton;
 
 
 - (IBAction)textFieldDidEndEditing:(UITextField *)textField;
 - (IBAction)textFieldDidChangeValue:(UITextField *)textField;
+
+- (IBAction)handleAddNewClientPress:(id)sender;
 
 @end
