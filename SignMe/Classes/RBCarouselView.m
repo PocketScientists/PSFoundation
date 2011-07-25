@@ -35,6 +35,7 @@
         textLabel_.textColor = [UIColor whiteColor];
         textLabel_.backgroundColor = [UIColor clearColor];
         textLabel_.textAlignment = UITextAlignmentCenter;
+        textLabel_.numberOfLines = 0;
         
         isAddClientView_ = NO;
         
@@ -88,13 +89,16 @@
 
 - (void)setText:(NSString *)text {
     self.textLabel.text = text;
+    
+    [self.textLabel sizeToFit];
+    self.textLabel.center = self.center;
 }
 
 - (void)setFromFormStatus:(RBFormStatus)formType {
-    self.textLabel.text = RBFormStatusStringRepresentation(formType);
+    [self setText:RBFormStatusStringRepresentation(formType)];
 }
 
 - (void)setFromClient:(RBClient *)client {
-    self.textLabel.text = client.name;
+    [self setText:client.name];
 }
 @end

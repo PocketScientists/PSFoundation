@@ -37,6 +37,7 @@
 
 - (IBAction)textFieldDidEndEditing:(UITextField *)textField;
 - (IBAction)textFieldDidChangeValue:(UITextField *)textField;
+- (IBAction)textFieldDidEndOnExit:(UITextField *)textField;
 
 - (IBAction)handleAddNewClientPress:(id)sender;
 

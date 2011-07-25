@@ -31,6 +31,7 @@
 - (void)moveViewsWithFactor:(CGFloat)factor;
 
 - (BOOL)formsCarouselIsSelected;
+- (BOOL)clientCarouselShowsAddItem;
 
 - (void)formsCarouseldidSelectItemAtIndex:(NSInteger)index;
 - (void)clientsCarouseldidSelectItemAtIndex:(NSInteger)index;
@@ -298,9 +299,7 @@
 }
 
 - (void)clientsCarouseldidSelectItemAtIndex:(NSInteger)index {
-    RBCarouselView *selectedView = (RBCarouselView *)self.clientsCarousel.selectedItem;
-    
-    if (selectedView.isAddClientView) {
+    if ([self clientCarouselShowsAddItem] && index == 0) {
         [self addNewClientWithName:self.searchField.text];
     }
 }
@@ -315,6 +314,20 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+    if ([self clientCarouselShowsAddItem]) {
+        // show all clients again
+        textField.text = @"";
+        [self updateClientsWithSearchTerm:textField.text];
+    }
+    
+    [textField resignFirstResponder];
+}
+
+- (IBAction)textFieldDidEndOnExit:(UITextField *)textField {
+    if ([self clientCarouselShowsAddItem]) {
+        // add new client
+        [self addNewClientWithName:textField.text];
+    }
     
     [textField resignFirstResponder];
 }
@@ -456,6 +469,16 @@
 
 - (BOOL)formsCarouselIsSelected {
     return self.detailView.alpha > 0;
+}
+
+- (BOOL)clientCarouselShowsAddItem {
+    if (self.clientsCarousel.visibleViews.count == 1) {
+        RBCarouselView *selectedView = self.clientsCarousel.visibleViews.anyObject;
+        
+        return selectedView.isAddClientView;
+    }
+    
+    return NO;
 }
 
 - (void)showSearchScreenWithDuration:(NSTimeInterval)duration {
