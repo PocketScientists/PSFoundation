@@ -10,8 +10,6 @@
 				<string>Text</string>
 				<key>value</key>
 				<string>label1Value</string>
-				<key>order</key>
-				<integer>1</integer>
 				<key>id</key>
 				<string>label1ID</string>
 				<key>label</key>
@@ -22,12 +20,32 @@
 				<string>Number</string>
 				<key>value</key>
 				<string>label2Value</string>
-				<key>order</key>
-				<integer>2</integer>
 				<key>id</key>
 				<string>label2ID</string>
 				<key>label</key>
 				<string>label2</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>datatype</key>
+				<string>Text</string>
+				<key>value</key>
+				<string>label1Value</string>
+				<key>id</key>
+				<string>label1ID</string>
+				<key>label</key>
+				<string>label3</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Number</string>
+				<key>value</key>
+				<string>label2Value</string>
+				<key>id</key>
+				<string>label2ID</string>
+				<key>label</key>
+				<string>label4</string>
 			</dict>
 		</array>
 	</array>

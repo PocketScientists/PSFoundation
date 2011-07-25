@@ -192,10 +192,19 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
     return [self.formData valueForKey:@"sections"];
 }
 
-////////////////////////////////////////////////////////////////////////
-#pragma mark -
-#pragma mark Section Setter/Getter
-////////////////////////////////////////////////////////////////////////
+- (NSArray *)fieldIDsOfSection:(NSUInteger)section {
+    // index out of bounds
+    if (section >= self.numberOfSections) {
+        DDLogWarn(@"Index %d out of bounds", section);
+        return nil;
+    }
+    
+    // get section at specified index
+    NSArray *sectionData = [self.sections objectAtIndex:section];
+    NSArray *fieldIDs = [sectionData valueForKey:kRBFormKeyID];
+    
+    return fieldIDs;
+}
 
 - (id)valueForKey:(NSString *)key ofField:(NSString *)fieldID inSection:(NSUInteger)section {
     // index out of bounds

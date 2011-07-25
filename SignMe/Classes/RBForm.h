@@ -11,7 +11,6 @@
 
 #define kRBFormKeyID        @"id"
 #define kRBFormKeyLabel     @"label"
-#define kRBFormKeyOrderID   @"order"
 #define kRBFormKeyDatatype  @"datatype"
 #define kRBFormKeyValue     @"value"
 
@@ -51,6 +50,9 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index);
 /** Sections for input view */
 @property (nonatomic, readonly) NSUInteger numberOfSections;
 @property (nonatomic, readonly) NSArray *sections;
+
+/** all field IDs of a section */
+- (NSArray *)fieldIDsOfSection:(NSUInteger)section;
 
 /** Retreive/set values of the dictionary stored in a specific section */
 - (id)valueForKey:(NSString *)key ofField:(NSString *)fieldID inSection:(NSUInteger)section;
