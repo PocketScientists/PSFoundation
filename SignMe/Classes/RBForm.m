@@ -52,12 +52,16 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
 @interface RBForm ()
 
 // overwrite property as read/write and mutable
+@property (nonatomic, copy, readwrite) NSString *name;
 @property (nonatomic, retain, readwrite) NSMutableDictionary *formData;
+
+- (NSInteger)indexOfObjectWithFieldID:(NSString *)fieldID inArray:(NSArray *)array;
 
 @end
 
 @implementation RBForm
 
+@synthesize name = name_;
 @synthesize formData = formData_;
 
 ////////////////////////////////////////////////////////////////////////
@@ -96,8 +100,8 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
     
     // if there are no files in the directory yet, copy files from App Bundle
     if (IsEmpty(forms)) {
-        // Create forms directory
-        if ([[NSFileManager defaultManager] createDirectoryAtPath:kRBFormDirectoryPath withIntermediateDirectories:YES attributes:nil error:&error]) {
+        // Create forms directory (Forms/Saved, because of intermediate=YES also forms-directory gets created)
+        if ([[NSFileManager defaultManager] createDirectoryAtPath:kRBFormSavedDirectoryPath withIntermediateDirectories:YES attributes:nil error:&error]) {
             // TODO: Update with all forms shipped
             for (NSString *fileName in XARRAY(@"W-9", @"Partnership Agreement")) {
                 NSString *bundlePath = [[NSBundle mainBundle] pathForResource:fileName ofType:kRBFormDataType];
@@ -130,6 +134,8 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
             name = [name substringToIndex:[name rangeOfString:kRBFormExtension].location];
         }
         
+        name_ = [name copy];
+        
         NSString *fullPath = [[kRBFormDirectoryPath stringByAppendingPathComponent:name] stringByAppendingPathExtension:kRBFormDataType];
         formData_ = [[NSMutableDictionary alloc] initWithContentsOfFile:fullPath];
     }
@@ -139,6 +145,7 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
 
 - (void)dealloc {
     MCRelease(formData_);
+    MCRelease(name_);
     
     [super dealloc];
 }
@@ -157,8 +164,11 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
 #pragma mark Getters
 ////////////////////////////////////////////////////////////////////////
 
-- (NSString *)name {
-    return [self.formData valueForKey:@"name"];
+- (NSString *)filePath {
+    NSString *fileComponent = [NSString stringWithFormat:@"%d_%@",(NSInteger)[[NSDate date] timeIntervalSince1970], self.name];
+    
+    // Forms/Saved/DateInSecondsSince1970_Name.plist
+    return [[kRBFormSavedDirectoryPath stringByAppendingPathComponent:fileComponent] stringByAppendingPathExtension:kRBFormDataType];
 }
 
 - (NSUInteger)numberOfSections {
@@ -174,28 +184,40 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
 #pragma mark Section Setter/Getter
 ////////////////////////////////////////////////////////////////////////
 
-- (id)valueForKey:(NSString *)key inSection:(NSUInteger)section {
+- (id)valueForKey:(NSString *)key ofField:(NSString *)fieldID inSection:(NSUInteger)section {
     // index out of bounds
     if (section >= self.numberOfSections) {
         DDLogWarn(@"Index %d out of bounds", section);
         return nil;
     }
     
-    NSDictionary *sectionData = [self.sections objectAtIndex:section];
+    // get section at specified index
+    NSArray *sectionData = [self.sections objectAtIndex:section];
+    NSInteger index = [self indexOfObjectWithFieldID:fieldID inArray:sectionData];
     
-    return [sectionData valueForKey:key];
+    // if we found an index, return the value of the field for the given key
+    if (index != NSNotFound) {
+        return [[sectionData objectAtIndex:index] valueForKey:key];
+    }
+    
+    return nil;
 }
 
-- (void)setValue:(id)value forKey:(NSString *)key inSection:(NSUInteger)section {
+- (void)setValue:(id)value forField:(NSString *)fieldID inSection:(NSUInteger)section {
     // index out of bounds
     if (section >= self.numberOfSections) {
         DDLogWarn(@"Index %d out of bounds", section);
         return;
     }
     
-    NSMutableDictionary *sectionData = [self.sections objectAtIndex:section];
+    NSArray *sectionData = [self.sections objectAtIndex:section];
+    NSInteger index = [self indexOfObjectWithFieldID:fieldID inArray:sectionData];
     
-    [sectionData setValue:value forKey:key];
+    if (index != NSNotFound) {
+        [[sectionData objectAtIndex:index] setValue:value forKey:kRBFormKeyValue];
+    } else {
+        DDLogWarn(@"Index '%d' not found in section '%d'", index, section);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -204,7 +226,27 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
 ////////////////////////////////////////////////////////////////////////
 
 - (void)saveAsDocument {
+    DDLogInfo(@"Writing to filePath: %@", self.filePath);
+    [self.formData writeToFile:self.filePath atomically:YES];
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Private
+////////////////////////////////////////////////////////////////////////
+
+- (NSInteger)indexOfObjectWithFieldID:(NSString *)fieldID inArray:(NSArray *)array {
+    // retreive index of object with the given fieldID
+    NSInteger index = [array indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        if ([[obj valueForKey:kRBFormKeyID] isEqualToString:fieldID]) {
+            *stop = YES;
+            return YES;
+        }
+        
+        return NO;
+    }];
     
+    return index;
 }
 
 @end

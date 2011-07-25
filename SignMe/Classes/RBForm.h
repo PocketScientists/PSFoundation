@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+
+#define kRBFormKeyID        @"id"
+#define kRBFormKeyLabel     @"label"
+#define kRBFormKeyOrderID   @"order"
+#define kRBFormKeyDatatype  @"datatype"
+#define kRBFormKeyValue     @"value"
+
 typedef enum {
     RBFormStatusNew = 0,
     RBFormStatusPreSignature,
@@ -37,14 +44,16 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index);
 // Convenience Getters
 
 /** Name of the form, e.g. W9 */
-@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, copy, readonly) NSString *name;
+/** Path to the plist-file of the form (including values) */
+@property (nonatomic, readonly) NSString *filePath;
 /** Sections for input view */
 @property (nonatomic, readonly) NSUInteger numberOfSections;
 @property (nonatomic, readonly) NSArray *sections;
 
 /** Retreive/set values of the dictionary stored in a specific section */
-- (id)valueForKey:(NSString *)key inSection:(NSUInteger)section;
-- (void)setValue:(id)value forKey:(NSString *)key inSection:(NSUInteger)section;
+- (id)valueForKey:(NSString *)key ofField:(NSString *)fieldID inSection:(NSUInteger)section;
+- (void)setValue:(id)value forField:(NSString *)fieldID inSection:(NSUInteger)section;
 
 // Document
 - (void)saveAsDocument;

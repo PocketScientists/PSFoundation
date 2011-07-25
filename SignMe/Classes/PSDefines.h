@@ -46,10 +46,12 @@
 #define kRBCarouselColor        [UIColor lightGrayColor]
 #define kRBCarouselViewColor    [UIColor darkGrayColor]
 
-#define kRBFormDataType         @"plist"
-#define kRBFormExtension        @"." kRBFormDataType
-#define kRBFormDirectoryName    @"Forms"
-#define kRBFormDirectoryPath    ([NSDocumentsFolder() stringByAppendingPathComponent:kRBFormDirectoryName])
+#define kRBFormDataType             @"plist"
+#define kRBFormExtension            @"." kRBFormDataType
+#define kRBFormDirectoryName        @"Forms"
+#define kRBFormSavedDirectoryName   @"Saved"
+#define kRBFormDirectoryPath        ([NSDocumentsFolder() stringByAppendingPathComponent:kRBFormDirectoryName])
+#define kRBFormSavedDirectoryPath   [kRBFormDirectoryPath stringByAppendingPathComponent:kRBFormSavedDirectoryName]
 
 
 ////////////////////////////////////////////////////////////////////////

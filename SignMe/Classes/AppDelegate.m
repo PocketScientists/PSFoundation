@@ -78,7 +78,10 @@
         [self performSelector:@selector(postFinishLaunch) withObject:nil afterDelay:kPostFinishLaunchDelay];
     }
     
-    MTLog([RBForm allForms]);
+    RBForm *form = [RBForm formWithName:@"W-9"];
+    
+    [form setValue:@"NewValue" forField:@"label1ID" inSection:0];
+    [form saveAsDocument];
    
     return YES;
 }
