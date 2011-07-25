@@ -22,6 +22,7 @@
 
 @synthesize form = form_;
 @synthesize formView = formView_;
+@synthesize headerLabel = headerLabel_;
 @synthesize cancelButton = cancelButton_;
 @synthesize doneButton = doneButton_;
 
@@ -41,6 +42,7 @@
 - (void)dealloc {
     MCRelease(form_);
     MCRelease(formView_);
+    MCRelease(headerLabel_);
     MCRelease(cancelButton_);
     MCRelease(doneButton_);
     
@@ -63,20 +65,29 @@
     RBUIGenerator *generator = [[[RBUIGenerator alloc] init] autorelease];
     
     self.formView = [generator viewFromForm:self.form withFrame:self.view.bounds];
-    [self.view addSubview:self.formView];
+    
+    self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(234, 40, 300, 44)] autorelease];
+    self.headerLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    self.headerLabel.backgroundColor = [UIColor clearColor];
+    self.headerLabel.textColor = [UIColor blackColor];
+    self.headerLabel.textAlignment = UITextAlignmentCenter;
+    self.headerLabel.font = [UIFont boldSystemFontOfSize:22];
+    self.headerLabel.text = [self.form.name uppercaseString];
     
     self.cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [self.cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
     self.cancelButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
-    self.cancelButton.frame = CGRectMake(550, 30, 80, 44);
+    self.cancelButton.frame = CGRectMake(550, 40, 80, 44);
     [self.cancelButton addTarget:self action:@selector(handleCancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     
     self.doneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [self.doneButton setTitle:@"Done" forState:UIControlStateNormal];
     self.doneButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
-    self.doneButton.frame = CGRectMake(650, 30, 80, 44);
+    self.doneButton.frame = CGRectMake(650, 40, 80, 44);
     [self.doneButton addTarget:self action:@selector(handleDoneButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     
+    [self.view addSubview:self.formView];
+    [self.view addSubview:self.headerLabel];
     [self.view addSubview:self.cancelButton];
     [self.view addSubview:self.doneButton];
 }
@@ -85,6 +96,9 @@
     [super viewDidUnload];
     
     self.formView = nil;
+    self.headerLabel = nil;
+    self.cancelButton = nil;
+    self.doneButton = nil;
 }
 
 

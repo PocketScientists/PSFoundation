@@ -16,6 +16,7 @@
 @property (nonatomic, retain) RBForm *form;
 
 @property (nonatomic, retain) RBFormView *formView;
+@property (nonatomic, retain) UILabel *headerLabel;
 @property (nonatomic, retain) UIButton *cancelButton;
 @property (nonatomic, retain) UIButton *doneButton;
 
