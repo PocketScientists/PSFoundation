@@ -67,6 +67,13 @@
         }
     }
     
+    // set pageControl on view (isn't displayed yet, because it is not a subview of the scrollView)
+    UIPageControl *pageControl = [[[UIPageControl alloc] initWithFrame:CGRectMake(view.bounds.size.width/2 - 100, 650, 200, 30)] autorelease];
+    pageControl.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    pageControl.numberOfPages = form.numberOfSections;
+    pageControl.hidesForSinglePage = YES;
+    view.pageControl = pageControl;
+    
     // enable horizontal scrolling
     view.contentSize = CGSizeMake(realViewWidth * form.numberOfSections, realViewHeight);
     

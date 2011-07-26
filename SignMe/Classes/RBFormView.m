@@ -7,8 +7,16 @@
 //
 
 #import "RBFormView.h"
+#import "PSIncludes.h"
 
 @implementation RBFormView
+
+@synthesize pageControl = pageControl_;
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Lifecycle
+////////////////////////////////////////////////////////////////////////
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -17,18 +25,29 @@
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
+        self.delegate = self;
     }
     
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+- (void)dealloc {
+    MCRelease(pageControl_);
+    
+    [super dealloc];
 }
-*/
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIScrollViewDelegate
+////////////////////////////////////////////////////////////////////////
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    // update current page of pageControl
+    CGFloat pageWidth = scrollView.frameWidth;
+    int page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    
+    self.pageControl.currentPage = page;
+}
 
 @end

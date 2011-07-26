@@ -90,6 +90,7 @@
     [self.view addSubview:self.headerLabel];
     [self.view addSubview:self.cancelButton];
     [self.view addSubview:self.doneButton];
+    [self.view addSubview:self.formView.pageControl];
 }
 
 - (void)viewDidUnload {

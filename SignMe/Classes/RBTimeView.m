@@ -8,15 +8,15 @@
 
 
 #define kMonthFontSize      26
-#define kMonthFontColor     [UIColor grayColor]
+#define kMonthFontColor     [UIColor whiteColor]
 #define kMonthRect          CGRectMake(0,0,self.bounds.size.width,20)
 
 #define kDayFontSize        40
-#define kDayFontColor       [UIColor grayColor]
+#define kDayFontColor       [UIColor whiteColor]
 #define kDayRect            CGRectMake(0,20,self.bounds.size.width,40)
 
 #define kTimeFontSize       16
-#define kTimeFontColor      [UIColor grayColor]
+#define kTimeFontColor      [UIColor whiteColor]
 #define kTimeRect           CGRectMake(0,60,self.bounds.size.width,20)
 
 #import "RBTimeView.h"
