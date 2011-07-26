@@ -28,6 +28,7 @@ int main (int argc, const char * argv[]) {
         NSDictionary *annoationDictionary = [manager annotsForPDFDocument:document];
         
         [annoationDictionary writeToFile:[NSString stringWithFormat:@"%@.plist", pdfName] atomically:YES];
+        NSLog(@"Created %@.plist", pdfName);
     }
     
     [pool drain];
