@@ -32,7 +32,7 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index);
 // Creation
 
 + (RBForm *)emptyFormWithName:(NSString *)name;
-+ (NSArray *)allForms;
++ (NSArray *)allEmptyForms;
 + (void)copyFormsFromBundle;
 
 - (id)initWithName:(NSString *)name;

@@ -25,6 +25,7 @@
 
 @property (nonatomic, retain) RBFormDetailView *detailView;
 @property (nonatomic, retain) iCarousel *detailCarousel;
+@property (nonatomic, retain) NSArray *emptyForms;
 
 @property (nonatomic, retain) IBOutlet UIView *formsView;
 @property (nonatomic, retain) IBOutlet iCarousel *formsCarousel;
@@ -40,5 +41,6 @@
 - (IBAction)textFieldDidEndOnExit:(UITextField *)textField;
 
 - (IBAction)handleAddNewClientPress:(id)sender;
+- (IBAction)handleBackgroundPress:(id)sender;
 
 @end

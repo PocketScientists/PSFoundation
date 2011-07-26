@@ -98,6 +98,10 @@
     [self setText:RBFormStatusStringRepresentation(formType)];
 }
 
+- (void)setFromForm:(RBForm *)form {
+    [self setText:form.name];
+}
+
 - (void)setFromClient:(RBClient *)client {
     [self setText:client.name];
 }

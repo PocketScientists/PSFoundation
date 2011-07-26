@@ -22,6 +22,7 @@
 
 - (void)setText:(NSString *)text;
 - (void)setFromFormStatus:(RBFormStatus)formType;
+- (void)setFromForm:(RBForm *)form;
 - (void)setFromClient:(RBClient *)client;
 
 @end

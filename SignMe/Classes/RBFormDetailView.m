@@ -18,7 +18,7 @@
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.clipsToBounds = NO;
         
-        RBArrowView *arrowView = [[[RBArrowView alloc] initWithFrame:CGRectMake(self.bounds.size.width/2 - 20, -20, 40, 21)] autorelease];
+        RBArrowView *arrowView = [[[RBArrowView alloc] initWithFrame:CGRectMake(self.bounds.size.width/2, -20, 40, 21)] autorelease];
         [self addSubview:arrowView];
     }
     
@@ -46,7 +46,11 @@
 }
 
 - (void)reloadData {
-    // TODO: update UI
+    for (UIView *view in self.subviews) {
+        if ([view respondsToSelector:@selector(reloadData)]) {
+            [view performSelector:@selector(reloadData)];
+        }
+    }
 }
 
 @end

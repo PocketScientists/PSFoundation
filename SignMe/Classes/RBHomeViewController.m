@@ -9,6 +9,7 @@
 #import "RBHomeViewController.h"
 #import "RBFormViewController.h"
 #import "RBForm.h"
+#import "RBArrowView.h"
 #import "RBCarouselView.h"
 #import "RBClient.h"
 
@@ -22,6 +23,8 @@
 #define kDetailViewHeight       230.f
 #define kDetailYOffset           95.f
 
+#define kViewpointOffsetX       (self.addNewClientButton.frameWidth/2 + kCarouselItemWidth)
+
 
 @interface RBHomeViewController ()
 
@@ -34,9 +37,11 @@
 - (BOOL)formsCarouselIsSelected;
 - (BOOL)clientCarouselShowsAddItem;
 
-- (void)formsCarouseldidSelectItemAtIndex:(NSInteger)index;
-- (void)clientsCarouseldidSelectItemAtIndex:(NSInteger)index;
+- (void)formsCarouselDidSelectItemAtIndex:(NSInteger)index;
+- (void)clientsCarouselDidSelectItemAtIndex:(NSInteger)index;
+- (void)detailCarouselDidSelectItemAtIndex:(NSInteger)index;
 
+- (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus;
 - (void)showDetailView; // delay = 0
 - (void)showDetailViewWithDelay:(NSTimeInterval)delay;
 - (void)hideDetailView;
@@ -69,12 +74,21 @@
 @synthesize addNewClientButton = addNewClientButton_;
 @synthesize detailView = detailView_;
 @synthesize detailCarousel = detailCarousel_;
+@synthesize emptyForms = emptyForms_;
 @synthesize searchField = searchField_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Lifecycle
 ////////////////////////////////////////////////////////////////////////
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
+        emptyForms_ = [[RBForm allEmptyForms] retain];
+    }
+    
+    return self;
+}
 
 - (void)dealloc {
     MCRelease(timeView_);
@@ -88,6 +102,7 @@
     MCRelease(addNewClientButton_);
     MCRelease(detailView_);
     MCRelease(detailCarousel_);
+    MCRelease(emptyForms_);
     MCRelease(clientsFetchController_);
     
     [super dealloc];
@@ -153,19 +168,25 @@
     self.formsCarousel.centerItemWhenSelected = NO;
     // we inset the viewpoint s.t. items in both carousel have same x-pos (clientsCarousel has other frame than formsCarousel)
     // we also add another item width, s.t. the first item (that is ususally centered) appears on first position
-    self.clientsCarousel.viewpointOffset = CGSizeMake(self.addNewClientButton.frameWidth/2 + kCarouselItemWidth, 0);
-    
-    // self.detailCarousel = [[[iCarousel alloc] initWithFrame:kFormsCarouselFrame] autorelease];
-    // [self setupCarousel:self.detailCarousel];
+    self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX, 0);
     
     self.detailView = [[[RBFormDetailView alloc] initWithFrame:self.formsView.frame] autorelease];
     self.detailView.frameHeight = kDetailViewHeight;
     self.detailView.alpha = 0.f;
     
+    self.detailCarousel = [[[iCarousel alloc] initWithFrame:CGRectInset(self.detailView.bounds,0.f,50.f)] autorelease];
+    self.detailCarousel.delegate = self;
+    self.detailCarousel.dataSource = self;
+    self.detailCarousel.viewpointOffset = CGSizeMake(-self.formsLabel.frameWidth/2.f, 0);
+    
     [self.view insertSubview:self.detailView belowSubview:self.formsView];
     
     self.timeView = [[[RBTimeView alloc] initWithFrame:CGRectMake(920, 30, 70, 80)] autorelease];
     [self.view addSubview:self.timeView];
+    
+    // center 2nd item of formsCarousel
+    [self.formsCarousel reloadData];
+    [self.formsCarousel scrollToItemAtIndex:RBFormStatusPreSignature animated:NO];
 }
 
 - (void) viewDidUnload {
@@ -191,8 +212,6 @@
     
     [self.formsCarousel reloadData];
     [self.clientsCarousel reloadData];
-    
-    [self.formsCarousel scrollToItemAtIndex:RBFormStatusPreSignature animated:NO];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -228,6 +247,10 @@
         return numberOfRows;
     }
     
+    else if (carousel == self.detailCarousel) {
+        return self.emptyForms.count;
+    }
+    
     return 0;
 }
 
@@ -249,6 +272,10 @@
         }
     }
     
+    else if (carousel == self.detailCarousel) {
+        [view setFromForm:[self.emptyForms objectAtIndex:index]];
+    }
+    
     return view;
 }
 
@@ -268,27 +295,33 @@
 - (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
     // update detail view if user scrolled to new form while detailView is visible
     if (carousel == self.formsCarousel && self.detailView.alpha == 1.f) {
+        [self updateDetailViewWithFormStatus:(RBFormStatus)carousel.currentItemIndex];
         [self.detailView reloadData];
     }
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
     if (carousel == self.formsCarousel) {
-        [self formsCarouseldidSelectItemAtIndex:index];
+        [self formsCarouselDidSelectItemAtIndex:index];
     }
     
     else if (carousel == self.clientsCarousel) {
-        [self clientsCarouseldidSelectItemAtIndex:index];
+        [self clientsCarouselDidSelectItemAtIndex:index];
+    }
+    
+    else if (carousel == self.detailCarousel) {
+        [self detailCarouselDidSelectItemAtIndex:index];
     }
 }
 
-- (void)formsCarouseldidSelectItemAtIndex:(NSInteger)index {
+- (void)formsCarouselDidSelectItemAtIndex:(NSInteger)index {
     if ([self formsCarouselIsSelected]) {
         [self hideDetailView];
         
         [self performBlock:^(void) {
             if (self.formsCarousel.currentItemIndex != index) {
                 [self.formsCarousel scrollToItemAtIndex:index animated:YES];
+                [self updateDetailViewWithFormStatus:(RBFormStatus)index];
                 [self showDetailViewWithDelay:0.4];
             }
         } afterDelay:kAnimationDuration];
@@ -298,20 +331,30 @@
     else {
         if (self.formsCarousel.currentItemIndex != index) {
             [self.formsCarousel scrollToItemAtIndex:index animated:YES];
-            [self showDetailViewWithDelay:0.4];
+            [self performBlock:^(void) {
+                [self updateDetailViewWithFormStatus:(RBFormStatus)index];
+                [self showDetailView];
+            } afterDelay:0.4];
+            
         } else {
-            [self showDetailViewWithDelay:0];
+            [self updateDetailViewWithFormStatus:(RBFormStatus)index];
+            [self showDetailView];
         }
     }
 }
 
-- (void)clientsCarouseldidSelectItemAtIndex:(NSInteger)index {
+- (void)clientsCarouselDidSelectItemAtIndex:(NSInteger)index {
     if ([self clientCarouselShowsAddItem] && index == 0) {
         [self addNewClientWithName:self.searchField.text];
     } else {
-        RBForm *form = [RBForm emptyFormWithName:@"W-9"];
-        [self presentViewControllerForForm:form];
+        
     }
+}
+
+- (void)detailCarouselDidSelectItemAtIndex:(NSInteger)index {
+    RBForm *form = [self.emptyForms objectAtIndex:index];
+    
+    [self presentViewControllerForForm:form];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -344,6 +387,10 @@
 
 - (IBAction)handleAddNewClientPress:(id)sender {
     [self addNewClientWithName:@"New Client"];
+}
+
+- (IBAction)handleBackgroundPress:(id)sender {
+    [self.searchField resignFirstResponder];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -396,7 +443,6 @@
 
 - (void)showDetailViewWithDelay:(NSTimeInterval)delay {
     [self.view bringSubviewToFront:self.formsView];
-    [self.detailView reloadData];
     
     [UIView animateWithDuration:kAnimationDuration
                           delay:delay
@@ -416,9 +462,7 @@
                         options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
                      animations:^(void) {
                          [self moveViewsWithFactor:-1.f];
-                     } completion:^(BOOL finished) {
-                         
-                     }];
+                     } completion:nil];
 }
 
 - (void)moveViewsWithFactor:(CGFloat)factor {
@@ -427,6 +471,46 @@
     
     self.formsView.frameTop -= kFormsYOffset * factor;
     self.clientsView.frameTop += kClientsYOffset * factor;
+}
+
+- (void)showSearchScreenWithDuration:(NSTimeInterval)duration {
+    self.formsView.userInteractionEnabled = NO;
+    self.detailView.frameTop = self.formsViewDefaultY;
+    self.detailView.alpha = 0.f;
+    
+    [UIView animateWithDuration:duration
+                          delay:0.f 
+                        options:UIViewAnimationOptionAllowUserInteraction
+                     animations:^(void) {
+                         // 44.f = height of search-area -> clients-carousel is on same spot as forms-carousel before
+                         CGFloat newClientsY = self.formsViewDefaultY - 44.f;
+                         CGFloat diffY = self.clientsViewDefaultY - newClientsY;
+                         
+                         // Move views up
+                         self.formsView.alpha = 0.2;
+                         self.formsView.frameTop = self.formsViewDefaultY - diffY;
+                         self.clientsView.frameTop = newClientsY;
+                         // Make clients-carousel expand width to cover add button
+                         self.clientsCarousel.frame = CGRectMake(self.addNewClientButton.frameLeft, self.clientsCarousel.frameTop,
+                                                                 self.clientsView.frameWidth - self.clientsLabel.frameWidth, self.clientsCarousel.frameHeight);
+                         //self.clientsCarousel.viewpointOffset = CGSizeMake(2*kCarouselItemWidth, 0);
+                     } 
+                     completion:nil];
+}
+
+- (void)hideSearchScreenWithDuration:(NSTimeInterval)duration {
+    self.formsView.userInteractionEnabled = YES;
+    
+    [UIView animateWithDuration:duration animations:^(void) {
+        self.formsView.alpha = 1.f;
+        self.formsView.frameTop = self.formsViewDefaultY;
+        self.clientsView.frameTop = self.clientsViewDefaultY;
+        // show add-button again
+        // Make clients-carousel expand width to cover add button
+        self.clientsCarousel.frame = CGRectMake(self.addNewClientButton.frameRight, self.clientsCarousel.frameTop,
+                                                self.clientsView.frameWidth - self.clientsLabel.frameWidth - self.addNewClientButton.frameWidth, self.clientsCarousel.frameHeight);
+        //self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX, 0);
+    }];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -491,42 +575,32 @@
     return NO;
 }
 
-- (void)showSearchScreenWithDuration:(NSTimeInterval)duration {
-    self.formsView.userInteractionEnabled = NO;
-    self.detailView.frameTop = self.formsViewDefaultY;
-    self.detailView.alpha = 0.f;
+- (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus {
+    // remove all subview except arrow view
+    for (UIView *view in self.detailView.subviews) {
+        if (![view isKindOfClass:[RBArrowView class]]) {
+            [view removeFromSuperview];
+        }
+    }
     
-    [UIView animateWithDuration:duration
-                          delay:0.f 
-                        options:UIViewAnimationOptionAllowUserInteraction
-                     animations:^(void) {
-                         // 44.f = height of search-area -> clients-carousel is on same spot as forms-carousel before
-                         CGFloat newClientsY = self.formsViewDefaultY - 44.f;
-                         CGFloat diffY = self.clientsViewDefaultY - newClientsY;
-                         
-                         // Move views up
-                         self.formsView.alpha = 0.2;
-                         self.formsView.frameTop = self.formsViewDefaultY - diffY;
-                         self.clientsView.frameTop = newClientsY;
-                         // Make clients-carousel expand width to cover add button
-                         self.clientsCarousel.frame = CGRectMake(self.addNewClientButton.frameLeft, self.clientsCarousel.frameTop,
-                                                                 self.clientsView.frameWidth - self.clientsLabel.frameWidth, self.clientsCarousel.frameHeight);
-                     } 
-                     completion:nil];
-}
-
-- (void)hideSearchScreenWithDuration:(NSTimeInterval)duration {
-    self.formsView.userInteractionEnabled = YES;
+    switch (formStatus) {
+        case RBFormStatusNew:
+            [self.detailView addSubview:self.detailCarousel];
+            break;
+            
+        case RBFormStatusPreSignature:
+            break;
+            
+        case RBFormStatusSigned:
+            break;
+            
+        case RBFormStatusCount:
+        case RBFormStatusUnknown:
+            // can't happen, just to please the compiler
+            break;
+    }
     
-    [UIView animateWithDuration:duration animations:^(void) {
-        self.formsView.alpha = 1.f;
-        self.formsView.frameTop = self.formsViewDefaultY;
-        self.clientsView.frameTop = self.clientsViewDefaultY;
-        // show add-button again
-        // Make clients-carousel expand width to cover add button
-        self.clientsCarousel.frame = CGRectMake(self.addNewClientButton.frameRight, self.clientsCarousel.frameTop,
-                                                self.clientsView.frameWidth - self.clientsLabel.frameWidth - self.addNewClientButton.frameWidth, self.clientsCarousel.frameHeight);
-    }];
+    [self.detailView reloadData];
 }
 
 - (void)updateClientsWithSearchTerm:(NSString *)searchTerm {
@@ -553,6 +627,7 @@
     RBClient *newClient = [RBClient createEntity];
     
     newClient.name = name;
+    [self.clientsCarousel reloadData];
 }
 
 - (void)presentViewControllerForForm:(RBForm *)form {

@@ -73,7 +73,7 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
     return [[[RBForm alloc] initWithName:name] autorelease];
 }
 
-+ (NSArray *)allForms {
++ (NSArray *)allEmptyForms {
     NSError *error = nil;
     NSArray *formNames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:kRBFormDirectoryPath error:&error];
     

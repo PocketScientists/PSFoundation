@@ -66,7 +66,7 @@
     
     self.formView = [generator viewFromForm:self.form withFrame:self.view.bounds];
     
-    self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(234, 40, 300, 44)] autorelease];
+    self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(134, 40, 500, 44)] autorelease];
     self.headerLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     self.headerLabel.backgroundColor = [UIColor clearColor];
     self.headerLabel.textColor = [UIColor blackColor];
