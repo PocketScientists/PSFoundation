@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>sections</key>
+	<array>
+		<array>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>NameDBA</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Operating Company Name</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Owner</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>PresidentGM</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Street</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>City</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>State</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Zip Code</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Contract Period</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Start Date</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>End Date</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Red Bull Muskateer</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Total Capacity</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Average Guests Per Week</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>of Bars within the Outlet</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Open Days Per Week</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Opening Weeks Per Year</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Outlet Type</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Red Bull Energy Drink</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Red Bull Sugarfree</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>5 0 0 POINTS CURRENT AGREED POSSIBLE UPON</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Bar</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>POS Type1</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Exact Placement1</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>POS Type2</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Exact Placement2</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>POS Type3</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Exact Placement3</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>POS Type4</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>4 0 0 POINTS CURRENT AGREED POSSIBLE UPON</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>3 0 0 POINTS CURRENT AGREED POSSIBLE UPON</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>3 0 0 POINTS CURRENT AGREED POSSIBLE UPON_2</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>1 0 0 POINTS CURRENT AGREED POSSIBLE UPON</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>fill_7</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>0</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Payment to be paid out in quarterly payments</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>0_2</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>25</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>0_3</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Multiplier</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>0 to 9</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>10 to 15</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>16 to 20</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>21</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>laws or regulations</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Authorized Signatory for Account</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Red Bull North America Inc</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Title</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Date</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Title_2</string>
+			</dict>
+			<dict>
+				<key>datatype</key>
+				<string>Tx</string>
+				<key>id</key>
+				<string>Date_2</string>
+			</dict>
+		</array>
+	</array>
+</dict>
+</plist>

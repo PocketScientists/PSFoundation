@@ -98,10 +98,10 @@
                 // retreive the data type
                 const char *datatype;
                 CGPDFDictionaryGetName(field, "FT", &datatype);
-                NSLog(@"Type: %s", datatype);
                 
                 // set dictionary for field
                 [fieldDict setObject:(NSString*)nameString forKey:kRBFormKeyID];
+                [fieldDict setObject:(NSString*)nameString forKey:kRBFormKeyLabel];
                 [fieldDict setObject:[NSString stringWithCString:datatype encoding:NSUTF8StringEncoding] forKey:kRBFormKeyDatatype];
                 
                 [pageArray addObject:fieldDict];

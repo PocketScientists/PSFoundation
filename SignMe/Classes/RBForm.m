@@ -103,7 +103,7 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
         // Create forms directory (Forms/Saved, because of intermediate=YES also forms-directory gets created)
         if ([[NSFileManager defaultManager] createDirectoryAtPath:kRBFormSavedDirectoryPath withIntermediateDirectories:YES attributes:nil error:&error]) {
             // TODO: Update with all forms shipped
-            for (NSString *fileName in XARRAY(@"W-9", @"Partnership Agreement")) {
+            for (NSString *fileName in XARRAY(@"W-9", @"Red Bull Form", @"Partnership Agreement")) {
                 NSString *bundlePath = [[NSBundle mainBundle] pathForResource:fileName ofType:kRBFormDataType];
                 NSString *documentsPath = [[kRBFormDirectoryPath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:kRBFormDataType];
                 

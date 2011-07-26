@@ -40,6 +40,7 @@
 		3981E13013DF3C8F00B23A7D /* RBPDFWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E12F13DF3C8F00B23A7D /* RBPDFWriter.m */; };
 		3981E13213DF3D7200B23A7D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3981E13113DF3D7200B23A7D /* QuartzCore.framework */; };
 		3981E13413DF3DF300B23A7D /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3981E13313DF3DF300B23A7D /* ApplicationServices.framework */; };
+		3981E13613DF419600B23A7D /* Red Bull Form.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3981E13513DF419600B23A7D /* Red Bull Form.plist */; };
 		3994620C12C91F1D005574A6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620B12C91F1D005574A6 /* CoreLocation.framework */; };
 		3994621012C91F27005574A6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620F12C91F27005574A6 /* MapKit.framework */; };
 		39A7F07713D9FF2D008338A4 /* RBPDFManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A7F07613D9FF2D008338A4 /* RBPDFManager.m */; };
@@ -214,6 +215,7 @@
 		3981E12F13DF3C8F00B23A7D /* RBPDFWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBPDFWriter.m; sourceTree = "<group>"; };
 		3981E13113DF3D7200B23A7D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		3981E13313DF3DF300B23A7D /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/ApplicationServices.framework; sourceTree = DEVELOPER_DIR; };
+		3981E13513DF419600B23A7D /* Red Bull Form.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Red Bull Form.plist"; sourceTree = "<group>"; };
 		3994620B12C91F1D005574A6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3994620F12C91F27005574A6 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		39A7F07513D9FF2D008338A4 /* RBPDFManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBPDFManager.h; sourceTree = "<group>"; };
@@ -472,6 +474,7 @@
 			children = (
 				3925C7E213DDF01C008810AF /* W-9.plist */,
 				3925C7E413DDF028008810AF /* Partnership Agreement.plist */,
+				3981E13513DF419600B23A7D /* Red Bull Form.plist */,
 			);
 			name = Forms;
 			sourceTree = "<group>";
@@ -868,6 +871,7 @@
 				39A7F07E13DA207A008338A4 /* RBHomeView.xib in Resources */,
 				3925C7E313DDF01C008810AF /* W-9.plist in Resources */,
 				3925C7E513DDF028008810AF /* Partnership Agreement.plist in Resources */,
+				3981E13613DF419600B23A7D /* Red Bull Form.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
