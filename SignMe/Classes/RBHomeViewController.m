@@ -34,7 +34,7 @@
 // move a view vertically
 - (void)moveViewsWithFactor:(CGFloat)factor;
 
-- (BOOL)formsCarouselIsSelected;
+- (BOOL)detailViewIsVisible;
 - (BOOL)clientCarouselShowsAddItem;
 
 - (void)formsCarouselDidSelectItemAtIndex:(NSInteger)index;
@@ -315,7 +315,7 @@
 }
 
 - (void)formsCarouselDidSelectItemAtIndex:(NSInteger)index {
-    if ([self formsCarouselIsSelected]) {
+    if ([self detailViewIsVisible]) {
         [self hideDetailView];
         
         [self performBlock:^(void) {
@@ -391,6 +391,10 @@
 
 - (IBAction)handleBackgroundPress:(id)sender {
     [self.searchField resignFirstResponder];
+    
+    if ([self detailViewIsVisible]) {
+        [self hideDetailView];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -561,7 +565,7 @@
     return label;
 }
 
-- (BOOL)formsCarouselIsSelected {
+- (BOOL)detailViewIsVisible {
     return self.detailView.alpha > 0;
 }
 
