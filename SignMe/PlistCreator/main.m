@@ -13,18 +13,21 @@
 int main (int argc, const char * argv[]) {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
-    if (argc == 2) {
-        NSString *pdfName = [NSString stringWithCString:argv[1] encoding:NSUTF8StringEncoding];
+    if (argc < 2) {
+        NSLog(@"You must specify a minimum of one pdf names, example-usage: ./PlistCreator fw9");
+        [pool drain];
+        return 0;
+    }
+    
+    // create a plist for each specified pdf-name in params
+    for (int i=1;i<argc;i++) {
+        NSString *pdfName = [NSString stringWithCString:argv[i] encoding:NSUTF8StringEncoding];
         RBPDFManager *manager = [[RBPDFManager alloc] init];
         NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@.pdf", pdfName]];
         CGPDFDocumentRef document = [manager openDocument:url];
         NSDictionary *annoationDictionary = [manager annotsForPDFDocument:document];
         
         [annoationDictionary writeToFile:[NSString stringWithFormat:@"%@.plist", pdfName] atomically:YES];
-    }
-    
-    else {
-        NSLog(@"Wrong number of parameters, example-usage: ./PlistCreator fw9");
     }
     
     [pool drain];
