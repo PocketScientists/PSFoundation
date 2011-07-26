@@ -33,7 +33,7 @@
     UIView *topInputField = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
     CGFloat realViewWidth = view.bounds.size.height; // Because of landscape we have to switch width/height
     CGFloat realViewHeight = view.bounds.size.width;
-    CGFloat maxHeight = 1;
+    CGFloat maxHeight = realViewHeight;
     
     // iterate over all sections
     for (NSUInteger section=0;section < form.numberOfSections; section++) {
@@ -102,7 +102,20 @@
 }
 
 - (UIControl *)inputFieldWithValue:(NSString *)value datatype:(NSString *)datatype {
-    UITextField *inputField = [[[UITextField alloc] initWithFrame:CGRectMake(0, 0, kRBInputFieldWidth, kRBRowHeight)] autorelease];
+    CGRect frame = CGRectMake(0, 0, kRBInputFieldWidth, kRBRowHeight);
+    
+    if ([datatype isEqualToString:kRBFormDataTypeCheckbox]) {
+        UISwitch *checkbox = [[[UISwitch alloc] initWithFrame:frame] autorelease];
+        
+        if ([value isEqualToString:@"X"]) {
+            checkbox.on = YES;
+        }
+        
+        return checkbox;
+    }
+    
+    // No special input field found, fall back to textfield
+    UITextField *inputField = [[[UITextField alloc] initWithFrame:frame] autorelease];
     
     inputField.autoresizingMask = UIViewAutoresizingNone;
     inputField.borderStyle = UITextBorderStyleRoundedRect;

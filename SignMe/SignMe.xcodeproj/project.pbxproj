@@ -41,6 +41,7 @@
 		3981E13213DF3D7200B23A7D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3981E13113DF3D7200B23A7D /* QuartzCore.framework */; };
 		3981E13413DF3DF300B23A7D /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3981E13313DF3DF300B23A7D /* ApplicationServices.framework */; };
 		3981E13613DF419600B23A7D /* Red Bull Form.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3981E13513DF419600B23A7D /* Red Bull Form.plist */; };
+		3981E13A13DF644F00B23A7D /* UIControl+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E13913DF644F00B23A7D /* UIControl+RBForm.m */; };
 		3994620C12C91F1D005574A6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620B12C91F1D005574A6 /* CoreLocation.framework */; };
 		3994621012C91F27005574A6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620F12C91F27005574A6 /* MapKit.framework */; };
 		39A7F07713D9FF2D008338A4 /* RBPDFManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A7F07613D9FF2D008338A4 /* RBPDFManager.m */; };
@@ -216,6 +217,8 @@
 		3981E13113DF3D7200B23A7D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		3981E13313DF3DF300B23A7D /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/ApplicationServices.framework; sourceTree = DEVELOPER_DIR; };
 		3981E13513DF419600B23A7D /* Red Bull Form.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Red Bull Form.plist"; sourceTree = "<group>"; };
+		3981E13813DF644F00B23A7D /* UIControl+RBForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+RBForm.h"; sourceTree = "<group>"; };
+		3981E13913DF644F00B23A7D /* UIControl+RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+RBForm.m"; sourceTree = "<group>"; };
 		3994620B12C91F1D005574A6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3994620F12C91F27005574A6 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		39A7F07513D9FF2D008338A4 /* RBPDFManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBPDFManager.h; sourceTree = "<group>"; };
@@ -445,6 +448,7 @@
 		3925C7D013DDE70B008810AF /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				3981E13713DF643800B23A7D /* Categories */,
 				3925C7D113DDE718008810AF /* UI Generation */,
 				39A7F07413D9FF0E008338A4 /* PDF */,
 			);
@@ -532,6 +536,15 @@
 				3981E12513DF3A4F00B23A7D /* PlistCreator-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3981E13713DF643800B23A7D /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				3981E13813DF644F00B23A7D /* UIControl+RBForm.h */,
+				3981E13913DF644F00B23A7D /* UIControl+RBForm.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		39A7F07413D9FF0E008338A4 /* PDF */ = {
@@ -933,6 +946,7 @@
 				3925C7D713DDE75C008810AF /* RBFormView.m in Sources */,
 				3925C7E013DDE863008810AF /* RBFormViewController.m in Sources */,
 				3981E13013DF3C8F00B23A7D /* RBPDFWriter.m in Sources */,
+				3981E13A13DF644F00B23A7D /* UIControl+RBForm.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

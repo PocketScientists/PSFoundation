@@ -13,6 +13,9 @@
 #define kRBFormKeyDatatype  @"datatype"
 #define kRBFormKeyValue     @"value"
 
+#define kRBFormDataTypeCheckbox     @"Btn"
+#define kRBFormDataTypeTextField    @"Tx"
+
 typedef enum {
     RBFormStatusNew = 0,
     RBFormStatusPreSignature,
