@@ -12,4 +12,7 @@
 
 @property (nonatomic, readonly) NSString *formTextValue;
 
++ (UIControl *)controlForDatatype:(NSString *)datatype size:(CGSize)size;
+
+- (void)configureControlUsingValue:(NSString *)value;
 @end

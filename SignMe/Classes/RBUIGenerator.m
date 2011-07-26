@@ -8,6 +8,7 @@
 
 #import "RBUIGenerator.h"
 #import "PSIncludes.h"
+#import "UIControl+RBForm.h"
 
 #define kRBLabelX                   50.f
 #define kRBInputFieldX              280.f
@@ -54,10 +55,11 @@
             // create label and input field
             UILabel *label = [self labelWithText:labelText];
             UIControl *inputField = [self inputFieldWithValue:value datatype:datatype];
+            CGFloat heightDiff = kRBRowHeight - inputField.frameHeight; // Switch = 27 pt, TextField = 31 pt
             
             // position in Grid depending on anchor-views
             [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
-            [inputField positionUnderView:topInputField padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
+            [inputField positionUnderView:topInputField padding:(kRBRowPadding + heightDiff) alignment:MTUIViewAlignmentLeftAligned];
             
             [view addSubview:label];
             [view addSubview:inputField];
@@ -102,26 +104,11 @@
 }
 
 - (UIControl *)inputFieldWithValue:(NSString *)value datatype:(NSString *)datatype {
-    CGRect frame = CGRectMake(0, 0, kRBInputFieldWidth, kRBRowHeight);
+    UIControl *control = [UIControl controlForDatatype:datatype size:CGSizeMake(kRBInputFieldWidth, kRBRowHeight)];
     
-    if ([datatype isEqualToString:kRBFormDataTypeCheckbox]) {
-        UISwitch *checkbox = [[[UISwitch alloc] initWithFrame:frame] autorelease];
-        
-        if ([value isEqualToString:@"X"]) {
-            checkbox.on = YES;
-        }
-        
-        return checkbox;
-    }
+    [control configureControlUsingValue:value];
     
-    // No special input field found, fall back to textfield
-    UITextField *inputField = [[[UITextField alloc] initWithFrame:frame] autorelease];
-    
-    inputField.autoresizingMask = UIViewAutoresizingNone;
-    inputField.borderStyle = UITextBorderStyleRoundedRect;
-    inputField.text = value;
-    
-    return inputField;
+    return control;
 }
 
 @end
