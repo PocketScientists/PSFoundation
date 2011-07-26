@@ -1,18 +1,16 @@
 //
-//  NGPDFManager.m
-//  NOUSGuide
+//  RBPDFWriter.m
+//  SignMe
 //
-//  Created by Jürgen Falb on 21.07.11.
-//  Copyright 2011 NOUSGuide Inc. All rights reserved.
+//  Created by Tretter Matthias on 26.07.11.
+//  Copyright 2011 NOUS Wissensmanagement GmbH. All rights reserved.
 //
 
-#import "NGPDFManager.h"
+#import "RBPDFWriter.h"
 #import <CoreText/CoreText.h>
 
+@implementation RBPDFWriter
 
-@implementation NGPDFManager
-
-@synthesize password;
 @synthesize font;
 @synthesize textColor;
 
@@ -31,7 +29,6 @@
 }
 
 - (void)dealloc {
-    [password release], password = nil;
     [font release], font = nil;
     [textColor release], textColor = nil;
     
@@ -40,42 +37,8 @@
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
-#pragma mark PDF Handling
+#pragma mark PDF Writing
 ////////////////////////////////////////////////////////////////////////
-
-- (CGPDFDocumentRef)openDocument:(NSURL *)url {
-    CGPDFDocumentRef myDocument = CGPDFDocumentCreateWithURL((CFURLRef)url);
-    
-    if (myDocument == NULL) {
-        return NULL;
-    }
-    
-    if (CGPDFDocumentIsEncrypted(myDocument)) {
-        if (!CGPDFDocumentUnlockWithPassword (myDocument, "")) {
-            if (self.password != NULL) {
-                if (!CGPDFDocumentUnlockWithPassword(myDocument, [self.password cStringUsingEncoding:NSUTF8StringEncoding])) {
-                    NSLog(@"error invalid password");
-                    CGPDFDocumentRelease(myDocument);
-                    return NULL;
-                }
-            }
-        }
-    }
-   
-    if (!CGPDFDocumentIsUnlocked(myDocument)) {
-        NSLog(@"cannot unlock PDF %@", url);
-        CGPDFDocumentRelease(myDocument);
-        return NULL;
-    }
-
-    if (CGPDFDocumentGetNumberOfPages(myDocument) == 0) {
-        CGPDFDocumentRelease(myDocument);
-        return NULL;
-    }
-
-    return myDocument;
-}
-
 
 - (void)writePDFDocument:(CGPDFDocumentRef)document withFormData:(NSDictionary *)formData toFile:(NSString *)path {       
     //Create the pdf context
@@ -94,9 +57,9 @@
         
         CGPDFContextBeginPage(pdfContext, NULL);
         CGContextDrawPDFPage(pdfContext, page);
-
+        
         CGPDFDictionaryRef pageDict = CGPDFPageGetDictionary(page);
-
+        
         // retrieve the annotations dictionary
         CGPDFArrayRef annots;
         CGPDFDictionaryGetArray(pageDict, "Annots", &annots);
@@ -113,9 +76,14 @@
                 CFStringRef nameString = CGPDFStringCopyTextString(name);
                 NSLog(@"field %d name: %@", i, nameString);
                 
+                // retreive the data type
+                const char *datatype;
+                CGPDFDictionaryGetName(field, "FT", &datatype);
+                NSLog(@"Type: %s", datatype);
+                
                 // write the form data
                 NSString *text = [formData objectForKey:(NSString *)nameString];
-               
+                
                 if (text) {
                     // retrieve the field's rectangle
                     CGPDFArrayRef rectArr;
@@ -157,6 +125,5 @@
     CGDataConsumerRelease(dataConsumer);
     CFRelease(mutableData);
 }
-
 
 @end

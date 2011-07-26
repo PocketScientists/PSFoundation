@@ -77,8 +77,6 @@
     if (kPostFinishLaunchDelay > 0) {
         [self performSelector:@selector(postFinishLaunch) withObject:nil afterDelay:kPostFinishLaunchDelay];
     }
-    
-    [RBForm emptyFormWithName:@"W-9"];
        
     return YES;
 }

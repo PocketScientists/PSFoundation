@@ -28,14 +28,14 @@
 
 @interface RBHomeViewController ()
 
+@property (nonatomic, readonly, getter = isDetailViewVisible) BOOL detailViewVisible;
+@property (nonatomic, readonly) BOOL clientCarouselShowsAddItem;
+
 // header label for a carousel
 - (UILabel *)headerLabelForView:(UIView *)view text:(NSString *)text;
 
 // move a view vertically
 - (void)moveViewsWithFactor:(CGFloat)factor;
-
-- (BOOL)detailViewIsVisible;
-- (BOOL)clientCarouselShowsAddItem;
 
 - (void)formsCarouselDidSelectItemAtIndex:(NSInteger)index;
 - (void)clientsCarouselDidSelectItemAtIndex:(NSInteger)index;
@@ -315,7 +315,7 @@
 }
 
 - (void)formsCarouselDidSelectItemAtIndex:(NSInteger)index {
-    if ([self detailViewIsVisible]) {
+    if (self.detailViewVisible) {
         [self hideDetailView];
         
         [self performBlock:^(void) {
@@ -344,7 +344,7 @@
 }
 
 - (void)clientsCarouselDidSelectItemAtIndex:(NSInteger)index {
-    if ([self clientCarouselShowsAddItem] && index == 0) {
+    if (self.clientCarouselShowsAddItem && index == 0) {
         [self addNewClientWithName:self.searchField.text];
     } else {
         
@@ -367,7 +367,7 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    if ([self clientCarouselShowsAddItem]) {
+    if (self.clientCarouselShowsAddItem) {
         // show all clients again
         textField.text = @"";
         [self updateClientsWithSearchTerm:textField.text];
@@ -377,7 +377,7 @@
 }
 
 - (IBAction)textFieldDidEndOnExit:(UITextField *)textField {
-    if ([self clientCarouselShowsAddItem]) {
+    if (self.clientCarouselShowsAddItem) {
         // add new client
         [self addNewClientWithName:textField.text];
     }
@@ -392,7 +392,7 @@
 - (IBAction)handleBackgroundPress:(id)sender {
     [self.searchField resignFirstResponder];
     
-    if ([self detailViewIsVisible]) {
+    if (self.detailViewVisible) {
         [self hideDetailView];
     }
 }
@@ -446,27 +446,35 @@
 }
 
 - (void)showDetailViewWithDelay:(NSTimeInterval)delay {
-    [self.view bringSubviewToFront:self.formsView];
-    
-    [UIView animateWithDuration:kAnimationDuration
-                          delay:delay
-                        options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
-                     animations:^(void) {
-                         [self moveViewsWithFactor:1.f];
-                     } completion:^(BOOL finished) {
-                         [self.view bringSubviewToFront:self.detailView];
-                     }];
+    if (!self.detailViewVisible) {
+        [self.view bringSubviewToFront:self.formsView];
+        
+        [UIView animateWithDuration:kAnimationDuration
+                              delay:delay
+                            options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
+                         animations:^(void) {
+                             [self moveViewsWithFactor:1.f];
+                         } completion:^(BOOL finished) {
+                             [self.view bringSubviewToFront:self.detailView];
+                         }];
+    } else {
+        DDLogInfo(@"Detail view already visible.");
+    }
 }
 
 - (void)hideDetailView {
-    [self.view bringSubviewToFront:self.formsView];
-    
-    [UIView animateWithDuration:kAnimationDuration
-                          delay:0.
-                        options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
-                     animations:^(void) {
-                         [self moveViewsWithFactor:-1.f];
-                     } completion:nil];
+    if (self.detailViewVisible) {
+        [self.view bringSubviewToFront:self.formsView];
+        
+        [UIView animateWithDuration:kAnimationDuration
+                              delay:0.
+                            options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
+                         animations:^(void) {
+                             [self moveViewsWithFactor:-1.f];
+                         } completion:nil];
+    } else {
+        DDLogInfo(@"Detail view not visible.");
+    }
 }
 
 - (void)moveViewsWithFactor:(CGFloat)factor {
@@ -565,7 +573,7 @@
     return label;
 }
 
-- (BOOL)detailViewIsVisible {
+- (BOOL)isDetailViewVisible {
     return self.detailView.alpha > 0;
 }
 

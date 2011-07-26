@@ -189,7 +189,7 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
 }
 
 - (NSArray *)sections {
-    return [self.formData valueForKey:@"sections"];
+    return [self.formData valueForKey:kRBFormKeySection];
 }
 
 - (NSArray *)fieldIDsOfSection:(NSUInteger)section {

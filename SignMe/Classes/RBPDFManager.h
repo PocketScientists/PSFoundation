@@ -8,16 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
-#import <UIKit/UIKit.h>
 
 
-@interface NGPDFManager : NSObject 
+@interface RBPDFManager : NSObject 
 
 @property(nonatomic, retain) NSString *password;
-@property(nonatomic, retain) UIFont *font;
-@property(nonatomic, retain) UIColor *textColor;
 
 - (CGPDFDocumentRef)openDocument:(NSURL *)url;
-- (void)writePDFDocument:(CGPDFDocumentRef)document withFormData:(NSDictionary *)formData toFile:(NSString *)path;
+- (NSDictionary *)annotsForPDFDocument:(CGPDFDocumentRef)document;
 
 @end

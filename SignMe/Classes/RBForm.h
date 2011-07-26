@@ -6,9 +6,8 @@
 //  Copyright 2011 NOUS Wissensmanagement GmbH. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 
-
+#define kRBFormKeySection   @"sections"
 #define kRBFormKeyID        @"id"
 #define kRBFormKeyLabel     @"label"
 #define kRBFormKeyDatatype  @"datatype"

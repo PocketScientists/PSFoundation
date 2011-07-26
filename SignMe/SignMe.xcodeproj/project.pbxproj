@@ -33,11 +33,17 @@
 		394B917413D64CE3007BFF2E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 394B917113D64CE3007BFF2E /* Icon.png */; };
 		395EEF2513D72E39003C4DA8 /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = 395EEF2413D72E39003C4DA8 /* Background.png */; };
 		395EEF2913D72E85003C4DA8 /* RBTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 395EEF2813D72E85003C4DA8 /* RBTimeView.m */; };
+		3981E12013DF3A4F00B23A7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		3981E12313DF3A4F00B23A7D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E12213DF3A4F00B23A7D /* main.m */; };
+		3981E12713DF3A4F00B23A7D /* PlistCreator.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3981E12613DF3A4F00B23A7D /* PlistCreator.1 */; };
+		3981E12D13DF3A8B00B23A7D /* RBPDFManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A7F07613D9FF2D008338A4 /* RBPDFManager.m */; };
+		3981E13013DF3C8F00B23A7D /* RBPDFWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E12F13DF3C8F00B23A7D /* RBPDFWriter.m */; };
+		3981E13213DF3D7200B23A7D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3981E13113DF3D7200B23A7D /* QuartzCore.framework */; };
+		3981E13413DF3DF300B23A7D /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3981E13313DF3DF300B23A7D /* ApplicationServices.framework */; };
 		3994620C12C91F1D005574A6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620B12C91F1D005574A6 /* CoreLocation.framework */; };
 		3994621012C91F27005574A6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620F12C91F27005574A6 /* MapKit.framework */; };
-		39A7F07713D9FF2D008338A4 /* NGPDFManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A7F07613D9FF2D008338A4 /* NGPDFManager.m */; };
+		39A7F07713D9FF2D008338A4 /* RBPDFManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A7F07613D9FF2D008338A4 /* RBPDFManager.m */; };
 		39A7F07913D9FFC3008338A4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39A7F07813D9FFC3008338A4 /* CoreText.framework */; };
-		39A7F07C13DA0316008338A4 /* NGPDFDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A7F07B13DA0316008338A4 /* NGPDFDocument.m */; };
 		39A7F07E13DA207A008338A4 /* RBHomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39A7F07D13DA207A008338A4 /* RBHomeView.xib */; };
 		39C917CF13983B890045489C /* DCCrossHairView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C917C713983B890045489C /* DCCrossHairView.m */; };
 		39C917D013983B890045489C /* DCFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C917C913983B890045489C /* DCFrameView.m */; };
@@ -143,6 +149,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		3981E11C13DF3A4F00B23A7D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				3981E12713DF3A4F00B23A7D /* PlistCreator.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -187,13 +206,19 @@
 		395EEF2413D72E39003C4DA8 /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Background.png; path = Images/Background.png; sourceTree = "<group>"; };
 		395EEF2713D72E85003C4DA8 /* RBTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTimeView.h; sourceTree = "<group>"; };
 		395EEF2813D72E85003C4DA8 /* RBTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTimeView.m; sourceTree = "<group>"; };
+		3981E11E13DF3A4F00B23A7D /* PlistCreator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PlistCreator; sourceTree = BUILT_PRODUCTS_DIR; };
+		3981E12213DF3A4F00B23A7D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3981E12513DF3A4F00B23A7D /* PlistCreator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PlistCreator-Prefix.pch"; sourceTree = "<group>"; };
+		3981E12613DF3A4F00B23A7D /* PlistCreator.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = PlistCreator.1; sourceTree = "<group>"; };
+		3981E12E13DF3C8F00B23A7D /* RBPDFWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBPDFWriter.h; sourceTree = "<group>"; };
+		3981E12F13DF3C8F00B23A7D /* RBPDFWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBPDFWriter.m; sourceTree = "<group>"; };
+		3981E13113DF3D7200B23A7D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		3981E13313DF3DF300B23A7D /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/ApplicationServices.framework; sourceTree = DEVELOPER_DIR; };
 		3994620B12C91F1D005574A6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3994620F12C91F27005574A6 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		39A7F07513D9FF2D008338A4 /* NGPDFManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGPDFManager.h; sourceTree = "<group>"; };
-		39A7F07613D9FF2D008338A4 /* NGPDFManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGPDFManager.m; sourceTree = "<group>"; };
+		39A7F07513D9FF2D008338A4 /* RBPDFManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBPDFManager.h; sourceTree = "<group>"; };
+		39A7F07613D9FF2D008338A4 /* RBPDFManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBPDFManager.m; sourceTree = "<group>"; };
 		39A7F07813D9FFC3008338A4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		39A7F07A13DA0316008338A4 /* NGPDFDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGPDFDocument.h; sourceTree = "<group>"; };
-		39A7F07B13DA0316008338A4 /* NGPDFDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGPDFDocument.m; sourceTree = "<group>"; };
 		39A7F07D13DA207A008338A4 /* RBHomeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RBHomeView.xib; sourceTree = "<group>"; };
 		39C917BB139837940045489C /* PSIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSIncludes.h; sourceTree = "<group>"; };
 		39C917C613983B890045489C /* DCCrossHairView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCrossHairView.h; sourceTree = "<group>"; };
@@ -288,6 +313,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3981E11B13DF3A4F00B23A7D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3981E13413DF3DF300B23A7D /* ApplicationServices.framework in Frameworks */,
+				3981E13213DF3D7200B23A7D /* QuartzCore.framework in Frameworks */,
+				3981E12013DF3A4F00B23A7D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -311,6 +346,7 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* DocuSign.app */,
+				3981E11E13DF3A4F00B23A7D /* PlistCreator */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -322,6 +358,7 @@
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				7876F54B130D856A00A79E01 /* Xcode */,
+				3981E12113DF3A4F00B23A7D /* PlistCreator */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -474,13 +511,33 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		3981E12113DF3A4F00B23A7D /* PlistCreator */ = {
+			isa = PBXGroup;
+			children = (
+				3981E13313DF3DF300B23A7D /* ApplicationServices.framework */,
+				3981E13113DF3D7200B23A7D /* QuartzCore.framework */,
+				3981E12213DF3A4F00B23A7D /* main.m */,
+				3981E12613DF3A4F00B23A7D /* PlistCreator.1 */,
+				3981E12413DF3A4F00B23A7D /* Supporting Files */,
+			);
+			path = PlistCreator;
+			sourceTree = "<group>";
+		};
+		3981E12413DF3A4F00B23A7D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3981E12513DF3A4F00B23A7D /* PlistCreator-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		39A7F07413D9FF0E008338A4 /* PDF */ = {
 			isa = PBXGroup;
 			children = (
-				39A7F07513D9FF2D008338A4 /* NGPDFManager.h */,
-				39A7F07613D9FF2D008338A4 /* NGPDFManager.m */,
-				39A7F07A13DA0316008338A4 /* NGPDFDocument.h */,
-				39A7F07B13DA0316008338A4 /* NGPDFDocument.m */,
+				39A7F07513D9FF2D008338A4 /* RBPDFManager.h */,
+				39A7F07613D9FF2D008338A4 /* RBPDFManager.m */,
+				3981E12E13DF3C8F00B23A7D /* RBPDFWriter.h */,
+				3981E12F13DF3C8F00B23A7D /* RBPDFWriter.m */,
 			);
 			name = PDF;
 			sourceTree = "<group>";
@@ -686,6 +743,23 @@
 			productReference = 1D6058910D05DD3D006BFB54 /* DocuSign.app */;
 			productType = "com.apple.product-type.application";
 		};
+		3981E11D13DF3A4F00B23A7D /* PlistCreator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3981E12813DF3A4F00B23A7D /* Build configuration list for PBXNativeTarget "PlistCreator" */;
+			buildPhases = (
+				3981E11A13DF3A4F00B23A7D /* Sources */,
+				3981E11B13DF3A4F00B23A7D /* Frameworks */,
+				3981E11C13DF3A4F00B23A7D /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PlistCreator;
+			productName = PlistCreator;
+			productReference = 3981E11E13DF3A4F00B23A7D /* PlistCreator */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -724,6 +798,7 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* SignMe */,
+				3981E11D13DF3A4F00B23A7D /* PlistCreator */,
 			);
 		};
 /* End PBXProject section */
@@ -849,11 +924,20 @@
 				390DD51A13D9D21400EB1EFD /* SignMe.xcdatamodeld in Sources */,
 				390DD52313D9D53300EB1EFD /* RBDocument.m in Sources */,
 				390DD52613D9D53300EB1EFD /* RBClient.m in Sources */,
-				39A7F07713D9FF2D008338A4 /* NGPDFManager.m in Sources */,
-				39A7F07C13DA0316008338A4 /* NGPDFDocument.m in Sources */,
+				39A7F07713D9FF2D008338A4 /* RBPDFManager.m in Sources */,
 				3925C7D413DDE72B008810AF /* RBUIGenerator.m in Sources */,
 				3925C7D713DDE75C008810AF /* RBFormView.m in Sources */,
 				3925C7E013DDE863008810AF /* RBFormViewController.m in Sources */,
+				3981E13013DF3C8F00B23A7D /* RBPDFWriter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3981E11A13DF3A4F00B23A7D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3981E12D13DF3A8B00B23A7D /* RBPDFManager.m in Sources */,
+				3981E12313DF3A4F00B23A7D /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -947,6 +1031,78 @@
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Distribution;
+		};
+		3981E12913DF3A4F00B23A7D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PlistCreator/PlistCreator-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		3981E12A13DF3A4F00B23A7D /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PlistCreator/PlistCreator-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Distribution;
+		};
+		3981E12B13DF3A4F00B23A7D /* AppStore */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PlistCreator/PlistCreator-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = AppStore;
 		};
 		7856A42A12B442300025424F /* AppStore */ = {
 			isa = XCBuildConfiguration;
@@ -1099,6 +1255,15 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Distribution;
+		};
+		3981E12813DF3A4F00B23A7D /* Build configuration list for PBXNativeTarget "PlistCreator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3981E12913DF3A4F00B23A7D /* Debug */,
+				3981E12A13DF3A4F00B23A7D /* Distribution */,
+				3981E12B13DF3A4F00B23A7D /* AppStore */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "SignMe" */ = {
 			isa = XCConfigurationList;
