@@ -69,7 +69,7 @@
     self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(134, 40, 500, 44)] autorelease];
     self.headerLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     self.headerLabel.backgroundColor = [UIColor clearColor];
-    self.headerLabel.textColor = [UIColor blackColor];
+    self.headerLabel.textColor = [UIColor whiteColor];
     self.headerLabel.textAlignment = UITextAlignmentCenter;
     self.headerLabel.font = [UIFont boldSystemFontOfSize:22];
     self.headerLabel.text = [self.form.name uppercaseString];

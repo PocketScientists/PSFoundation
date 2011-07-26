@@ -10,7 +10,7 @@
 #import "PSIncludes.h"
 
 #define kRBLabelX                   50.f
-#define kRBInputFieldX              250.f
+#define kRBInputFieldX              280.f
 #define kRBInputFieldWidth          250.f
 #define kRBRowHeight                31.f
 #define kRBRowPadding               10.f
@@ -33,6 +33,7 @@
     UIView *topInputField = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
     CGFloat realViewWidth = view.bounds.size.height; // Because of landscape we have to switch width/height
     CGFloat realViewHeight = view.bounds.size.width;
+    CGFloat maxHeight = 1;
     
     // iterate over all sections
     for (NSUInteger section=0;section < form.numberOfSections; section++) {
@@ -64,6 +65,8 @@
             // set new frames for anchor-views
             topLabel.frame = label.frame;
             topInputField.frame = inputField.frame;
+            
+            maxHeight = MAX(maxHeight, topInputField.frameBottom);
         }
     }
     
@@ -75,7 +78,7 @@
     view.pageControl = pageControl;
     
     // enable horizontal scrolling
-    view.contentSize = CGSizeMake(realViewWidth * form.numberOfSections, realViewHeight);
+    view.contentSize = CGSizeMake(realViewWidth * form.numberOfSections, maxHeight);
     
     return view;
 }
@@ -91,7 +94,7 @@
     label.autoresizingMask = UIViewAutoresizingNone;
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
-    label.font = [UIFont boldSystemFontOfSize:16];
+    label.font = [UIFont boldSystemFontOfSize:15];
     label.textAlignment = UITextAlignmentRight;
     label.text = [text uppercaseString];
     
