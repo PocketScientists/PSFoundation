@@ -34,6 +34,7 @@
 		395EEF2513D72E39003C4DA8 /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = 395EEF2413D72E39003C4DA8 /* Background.png */; };
 		395EEF2913D72E85003C4DA8 /* RBTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 395EEF2813D72E85003C4DA8 /* RBTimeView.m */; };
 		39680E6613DF838A006B47C1 /* RBPersistenceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39680E6513DF838A006B47C1 /* RBPersistenceManager.m */; };
+		39680E6A13E06A8B006B47C1 /* RBClientEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39680E6913E06A8B006B47C1 /* RBClientEditViewController.m */; };
 		3981E12013DF3A4F00B23A7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		3981E12313DF3A4F00B23A7D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E12213DF3A4F00B23A7D /* main.m */; };
 		3981E12713DF3A4F00B23A7D /* PlistCreator.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3981E12613DF3A4F00B23A7D /* PlistCreator.1 */; };
@@ -211,6 +212,8 @@
 		395EEF2813D72E85003C4DA8 /* RBTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTimeView.m; sourceTree = "<group>"; };
 		39680E6413DF838A006B47C1 /* RBPersistenceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBPersistenceManager.h; sourceTree = "<group>"; };
 		39680E6513DF838A006B47C1 /* RBPersistenceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBPersistenceManager.m; sourceTree = "<group>"; };
+		39680E6813E06A8B006B47C1 /* RBClientEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBClientEditViewController.h; sourceTree = "<group>"; };
+		39680E6913E06A8B006B47C1 /* RBClientEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBClientEditViewController.m; sourceTree = "<group>"; };
 		3981E11E13DF3A4F00B23A7D /* PlistCreator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PlistCreator; sourceTree = BUILT_PRODUCTS_DIR; };
 		3981E12213DF3A4F00B23A7D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3981E12513DF3A4F00B23A7D /* PlistCreator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PlistCreator-Prefix.pch"; sourceTree = "<group>"; };
@@ -531,6 +534,15 @@
 			name = Persistence;
 			sourceTree = "<group>";
 		};
+		39680E6713E06A60006B47C1 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				39680E6813E06A8B006B47C1 /* RBClientEditViewController.h */,
+				39680E6913E06A8B006B47C1 /* RBClientEditViewController.m */,
+			);
+			name = Client;
+			sourceTree = "<group>";
+		};
 		3981E12113DF3A4F00B23A7D /* PlistCreator */ = {
 			isa = PBXGroup;
 			children = (
@@ -585,6 +597,7 @@
 			isa = PBXGroup;
 			children = (
 				394B916B13D64C1C007BFF2E /* Base */,
+				39680E6713E06A60006B47C1 /* Client */,
 				39A7F07F13DA208A008338A4 /* Home */,
 				3925C7D813DDE82C008810AF /* Form */,
 			);
@@ -961,6 +974,7 @@
 				3981E13013DF3C8F00B23A7D /* RBPDFWriter.m in Sources */,
 				3981E13A13DF644F00B23A7D /* UIControl+RBForm.m in Sources */,
 				39680E6613DF838A006B47C1 /* RBPersistenceManager.m in Sources */,
+				39680E6A13E06A8B006B47C1 /* RBClientEditViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

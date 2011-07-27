@@ -12,6 +12,9 @@
 #import "RBArrowView.h"
 #import "RBCarouselView.h"
 #import "RBClient.h"
+#import "RBDocument.h"
+#import "RBClientEditViewController.h"
+#import "RBPersistenceManager.h"
 
 #define kMinNumberOfItemsToWrap   6
 
@@ -53,7 +56,8 @@
 - (void)keyboardWillHide:(NSNotification *)notification;
 - (void)updateClientsWithSearchTerm:(NSString *)searchTerm;
 
-- (void)addNewClientWithName:(NSString *)name;
+- (RBClient *)clientWithName:(NSString *)name;
+- (void)editClient:(RBClient *)client;
 
 - (void)presentViewControllerForForm:(RBForm *)form;
 
@@ -110,6 +114,7 @@
 
 - (void)insertTempData {
     [RBClient truncateAll];
+    [RBDocument truncateAll];
     
     RBClient *c = nil;
     
@@ -166,6 +171,8 @@
     
     // we control centering for this carousel on our own
     self.formsCarousel.centerItemWhenSelected = NO;
+    // we don't want centering on this carousel
+    self.clientsCarousel.centerItemWhenSelected = NO;
     // we inset the viewpoint s.t. items in both carousel have same x-pos (clientsCarousel has other frame than formsCarousel)
     // we also add another item width, s.t. the first item (that is ususally centered) appears on first position
     self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX, 0);
@@ -345,7 +352,8 @@
 
 - (void)clientsCarouselDidSelectItemAtIndex:(NSInteger)index {
     if (self.clientCarouselShowsAddItem && index == 0) {
-        [self addNewClientWithName:self.searchField.text];
+        RBClient *client = [self clientWithName:self.searchField.text];
+        [self editClient:client];
     } else {
         
     }
@@ -378,15 +386,18 @@
 
 - (IBAction)textFieldDidEndOnExit:(UITextField *)textField {
     if (self.clientCarouselShowsAddItem) {
+        RBClient *client = [self clientWithName:textField.text];
         // add new client
-        [self addNewClientWithName:textField.text];
+        [self editClient:client];
     }
     
     [textField resignFirstResponder];
 }
 
 - (IBAction)handleAddNewClientPress:(id)sender {
-    [self addNewClientWithName:@"New Client"];
+    RBClient *newClient = [RBClient createEntity];
+    
+    [self editClient:newClient];
 }
 
 - (IBAction)handleBackgroundPress:(id)sender {
@@ -447,6 +458,8 @@
 
 - (void)showDetailViewWithDelay:(NSTimeInterval)delay {
     if (!self.detailViewVisible) {
+        self.detailView.frameTop = self.formsView.frameBottom;
+        self.detailView.frameHeight = 0;
         [self.view bringSubviewToFront:self.formsView];
         
         [UIView animateWithDuration:kAnimationDuration
@@ -478,11 +491,13 @@
 }
 
 - (void)moveViewsWithFactor:(CGFloat)factor {
-    self.detailView.frameTop += kDetailYOffset * factor;
     self.detailView.alpha = MIN(1.f, factor+1.f); // factor = 1 -> alpha = 1, factor = -1 -> alpha = 0
     
     self.formsView.frameTop -= kFormsYOffset * factor;
     self.clientsView.frameTop += kClientsYOffset * factor;
+    
+    self.detailView.frame = CGRectMake(self.detailView.frameLeft, self.detailView.frameTop - kFormsYOffset * factor,
+                                       self.detailView.frameWidth, factor > 0 ? kDetailViewHeight : 0.f);
 }
 
 - (void)showSearchScreenWithDuration:(NSTimeInterval)duration {
@@ -642,6 +657,22 @@
     
     newClient.name = name;
     [self.clientsCarousel reloadData];
+}
+
+- (RBClient *)clientWithName:(NSString *)name {
+    RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+    
+    return [persistenceManager clientWithName:name];
+}
+
+- (void)editClient:(RBClient *)client {
+    RBClientEditViewController *editViewController = [[[RBClientEditViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    
+    editViewController.client = client;
+    editViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+    editViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
+    [self presentModalViewController:editViewController animated:YES];
 }
 
 - (void)presentViewControllerForForm:(RBForm *)form { 

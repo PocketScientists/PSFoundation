@@ -14,35 +14,25 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
-        self.backgroundColor = kRBCarouselColor;
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        self.clipsToBounds = NO;
+        [self setGradientBackgroundWithStartColor:kRBDetailGradientStartColor
+                                         endColor:kRBDetailGradientEndColor];
         
-        RBArrowView *arrowView = [[[RBArrowView alloc] initWithFrame:CGRectMake(self.bounds.size.width/2, -20, 40, 21)] autorelease];
-        [self addSubview:arrowView];
+        self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        self.clipsToBounds = YES;
     }
     
     return self;
 }
 
-- (void)drawRect:(CGRect)rect {
-    CGFloat stroke = 1.0;
-    CGContextRef c = UIGraphicsGetCurrentContext(); 
-	
-    [kRBCarouselViewColor set];
-	CGContextSetLineWidth(c,stroke);
-	
-    // top border
-    CGContextBeginPath(c);
-    CGContextMoveToPoint(c,0,0);
-    CGContextAddLineToPoint(c, self.bounds.size.width, 0);
-    CGContextStrokePath(c);
+- (void)setFrame:(CGRect)frame {
+    [super setFrame:frame];
     
-    // bottom border
-    CGContextBeginPath(c);
-    CGContextMoveToPoint(c,0,self.bounds.size.height);
-    CGContextAddLineToPoint(c, self.bounds.size.width, self.bounds.size.height);
-    CGContextStrokePath(c);
+    // resize gradient background-layer
+    for (CALayer *layer in self.layer.sublayers) {
+        if ([layer isKindOfClass:[CAGradientLayer class]]) {
+            layer.frame = self.bounds;
+        }
+    }
 }
 
 - (void)reloadData {

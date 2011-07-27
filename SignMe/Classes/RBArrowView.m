@@ -24,7 +24,7 @@
     CGContextRef c = UIGraphicsGetCurrentContext(); 
     CGFloat center = self.bounds.size.width/2;
 	
-    [kRBCarouselColor set];
+    [kRBDetailGradientStartColor set];
 	CGContextSetLineWidth(c,stroke);
 	
     // filled triangle
@@ -34,14 +34,6 @@
     CGContextAddLineToPoint(c, self.bounds.size.width, self.bounds.size.height);
     CGContextClosePath(c);
     CGContextFillPath(c);
-    
-    [kRBCarouselViewColor set];
-    // border
-    CGContextBeginPath(c);
-    CGContextMoveToPoint(c,0,self.bounds.size.height);
-    CGContextAddLineToPoint(c, center, 0);
-    CGContextAddLineToPoint(c, self.bounds.size.width, self.bounds.size.height);
-    CGContextStrokePath(c);
 }
 
 @end

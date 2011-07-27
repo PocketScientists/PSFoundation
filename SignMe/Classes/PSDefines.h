@@ -43,8 +43,8 @@
 #pragma mark Constants
 ////////////////////////////////////////////////////////////////////////
 
-#define kRBCarouselColor        [UIColor lightGrayColor]
-#define kRBCarouselViewColor    [UIColor darkGrayColor]
+#define kRBDetailGradientStartColor   [UIColor colorWithRed:0.0549f green:0.0471f blue:0.0510f alpha:1.0000f]
+#define kRBDetailGradientEndColor     [UIColor colorWithRed:0.0980f green:0.1137f blue:0.2549f alpha:1.0000f]
 
 #define kRBFormDataType             @"plist"
 #define kRBFormExtension            @"." kRBFormDataType

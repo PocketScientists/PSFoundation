@@ -26,4 +26,15 @@
     document.client = client;
 }
 
+- (RBClient *)clientWithName:(NSString *)name {
+    RBClient *existingClient = [RBClient findFirstByAttribute:@"name" withValue:name];
+    
+    if (existingClient == nil) {
+        existingClient = [RBClient createEntity];
+        existingClient.name = name;
+    }
+    
+    return existingClient;
+}
+
 @end

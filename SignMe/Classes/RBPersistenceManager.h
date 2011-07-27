@@ -12,6 +12,9 @@
 
 @interface RBPersistenceManager : NSObject
 
+// saves a plist for the from and creates a document in CoreData
 - (void)persistDocumentUsingForm:(RBForm *)form client:(RBClient *)client;
 
+// returns either a given client with the name or a new client with the given name
+- (RBClient *)clientWithName:(NSString *)name;
 @end
