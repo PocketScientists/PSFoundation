@@ -98,7 +98,7 @@
     label.autoresizingMask = UIViewAutoresizingNone;
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
-    label.font = [UIFont boldSystemFontOfSize:15];
+    label.font = [UIFont fontWithName:kRBFontName size:16];
     label.textAlignment = UITextAlignmentRight;
     label.text = [text uppercaseString];
     

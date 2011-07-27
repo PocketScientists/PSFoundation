@@ -26,7 +26,7 @@
 #define kDetailViewHeight       230.f
 #define kDetailYOffset           95.f
 
-#define kViewpointOffsetX       (self.addNewClientButton.frameWidth/2 + kClientsCarouselItemWidth * kCarouselItemWrapFactor)
+#define kViewpointOffsetX       (self.addNewClientButton.frameWidth/2 + kRBClientsCarouselItemWidth * kRBCarouselItemWidthScaleFactor)
 
 
 @interface RBHomeViewController ()
@@ -272,7 +272,7 @@
     RBCarouselView *view = nil;
     
     if (carousel == self.formsCarousel) {
-        view = [RBCarouselView carouselViewWithWidth:kFormsCarouselItemWidth];
+        view = [RBCarouselView carouselViewWithWidth:kRBFormsCarouselItemWidth];
         RBFormStatus formStatus = RBFormStatusForIndex(index);
         NSUInteger documentCount = [self numberOfDocumentsWithFormStatus:formStatus];
         
@@ -280,7 +280,7 @@
     } 
     
     else if (carousel == self.clientsCarousel) {
-        view = [RBCarouselView carouselViewWithWidth:kClientsCarouselItemWidth];
+        view = [RBCarouselView carouselViewWithWidth:kRBClientsCarouselItemWidth];
         // Should not be needed, but even though count = 0 viewForItem gets called
         if ([self numberOfItemsInCarousel:carousel] > 0) {
             RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
@@ -292,7 +292,7 @@
     }
     
     else if (carousel == self.detailCarousel) {
-        view = [RBCarouselView carouselViewWithWidth:kClientsCarouselItemWidth];
+        view = [RBCarouselView carouselViewWithWidth:kRBDetailCarouselItemWidth];
         [view setFromForm:[self.emptyForms objectAtIndex:index]];
     }
     
@@ -310,15 +310,15 @@
 
 - (float)carouselItemWidth:(iCarousel *)carousel {
     if (carousel == self.formsCarousel) {
-        return kFormsCarouselItemWidth * kCarouselItemWrapFactor;
+        return kRBFormsCarouselItemWidth * kRBCarouselItemWidthScaleFactor;
     } 
     
     else if (carousel == self.clientsCarousel) {
-        return kClientsCarouselItemWidth * kCarouselItemWrapFactor;
+        return kRBClientsCarouselItemWidth * kRBCarouselItemWidthScaleFactor;
     }
     
     else if (carousel == self.detailCarousel) {
-       return kClientsCarouselItemWidth * kCarouselItemWrapFactor;
+       return kRBDetailCarouselItemWidth * kRBCarouselItemWidthScaleFactor;
     }
 
     return 0.f;
@@ -608,7 +608,7 @@
     label.transform = CGAffineTransformMakeRotation(MTDegreesToRadian(90));
     label.backgroundColor = [UIColor colorWithRed:0.7804f green:0.0000f blue:0.2941f alpha:1.0000f];
     label.textColor = [UIColor whiteColor];
-    label.font = [UIFont systemFontOfSize:22.];
+    label.font = [UIFont fontWithName:kRBFontName size:22.f];
     label.frameLeft = 0;
     label.frameBottom = view.frameBottom;
     

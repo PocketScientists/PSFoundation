@@ -10,9 +10,10 @@
 #import "RBForm.h"
 #import "RBClient.h"
 
-#define kFormsCarouselItemWidth     230.f
-#define kClientsCarouselItemWidth   170.f
-#define kCarouselItemWrapFactor     1.4f
+#define kRBFormsCarouselItemWidth           230.f
+#define kRBClientsCarouselItemWidth         170.f
+#define kRBDetailCarouselItemWidth          190.f
+#define kRBCarouselItemWidthScaleFactor     1.4f
 
 @interface RBCarouselView : UIControl
 

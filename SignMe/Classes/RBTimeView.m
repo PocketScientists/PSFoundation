@@ -15,7 +15,7 @@
 #define kDayFontColor       [UIColor whiteColor]
 #define kDayRect            CGRectMake(0,20,self.bounds.size.width,40)
 
-#define kTimeFontSize       16
+#define kTimeFontSize       12
 #define kTimeFontColor      [UIColor whiteColor]
 #define kTimeRect           CGRectMake(0,60,self.bounds.size.width,20)
 
@@ -45,7 +45,7 @@ static NSDateFormatter *timeFormatter = nil;
         
         [monthFormatter setDateFormat:@"MMM"];
         [dayFormatter setDateFormat:@"dd"];
-        [timeFormatter setDateFormat:@"h:mm tt"];
+        [timeFormatter setDateFormat:@"h:mm aa"];
     }
 }
 
@@ -80,21 +80,21 @@ static NSDateFormatter *timeFormatter = nil;
     // draw Month, e.g. NOV
     [kMonthFontColor set];
     [month drawInRect:kMonthRect
-             withFont:[UIFont systemFontOfSize:kMonthFontSize] 
+             withFont:[UIFont fontWithName:kRBFontName size:kMonthFontSize] 
         lineBreakMode:UILineBreakModeClip
             alignment:UITextAlignmentCenter];
     
     // draw Day, e.g. 12
     [kDayFontColor set];
     [day drawInRect:kDayRect 
-           withFont:[UIFont systemFontOfSize:kDayFontSize] 
+           withFont:[UIFont fontWithName:kRBFontName size:kDayFontSize] 
       lineBreakMode:UILineBreakModeClip 
           alignment:UITextAlignmentCenter];
     
     // draw Time, e.g. 02:34 am
     [kTimeFontColor set];
     [time drawInRect:kTimeRect
-            withFont:[UIFont systemFontOfSize:kTimeFontSize]
+            withFont:[UIFont fontWithName:kRBFontName size:kTimeFontSize]
        lineBreakMode:UILineBreakModeClip 
            alignment:UITextAlignmentCenter];
     

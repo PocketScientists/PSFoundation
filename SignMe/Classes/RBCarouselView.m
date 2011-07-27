@@ -17,6 +17,7 @@
 @property (nonatomic, retain) UILabel *label3;
 @property (nonatomic, retain) UILabel *label4;
 
+- (void)splitTextOnFirstTwoLabels:(NSString *)text;
 - (void)updateLabelFrames;
 
 @end
@@ -52,7 +53,7 @@
         label2_.backgroundColor = [UIColor clearColor];
         label2_.textAlignment = UITextAlignmentLeft;
         label2_.numberOfLines = 0;
-        label2_.lineBreakMode = UILineBreakModeTailTruncation;
+        label2_.lineBreakMode = UILineBreakModeClip;
         
         label3_ = [[UILabel alloc] initWithFrame:CGRectMake(0, label2_.frameBottom, self.bounds.size.width, self.bounds.size.height*0.2)];
         label3_.textColor = [UIColor whiteColor];
@@ -63,7 +64,7 @@
         label4_.textColor = [UIColor colorWithRed:0.7765f green:0.7333f blue:0.1137f alpha:1.0000f];
         label4_.backgroundColor = [UIColor clearColor];
         label4_.textAlignment = UITextAlignmentLeft;
-
+        
         isAddClientView_ = NO;
         
         [self addSubview:label1_];
@@ -100,7 +101,7 @@
 
 - (void)setText:(NSString *)text {
     self.label2.text = [text uppercaseString];
-
+    
     self.label2.frame = self.bounds;
     self.label2.textAlignment = UITextAlignmentCenter;
     self.label2.font = [UIFont fontWithName:kRBFontName size:22.];
@@ -128,27 +129,20 @@
 }
 
 - (void)setFromForm:(RBForm *)form {
-    [self setText:form.name];
+    self.label2.numberOfLines = 2;
+    
+    self.label1.font = [UIFont fontWithName:kRBFontName size:30.];
+    self.label2.font = [UIFont fontWithName:kRBFontName size:18.];
+    
+    [self splitTextOnFirstTwoLabels:form.name];
+    [self updateLabelFrames];
 }
 
 - (void)setFromClient:(RBClient *)client {
-    NSString *upperCaseName = [client.name uppercaseString];
-    NSArray *clientNameWords = [upperCaseName componentsSeparatedByString:@" "];
-    
-    // Only one word? -> set in on label2
-    if (clientNameWords.count == 1) {
-        self.label2.text = [upperCaseName uppercaseString];
-    } 
-    // More words
-    else {
-        self.label1.text = [clientNameWords objectAtIndex:0];
-        
-        NSArray *restOfNameWords = [clientNameWords subarrayWithRange:NSMakeRange(1, clientNameWords.count-1)];
-        self.label2.text = [restOfNameWords componentsJoinedByString:@" "];
-    }
+    [self splitTextOnFirstTwoLabels:client.name];
     
     self.label3.text = [NSString stringWithFormat:@"%d DOCUMENTS", client.documents.count];
-
+    
     if (client.documents.count > 0) {
         RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
         
@@ -167,13 +161,40 @@
     [self updateLabelFrames];
 }
 
+- (void)splitTextOnFirstTwoLabels:(NSString *)text {
+    NSString *upperCaseText = [text uppercaseString];
+    NSArray *words = [upperCaseText componentsSeparatedByString:@" "];
+    
+    // Only one word? -> set on bigger label
+    if (words.count == 1) {
+        UILabel *biggerLabel = self.label1.font.pointSize > self.label2.font.pointSize ? self.label1 : self.label2;
+        biggerLabel.text = upperCaseText;
+    } 
+    // More words
+    else {
+        self.label1.text = [words objectAtIndex:0];
+        
+        NSArray *restOfWords = [words subarrayWithRange:NSMakeRange(1, words.count-1)];
+        self.label2.text = [restOfWords componentsJoinedByString:@" "];
+    }
+}
+
 - (void)updateLabelFrames {
     [self.label1 sizeToFit];
     self.label1.frameTop = 0.f;
     self.label1.frameWidth = self.bounds.size.width;
     
-    [self.label2 sizeToFit];
-    self.label2.frameWidth = self.bounds.size.width;
+    // sizeToFit doesn't work with numberOfLines != 0, Bug?
+    if (self.label2.numberOfLines != 0) {
+        CGSize size = [self.label2.text sizeWithFont:self.label2.font
+                                   constrainedToSize:CGSizeMake(self.bounds.size.width, self.label2.numberOfLines*32)
+                                       lineBreakMode:self.label2.lineBreakMode];
+        self.label2.frame = (CGRect){CGPointZero,size};
+    } else {
+        [self.label2 sizeToFit];
+        self.label2.frameWidth = self.bounds.size.width;
+    }
+    
     [self.label2 positionUnderView:self.label1 padding:0 alignment:MTUIViewAlignmentLeftAligned];
     
     [self.label3 sizeToFit];
