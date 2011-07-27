@@ -86,6 +86,15 @@ NSDateFormatter *dateFormatter = nil;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
+#pragma mark UIControl
+////////////////////////////////////////////////////////////////////////
+
+- (void)setSelected:(BOOL)selected {
+    
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
 #pragma mark RBCarouselView
 ////////////////////////////////////////////////////////////////////////
 
@@ -94,10 +103,18 @@ NSDateFormatter *dateFormatter = nil;
     
 }
 
-- (void)setFromFormStatus:(RBFormStatus)formType {
-    self.label1.text = [RBFormStatusStringRepresentation(formType) uppercaseString];
-    self.label2.text = @"XY TEMPLATES";
+- (void)setFromFormStatus:(RBFormStatus)formStatus count:(NSUInteger)count {
+    NSString *description = formStatus == RBFormStatusNew ? @"TEMPLATE" : @"DOCUMENT";
+    
+    if (count != 1) {
+        description = [description stringByAppendingString:@"S"];
+    }
+    
+    
+    self.label1.text = [RBFormStatusStringRepresentation(formStatus) uppercaseString];
+    self.label2.text = [NSString stringWithFormat:@"%d %@", count, description];
     self.label3.text = @"UPDATED ___";
+    
     [self updateLabelFrames];
 }
 

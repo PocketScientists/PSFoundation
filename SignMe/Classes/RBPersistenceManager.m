@@ -37,4 +37,9 @@
     return existingClient;
 }
 
+- (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"status = %d",(NSInteger)formStatus];
+    return [[RBDocument numberOfEntitiesWithPredicate:predicate] intValue];
+}
+
 @end

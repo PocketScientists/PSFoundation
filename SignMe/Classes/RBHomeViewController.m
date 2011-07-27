@@ -58,8 +58,9 @@
 
 - (RBClient *)clientWithName:(NSString *)name;
 - (void)editClient:(RBClient *)client;
-
 - (void)presentViewControllerForForm:(RBForm *)form;
+
+- (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus;
 
 @end
 
@@ -265,7 +266,10 @@
     RBCarouselView *view = [RBCarouselView carouselView];
     
     if (carousel == self.formsCarousel) {
-        [view setFromFormStatus:RBFormStatusForIndex(index)];
+        RBFormStatus formStatus = RBFormStatusForIndex(index);
+        NSUInteger documentCount = [self numberOfDocumentsWithFormStatus:formStatus];
+        
+        [view setFromFormStatus:formStatus count:documentCount];
     } 
     
     else if (carousel == self.clientsCarousel) {
@@ -684,6 +688,23 @@
     viewController.modalPresentationStyle = UIModalPresentationFullScreen;
     
     [self presentModalViewController:viewController animated:YES];
+}
+
+- (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {
+    RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+    
+    switch (formStatus) {
+        case RBFormStatusNew:
+            return self.emptyForms.count;
+            
+        case RBFormStatusPreSignature:
+        case RBFormStatusSigned:
+            return [persistenceManager numberOfDocumentsWithFormStatus:formStatus];
+            
+        case RBFormStatusCount:
+        case RBFormStatusUnknown:
+            return 0;
+    }
 }
 
 @end

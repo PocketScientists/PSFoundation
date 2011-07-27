@@ -17,4 +17,7 @@
 
 // returns either a given client with the name or a new client with the given name
 - (RBClient *)clientWithName:(NSString *)name;
+
+// returns the document count with a specific formStatus
+- (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus;
 @end

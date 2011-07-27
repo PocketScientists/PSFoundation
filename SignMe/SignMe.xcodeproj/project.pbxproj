@@ -102,19 +102,26 @@
 			remoteGlobalIDString = A90F779113D4A310009277B2;
 			remoteInfo = DocuSign;
 		};
-		394B916413D64B06007BFF2E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 394B915B13D64923007BFF2E /* DocuSign.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A90F779013D4A310009277B2;
-			remoteInfo = DocuSign;
-		};
 		394B916613D64B0A007BFF2E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 394B914E13D6491A007BFF2E /* box.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = A90F777513D4A2D0009277B2;
 			remoteInfo = box;
+		};
+		39680E7713E08B65006B47C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 394B914E13D6491A007BFF2E /* box.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A90F788913D5F3FD009277B2;
+			remoteInfo = BoxTest;
+		};
+		39680E7A13E08B65006B47C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 394B915B13D64923007BFF2E /* DocuSign.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A9AD3D0B13E04F5A00DF0BCF;
+			remoteInfo = DocuSignTest;
 		};
 		39C917C1139839D50045489C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -494,6 +501,7 @@
 			isa = PBXGroup;
 			children = (
 				394B915613D6491B007BFF2E /* libbox.a */,
+				39680E7813E08B65006B47C1 /* BoxTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -502,6 +510,7 @@
 			isa = PBXGroup;
 			children = (
 				394B916313D64924007BFF2E /* libDocuSign.a */,
+				39680E7B13E08B65006B47C1 /* DocuSignTest.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -777,7 +786,6 @@
 			);
 			dependencies = (
 				394B916713D64B0A007BFF2E /* PBXTargetDependency */,
-				394B916513D64B06007BFF2E /* PBXTargetDependency */,
 				7856A48112B444B10025424F /* PBXTargetDependency */,
 			);
 			name = SignMe;
@@ -865,6 +873,20 @@
 			fileType = archive.ar;
 			path = libDocuSign.a;
 			remoteRef = 394B916213D64924007BFF2E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		39680E7813E08B65006B47C1 /* BoxTest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = BoxTest.app;
+			remoteRef = 39680E7713E08B65006B47C1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		39680E7B13E08B65006B47C1 /* DocuSignTest.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DocuSignTest.octest;
+			remoteRef = 39680E7A13E08B65006B47C1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		39C917C2139839D50045489C /* libPSFoundation-OSX.a */ = {
@@ -990,11 +1012,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		394B916513D64B06007BFF2E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = DocuSign;
-			targetProxy = 394B916413D64B06007BFF2E /* PBXContainerItemProxy */;
-		};
 		394B916713D64B0A007BFF2E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = box;
