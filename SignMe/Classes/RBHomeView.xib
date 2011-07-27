@@ -54,9 +54,9 @@
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1064484741"/>
 								<string key="NSReuseIdentifierKey">_NS:49</string>
-								<object class="NSColor" key="IBUIBackgroundColor">
+								<object class="NSColor" key="IBUIBackgroundColor" id="461888330">
 									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC41MDExOTc1MzY1AA</bytes>
+									<bytes key="NSWhite">MCAwAA</bytes>
 								</object>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -67,9 +67,9 @@
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="907267049"/>
 						<string key="NSReuseIdentifierKey">_NS:49</string>
-						<object class="NSColor" key="IBUIBackgroundColor" id="461888330">
+						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MCAwAA</bytes>
+							<bytes key="NSWhite">MCAwLjUAA</bytes>
 						</object>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -121,12 +121,9 @@
 								<string key="NSFrame">{{190, 44}, {834, 150}}</string>
 								<reference key="NSSuperview" ref="1064484741"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:49</string>
-								<object class="NSColor" key="IBUIBackgroundColor">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC41MDExOTc1MzY1AA</bytes>
-								</object>
+								<reference key="IBUIBackgroundColor" ref="461888330"/>
+								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 							</object>
@@ -228,7 +225,10 @@
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="723827259"/>
 						<string key="NSReuseIdentifierKey">_NS:49</string>
-						<reference key="IBUIBackgroundColor" ref="461888330"/>
+						<object class="NSColor" key="IBUIBackgroundColor">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MCAwLjUAA</bytes>
+						</object>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					</object>

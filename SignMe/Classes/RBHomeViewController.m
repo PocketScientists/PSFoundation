@@ -561,12 +561,12 @@
 - (UILabel *)headerLabelForView:(UIView *)view text:(NSString *)text {
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, view.bounds.size.height, view.frameLeft)] autorelease];
     
-    label.text = text;
+    label.text = [text uppercaseString];
     label.textAlignment = UITextAlignmentCenter;
     label.transform = CGAffineTransformMakeRotation(MTDegreesToRadian(90));
     label.backgroundColor = [UIColor colorWithRed:0.7804f green:0.0000f blue:0.2941f alpha:1.0000f];
     label.textColor = [UIColor whiteColor];
-    label.font = [UIFont systemFontOfSize:20.];
+    label.font = [UIFont systemFontOfSize:22.];
     label.frameLeft = 0;
     label.frameBottom = view.frameBottom;
     

@@ -10,12 +10,11 @@
 #import "RBForm.h"
 #import "RBClient.h"
 
-#define kCarouselViewFrame  CGRectMake(0,0,170,105)
+#define kCarouselViewFrame  CGRectMake(0,0,170,120)
 #define kCarouselItemWidth  (CGRectGetWidth(kCarouselViewFrame) * 1.4)
 
 @interface RBCarouselView : UIControl
 
-@property (nonatomic, retain) UILabel *textLabel;
 @property (nonatomic, assign) BOOL isAddClientView;
 
 + (RBCarouselView *)carouselView;
