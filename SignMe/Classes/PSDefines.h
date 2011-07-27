@@ -53,6 +53,7 @@
 #define kRBFormDirectoryPath        ([NSDocumentsFolder() stringByAppendingPathComponent:kRBFormDirectoryName])
 #define kRBFormSavedDirectoryPath   [kRBFormDirectoryPath stringByAppendingPathComponent:kRBFormSavedDirectoryName]
 
+#define kRBFontName                 @"Heiti SC"
 #define kRBDateFormat               @"MM-dd-yyyy"
 
 ////////////////////////////////////////////////////////////////////////

@@ -10,14 +10,15 @@
 #import "RBForm.h"
 #import "RBClient.h"
 
-#define kCarouselViewFrame  CGRectMake(0,0,170,120)
-#define kCarouselItemWidth  (CGRectGetWidth(kCarouselViewFrame) * 1.4)
+#define kFormsCarouselItemWidth     230.f
+#define kClientsCarouselItemWidth   170.f
+#define kCarouselItemWrapFactor     1.4f
 
 @interface RBCarouselView : UIControl
 
 @property (nonatomic, assign) BOOL isAddClientView;
 
-+ (RBCarouselView *)carouselView;
++ (RBCarouselView *)carouselViewWithWidth:(CGFloat)width;
 
 - (void)setText:(NSString *)text;
 - (void)setFromFormStatus:(RBFormStatus)formStatus count:(NSUInteger)count;

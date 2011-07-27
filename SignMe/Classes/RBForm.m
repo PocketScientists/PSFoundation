@@ -17,13 +17,13 @@
 NSString *RBFormStatusStringRepresentation(RBFormStatus formType) {
     switch (formType) {
         case RBFormStatusNew:
-            return @"New Form\nAgreements";
+            return @"New Form";
             
         case RBFormStatusPreSignature:
-            return @"Pre-Signature\nAgreements";
+            return @"Pre-Signature";
             
         case RBFormStatusSigned:
-            return @"Signed\nAgreements";
+            return @"Signed";
             
         case RBFormStatusCount:
             return @"";

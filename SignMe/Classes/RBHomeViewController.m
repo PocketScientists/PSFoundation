@@ -26,7 +26,7 @@
 #define kDetailViewHeight       230.f
 #define kDetailYOffset           95.f
 
-#define kViewpointOffsetX       (self.addNewClientButton.frameWidth/2 + kCarouselItemWidth)
+#define kViewpointOffsetX       (self.addNewClientButton.frameWidth/2 + kClientsCarouselItemWidth * kCarouselItemWrapFactor)
 
 
 @interface RBHomeViewController ()
@@ -136,6 +136,12 @@
     
     c = [RBClient createEntity];
     c.name = @"Alfred";
+    
+    c = [RBClient createEntity];
+    c.name = @"Cabana Club";
+    
+    c = [RBClient createEntity];
+    c.name = @"Staples Center Club Nokia";
     
     c = [RBClient createEntity];
     c.name = @"Judokus";
@@ -263,9 +269,10 @@
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index {
-    RBCarouselView *view = [RBCarouselView carouselView];
+    RBCarouselView *view = nil;
     
     if (carousel == self.formsCarousel) {
+        view = [RBCarouselView carouselViewWithWidth:kFormsCarouselItemWidth];
         RBFormStatus formStatus = RBFormStatusForIndex(index);
         NSUInteger documentCount = [self numberOfDocumentsWithFormStatus:formStatus];
         
@@ -273,6 +280,7 @@
     } 
     
     else if (carousel == self.clientsCarousel) {
+        view = [RBCarouselView carouselViewWithWidth:kClientsCarouselItemWidth];
         // Should not be needed, but even though count = 0 viewForItem gets called
         if ([self numberOfItemsInCarousel:carousel] > 0) {
             RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
@@ -284,6 +292,7 @@
     }
     
     else if (carousel == self.detailCarousel) {
+        view = [RBCarouselView carouselViewWithWidth:kClientsCarouselItemWidth];
         [view setFromForm:[self.emptyForms objectAtIndex:index]];
     }
     
@@ -300,7 +309,19 @@
 }
 
 - (float)carouselItemWidth:(iCarousel *)carousel {
-    return kCarouselItemWidth;
+    if (carousel == self.formsCarousel) {
+        return kFormsCarouselItemWidth * kCarouselItemWrapFactor;
+    } 
+    
+    else if (carousel == self.clientsCarousel) {
+        return kClientsCarouselItemWidth * kCarouselItemWrapFactor;
+    }
+    
+    else if (carousel == self.detailCarousel) {
+       return kClientsCarouselItemWidth * kCarouselItemWrapFactor;
+    }
+
+    return 0.f;
 }
 
 - (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
