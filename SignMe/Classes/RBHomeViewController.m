@@ -31,6 +31,20 @@
 
 @interface RBHomeViewController ()
 
+@property (nonatomic, readonly) NSFetchedResultsController *clientsFetchController;
+
+@property (nonatomic, assign) CGFloat formsViewDefaultY;
+@property (nonatomic, assign) CGFloat clientsViewDefaultY;
+
+@property (nonatomic, retain) RBTimeView *timeView;
+@property (nonatomic, retain) UILabel *formsLabel;
+@property (nonatomic, retain) UILabel *clientsLabel;
+
+@property (nonatomic, retain) RBFormDetailView *detailView;
+@property (nonatomic, retain) iCarousel *detailCarousel;
+@property (nonatomic, retain) NSArray *emptyForms;
+@property (nonatomic, assign, getter = isDetailItemSelected) BOOL detailItemSelected;
+
 @property (nonatomic, readonly, getter = isDetailViewVisible) BOOL detailViewVisible;
 @property (nonatomic, readonly) BOOL clientCarouselShowsAddItem;
 
@@ -58,7 +72,8 @@
 
 - (RBClient *)clientWithName:(NSString *)name;
 - (void)editClient:(RBClient *)client;
-- (void)presentViewControllerForForm:(RBForm *)form;
+- (void)prepareForFormPresentation;
+- (void)presentViewControllerForForm:(RBForm *)form client:(RBClient *)client;
 
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus;
 
@@ -79,6 +94,7 @@
 @synthesize addNewClientButton = addNewClientButton_;
 @synthesize detailView = detailView_;
 @synthesize detailCarousel = detailCarousel_;
+@synthesize detailItemSelected = detailItemSelected_;
 @synthesize emptyForms = emptyForms_;
 @synthesize searchField = searchField_;
 
@@ -90,6 +106,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         emptyForms_ = [[RBForm allEmptyForms] retain];
+        detailItemSelected_ = NO;
     }
     
     return self;
@@ -324,9 +341,11 @@
     return 0.f;
 }
 
-- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
+- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {    
     // update detail view if user scrolled to new form while detailView is visible
     if (carousel == self.formsCarousel && self.detailView.alpha == 1.f) {
+        self.detailItemSelected = NO;
+        
         [self updateDetailViewWithFormStatus:(RBFormStatus)carousel.currentItemIndex];
         [self.detailView reloadData];
     }
@@ -347,6 +366,8 @@
 }
 
 - (void)formsCarouselDidSelectItemAtIndex:(NSInteger)index {
+    self.detailItemSelected = NO;
+    
     if (self.detailViewVisible) {
         [self hideDetailView];
         
@@ -380,14 +401,17 @@
         RBClient *client = [self clientWithName:self.searchField.text];
         [self editClient:client];
     } else {
-        
+        if (self.detailItemSelected) {
+            RBForm *form = [self.emptyForms objectAtIndex:self.detailCarousel.currentItemIndex];
+            RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+            
+            [self presentViewControllerForForm:form client:client];
+        }
     }
 }
 
 - (void)detailCarouselDidSelectItemAtIndex:(NSInteger)index {
-    RBForm *form = [self.emptyForms objectAtIndex:index];
-    
-    [self presentViewControllerForForm:form];
+    [self prepareForFormPresentation];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -420,8 +444,9 @@
 }
 
 - (IBAction)handleAddNewClientPress:(id)sender {
-    RBClient *newClient = [RBClient createEntity];
+    self.detailItemSelected = NO;
     
+    RBClient *newClient = [RBClient createEntity];
     [self editClient:newClient];
 }
 
@@ -438,7 +463,6 @@
 #pragma mark NSFetchedResultsControllerDelegate
 ////////////////////////////////////////////////////////////////////////
 
-// TODO: Y U NO GETTING FIRED??
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller { 
     [self.clientsCarousel reloadData];
 }
@@ -501,6 +525,8 @@
 }
 
 - (void)hideDetailView {
+    self.detailItemSelected = NO;
+    
     if (self.detailViewVisible) {
         [self.view bringSubviewToFront:self.formsView];
         
@@ -526,6 +552,7 @@
 }
 
 - (void)showSearchScreenWithDuration:(NSTimeInterval)duration {
+    self.detailItemSelected = NO;
     self.formsView.userInteractionEnabled = NO;
     self.detailView.frameTop = self.formsViewDefaultY;
     self.detailView.alpha = 0.f;
@@ -700,9 +727,12 @@
     [self presentModalViewController:editViewController animated:YES];
 }
 
-- (void)presentViewControllerForForm:(RBForm *)form { 
-#pragma message("TODO: Set real client")
-    RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+- (void)prepareForFormPresentation {
+    // TODO: slide in drawer with label and button 
+    self.detailItemSelected = YES;
+}
+
+- (void)presentViewControllerForForm:(RBForm *)form client:(RBClient *)client { 
     RBFormViewController *viewController = [[[RBFormViewController alloc] initWithForm:form client:client] autorelease];
     
     viewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;

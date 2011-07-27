@@ -53,7 +53,7 @@
         label2_.backgroundColor = [UIColor clearColor];
         label2_.textAlignment = UITextAlignmentLeft;
         label2_.numberOfLines = 0;
-        label2_.lineBreakMode = UILineBreakModeClip;
+        label2_.lineBreakMode = UILineBreakModeTailTruncation;
         
         label3_ = [[UILabel alloc] initWithFrame:CGRectMake(0, label2_.frameBottom, self.bounds.size.width, self.bounds.size.height*0.2)];
         label3_.textColor = [UIColor whiteColor];
