@@ -33,6 +33,7 @@
 		394B917413D64CE3007BFF2E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 394B917113D64CE3007BFF2E /* Icon.png */; };
 		395EEF2513D72E39003C4DA8 /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = 395EEF2413D72E39003C4DA8 /* Background.png */; };
 		395EEF2913D72E85003C4DA8 /* RBTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 395EEF2813D72E85003C4DA8 /* RBTimeView.m */; };
+		39680E6613DF838A006B47C1 /* RBPersistenceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39680E6513DF838A006B47C1 /* RBPersistenceManager.m */; };
 		3981E12013DF3A4F00B23A7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		3981E12313DF3A4F00B23A7D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E12213DF3A4F00B23A7D /* main.m */; };
 		3981E12713DF3A4F00B23A7D /* PlistCreator.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3981E12613DF3A4F00B23A7D /* PlistCreator.1 */; };
@@ -208,6 +209,8 @@
 		395EEF2413D72E39003C4DA8 /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Background.png; path = Images/Background.png; sourceTree = "<group>"; };
 		395EEF2713D72E85003C4DA8 /* RBTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTimeView.h; sourceTree = "<group>"; };
 		395EEF2813D72E85003C4DA8 /* RBTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTimeView.m; sourceTree = "<group>"; };
+		39680E6413DF838A006B47C1 /* RBPersistenceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBPersistenceManager.h; sourceTree = "<group>"; };
+		39680E6513DF838A006B47C1 /* RBPersistenceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBPersistenceManager.m; sourceTree = "<group>"; };
 		3981E11E13DF3A4F00B23A7D /* PlistCreator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PlistCreator; sourceTree = BUILT_PRODUCTS_DIR; };
 		3981E12213DF3A4F00B23A7D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3981E12513DF3A4F00B23A7D /* PlistCreator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PlistCreator-Prefix.pch"; sourceTree = "<group>"; };
@@ -336,6 +339,7 @@
 			children = (
 				3925C7D013DDE70B008810AF /* Utils */,
 				39C918581398EBA10045489C /* Includes */,
+				39680E6313DF8373006B47C1 /* Persistence */,
 				39C917B91398367C0045489C /* Model */,
 				39C917BA139836840045489C /* Views */,
 				39C917B8139836750045489C /* View Controller */,
@@ -516,6 +520,15 @@
 				395EEF2413D72E39003C4DA8 /* Background.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		39680E6313DF8373006B47C1 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				39680E6413DF838A006B47C1 /* RBPersistenceManager.h */,
+				39680E6513DF838A006B47C1 /* RBPersistenceManager.m */,
+			);
+			name = Persistence;
 			sourceTree = "<group>";
 		};
 		3981E12113DF3A4F00B23A7D /* PlistCreator */ = {
@@ -947,6 +960,7 @@
 				3925C7E013DDE863008810AF /* RBFormViewController.m in Sources */,
 				3981E13013DF3C8F00B23A7D /* RBPDFWriter.m in Sources */,
 				3981E13A13DF644F00B23A7D /* UIControl+RBForm.m in Sources */,
+				39680E6613DF838A006B47C1 /* RBPersistenceManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

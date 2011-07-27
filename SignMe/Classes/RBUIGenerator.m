@@ -22,7 +22,7 @@
 @interface RBUIGenerator ()
 
 - (UILabel *)labelWithText:(NSString *)text;
-- (UIControl *)inputFieldWithValue:(NSString *)value datatype:(NSString *)datatype;
+- (UIControl *)inputFieldWithID:(NSString *)fieldID value:(NSString *)value datatype:(NSString *)datatype;
 
 @end
 
@@ -54,8 +54,10 @@
             NSString *datatype = [form valueForKey:kRBFormKeyDatatype ofField:fieldID inSection:section];
             // create label and input field
             UILabel *label = [self labelWithText:labelText];
-            UIControl *inputField = [self inputFieldWithValue:value datatype:datatype];
+            UIControl *inputField = [self inputFieldWithID:fieldID value:value datatype:datatype];
             CGFloat heightDiff = kRBRowHeight - inputField.frameHeight; // Switch = 27 pt, TextField = 31 pt
+            
+            inputField.formSection = section;
             
             // position in Grid depending on anchor-views
             [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
@@ -103,8 +105,8 @@
     return label;
 }
 
-- (UIControl *)inputFieldWithValue:(NSString *)value datatype:(NSString *)datatype {
-    UIControl *control = [UIControl controlForDatatype:datatype size:CGSizeMake(kRBInputFieldWidth, kRBRowHeight)];
+- (UIControl *)inputFieldWithID:(NSString *)fieldID value:(NSString *)value datatype:(NSString *)datatype {
+    UIControl *control = [UIControl controlWithID:fieldID datatype:datatype size:CGSizeMake(kRBInputFieldWidth, kRBRowHeight)];
     
     [control configureControlUsingValue:value];
     

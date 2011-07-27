@@ -642,8 +642,10 @@
     [self.clientsCarousel reloadData];
 }
 
-- (void)presentViewControllerForForm:(RBForm *)form {
-    RBFormViewController *viewController = [[[RBFormViewController alloc] initWithForm:form] autorelease];
+- (void)presentViewControllerForForm:(RBForm *)form { 
+#pragma message("TODO: Set real client")
+    RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    RBFormViewController *viewController = [[[RBFormViewController alloc] initWithForm:form client:client] autorelease];
     
     viewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     viewController.modalPresentationStyle = UIModalPresentationFullScreen;

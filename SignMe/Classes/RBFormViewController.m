@@ -9,6 +9,8 @@
 #import "RBFormViewController.h"
 #import "RBUIGenerator.h"
 #import "PSIncludes.h"
+#import "RBPersistenceManager.h"
+#import "UIControl+RBForm.h"
 
 
 @interface RBFormViewController ()
@@ -16,12 +18,15 @@
 - (void)handleCancelButtonPress:(id)sender;
 - (void)handleDoneButtonPress:(id)sender;
 
+- (void)updateFormFromControls;
+
 @end
 
 @implementation RBFormViewController
 
 @synthesize form = form_;
 @synthesize formView = formView_;
+@synthesize client = client_;
 @synthesize headerLabel = headerLabel_;
 @synthesize cancelButton = cancelButton_;
 @synthesize doneButton = doneButton_;
@@ -31,9 +36,10 @@
 #pragma mark Lifecycle
 ////////////////////////////////////////////////////////////////////////
 
-- (id)initWithForm:(RBForm *)form {
+- (id)initWithForm:(RBForm *)form client:(RBClient *)client {
     if ((self = [super initWithNibName:nil bundle:nil])) {
         form_ = [form retain];
+        client_ = [client retain];
     }
     
     return self;
@@ -42,6 +48,7 @@
 - (void)dealloc {
     MCRelease(form_);
     MCRelease(formView_);
+    MCRelease(client_);
     MCRelease(headerLabel_);
     MCRelease(cancelButton_);
     MCRelease(doneButton_);
@@ -113,7 +120,35 @@
 }
 
 - (void)handleDoneButtonPress:(id)sender {
+    RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
     
+    // update form-property with new values entered into controls
+    [self updateFormFromControls];
+    // create a new document with the given form/client
+    [persistenceManager persistDocumentUsingForm:self.form client:self.client];
+    // go back to HomeViewController
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Private
+////////////////////////////////////////////////////////////////////////
+
+- (void)updateFormFromControls {
+    // retreive all subviews, that are meant to be controls
+    NSArray *controls = [self.formView.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        if ([evaluatedObject tag] == kRBFormControlTag) {
+            return YES;
+        }
+        
+        return NO;
+    }]];
+    
+    // update the value in the form for each control
+    for (UIControl *control in controls) {
+        [self.form setValue:control.formTextValue forField:control.formID inSection:control.formSection];
+    }
 }
 
 @end

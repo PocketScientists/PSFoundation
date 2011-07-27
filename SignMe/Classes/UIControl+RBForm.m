@@ -14,9 +14,12 @@
 #define kRBSwitchOffTextValue       @""
 
 
+static char formIDKey;
+static char formSectionKey;
+
 @implementation UIControl (UIControl_RBForm)
 
-+ (UIControl *)controlForDatatype:(NSString *)datatype size:(CGSize)size {
++ (UIControl *)controlWithID:(NSString *)formID datatype:(NSString *)datatype size:(CGSize)size {
     UIControl *control;
     
     if ([datatype isEqualToString:kRBFormDataTypeCheckbox]) {
@@ -24,6 +27,9 @@
     } else {
         control = [[[UITextField alloc] initWithFrame:(CGRect){CGPointZero, size}] autorelease];
     }
+    
+    control.tag = kRBFormControlTag;
+    control.formID = formID;
     
     return control;
 }
@@ -41,6 +47,22 @@
     }
     
     self.autoresizingMask = UIViewAutoresizingNone;
+}
+
+- (void)setFormID:(NSString *)formID {
+    [self associateValue:formID withKey:&formIDKey];
+}
+
+- (NSString *)formID {
+    return [self associatedValueForKey:&formIDKey];
+}
+
+- (void)setFormSection:(NSInteger)formSection {
+    [self associateValue:$I(formSection) withKey:&formSectionKey];
+}
+
+- (NSInteger)formSection {
+    return [[self associatedValueForKey:&formSectionKey] intValue];
 }
 
 - (NSString *)formTextValue {

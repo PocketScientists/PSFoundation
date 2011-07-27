@@ -10,9 +10,11 @@
 
 @interface UIControl (UIControl_RBForm)
 
+@property (nonatomic, retain) NSString *formID;
+@property (nonatomic, assign) NSInteger formSection;
 @property (nonatomic, readonly) NSString *formTextValue;
 
-+ (UIControl *)controlForDatatype:(NSString *)datatype size:(CGSize)size;
++ (UIControl *)controlWithID:(NSString *)formID datatype:(NSString *)datatype size:(CGSize)size;
 
 - (void)configureControlUsingValue:(NSString *)value;
 @end

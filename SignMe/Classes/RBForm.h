@@ -7,14 +7,19 @@
 //
 
 
+// keys for plist
 #define kRBFormKeySection   @"sections"
 #define kRBFormKeyID        @"id"
 #define kRBFormKeyLabel     @"label"
 #define kRBFormKeyDatatype  @"datatype"
 #define kRBFormKeyValue     @"value"
 
+// datatypes for form creation
 #define kRBFormDataTypeCheckbox     @"Btn"
 #define kRBFormDataTypeTextField    @"Tx"
+
+// tag that determines that this control is a form control
+#define kRBFormControlTag       45321
 
 typedef enum {
     RBFormStatusNew = 0,
