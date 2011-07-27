@@ -864,7 +864,7 @@
 		394B915613D6491B007BFF2E /* libbox.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libbox.a;
+			path = libBox.a;
 			remoteRef = 394B915513D6491B007BFF2E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};

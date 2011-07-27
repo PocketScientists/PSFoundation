@@ -37,6 +37,13 @@
     return existingClient;
 }
 
+- (NSDate *)updateDateForClient:(RBClient *)client {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"client = %@ AND date = client.documents.@max.date", client];
+    RBDocument *lastUpdatedDocument = [RBDocument findFirstWithPredicate:predicate];
+    
+    return lastUpdatedDocument.date;
+}
+
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"status = %d",(NSInteger)formStatus];
     return [[RBDocument numberOfEntitiesWithPredicate:predicate] intValue];

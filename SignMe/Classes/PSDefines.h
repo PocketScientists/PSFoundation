@@ -26,7 +26,7 @@
 #pragma mark DCInstropect - Awesome visual debugging
 ////////////////////////////////////////////////////////////////////////
 
-#ifdef TARGET_IPHONE_SIMULATOR
+#if TARGET_IPHONE_SIMULATOR
     #define kDCIntrospectEnabled
 #endif
 
@@ -53,6 +53,7 @@
 #define kRBFormDirectoryPath        ([NSDocumentsFolder() stringByAppendingPathComponent:kRBFormDirectoryName])
 #define kRBFormSavedDirectoryPath   [kRBFormDirectoryPath stringByAppendingPathComponent:kRBFormSavedDirectoryName]
 
+#define kRBDateFormat               @"MM-dd-yyyy"
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -63,3 +64,20 @@
 #define kAppplicationWillSuspendNotification @"kAppplicationWillSuspendNotification"
 // device shaken
 #define kDeviceWasShakenNotification         @"kDeviceWasShakenNotification"
+
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Helper Functions
+////////////////////////////////////////////////////////////////////////
+
+NS_INLINE NSString *RBFormattedDate(NSDate *date) {
+    static NSDateFormatter *dateFormatter = nil;
+    
+    if (dateFormatter == nil) {
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:kRBDateFormat];
+    }
+    
+    return [dateFormatter stringFromDate:date];
+}

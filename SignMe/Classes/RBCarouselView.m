@@ -8,8 +8,7 @@
 
 #import "RBCarouselView.h"
 #import "PSIncludes.h"
-
-NSDateFormatter *dateFormatter = nil;
+#import "RBPersistenceManager.h"
 
 @interface RBCarouselView ()
 
@@ -32,13 +31,6 @@ NSDateFormatter *dateFormatter = nil;
 #pragma mark -
 #pragma mark Lifecycle
 ////////////////////////////////////////////////////////////////////////
-
-+ (void)initialize {
-    if (self == [RBCarouselView class]) {
-        dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"MM-dd-yyyy"];
-    }
-}
 
 + (RBCarouselView *)carouselView {
     return [[[RBCarouselView alloc] initWithFrame:kCarouselViewFrame] autorelease];
@@ -127,7 +119,9 @@ NSDateFormatter *dateFormatter = nil;
     self.label2.text = [NSString stringWithFormat:@"%d DOCUMENTS", client.documents.count];
 #pragma message("TODO: set last date, not any")
     if (client.documents.count > 0) {
-        self.label3.text = [NSString stringWithFormat:@"UPDATED %@", [dateFormatter stringFromDate:[[client.documents anyObject] date]]]; 
+        RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+        
+        self.label3.text = [NSString stringWithFormat:@"UPDATED %@", RBFormattedDate([persistenceManager updateDateForClient:client])]; 
     } else {
         self.label3.text = @"NEVER UPDATED";
     }
