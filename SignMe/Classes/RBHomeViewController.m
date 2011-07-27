@@ -489,6 +489,7 @@
     self.formsView.userInteractionEnabled = NO;
     self.detailView.frameTop = self.formsViewDefaultY;
     self.detailView.alpha = 0.f;
+    self.addNewClientButton.alpha = 0.f;
     
     [UIView animateWithDuration:duration
                           delay:0.f 
@@ -521,6 +522,7 @@
         // Make clients-carousel expand width to cover add button
         self.clientsCarousel.frame = CGRectMake(self.addNewClientButton.frameRight, self.clientsCarousel.frameTop,
                                                 self.clientsView.frameWidth - self.clientsLabel.frameWidth - self.addNewClientButton.frameWidth, self.clientsCarousel.frameHeight);
+        self.addNewClientButton.alpha = 1.f;
         //self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX, 0);
     }];
 }

@@ -46,7 +46,7 @@ NSDateFormatter *dateFormatter = nil;
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
-        label1_ = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height*0.6f)];
+        label1_ = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
         label1_.font = [UIFont boldSystemFontOfSize:21];
         label1_.textColor = [UIColor whiteColor];
         label1_.backgroundColor = [UIColor clearColor];
@@ -91,11 +91,14 @@ NSDateFormatter *dateFormatter = nil;
 
 - (void)setText:(NSString *)text {
     self.label1.text = [text uppercaseString];
-    [self updateLabelFrames];
+    
 }
 
 - (void)setFromFormStatus:(RBFormStatus)formType {
-    [self setText:RBFormStatusStringRepresentation(formType)];
+    self.label1.text = [RBFormStatusStringRepresentation(formType) uppercaseString];
+    self.label2.text = @"XY TEMPLATES";
+    self.label3.text = @"UPDATED ___";
+    [self updateLabelFrames];
 }
 
 - (void)setFromForm:(RBForm *)form {
