@@ -14,11 +14,14 @@
 #import "ABPerson.h"
 #import "ABPerson+RBMail.h"
 
+#define kRBHeaderViewHeight     40
+
 @interface RBRecipientsView ()
 
 @property (nonatomic, readonly) UIViewController *viewControllerResponder;
 
 - (void)showPeoplePicker;
+- (void)handleAddContactPress:(id)sender;
 
 @end
 
@@ -36,12 +39,26 @@
     if ((self = [super initWithFrame:frame])) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         
-        tableView_ = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
+        UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 5, 150, 31)] autorelease];
+        label.font = [UIFont fontWithName:kRBFontName size:18];
+        label.textColor = kRBColorMain;
+        label.backgroundColor = [UIColor clearColor];
+        label.text = @"Add Recipient: ";
+        [self addSubview:label];
+        
+        UIButton *addContactButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+        addContactButton.frame = CGRectMake(label.frameRight, label.frameTop, 31, 31);
+        [addContactButton addTarget:self action:@selector(handleAddContactPress:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:addContactButton];
+        
+        tableView_ = [[UITableView alloc] initWithFrame:CGRectMake(30, kRBHeaderViewHeight, 230, self.bounds.size.height-kRBHeaderViewHeight) style:UITableViewStylePlain];
         tableView_.delegate = self;
         tableView_.dataSource = self;
         tableView_.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         tableView_.backgroundColor = [UIColor clearColor];
-        tableView_.backgroundView = [[[UIView alloc] init] autorelease];
+        tableView_.backgroundView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+        tableView_.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+        tableView_.editing = YES;
         
         [self addSubview:tableView_];
         
@@ -64,21 +81,30 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.recipients.count +1;
+    return self.recipients.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	RBRecipientTableViewCell *cell = [RBRecipientTableViewCell cellForTableView:tableView style:UITableViewCellStyleDefault];
-    if (indexPath.row == self.recipients.count) {
-        cell.mainText = @"Add";
-    } else {
-        ABPerson *personWrapper = [self.recipients objectAtIndex:indexPath.row];
-        
-        cell.mainText = [personWrapper.lastName stringByAppendingFormat:@", %@", personWrapper.firstName];
-        cell.detailText = personWrapper.mainEMail;
-    }
+    ABPerson *personWrapper = [self.recipients objectAtIndex:indexPath.row];
+    
+    cell.mainText = personWrapper.fullName;
+    cell.detailText = personWrapper.mainEMail;
+    
     
     return cell;
+}
+
+// no cell is selectable
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    return nil;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.recipients removeObjectAtIndex:indexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:XARRAY(indexPath) withRowAnimation:UITableViewRowAnimationMiddle];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -87,7 +113,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self showPeoplePicker];
+    
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -104,11 +130,14 @@
     ABPerson *personWrapper = [[ABAddressBook sharedAddressBook] personWithRecordRef:person];
     
     if ([self.recipients containsObject:personWrapper]) {
+        NSInteger index = [self.recipients indexOfObject:personWrapper];
         [self.recipients removeObject:personWrapper];
+        [self.tableView deleteRowsAtIndexPaths:XARRAY([NSIndexPath indexPathForRow:index inSection:0]) withRowAnimation:UITableViewRowAnimationMiddle];
     } else {
         [self.recipients addObject:personWrapper];
+        NSInteger index = [self.recipients indexOfObject:personWrapper];
+        [self.tableView insertRowsAtIndexPaths:XARRAY([NSIndexPath indexPathForRow:index inSection:0]) withRowAnimation:UITableViewRowAnimationMiddle];
     }
-    [self.tableView reloadData];
     
     return NO;
 }
@@ -119,6 +148,15 @@
                               identifier:(ABMultiValueIdentifier)identifier {
     
     return [self peoplePickerNavigationController:peoplePicker shouldContinueAfterSelectingPerson:person];
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Target/Action
+////////////////////////////////////////////////////////////////////////
+
+- (void)handleAddContactPress:(id)sender {
+    [self showPeoplePicker];
 }
 
 ////////////////////////////////////////////////////////////////////////

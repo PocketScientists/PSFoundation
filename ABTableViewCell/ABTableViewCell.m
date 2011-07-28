@@ -79,7 +79,7 @@
 		[contentView release];
 		
 		selectedContentView = [[ABTableViewSelectedCellView alloc] initWithFrame:CGRectZero];
-		selectedContentView.opaque = YES;
+		selectedContentView.opaque = NO;
 		self.selectedBackgroundView = selectedContentView;
 		[selectedContentView release];
 		

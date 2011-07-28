@@ -8,9 +8,16 @@
 
 #import "ABPerson+RBMail.h"
 #import "ABMultiValue.h"
+#import "PSIncludes.h"
 
+
+#define kRBNoMailString     @"No E-Mail Address"
 
 @implementation ABPerson (ABPerson_RBMail)
+
+- (BOOL)hasEMail {
+    return ![self.mainEMail isEqualToString:kRBNoMailString];
+}
 
 - (NSString *)mainEMail {
     ABMultiValue *multiValue = [self valueForProperty:kABPersonEmailProperty];
@@ -19,7 +26,25 @@
         return [multiValue valueAtIndex:0];
     }
     
-    return @"No Mail";
+    return kRBNoMailString;
+}
+
+- (NSString *)fullName {
+    NSString *name = @"";
+    
+    if (!IsEmpty(self.lastName)) {
+        name = self.lastName;
+    }
+    
+    if (!IsEmpty(self.firstName)) {
+        if (IsEmpty(name)) {
+            name = self.firstName;
+        } else {
+            name = [name stringByAppendingFormat:@", %@", self.firstName];
+        }
+    }
+    
+    return name;
 }
 
 - (BOOL)isEqual:(id)secondPerson {

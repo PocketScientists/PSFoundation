@@ -100,19 +100,21 @@ static UIFont *detailTextFont = nil;
 ////////////////////////////////////////////////////////////////////////
 
 - (void)drawContentView:(CGRect)r highlighted:(BOOL)highlighted {
+    CGContextRef context = UIGraphicsGetCurrentContext();
 	UIColor *mainTextColor = kRBColorMain;
     UIColor *detailTextColor = kRBColorDetail;
     CGPoint p;
     
     // change colors when selected
 	if(highlighted) {
-        mainTextColor   = [UIColor whiteColor];
-        detailTextColor   = [UIColor whiteColor];
+        [[UIColor colorWithRed:0 green:0 blue:0 alpha:0.4] set];
+        CGContextFillRect(context, r);
+        mainTextColor   = kRBColorDetail;
 	}
     
     
     // draw main text
-    p.x = 20.f;
+    p.x = 45.f;
     p.y = 4.f;
     [mainTextColor set];
     NSString *textToDraw = [self.mainText stringByTruncatingToWidth:self.frame.size.width - p.x - 20.f withFont:mainTextFont];
