@@ -10,6 +10,9 @@
 #import "PSIncludes.h"
 #import "RBRecipientTableViewCell.h"
 #import <AddressBook/AddressBook.h>
+#import "ABAddressBook.h"
+#import "ABPerson.h"
+#import "ABPerson+RBMail.h"
 
 @interface RBRecipientsView ()
 
@@ -41,6 +44,8 @@
         tableView_.backgroundView = [[[UIView alloc] init] autorelease];
         
         [self addSubview:tableView_];
+        
+        recipients_ = [[NSMutableArray alloc] init];
     }
     
     return self;
@@ -59,14 +64,19 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return self.recipients.count +1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	RBRecipientTableViewCell *cell = [RBRecipientTableViewCell cellForTableView:tableView style:UITableViewCellStyleDefault];
-    
-    cell.mainText = @"Franz Hauser";
-    cell.detailText = @"franz@hauser.com";
+    if (indexPath.row == self.recipients.count) {
+        cell.mainText = @"Add";
+    } else {
+        ABPerson *personWrapper = [self.recipients objectAtIndex:indexPath.row];
+        
+        cell.mainText = [personWrapper.lastName stringByAppendingFormat:@", %@", personWrapper.firstName];
+        cell.detailText = personWrapper.mainEMail;
+    }
     
     return cell;
 }
@@ -91,6 +101,15 @@
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker 
       shouldContinueAfterSelectingPerson:(ABRecordRef)person {
+    ABPerson *personWrapper = [[ABAddressBook sharedAddressBook] personWithRecordRef:person];
+    
+    if ([self.recipients containsObject:personWrapper]) {
+        [self.recipients removeObject:personWrapper];
+    } else {
+        [self.recipients addObject:personWrapper];
+    }
+    [self.tableView reloadData];
+    
     return NO;
 }
 
@@ -98,7 +117,8 @@
       shouldContinueAfterSelectingPerson:(ABRecordRef)person 
                                 property:(ABPropertyID)property
                               identifier:(ABMultiValueIdentifier)identifier {
-    return NO;
+    
+    return [self peoplePickerNavigationController:peoplePicker shouldContinueAfterSelectingPerson:person];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -119,7 +139,7 @@
 
 - (void)showPeoplePicker {
     ABPeoplePickerNavigationController *picker = [[[ABPeoplePickerNavigationController alloc] init] autorelease];
-
+    
     picker.peoplePickerDelegate = self;
 	picker.displayedProperties = XARRAY([NSNumber numberWithInt:kABPersonEmailProperty]);
     picker.modalPresentationStyle = UIModalPresentationFormSheet;

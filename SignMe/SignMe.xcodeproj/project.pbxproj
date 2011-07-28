@@ -32,6 +32,7 @@
 		3911A21813E1DABC00CD4F6C /* libDocuSign.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 394B916313D64924007BFF2E /* libDocuSign.a */; };
 		3911A21A13E1DB7B00CD4F6C /* DocuSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21913E1DB7B00CD4F6C /* DocuSign.framework */; };
 		3911A21C13E1DCC000CD4F6C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21B13E1DCC000CD4F6C /* libxml2.dylib */; };
+		3911A21F13E1E2AD00CD4F6C /* ABPerson+RBMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A21E13E1E2AD00CD4F6C /* ABPerson+RBMail.m */; };
 		3925C7D413DDE72B008810AF /* RBUIGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D313DDE72B008810AF /* RBUIGenerator.m */; };
 		3925C7D713DDE75C008810AF /* RBFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D613DDE75C008810AF /* RBFormView.m */; };
 		3925C7E013DDE863008810AF /* RBFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7DF13DDE863008810AF /* RBFormViewController.m */; };
@@ -236,6 +237,8 @@
 		3911A20B13E1DA9300CD4F6C /* iPhoneContacts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = iPhoneContacts.xcodeproj; path = ../iPhoneContacts/iPhoneContacts.xcodeproj; sourceTree = "<group>"; };
 		3911A21913E1DB7B00CD4F6C /* DocuSign.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DocuSign.framework; path = ../external/DocuSign/DocuSign/DocuSign.framework; sourceTree = "<group>"; };
 		3911A21B13E1DCC000CD4F6C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		3911A21D13E1E2AD00CD4F6C /* ABPerson+RBMail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ABPerson+RBMail.h"; sourceTree = "<group>"; };
+		3911A21E13E1E2AD00CD4F6C /* ABPerson+RBMail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ABPerson+RBMail.m"; sourceTree = "<group>"; };
 		3925C7D213DDE72B008810AF /* RBUIGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBUIGenerator.h; sourceTree = "<group>"; };
 		3925C7D313DDE72B008810AF /* RBUIGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBUIGenerator.m; sourceTree = "<group>"; };
 		3925C7D513DDE75C008810AF /* RBFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFormView.h; sourceTree = "<group>"; };
@@ -646,6 +649,8 @@
 			children = (
 				3981E13813DF644F00B23A7D /* UIControl+RBForm.h */,
 				3981E13913DF644F00B23A7D /* UIControl+RBForm.m */,
+				3911A21D13E1E2AD00CD4F6C /* ABPerson+RBMail.h */,
+				3911A21E13E1E2AD00CD4F6C /* ABPerson+RBMail.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1063,6 +1068,7 @@
 				3911A1C413E1C3C900CD4F6C /* RBRecipientsView.m in Sources */,
 				3911A1CC13E1CC5F00CD4F6C /* RBRecipientTableViewCell.m in Sources */,
 				3911A1E513E1CCE700CD4F6C /* ABTableViewCell.m in Sources */,
+				3911A21F13E1E2AD00CD4F6C /* ABPerson+RBMail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
