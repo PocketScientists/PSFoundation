@@ -22,3 +22,6 @@
 [submodule "iCarousel"]
 	path = iCarousel
 	url = git://github.com/myell0w/iCarousel.git
+[submodule "iPhoneContacts"]
+	path = iPhoneContacts
+	url = https://github.com/AlanQuatermain/iPhoneContacts.git

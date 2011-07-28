@@ -46,25 +46,25 @@
     if ((self = [super initWithFrame:frame])) {
         label1_ = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
         
-        label1_.textColor = [UIColor whiteColor];
+        label1_.textColor = kRBColorMain;
         label1_.backgroundColor = [UIColor clearColor];
         label1_.textAlignment = UITextAlignmentLeft;
         label1_.lineBreakMode = UILineBreakModeClip;
         
         label2_ = [[UILabel alloc] initWithFrame:CGRectMake(0, label1_.frameBottom, self.bounds.size.width, self.bounds.size.height*0.2)];
-        label2_.textColor = [UIColor whiteColor];
+        label2_.textColor = kRBColorMain;
         label2_.backgroundColor = [UIColor clearColor];
         label2_.textAlignment = UITextAlignmentLeft;
         label2_.numberOfLines = 0;
         label2_.lineBreakMode = UILineBreakModeTailTruncation;
         
         label3_ = [[UILabel alloc] initWithFrame:CGRectMake(0, label2_.frameBottom, self.bounds.size.width, self.bounds.size.height*0.2)];
-        label3_.textColor = [UIColor whiteColor];
+        label3_.textColor = kRBColorMain;
         label3_.backgroundColor = [UIColor clearColor];
         label3_.textAlignment = UITextAlignmentLeft;
         
         label4_ = [[UILabel alloc] initWithFrame:CGRectMake(0, label2_.frameBottom, self.bounds.size.width, self.bounds.size.height*0.2)];
-        label4_.textColor = [UIColor colorWithRed:0.7765f green:0.7333f blue:0.1137f alpha:1.0000f];
+        label4_.textColor = kRBColorDetail;
         label4_.backgroundColor = [UIColor clearColor];
         label4_.textAlignment = UITextAlignmentLeft;
         

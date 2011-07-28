@@ -659,7 +659,7 @@
     label.textAlignment = UITextAlignmentCenter;
     label.transform = CGAffineTransformMakeRotation(MTDegreesToRadian(90));
     label.backgroundColor = [UIColor colorWithRed:0.7804f green:0.0000f blue:0.2941f alpha:1.0000f];
-    label.textColor = [UIColor whiteColor];
+    label.textColor = kRBColorMain;
     label.font = [UIFont fontWithName:kRBFontName size:22.f];
     label.frameLeft = 0;
     label.frameBottom = view.frameBottom;

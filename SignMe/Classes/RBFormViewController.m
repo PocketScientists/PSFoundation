@@ -76,10 +76,11 @@
     self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(134, 40, 500, 44)] autorelease];
     self.headerLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     self.headerLabel.backgroundColor = [UIColor clearColor];
-    self.headerLabel.textColor = [UIColor whiteColor];
+    self.headerLabel.textColor = kRBColorMain;
     self.headerLabel.textAlignment = UITextAlignmentCenter;
-    self.headerLabel.font = [UIFont boldSystemFontOfSize:22];
-    self.headerLabel.text = [[self.client.name stringByAppendingFormat:@": %@", self.form.name] uppercaseString];
+    self.headerLabel.font = [UIFont fontWithName:kRBFontName size:22];
+    self.headerLabel.numberOfLines = 2;
+    self.headerLabel.text = [[self.client.name stringByAppendingFormat:@":\n%@", self.form.name] uppercaseString];
     
     self.cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [self.cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];

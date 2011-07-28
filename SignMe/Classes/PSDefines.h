@@ -23,16 +23,6 @@
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
-#pragma mark DCInstropect - Awesome visual debugging
-////////////////////////////////////////////////////////////////////////
-
-#if TARGET_IPHONE_SIMULATOR
-    #define kDCIntrospectEnabled
-#endif
-
-
-////////////////////////////////////////////////////////////////////////
-#pragma mark -
 #pragma mark URLs
 ////////////////////////////////////////////////////////////////////////
 
@@ -54,6 +44,8 @@
 #define kRBFormSavedDirectoryPath   [kRBFormDirectoryPath stringByAppendingPathComponent:kRBFormSavedDirectoryName]
 
 #define kRBFontName                 @"Heiti SC"
+#define kRBColorMain                [UIColor whiteColor]
+#define kRBColorDetail              [UIColor colorWithRed:0.7765f green:0.7333f blue:0.1137f alpha:1.0000f]
 #define kRBDateFormat               @"MM-dd-yyyy"
 
 ////////////////////////////////////////////////////////////////////////

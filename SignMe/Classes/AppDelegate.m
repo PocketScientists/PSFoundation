@@ -69,11 +69,6 @@
     window_.rootViewController = navigationController_;
     [window_ makeKeyAndVisible];
     
-    // visual debugging!
-#ifdef kDCIntrospectEnabled
-    // [[DCIntrospect sharedIntrospector] start];
-#endif
-    
     if (kPostFinishLaunchDelay > 0) {
         [self performSelector:@selector(postFinishLaunch) withObject:nil afterDelay:kPostFinishLaunchDelay];
     }
