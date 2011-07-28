@@ -188,38 +188,58 @@
     } 
     // More words
     else {
-        self.label1.text = [words objectAtIndex:0];
+        BOOL twoWordsInFirstLine = NO;
         
-        NSArray *restOfWords = [words subarrayWithRange:NSMakeRange(1, words.count-1)];
-        self.label2.text = [restOfWords componentsJoinedByString:@" "];
+        if (words.count >= 3) {
+            // try if two words fit
+            NSString *firstLabelString = [[words objectAtIndex:0] stringByAppendingFormat:@" %@", [words objectAtIndex:1]];
+            CGSize sizeNeeded = [firstLabelString sizeWithFont:self.label1.font];
+            
+            // two words fit
+            if (sizeNeeded.width < self.size.width) {
+                NSArray *restOfWords = [words subarrayWithRange:NSMakeRange(2, words.count-2)];
+
+                twoWordsInFirstLine = YES;
+                
+                self.label1.text = firstLabelString;
+                self.label2.text = [restOfWords componentsJoinedByString:@" "];
+            }
+        } 
+        
+        if (!twoWordsInFirstLine) {
+            self.label1.text = [words objectAtIndex:0];
+            
+            NSArray *restOfWords = [words subarrayWithRange:NSMakeRange(1, words.count-1)];
+            self.label2.text = [restOfWords componentsJoinedByString:@" "];
+        }
     }
 }
-
-- (void)updateLabelFrames {
-    [self.label1 sizeToFit];
-    self.label1.frameTop = 0.f;
-    self.label1.frameWidth = self.bounds.size.width;
     
-    // sizeToFit doesn't work with numberOfLines != 0, Bug?
-    if (self.label2.numberOfLines != 0) {
-        CGSize size = [self.label2.text sizeWithFont:self.label2.font
-                                   constrainedToSize:CGSizeMake(self.bounds.size.width, self.label2.numberOfLines*32)
-                                       lineBreakMode:self.label2.lineBreakMode];
-        self.label2.frame = (CGRect){CGPointZero,size};
-    } else {
-        [self.label2 sizeToFit];
-        self.label2.frameWidth = self.bounds.size.width;
+    - (void)updateLabelFrames {
+        [self.label1 sizeToFit];
+        self.label1.frameTop = 0.f;
+        self.label1.frameWidth = self.bounds.size.width;
+        
+        // sizeToFit doesn't work with numberOfLines != 0, Bug?
+        if (self.label2.numberOfLines != 0) {
+            CGSize size = [self.label2.text sizeWithFont:self.label2.font
+                                       constrainedToSize:CGSizeMake(self.bounds.size.width, self.label2.numberOfLines*32)
+                                           lineBreakMode:self.label2.lineBreakMode];
+            self.label2.frame = (CGRect){CGPointZero,size};
+        } else {
+            [self.label2 sizeToFit];
+            self.label2.frameWidth = self.bounds.size.width;
+        }
+        
+        [self.label2 positionUnderView:self.label1 padding:0 alignment:MTUIViewAlignmentLeftAligned];
+        
+        [self.label3 sizeToFit];
+        self.label3.frameWidth = self.bounds.size.width;
+        [self.label3 positionUnderView:self.label2 padding:5.f alignment:MTUIViewAlignmentLeftAligned];
+        
+        [self.label4 sizeToFit];
+        self.label4.frameWidth = self.bounds.size.width;
+        [self.label4 positionUnderView:self.label3 padding:0 alignment:MTUIViewAlignmentLeftAligned];
     }
     
-    [self.label2 positionUnderView:self.label1 padding:0 alignment:MTUIViewAlignmentLeftAligned];
-    
-    [self.label3 sizeToFit];
-    self.label3.frameWidth = self.bounds.size.width;
-    [self.label3 positionUnderView:self.label2 padding:5.f alignment:MTUIViewAlignmentLeftAligned];
-    
-    [self.label4 sizeToFit];
-    self.label4.frameWidth = self.bounds.size.width;
-    [self.label4 positionUnderView:self.label3 padding:0 alignment:MTUIViewAlignmentLeftAligned];
-}
-
-@end
+    @end
