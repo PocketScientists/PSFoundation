@@ -76,6 +76,9 @@
 - (void)presentViewControllerForForm:(RBForm *)form client:(RBClient *)client;
 
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus;
+- (void)updateCarouselSelectionState:(iCarousel *)carousel selectedItem:(UIControl *)selectedItem;
+
+- (void)handleClientLongPress:(UILongPressGestureRecognizer *)gestureRecognizer;
 
 @end
 
@@ -195,8 +198,6 @@
     
     // we control centering for this carousel on our own
     self.formsCarousel.centerItemWhenSelected = NO;
-    // we don't want centering on this carousel
-    self.clientsCarousel.centerItemWhenSelected = NO;
     // we inset the viewpoint s.t. items in both carousel have same x-pos (clientsCarousel has other frame than formsCarousel)
     // we also add another item width, s.t. the first item (that is ususally centered) appears on first position
     self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX, 0);
@@ -298,10 +299,16 @@
     
     else if (carousel == self.clientsCarousel) {
         view = [RBCarouselView carouselViewWithWidth:kRBClientsCarouselItemWidth];
+        
+        
         // Should not be needed, but even though count = 0 viewForItem gets called
         if ([self numberOfItemsInCarousel:carousel] > 0) {
             RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
             [view setFromClient:client];
+            
+            // long-press on client triggers edit-screen
+            UILongPressGestureRecognizer *longPress = [[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleClientLongPress:)] autorelease];
+            [view addGestureRecognizer:longPress];
         } else {
             view.isAddClientView = YES;
             [view setText:[NSString stringWithFormat:@"Add client\n'%@'",self.searchField.text]];
@@ -322,6 +329,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (BOOL)carouselShouldWrap:(iCarousel *)carousel {
+    MTLog(carousel.numberOfItems);
     return carousel.numberOfItems >= kMinNumberOfItemsToWrap;
 }
 
@@ -341,9 +349,10 @@
     return 0.f;
 }
 
-- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {    
+- (void)carouselCurrentItemIndexUpdated:(iCarousel *)carousel {        
     // update detail view if user scrolled to new form while detailView is visible
     if (carousel == self.formsCarousel && self.detailView.alpha == 1.f) {
+        [self updateCarouselSelectionState:carousel selectedItem:(UIControl *)[carousel currentView]];
         self.detailItemSelected = NO;
         
         [self updateDetailViewWithFormStatus:(RBFormStatus)carousel.currentItemIndex];
@@ -351,7 +360,9 @@
     }
 }
 
-- (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
+- (void)carousel:(iCarousel *)carousel didSelectItem:(UIView *)selectedItem atIndex:(NSInteger)index {
+    [self updateCarouselSelectionState:carousel selectedItem:(UIControl *)selectedItem];
+    
     if (carousel == self.formsCarousel) {
         [self formsCarouselDidSelectItemAtIndex:index];
     }
@@ -369,6 +380,7 @@
     self.detailItemSelected = NO;
     
     if (self.detailViewVisible) {
+        [self updateCarouselSelectionState:self.formsCarousel selectedItem:nil];
         [self hideDetailView];
         
         [self performBlock:^(void) {
@@ -455,6 +467,16 @@
     
     if (self.detailViewVisible) {
         [self hideDetailView];
+    }
+}
+
+- (void)handleClientLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        id attachedObject = ((RBCarouselView *)gestureRecognizer.view).attachedObject;
+        
+        if ([attachedObject isKindOfClass:[RBClient class]]) {
+            [self editClient:(RBClient *)attachedObject];
+        }
     }
 }
 
@@ -756,6 +778,14 @@
         case RBFormStatusUnknown:
             return 0;
     }
+}
+
+- (void)updateCarouselSelectionState:(iCarousel *)carousel selectedItem:(UIControl *)selectedItem {
+    // set selected of all views to no (nil --> setSelected:NO)
+    [carousel.visibleViews makeObjectsPerformSelector:@selector(setSelected:) withObject:nil];
+    
+    // select current active view
+    selectedItem.selected = YES;
 }
 
 @end

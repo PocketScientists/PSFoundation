@@ -12,6 +12,8 @@
 
 @interface RBCarouselView ()
 
+@property (nonatomic, readwrite, retain) id attachedObject;
+
 @property (nonatomic, retain) UILabel *label1;
 @property (nonatomic, retain) UILabel *label2;
 @property (nonatomic, retain) UILabel *label3;
@@ -24,11 +26,12 @@
 
 @implementation RBCarouselView
 
+@synthesize attachedObject = attachedObject_;
+@synthesize isAddClientView = isAddClientView_;
 @synthesize label1 = label1_;
 @synthesize label2 = label2_;
 @synthesize label3 = label3_;
 @synthesize label4 = label4_;
-@synthesize isAddClientView = isAddClientView_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -81,6 +84,7 @@
     MCRelease(label2_);
     MCRelease(label3_);
     MCRelease(label4_);
+    MCRelease(attachedObject_);
     
     [super dealloc];
 }
@@ -91,7 +95,13 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)setSelected:(BOOL)selected {
+    [super setSelected:selected];
     
+    if (selected) {
+        //[self setCornerRadius:0 borderWidth:1 borderColor:[UIColor redColor]];
+    } else {
+        //self.layer.borderWidth = 0.f;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -108,6 +118,8 @@
 }
 
 - (void)setFromFormStatus:(RBFormStatus)formStatus count:(NSUInteger)count {
+    self.attachedObject = $I(formStatus);
+    
     NSString *description = formStatus == RBFormStatusNew ? @"TEMPLATE" : @"DOCUMENT";
     
     if (count != 1) {
@@ -129,6 +141,8 @@
 }
 
 - (void)setFromForm:(RBForm *)form {
+    self.attachedObject = form;
+    
     self.label2.numberOfLines = 2;
     
     self.label1.font = [UIFont fontWithName:kRBFontName size:30.];
@@ -139,6 +153,8 @@
 }
 
 - (void)setFromClient:(RBClient *)client {
+    self.attachedObject = client;
+    
     [self splitTextOnFirstTwoLabels:client.name];
     
     self.label3.text = [NSString stringWithFormat:@"%d DOCUMENTS", client.documents.count];
