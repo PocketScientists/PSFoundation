@@ -192,7 +192,7 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
     return [self.formData valueForKey:kRBFormKeySection];
 }
 
-- (NSDictionary *)pdfDictionary {
+- (NSDictionary *)PDFDictionary {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
     for (NSArray *section in self.sections) {
