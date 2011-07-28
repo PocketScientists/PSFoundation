@@ -329,8 +329,11 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (BOOL)carouselShouldWrap:(iCarousel *)carousel {
-    MTLog(carousel.numberOfItems);
     return carousel.numberOfItems >= kMinNumberOfItemsToWrap;
+}
+
+- (BOOL)carouselShouldDisableUserInteractionOnNonCenteredItems:(iCarousel *)carousel {
+    return NO;
 }
 
 - (float)carouselItemWidth:(iCarousel *)carousel {
