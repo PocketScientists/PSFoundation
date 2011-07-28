@@ -192,6 +192,22 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
     return [self.formData valueForKey:kRBFormKeySection];
 }
 
+- (NSDictionary *)pdfDictionary {
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    
+    for (NSArray *section in self.sections) {
+        for (NSDictionary *field in section) {
+            id fieldValue = [field valueForKey:kRBFormKeyValue];
+            
+            if (!IsEmpty(fieldValue)) {
+                [dict setValue:fieldValue forKey:[field valueForKey:kRBFormKeyID]];
+            }
+        }
+    }
+    
+    return [[dict copy] autorelease];
+}
+
 - (NSArray *)fieldIDsOfSection:(NSUInteger)section {
     // index out of bounds
     if (section >= self.numberOfSections) {

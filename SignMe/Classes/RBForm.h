@@ -57,6 +57,8 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index);
 /** Sections for input view */
 @property (nonatomic, readonly) NSUInteger numberOfSections;
 @property (nonatomic, readonly) NSArray *sections;
+/** Returns a dictionary with key-value pairs (ID/Value) for the pdf-form */
+@property (nonatomic, readonly) NSDictionary *PDFDictionary;
 
 /** all field IDs of a section */
 - (NSArray *)fieldIDsOfSection:(NSUInteger)section;
@@ -65,7 +67,7 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index);
 - (id)valueForKey:(NSString *)key ofField:(NSString *)fieldID inSection:(NSUInteger)section;
 - (void)setValue:(id)value forField:(NSString *)fieldID inSection:(NSUInteger)section;
 
-// Document
+/** writes the data to a plist-file */
 - (BOOL)saveAsDocument;
 
 @end

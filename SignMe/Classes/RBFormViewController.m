@@ -79,7 +79,7 @@
     self.headerLabel.textColor = [UIColor whiteColor];
     self.headerLabel.textAlignment = UITextAlignmentCenter;
     self.headerLabel.font = [UIFont boldSystemFontOfSize:22];
-    self.headerLabel.text = [self.form.name uppercaseString];
+    self.headerLabel.text = [[self.client.name stringByAppendingFormat:@": %@", self.form.name] uppercaseString];
     
     self.cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [self.cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
