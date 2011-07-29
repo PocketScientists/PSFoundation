@@ -9,15 +9,14 @@
 #import "PSDefines.h"
 #import "PSIncludes.h"
 #import "PSWindow.h"
+#import "Box.h"
 
 
-@interface AppDelegate : NSObject <UIApplicationDelegate, PSReachabilityAware> {
-  PSWindow               *window_;
-  UINavigationController *navigationController_;
-}
+@interface AppDelegate : NSObject <UIApplicationDelegate, PSReachabilityAware> 
 
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, retain) UINavigationController *navigationController;
+@property (nonatomic, retain) Box *box;
 
 @end
 

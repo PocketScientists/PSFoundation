@@ -42,6 +42,7 @@
 		3925C7E013DDE863008810AF /* RBFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7DF13DDE863008810AF /* RBFormViewController.m */; };
 		3925C7E313DDF01C008810AF /* W-9.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3925C7E213DDF01C008810AF /* W-9.plist */; };
 		3925C7E513DDF028008810AF /* Partnership Agreement.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3925C7E413DDF028008810AF /* Partnership Agreement.plist */; };
+		393AB0A413E2361000F1BE04 /* RBBoxLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393AB0A313E2361000F1BE04 /* RBBoxLoginViewController.m */; };
 		394B916A13D64BB1007BFF2E /* PSBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916913D64BB1007BFF2E /* PSBaseTableViewController.m */; };
 		394B916E13D64C62007BFF2E /* RBHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916D13D64C62007BFF2E /* RBHomeViewController.m */; };
 		394B917213D64CE3007BFF2E /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 394B916F13D64CE3007BFF2E /* Default-Landscape~ipad.png */; };
@@ -257,6 +258,8 @@
 		3925C7DF13DDE863008810AF /* RBFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFormViewController.m; sourceTree = "<group>"; };
 		3925C7E213DDF01C008810AF /* W-9.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "W-9.plist"; sourceTree = "<group>"; };
 		3925C7E413DDF028008810AF /* Partnership Agreement.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Partnership Agreement.plist"; sourceTree = "<group>"; };
+		393AB0A213E2361000F1BE04 /* RBBoxLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBBoxLoginViewController.h; sourceTree = "<group>"; };
+		393AB0A313E2361000F1BE04 /* RBBoxLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBBoxLoginViewController.m; sourceTree = "<group>"; };
 		394B914E13D6491A007BFF2E /* box.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box.xcodeproj; path = ../external/box.net/box.xcodeproj; sourceTree = "<group>"; };
 		394B915B13D64923007BFF2E /* DocuSign.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DocuSign.xcodeproj; path = ../external/DocuSign/DocuSign.xcodeproj; sourceTree = "<group>"; };
 		394B916813D64BB1007BFF2E /* PSBaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSBaseTableViewController.h; sourceTree = "<group>"; };
@@ -589,6 +592,15 @@
 			name = Forms;
 			sourceTree = "<group>";
 		};
+		393AB0A113E235EE00F1BE04 /* Box.Net */ = {
+			isa = PBXGroup;
+			children = (
+				393AB0A213E2361000F1BE04 /* RBBoxLoginViewController.h */,
+				393AB0A313E2361000F1BE04 /* RBBoxLoginViewController.m */,
+			);
+			name = Box.Net;
+			sourceTree = "<group>";
+		};
 		394B914F13D6491A007BFF2E /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -707,6 +719,7 @@
 				39680E6713E06A60006B47C1 /* Client */,
 				39A7F07F13DA208A008338A4 /* Home */,
 				3925C7D813DDE82C008810AF /* Form */,
+				393AB0A113E235EE00F1BE04 /* Box.Net */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -1097,6 +1110,7 @@
 				3911A21F13E1E2AD00CD4F6C /* ABPerson+RBMail.m in Sources */,
 				3911A22213E226CB00CD4F6C /* NSUserDefaults+RBAdditions.m in Sources */,
 				3911A22613E228FB00CD4F6C /* RBBoxService.m in Sources */,
+				393AB0A413E2361000F1BE04 /* RBBoxLoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

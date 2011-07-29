@@ -9,8 +9,8 @@
 #import "AppDelegate.h"
 #import "PSIncludes.h"
 #import "RBHomeViewController.h"
+#import "RBBoxLoginViewController.h"
 #import "RBForm.h"
-#import "Box.h"
 
 #ifdef kDCIntrospectEnabled
 #import "DCIntrospect.h"
@@ -32,6 +32,7 @@
 @synthesize window = window_;
 @synthesize navigationController = navigationController_;
 @synthesize homeViewController = homeViewController_;
+@synthesize box = box_;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -42,6 +43,7 @@
     MCRelease(window_);
     MCRelease(navigationController_);
     MCRelease(homeViewController_);
+    MCRelease(box_);
     
     [super dealloc];
 }
@@ -60,8 +62,8 @@
 	[ActiveRecordHelpers setupCoreDataStack];
     
     // TODO: Add Settings bundle instead of hardcoded value
-    [NSUserDefaults standardUserDefaults].folderID = 0;
-        
+    [NSUserDefaults standardUserDefaults].folderID = 92059513;
+    
     // check for NSZombie (memory leak if enabled, but very useful!)
     if(getenv("NSZombieEnabled") || getenv("NSAutoreleaseFreedObjectCheckEnabled")) {
         DDLogWarn(@"NSZombieEnabled / NSAutoreleaseFreedObjectCheckEnabled enabled! Disable for release.");
@@ -76,10 +78,12 @@
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
     
+    self.box = [[[Box alloc] init] autorelease];
+    
     if (kPostFinishLaunchDelay > 0) {
         [self performSelector:@selector(postFinishLaunch) withObject:nil afterDelay:kPostFinishLaunchDelay];
     }
-       
+    
     return YES;
 }
 
@@ -125,7 +129,31 @@
     NetworkStatus networkStatus = [[notification.userInfo valueForKey:kPSNetworkStatusKey] intValue];
     
     if (networkStatus != NotReachable) {
+        __block RBBoxLoginViewController *loginViewController = [[RBBoxLoginViewController alloc] initWithNibName:nil bundle:nil];
         
+        loginViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+        
+        [self.box syncFolderWithId:[NSUserDefaults standardUserDefaults].folderID
+                        loginBlock:^UIWebView *(void) {
+                            [self.navigationController presentModalViewController:loginViewController animated:YES];
+                            return loginViewController.webView;
+                        } 
+                     progressBlock:^(BoxResponseType response, NSObject *boxObject) {
+                         if (loginViewController != nil) {
+                             [self.navigationController dismissModalViewControllerAnimated:YES];
+                             MCReleaseNil(loginViewController);
+                         }
+                         
+                         NSLog(@"progress box object: %@", [(BoxObject *)boxObject objectToString]);
+                     } 
+                   completionBlock:^(BoxResponseType response, NSObject *boxObject) {
+                       if (loginViewController != nil) {
+                           [self.navigationController dismissModalViewControllerAnimated:YES];
+                           MCReleaseNil(loginViewController);
+                       }
+                       
+                       NSLog(@"complete box object: %@", [(BoxObject *)boxObject objectToString]);
+                   }];
     }
 }
 
