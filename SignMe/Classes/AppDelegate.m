@@ -9,12 +9,7 @@
 #import "AppDelegate.h"
 #import "PSIncludes.h"
 #import "RBHomeViewController.h"
-#import "RBBoxLoginViewController.h"
 #import "RBForm.h"
-
-#ifdef kDCIntrospectEnabled
-#import "DCIntrospect.h"
-#endif
 
 
 @interface AppDelegate ()
@@ -32,7 +27,6 @@
 @synthesize window = window_;
 @synthesize navigationController = navigationController_;
 @synthesize homeViewController = homeViewController_;
-@synthesize box = box_;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -43,7 +37,6 @@
     MCRelease(window_);
     MCRelease(navigationController_);
     MCRelease(homeViewController_);
-    MCRelease(box_);
     
     [super dealloc];
 }
@@ -62,7 +55,7 @@
 	[ActiveRecordHelpers setupCoreDataStack];
     
     // TODO: Add Settings bundle instead of hardcoded value
-    [NSUserDefaults standardUserDefaults].folderID = 92059513;
+    [NSUserDefaults standardUserDefaults].folderID = 0;
     
     // check for NSZombie (memory leak if enabled, but very useful!)
     if(getenv("NSZombieEnabled") || getenv("NSAutoreleaseFreedObjectCheckEnabled")) {
@@ -77,8 +70,6 @@
     self.window = [[[PSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
-    
-    self.box = [[[Box alloc] init] autorelease];
     
     if (kPostFinishLaunchDelay > 0) {
         [self performSelector:@selector(postFinishLaunch) withObject:nil afterDelay:kPostFinishLaunchDelay];
@@ -129,54 +120,11 @@
     NetworkStatus networkStatus = [[notification.userInfo valueForKey:kPSNetworkStatusKey] intValue];
     
     if (networkStatus != NotReachable) {
-        __block RBBoxLoginViewController *loginViewController = [[RBBoxLoginViewController alloc] initWithNibName:nil bundle:nil];
-        
-        loginViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-        NSLog(@"Just to make sure view is loaded: %@", loginViewController.view);
-        
-        [self.box syncFolderWithId:[NSUserDefaults standardUserDefaults].folderID
-                        loginBlock:^UIWebView *(void) {
-                            [self.navigationController presentModalViewController:loginViewController animated:NO];
-                            return loginViewController.webView;
-                        } 
-                     progressBlock:^(BoxResponseType response, NSObject *boxObject) {
-                         if (loginViewController != nil) {
-                             [self.navigationController dismissModalViewControllerAnimated:YES];
-                             MCReleaseNil(loginViewController);
-                         }
-                         
-                         NSLog(@"progress box object: %@", [(BoxObject *)boxObject objectToString]);
-                     } 
-                   completionBlock:^(BoxResponseType response, NSObject *boxObject) {
-                       if (loginViewController != nil) {
-                           [self.navigationController dismissModalViewControllerAnimated:YES];
-                           MCReleaseNil(loginViewController);
-                       }
-                       
-                       NSLog(@"complete box object: %@", [(BoxObject *)boxObject objectToString]);
-                   }];
-        
-        /*__block UIWebView *webView = nil;
-        
-        [self.box syncFolderWithId:92059513 loginBlock:^UIWebView *(void) {
-            webView = [[UIWebView alloc] initWithFrame:self.homeViewController.view.bounds];
-            [self.homeViewController.view addSubview:webView];
-            [webView release];
-            return webView;
-        } progressBlock:^(BoxResponseType response, NSObject *boxObject) {
-            if (webView) {
-                [webView removeFromSuperview];
-                webView = nil;
-            }
-            NSLog(@"progress box object: %@", [(BoxObject *)boxObject objectToString]);
-        } completionBlock:^(BoxResponseType response, NSObject *boxObject) {
-            if (webView) {
-                [webView removeFromSuperview];
-                webView = nil;
-            }
-            NSLog(@"complete box object: %@", [(BoxObject *)boxObject objectToString]);
-        }];*/
-
+        [RBBoxService syncFolderWithID:[NSUserDefaults standardUserDefaults].folderID
+                           startedFrom:self.homeViewController
+                          successBlock:^(void) {
+                              DDLogFunction();
+                          } failureBlock:nil];
     }
 }
 

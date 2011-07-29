@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PSIncludes.h"
+#import "PSFoundation.h"
 
 @interface PSBaseViewController : UIViewController <PSReachabilityAware> 
 
@@ -17,7 +17,7 @@
 @property (nonatomic, retain) UIImageView *emptyLogoImageView;
 @property (nonatomic, retain) UIActivityIndicatorView *activityView;
 
-- (void)beginLoading;
+- (void)beginLoadingShowingProgress:(BOOL)showingProgress;
 - (void)setLoadingProgress:(float)progress;
 - (void)finishLoading;
 

@@ -110,17 +110,21 @@
     [self.activityView removeFromSuperview];
 }
 
-- (void)beginLoading {
+- (void)beginLoadingShowingProgress:(BOOL)showingProgress {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
+        if (showingProgress) {
         [UIView animateWithDuration:kRBLoadingAnimationDuration
                          animations:^(void) {
                              self.emptyLogoImageView.alpha = 1.f;
                              self.fullLogoImageView.alpha = 0.f;
                          } completion:^(BOOL finished) {
-                             self.fullLogoImageView.frameWidth = 1.f;
+                             self.fullLogoImageView.frameWidth = 0.f;
                              self.fullLogoImageView.alpha = 1.f;
                              [self showActivityViewAtPoint:CGPointMake(self.emptyLogoImageView.center.x-2, self.emptyLogoImageView.frameTop + 29)];
                          }];
+        } else {
+            [self showActivityViewAtPoint:CGPointMake(self.fullLogoImageView.center.x-2, self.fullLogoImageView.frameTop + 29)];
+        }
     });
 }
 

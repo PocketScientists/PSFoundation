@@ -7,8 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PSBaseViewController.h"
+#import "Box.h"
 
 @interface RBBoxService : NSObject
 
++ (void)syncFolderWithID:(NSInteger)folderID 
+             startedFrom:(PSBaseViewController *)viewController
+            successBlock:(void (^)(void))successBlock
+            failureBlock:(void (^)(BoxResponseType response))failureBlock;
 
 @end

@@ -32,6 +32,7 @@
 - (void)loadView {
     self.webView = [[[UIWebView alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.bounds] autorelease];
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.webView.scalesPageToFit = YES;
     
     self.view = self.webView;
 }
