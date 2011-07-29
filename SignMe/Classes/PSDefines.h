@@ -6,6 +6,7 @@
 //
 
 #import "PSIncludes.h"
+#import "BoxUser.h"
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -47,6 +48,17 @@
 #define kRBColorMain                [UIColor whiteColor]
 #define kRBColorDetail              [UIColor colorWithRed:0.7765f green:0.7333f blue:0.1137f alpha:1.0000f]
 #define kRBDateFormat               @"MM-dd-yyyy"
+#define kRBDateTimeFormat           @"yyyy-MM-dd_hh-mm-ss"
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Box.net Folder Structure
+////////////////////////////////////////////////////////////////////////
+
+#define kRBFolderUser               [[BoxUser savedUser] userName]
+#define kRBFolderEmptyForms         @"forms"
+#define kRBFolderPreSignature       @"pre-signature"
+#define kRBFolderSigned             @"signed"
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -64,20 +76,3 @@
 #define kAppplicationWillSuspendNotification @"kAppplicationWillSuspendNotification"
 // device shaken
 #define kDeviceWasShakenNotification         @"kDeviceWasShakenNotification"
-
-
-////////////////////////////////////////////////////////////////////////
-#pragma mark -
-#pragma mark Helper Functions
-////////////////////////////////////////////////////////////////////////
-
-NS_INLINE NSString *RBFormattedDate(NSDate *date) {
-    static NSDateFormatter *dateFormatter = nil;
-    
-    if (dateFormatter == nil) {
-        dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:kRBDateFormat];
-    }
-    
-    return [dateFormatter stringFromDate:date];
-}

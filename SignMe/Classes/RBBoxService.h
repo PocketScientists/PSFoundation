@@ -14,7 +14,7 @@
 
 + (void)syncFolderWithID:(NSInteger)folderID 
              startedFrom:(PSBaseViewController *)viewController
-            successBlock:(void (^)(void))successBlock
+            successBlock:(void (^)(id boxObject))successBlock
             failureBlock:(void (^)(BoxResponseType response))failureBlock;
 
 @end

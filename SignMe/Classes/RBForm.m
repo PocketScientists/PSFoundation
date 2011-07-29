@@ -178,9 +178,9 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
 ////////////////////////////////////////////////////////////////////////
 
 - (NSString *)filePath {
-    NSString *fileComponent = [NSString stringWithFormat:@"%d_%@",(NSInteger)[[NSDate date] timeIntervalSince1970], self.name];
+    NSString *fileComponent = [NSString stringWithFormat:@"%@__%@", self.name, RBFormattedDateWithFormat([NSDate date], kRBDateTimeFormat)];
     
-    // Forms/Saved/DateInSecondsSince1970_Name.plist
+    // Forms/Saved/Name_Date.plist
     return [[kRBFormSavedDirectoryPath stringByAppendingPathComponent:fileComponent] stringByAppendingPathExtension:kRBFormDataType];
 }
 

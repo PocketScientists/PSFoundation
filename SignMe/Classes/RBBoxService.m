@@ -23,7 +23,7 @@ static Box *box = nil;
 
 + (void)syncFolderWithID:(NSInteger)folderID 
              startedFrom:(PSBaseViewController *)viewController
-            successBlock:(void (^)(void))successBlock
+            successBlock:(void (^)(id boxObject))successBlock
             failureBlock:(void (^)(BoxResponseType response))failureBlock {
     __block RBBoxLoginViewController *loginViewController = [[RBBoxLoginViewController alloc] initWithNibName:nil bundle:nil];
     
@@ -56,9 +56,12 @@ static Box *box = nil;
                    [viewController finishLoading];
                    
                    if (response == BoxResponseSuccess) {
-                       successBlock();
-                   } else if (failureBlock != nil) {
-                       failureBlock(response);
+                       successBlock(boxObject);
+                   } else {
+                       [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+                       if (failureBlock != nil) {
+                           failureBlock(response);
+                       }
                    }
                }];
 }

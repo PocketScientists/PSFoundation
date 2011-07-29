@@ -122,8 +122,8 @@
     if (networkStatus != NotReachable) {
         [RBBoxService syncFolderWithID:[NSUserDefaults standardUserDefaults].folderID
                            startedFrom:self.homeViewController
-                          successBlock:^(void) {
-                              DDLogFunction();
+                          successBlock:^(id boxObject) {
+                              // TODO: ...
                           } failureBlock:nil];
     }
 }

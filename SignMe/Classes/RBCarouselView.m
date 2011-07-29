@@ -162,7 +162,7 @@
     if (client.documents.count > 0) {
         RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
         
-        self.label4.text = [NSString stringWithFormat:@"UPDATED %@", RBFormattedDate([persistenceManager updateDateForClient:client])]; 
+        self.label4.text = [NSString stringWithFormat:@"UPDATED %@", RBFormattedDateWithFormat([persistenceManager updateDateForClient:client], kRBDateFormat)]; 
     } else {
         self.label4.text = @"NEVER UPDATED";
     }
