@@ -17,8 +17,6 @@
 #define kRBRowHeight                31.f
 #define kRBRowPadding               10.f
 
-#define kRBOriginTop                191.f
-
 
 @interface RBUIGenerator ()
 
@@ -33,19 +31,22 @@
     RBFormView *view = [[[RBFormView alloc] initWithFrame:frame] autorelease];
     UIView *topLabel = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
     UIView *topInputField = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
-    CGFloat realViewWidth = view.bounds.size.height; // Because of landscape we have to switch width/height
+    CGFloat realViewWidth = view.screenFrame.size.height; // Because of landscape we have to switch width/height
     CGFloat realViewHeight = view.bounds.size.width;
     CGFloat maxHeight = realViewHeight;
     NSInteger numberOfPages = form.numberOfSections + 1; // +1 for RecipientsView
+    
+    MTLog(realViewWidth);
+    MTLog(realViewHeight);
     
     // iterate over all sections
     for (NSUInteger section=0;section < form.numberOfSections; section++) {
         NSArray *fieldIDs = [form fieldIDsOfSection:section];
         
         // position top views on corresponding page of scrollView
-        topLabel.frameTop = kRBOriginTop - kRBRowHeight - kRBRowPadding;
+        topLabel.frameTop =  - kRBRowHeight - kRBRowPadding;
         topLabel.frameLeft = kRBLabelX + section * realViewWidth;
-        topInputField.frameTop = kRBOriginTop - kRBRowHeight - kRBRowPadding;
+        topInputField.frameTop =  - kRBRowHeight - kRBRowPadding;
         topInputField.frameLeft = kRBInputFieldX + section * realViewWidth;
         
         // iterate over all fields in the section
@@ -65,6 +66,9 @@
             [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
             [inputField positionUnderView:topInputField padding:(kRBRowPadding + heightDiff) alignment:MTUIViewAlignmentLeftAligned];
             
+            MTLog(label.frame);
+            MTLog(inputField.frame);
+            
             [view addSubview:label];
             [view addSubview:inputField];
             
@@ -77,7 +81,7 @@
     }
     
     // Add RecipientsView
-    RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*realViewWidth, kRBOriginTop, view.bounds.size.width, view.bounds.size.height - kRBOriginTop)] autorelease];
+    RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*realViewWidth, 0, view.bounds.size.width, view.bounds.size.height)] autorelease];
     [view addSubview:recipientsView];
     
     // set pageControl on view (isn't displayed yet, because it is not a subview of the scrollView)
@@ -89,6 +93,8 @@
     
     // enable horizontal scrolling
     view.contentSize = CGSizeMake(realViewWidth * numberOfPages, maxHeight);
+    
+    [view enableDebugBorder];
     
     return view;
 }

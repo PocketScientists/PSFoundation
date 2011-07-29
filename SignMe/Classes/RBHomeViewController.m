@@ -219,6 +219,18 @@
     // center 2nd item of formsCarousel
     [self.formsCarousel reloadData];
     [self.formsCarousel scrollToItemAtIndex:RBFormStatusPreSignature animated:NO];
+    
+    [self beginLoading];
+    __block float progress = 0.f;
+    [NSTimer scheduledTimerWithTimeInterval:1 block:^(void) {
+        if (progress < 1) {
+            [self setLoadingProgress:progress];
+            progress += 0.1;
+        } else {
+            [self finishLoading];
+        }
+    } repeats:YES];
+    
 }
 
 - (void) viewDidUnload {

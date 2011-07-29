@@ -26,6 +26,7 @@
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
         self.delegate = self;
+        self.clipsToBounds = YES;
     }
     
     return self;

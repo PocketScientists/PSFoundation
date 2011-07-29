@@ -33,6 +33,10 @@
 		3911A21A13E1DB7B00CD4F6C /* DocuSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21913E1DB7B00CD4F6C /* DocuSign.framework */; };
 		3911A21C13E1DCC000CD4F6C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21B13E1DCC000CD4F6C /* libxml2.dylib */; };
 		3911A21F13E1E2AD00CD4F6C /* ABPerson+RBMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A21E13E1E2AD00CD4F6C /* ABPerson+RBMail.m */; };
+		3911A22213E226CB00CD4F6C /* NSUserDefaults+RBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A22113E226CA00CD4F6C /* NSUserDefaults+RBAdditions.m */; };
+		3911A22613E228FB00CD4F6C /* RBBoxService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A22513E228FB00CD4F6C /* RBBoxService.m */; };
+		3911A22913E22AA600CD4F6C /* LogoEmpty.png in Resources */ = {isa = PBXBuildFile; fileRef = 3911A22713E22AA600CD4F6C /* LogoEmpty.png */; };
+		3911A22A13E22AA600CD4F6C /* LogoFull.png in Resources */ = {isa = PBXBuildFile; fileRef = 3911A22813E22AA600CD4F6C /* LogoFull.png */; };
 		3925C7D413DDE72B008810AF /* RBUIGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D313DDE72B008810AF /* RBUIGenerator.m */; };
 		3925C7D713DDE75C008810AF /* RBFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D613DDE75C008810AF /* RBFormView.m */; };
 		3925C7E013DDE863008810AF /* RBFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7DF13DDE863008810AF /* RBFormViewController.m */; };
@@ -239,6 +243,12 @@
 		3911A21B13E1DCC000CD4F6C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		3911A21D13E1E2AD00CD4F6C /* ABPerson+RBMail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ABPerson+RBMail.h"; sourceTree = "<group>"; };
 		3911A21E13E1E2AD00CD4F6C /* ABPerson+RBMail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ABPerson+RBMail.m"; sourceTree = "<group>"; };
+		3911A22013E226CA00CD4F6C /* NSUserDefaults+RBAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+RBAdditions.h"; sourceTree = "<group>"; };
+		3911A22113E226CA00CD4F6C /* NSUserDefaults+RBAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+RBAdditions.m"; sourceTree = "<group>"; };
+		3911A22413E228FB00CD4F6C /* RBBoxService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBBoxService.h; sourceTree = "<group>"; };
+		3911A22513E228FB00CD4F6C /* RBBoxService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBBoxService.m; sourceTree = "<group>"; };
+		3911A22713E22AA600CD4F6C /* LogoEmpty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LogoEmpty.png; path = Images/LogoEmpty.png; sourceTree = "<group>"; };
+		3911A22813E22AA600CD4F6C /* LogoFull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LogoFull.png; path = Images/LogoFull.png; sourceTree = "<group>"; };
 		3925C7D213DDE72B008810AF /* RBUIGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBUIGenerator.h; sourceTree = "<group>"; };
 		3925C7D313DDE72B008810AF /* RBUIGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBUIGenerator.m; sourceTree = "<group>"; };
 		3925C7D513DDE75C008810AF /* RBFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFormView.h; sourceTree = "<group>"; };
@@ -388,6 +398,7 @@
 			children = (
 				3925C7D013DDE70B008810AF /* Utils */,
 				39C918581398EBA10045489C /* Includes */,
+				3911A22313E228C400CD4F6C /* Requests */,
 				39680E6313DF8373006B47C1 /* Persistence */,
 				39C917B91398367C0045489C /* Model */,
 				3911A1C913E1CC4700CD4F6C /* Cells */,
@@ -531,6 +542,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3911A22313E228C400CD4F6C /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				3911A22413E228FB00CD4F6C /* RBBoxService.h */,
+				3911A22513E228FB00CD4F6C /* RBBoxService.m */,
+			);
+			name = Requests;
+			sourceTree = "<group>";
+		};
 		3925C7D013DDE70B008810AF /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -602,6 +622,8 @@
 			isa = PBXGroup;
 			children = (
 				395EEF2413D72E39003C4DA8 /* Background.png */,
+				3911A22713E22AA600CD4F6C /* LogoEmpty.png */,
+				3911A22813E22AA600CD4F6C /* LogoFull.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -651,6 +673,8 @@
 				3981E13913DF644F00B23A7D /* UIControl+RBForm.m */,
 				3911A21D13E1E2AD00CD4F6C /* ABPerson+RBMail.h */,
 				3911A21E13E1E2AD00CD4F6C /* ABPerson+RBMail.m */,
+				3911A22013E226CA00CD4F6C /* NSUserDefaults+RBAdditions.h */,
+				3911A22113E226CA00CD4F6C /* NSUserDefaults+RBAdditions.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1005,6 +1029,8 @@
 				3925C7E313DDF01C008810AF /* W-9.plist in Resources */,
 				3925C7E513DDF028008810AF /* Partnership Agreement.plist in Resources */,
 				3981E13613DF419600B23A7D /* Red Bull Form.plist in Resources */,
+				3911A22913E22AA600CD4F6C /* LogoEmpty.png in Resources */,
+				3911A22A13E22AA600CD4F6C /* LogoFull.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1069,6 +1095,8 @@
 				3911A1CC13E1CC5F00CD4F6C /* RBRecipientTableViewCell.m in Sources */,
 				3911A1E513E1CCE700CD4F6C /* ABTableViewCell.m in Sources */,
 				3911A21F13E1E2AD00CD4F6C /* ABPerson+RBMail.m in Sources */,
+				3911A22213E226CB00CD4F6C /* NSUserDefaults+RBAdditions.m in Sources */,
+				3911A22613E228FB00CD4F6C /* RBBoxService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -54,6 +54,9 @@
     [RBForm copyFormsFromBundle];
     // setup CoreData
 	[ActiveRecordHelpers setupCoreDataStack];
+    
+    // TODO: Add Settings bundle instead of hardcoded value
+    [NSUserDefaults standardUserDefaults].folderID = 0;
         
     // check for NSZombie (memory leak if enabled, but very useful!)
     if(getenv("NSZombieEnabled") || getenv("NSAutoreleaseFreedObjectCheckEnabled")) {

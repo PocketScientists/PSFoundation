@@ -13,6 +13,8 @@
 #import "UIControl+RBForm.h"
 
 
+#define kRBOriginTop                191.f
+
 @interface RBFormViewController ()
 
 - (void)handleCancelButtonPress:(id)sender;
@@ -69,9 +71,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    
     RBUIGenerator *generator = [[[RBUIGenerator alloc] init] autorelease];
     
-    self.formView = [generator viewFromForm:self.form withFrame:self.view.bounds];
+    self.formView = [generator viewFromForm:self.form withFrame:CGRectMake(0, kRBOriginTop, self.view.bounds.size.width, self.view.bounds.size.height-kRBOriginTop)];
     
     self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(134, 40, 500, 44)] autorelease];
     self.headerLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
