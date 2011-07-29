@@ -30,10 +30,10 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)loadView {
-    UIWebView *webView = [[[UIWebView alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.bounds] autorelease];
-    webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.webView = [[[UIWebView alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.bounds] autorelease];
+    self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
-    self.view = webView;
+    self.view = self.webView;
 }
 
 ////////////////////////////////////////////////////////////////////////

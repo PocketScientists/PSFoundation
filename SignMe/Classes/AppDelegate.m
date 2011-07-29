@@ -135,7 +135,7 @@
         
         [self.box syncFolderWithId:[NSUserDefaults standardUserDefaults].folderID
                         loginBlock:^UIWebView *(void) {
-                            [self.navigationController presentModalViewController:loginViewController animated:YES];
+                            [self.navigationController presentModalViewController:loginViewController animated:NO];
                             return loginViewController.webView;
                         } 
                      progressBlock:^(BoxResponseType response, NSObject *boxObject) {
@@ -154,6 +154,28 @@
                        
                        NSLog(@"complete box object: %@", [(BoxObject *)boxObject objectToString]);
                    }];
+        
+        /*__block UIWebView *webView = nil;
+        
+        [self.box syncFolderWithId:92059513 loginBlock:^UIWebView *(void) {
+            webView = [[UIWebView alloc] initWithFrame:self.homeViewController.view.bounds];
+            [self.homeViewController.view addSubview:webView];
+            [webView release];
+            return webView;
+        } progressBlock:^(BoxResponseType response, NSObject *boxObject) {
+            if (webView) {
+                [webView removeFromSuperview];
+                webView = nil;
+            }
+            NSLog(@"progress box object: %@", [(BoxObject *)boxObject objectToString]);
+        } completionBlock:^(BoxResponseType response, NSObject *boxObject) {
+            if (webView) {
+                [webView removeFromSuperview];
+                webView = nil;
+            }
+            NSLog(@"complete box object: %@", [(BoxObject *)boxObject objectToString]);
+        }];*/
+
     }
 }
 
