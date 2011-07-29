@@ -22,9 +22,9 @@
 #define kClientCacheName        @"RBClientCache"
 
 #define kAnimationDuration      0.25
-#define kFormsYOffset            80.f
+#define kFormsYOffset            40.f
 #define kClientsYOffset          65.f
-#define kDetailViewHeight       230.f
+#define kDetailViewHeight       170.f
 #define kDetailYOffset           95.f
 
 #define kViewpointOffsetX       (self.addNewClientButton.frameWidth/2 + kRBClientsCarouselItemWidth)
@@ -206,7 +206,7 @@
     self.detailView.frameHeight = kDetailViewHeight;
     self.detailView.alpha = 0.f;
     
-    self.detailCarousel = [[[iCarousel alloc] initWithFrame:CGRectInset(self.detailView.bounds,0.f,50.f)] autorelease];
+    self.detailCarousel = [[[iCarousel alloc] initWithFrame:CGRectInset(self.detailView.bounds,0.f,15.f)] autorelease];
     self.detailCarousel.delegate = self;
     self.detailCarousel.dataSource = self;
     self.detailCarousel.viewpointOffset = CGSizeMake(-self.formsLabel.frameWidth/2.f, 0);

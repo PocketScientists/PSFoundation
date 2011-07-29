@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="848" systemVersion="11A511" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="RBClient" representedClassName="RBClient">
-        <attribute name="imageURL" optional="YES" attributeType="String"/>
+        <attribute name="city" optional="YES" attributeType="String"/>
+        <attribute name="company" optional="YES" attributeType="String"/>
         <attribute name="name" attributeType="String" defaultValueString="Unknown" indexed="YES"/>
+        <attribute name="street" optional="YES" attributeType="String"/>
         <attribute name="visible" optional="YES" attributeType="Boolean" defaultValueString="YES" indexed="YES"/>
+        <attribute name="zip" optional="YES" attributeType="String"/>
         <relationship name="documents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RBDocument" inverseName="client" inverseEntity="RBDocument"/>
     </entity>
     <entity name="RBDocument" representedClassName="RBDocument">
@@ -14,7 +17,7 @@
         <relationship name="client" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBClient" inverseName="documents" inverseEntity="RBClient"/>
     </entity>
     <elements>
-        <element name="RBClient" positionX="160" positionY="192" width="128" height="105"/>
-        <element name="RBDocument" positionX="-173" positionY="42" width="128" height="120"/>
+        <element name="RBClient" positionX="160" positionY="48" width="128" height="105"/>
+        <element name="RBDocument" positionX="340" positionY="-66" width="128" height="120"/>
     </elements>
 </model>

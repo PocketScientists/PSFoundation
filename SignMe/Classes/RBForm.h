@@ -8,18 +8,33 @@
 
 
 // keys for plist
-#define kRBFormKeySection   @"sections"
-#define kRBFormKeyID        @"id"
-#define kRBFormKeyLabel     @"label"
-#define kRBFormKeyDatatype  @"datatype"
-#define kRBFormKeyValue     @"value"
+#define kRBFormKeySection           @"sections"         // section the field appears in in the iPad App
+#define kRBFormKeyID                @"id"               // id of the field
+#define kRBFormKeyLabel             @"label"            // label of the field
+#define kRBFormKeyDatatype          @"datatype"         // datatype decides which UIControl is displayed
+#define kRBFormKeyValue             @"value"            // set value of the field
+
+#define kRBFormKeyTabs              @"tabs"             // tabs for signing in DocuSign
+#define kRBFormKeyTabPage           @"page"             // the page a tab should appear
+#define kRBFormKeyTabX              @"x"                // the x-position the tab should appear
+#define kRBFormKeyTabY              @"y"                // the y-position the tab should appear
+#define kRBFormKeyTabType           @"type"             // the type of the tab (Initial/Sign)
+
+#define kRBFormKeyMapping           @"mapping"          // the mapping of the field to the client (name, address, ...)
+#define kRBFormKeyMappingNone       @""
+#define kRBFormKeyMappingName       @"name"
+#define kRBFormKeyMappingCompany    @"company"
+#define kRBFormKeyMappingStreet     @"street"
+#define kRBFormKeyMappingCity       @"city"
+#define kRBFormKeyMappingZip        @"zip"
+
 
 // datatypes for form creation
 #define kRBFormDataTypeCheckbox     @"Btn"
 #define kRBFormDataTypeTextField    @"Tx"
 
 // tag that determines that this control is a form control
-#define kRBFormControlTag       45321
+#define kRBFormControlTag           45321
 
 typedef enum {
     RBFormStatusNew = 0,

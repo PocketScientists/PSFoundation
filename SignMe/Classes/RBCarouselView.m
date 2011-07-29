@@ -14,6 +14,7 @@
 
 @property (nonatomic, readwrite, retain) id attachedObject;
 
+@property (nonatomic, assign) CGFloat topMargin;
 @property (nonatomic, retain) UILabel *label1;
 @property (nonatomic, retain) UILabel *label2;
 @property (nonatomic, retain) UILabel *label3;
@@ -29,6 +30,7 @@
 
 @synthesize attachedObject = attachedObject_;
 @synthesize isAddClientView = isAddClientView_;
+@synthesize topMargin = topMargin_;
 @synthesize label1 = label1_;
 @synthesize label2 = label2_;
 @synthesize label3 = label3_;
@@ -47,6 +49,8 @@
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
         self.clipsToBounds = NO;
+        
+        topMargin_ = 0.f;
         
         label1_ = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
         
@@ -112,7 +116,7 @@
     
     if (selected) {
         if ([theLayer respondsToSelector:@selector(setShadowPath:)] && [theLayer respondsToSelector:@selector(shadowPath)]) {
-            if (theLayer.shadowRadius != 20.f) {
+            if (theLayer.shadowRadius != 26.f) {
                 CGMutablePathRef path = CGPathCreateMutable();
                 CGPathAddRect(path, NULL, theLayer.bounds);
                 theLayer.shadowPath = path;
@@ -121,7 +125,7 @@
 			
             theLayer.shadowOffset = CGSizeZero;     
             theLayer.shadowColor = [UIColor colorWithWhite:0.f alpha:0.3].CGColor;
-            theLayer.shadowRadius = 20.f;            
+            theLayer.shadowRadius = 26.f;            
             theLayer.shadowOpacity = 1.0;                
         }
     } else {
@@ -135,6 +139,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)setText:(NSString *)text {
+    self.topMargin = 0.f;
     self.label2.text = [text uppercaseString];
     
     self.label2.frame = self.bounds;
@@ -143,6 +148,7 @@
 }
 
 - (void)setFromFormStatus:(RBFormStatus)formStatus count:(NSUInteger)count {
+    self.topMargin = 0.f;
     self.attachedObject = $I(formStatus);
     
     NSString *description = formStatus == RBFormStatusNew ? @"TEMPLATE" : @"DOCUMENT";
@@ -166,6 +172,7 @@
 }
 
 - (void)setFromForm:(RBForm *)form {
+    self.topMargin = 22.f;
     self.attachedObject = form;
     
     self.label2.numberOfLines = 2;
@@ -178,6 +185,7 @@
 }
 
 - (void)setFromClient:(RBClient *)client {
+    self.topMargin = 0.f;
     self.attachedObject = client;
     
     [self splitTextOnFirstTwoLabels:client.name];
@@ -242,7 +250,7 @@
     
     - (void)updateLabelFrames {
         [self.label1 sizeToFit];
-        self.label1.frameTop = 0.f;
+        self.label1.frameTop = self.topMargin;
         self.label1.frameWidth = self.bounds.size.width;
         
         // sizeToFit doesn't work with numberOfLines != 0, Bug?
