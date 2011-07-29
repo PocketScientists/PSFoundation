@@ -18,6 +18,7 @@
 @property (nonatomic, retain) UILabel *label2;
 @property (nonatomic, retain) UILabel *label3;
 @property (nonatomic, retain) UILabel *label4;
+@property (nonatomic, retain) UIView *lineView;
 
 - (void)splitTextOnFirstTwoLabels:(NSString *)text;
 - (void)updateLabelFrames;
@@ -32,6 +33,7 @@
 @synthesize label2 = label2_;
 @synthesize label3 = label3_;
 @synthesize label4 = label4_;
+@synthesize lineView = lineView_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -44,6 +46,8 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
+        self.clipsToBounds = NO;
+        
         label1_ = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
         
         label1_.textColor = kRBColorMain;
@@ -68,12 +72,18 @@
         label4_.backgroundColor = [UIColor clearColor];
         label4_.textAlignment = UITextAlignmentLeft;
         
+        lineView_ = [[UIView alloc] initWithFrame:CGRectMake(-15, 2, 1, self.bounds.size.height-4)];
+        lineView_.autoresizingMask = UIViewAutoresizingNone;
+        lineView_.backgroundColor = [UIColor colorWithRed:1.f green:1.f blue:1.f alpha:0.2f];
+        lineView_.opaque = NO;
+        
         isAddClientView_ = NO;
         
         [self addSubview:label1_];
         [self addSubview:label2_];
         [self addSubview:label3_];
         [self addSubview:label4_];
+        [self addSubview:lineView_];
     }
     
     return self;
@@ -85,6 +95,7 @@
     MCRelease(label3_);
     MCRelease(label4_);
     MCRelease(attachedObject_);
+    MCRelease(lineView_);
     
     [super dealloc];
 }

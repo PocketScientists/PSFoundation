@@ -18,6 +18,12 @@
 
 @interface RBFormViewController ()
 
+@property (nonatomic, retain) UILabel *headerLabel;
+@property (nonatomic, retain) SSLineView *topLine;
+@property (nonatomic, retain) SSLineView *bottomLine;
+@property (nonatomic, retain) UIButton *cancelButton;
+@property (nonatomic, retain) UIButton *doneButton;
+
 - (void)handleCancelButtonPress:(id)sender;
 - (void)handleDoneButtonPress:(id)sender;
 

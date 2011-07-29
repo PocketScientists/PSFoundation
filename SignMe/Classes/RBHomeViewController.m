@@ -27,7 +27,7 @@
 #define kDetailViewHeight       230.f
 #define kDetailYOffset           95.f
 
-#define kViewpointOffsetX       (self.addNewClientButton.frameWidth/2 + kRBClientsCarouselItemWidth * kRBCarouselItemWidthScaleFactor)
+#define kViewpointOffsetX       (self.addNewClientButton.frameWidth/2 + kRBClientsCarouselItemWidth)
 
 
 @interface RBHomeViewController ()
@@ -46,6 +46,7 @@
 @property (nonatomic, assign, getter = isDetailItemSelected) BOOL detailItemSelected;
 
 @property (nonatomic, readonly, getter = isDetailViewVisible) BOOL detailViewVisible;
+@property (nonatomic, readonly, getter = isSearchScreenVisible) BOOL searchScreenVisible;
 @property (nonatomic, readonly) BOOL clientCarouselShowsAddItem;
 
 // header label for a carousel
@@ -79,6 +80,7 @@
 - (void)updateCarouselSelectionState:(iCarousel *)carousel selectedItem:(UIControl *)selectedItem;
 
 - (void)handleClientLongPress:(UILongPressGestureRecognizer *)gestureRecognizer;
+- (NSUInteger)numberOfClients;
 
 @end
 
@@ -264,11 +266,11 @@
     }
     
     else if (carousel == self.clientsCarousel) {
-        NSInteger numberOfRows = 0;
+        NSInteger numberOfRows = [self numberOfClients];
         
-        if (self.clientsFetchController.sections.count > 0) {
-            id <NSFetchedResultsSectionInfo> sectionInfo = [self.clientsFetchController.sections objectAtIndex:0];
-            numberOfRows = [sectionInfo numberOfObjects];
+        // Show add client view in that case
+        if (self.searchScreenVisible && !IsEmpty(self.searchField.text) && numberOfRows == 0) {
+            return 1;
         }
         
         return numberOfRows;
@@ -295,18 +297,18 @@
     else if (carousel == self.clientsCarousel) {
         view = [RBCarouselView carouselViewWithWidth:kRBClientsCarouselItemWidth];
         
-        
-        // Should not be needed, but even though count = 0 viewForItem gets called
-        if ([self numberOfItemsInCarousel:carousel] > 0) {
+        // do we have to show add item?
+        if ([self numberOfClients] == 0 && index == 0) {
+            view.isAddClientView = YES;
+            [view setText:[NSString stringWithFormat:@"Add client\n'%@'",self.searchField.text]]; 
+        }
+        else  {
             RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
             [view setFromClient:client];
             
             // long-press on client triggers edit-screen
             UILongPressGestureRecognizer *longPress = [[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleClientLongPress:)] autorelease];
             [view addGestureRecognizer:longPress];
-        } else {
-            view.isAddClientView = YES;
-            [view setText:[NSString stringWithFormat:@"Add client\n'%@'",self.searchField.text]];
         }
     }
     
@@ -614,6 +616,10 @@
     }];
 }
 
+- (BOOL)isSearchScreenVisible {
+    return self.formsView.userInteractionEnabled == NO;
+}
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark UIKeyboard Handling
@@ -784,6 +790,17 @@
     
     // select current active view
     selectedItem.selected = YES;
+}
+
+- (NSUInteger)numberOfClients {
+    NSUInteger numberOfRows = 0;
+    
+    if (self.clientsFetchController.sections.count > 0) {
+        id <NSFetchedResultsSectionInfo> sectionInfo = [self.clientsFetchController.sections objectAtIndex:0];
+        numberOfRows = [sectionInfo numberOfObjects];
+    }
+    
+    return numberOfRows;
 }
 
 @end
