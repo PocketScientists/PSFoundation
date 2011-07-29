@@ -209,7 +209,6 @@
     self.detailCarousel = [[[iCarousel alloc] initWithFrame:CGRectInset(self.detailView.bounds,0.f,15.f)] autorelease];
     self.detailCarousel.delegate = self;
     self.detailCarousel.dataSource = self;
-    self.detailCarousel.viewpointOffset = CGSizeMake(-self.formsLabel.frameWidth/2.f, 0);
     
     [self.view insertSubview:self.detailView belowSubview:self.formsView];
     
@@ -747,7 +746,7 @@
     RBClientEditViewController *editViewController = [[[RBClientEditViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     
     editViewController.client = client;
-    editViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+    editViewController.modalPresentationStyle = UIModalPresentationFormSheet; //UIModalPresentationPageSheet;
     editViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
     [self presentModalViewController:editViewController animated:YES];

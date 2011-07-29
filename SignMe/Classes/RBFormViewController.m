@@ -86,7 +86,7 @@
     
     RBUIGenerator *generator = [[[RBUIGenerator alloc] init] autorelease];
     
-    self.formView = [generator viewFromForm:self.form withFrame:CGRectMake(0, kRBOffsetTop, self.view.bounds.size.width, self.view.bounds.size.height-kRBOffsetTop-kRBOffsetBottom)];
+    self.formView = [generator viewWithForm:self.form client:self.client frame:CGRectMake(0, kRBOffsetTop, self.view.bounds.size.width, self.view.bounds.size.height-kRBOffsetTop-kRBOffsetBottom)];
     
     self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(30, 172, 500, 27)] autorelease];
     self.headerLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;

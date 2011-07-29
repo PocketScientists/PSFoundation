@@ -67,7 +67,7 @@
 		39A46C7513E30F8700603CD6 /* AbortButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7213E30F8700603CD6 /* AbortButton.png */; };
 		39A46C7613E30F8700603CD6 /* LogoSignMe.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7313E30F8700603CD6 /* LogoSignMe.png */; };
 		39A46C7713E30F8700603CD6 /* SaveButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7413E30F8700603CD6 /* SaveButton.png */; };
-		39A46C7A13E33F6900603CD6 /* RBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A46C7913E33F6900603CD6 /* RBClient.m */; };
+		39A46C7C13E358C000603CD6 /* CarouselDetailBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7B13E358C000603CD6 /* CarouselDetailBackground.png */; };
 		39A7F07713D9FF2D008338A4 /* RBPDFManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A7F07613D9FF2D008338A4 /* RBPDFManager.m */; };
 		39A7F07913D9FFC3008338A4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39A7F07813D9FFC3008338A4 /* CoreText.framework */; };
 		39A7F07E13DA207A008338A4 /* RBHomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39A7F07D13DA207A008338A4 /* RBHomeView.xib */; };
@@ -303,6 +303,7 @@
 		39A46C7413E30F8700603CD6 /* SaveButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SaveButton.png; path = Images/SaveButton.png; sourceTree = "<group>"; };
 		39A46C7813E33F6900603CD6 /* RBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBClient.h; path = Classes/RBClient.h; sourceTree = "<group>"; };
 		39A46C7913E33F6900603CD6 /* RBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBClient.m; path = Classes/RBClient.m; sourceTree = "<group>"; };
+		39A46C7B13E358C000603CD6 /* CarouselDetailBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CarouselDetailBackground.png; path = Images/CarouselDetailBackground.png; sourceTree = "<group>"; };
 		39A7F07513D9FF2D008338A4 /* RBPDFManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBPDFManager.h; sourceTree = "<group>"; };
 		39A7F07613D9FF2D008338A4 /* RBPDFManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBPDFManager.m; sourceTree = "<group>"; };
 		39A7F07813D9FFC3008338A4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -656,6 +657,7 @@
 				39A46C7213E30F8700603CD6 /* AbortButton.png */,
 				39A46C7313E30F8700603CD6 /* LogoSignMe.png */,
 				39A46C7413E30F8700603CD6 /* SaveButton.png */,
+				39A46C7B13E358C000603CD6 /* CarouselDetailBackground.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -1071,6 +1073,7 @@
 				39A46C7513E30F8700603CD6 /* AbortButton.png in Resources */,
 				39A46C7613E30F8700603CD6 /* LogoSignMe.png in Resources */,
 				39A46C7713E30F8700603CD6 /* SaveButton.png in Resources */,
+				39A46C7C13E358C000603CD6 /* CarouselDetailBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1140,7 +1143,6 @@
 				393AB0A413E2361000F1BE04 /* RBBoxLoginViewController.m in Sources */,
 				393AB0A713E2762900F1BE04 /* PSFunctions.m in Sources */,
 				39A46C7113E30D2F00603CD6 /* SSLineView.m in Sources */,
-				39A46C7A13E33F6900603CD6 /* RBClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

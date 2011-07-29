@@ -258,6 +258,23 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
     }
 }
 
+- (BOOL)fieldWithID:(NSString *)fieldID inSection:(NSUInteger)section matches:(NSString *)match {
+    // index out of bounds
+    if (section >= self.numberOfSections) {
+        DDLogWarn(@"Index %d out of bounds", section);
+        return NO;
+    }
+    
+    NSArray *sectionData = [self.sections objectAtIndex:section];
+    NSInteger index = [self indexOfObjectWithFieldID:fieldID inArray:sectionData];
+    
+    if (index != NSNotFound) {
+        return [[[sectionData objectAtIndex:index] valueForKey:kRBFormKeyMapping] isEqualToString:match];
+    }
+    
+    return NO;
+}
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Document

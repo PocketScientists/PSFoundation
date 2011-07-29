@@ -82,6 +82,9 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index);
 - (id)valueForKey:(NSString *)key ofField:(NSString *)fieldID inSection:(NSUInteger)section;
 - (void)setValue:(id)value forField:(NSString *)fieldID inSection:(NSUInteger)section;
 
+/** check if a field matches a specified purpose (e.g. name, street, address, ... */
+- (BOOL)fieldWithID:(NSString *)fieldID inSection:(NSUInteger)section matches:(NSString *)match;
+
 /** writes the data to a plist-file */
 - (BOOL)saveAsDocument;
 

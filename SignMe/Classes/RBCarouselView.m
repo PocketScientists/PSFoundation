@@ -20,6 +20,7 @@
 @property (nonatomic, retain) UILabel *label3;
 @property (nonatomic, retain) UILabel *label4;
 @property (nonatomic, retain) UIView *lineView;
+@property (nonatomic, retain) UIImageView *backgroundView;
 
 - (void)splitTextOnFirstTwoLabels:(NSString *)text;
 - (void)updateLabelFrames;
@@ -36,6 +37,7 @@
 @synthesize label3 = label3_;
 @synthesize label4 = label4_;
 @synthesize lineView = lineView_;
+@synthesize backgroundView = backgroundView_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -81,8 +83,14 @@
         lineView_.backgroundColor = [UIColor colorWithRed:1.f green:1.f blue:1.f alpha:0.2f];
         lineView_.opaque = NO;
         
+        backgroundView_ = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CarouselDetailBackground"]];
+        backgroundView_.contentMode =  UIViewContentModeScaleAspectFill;
+        backgroundView_.frame = self.bounds;
+        backgroundView_.hidden = YES;
+        
         isAddClientView_ = NO;
         
+        [self addCenteredSubview:backgroundView_];
         [self addSubview:label1_];
         [self addSubview:label2_];
         [self addSubview:label3_];
@@ -100,6 +108,7 @@
     MCRelease(label4_);
     MCRelease(attachedObject_);
     MCRelease(lineView_);
+    MCRelease(backgroundView_);
     
     [super dealloc];
 }
@@ -145,6 +154,9 @@
     self.label2.frame = self.bounds;
     self.label2.textAlignment = UITextAlignmentCenter;
     self.label2.font = [UIFont fontWithName:kRBFontName size:22.];
+    
+    self.backgroundView.hidden = YES;
+    self.lineView.hidden = NO;
 }
 
 - (void)setFromFormStatus:(RBFormStatus)formStatus count:(NSUInteger)count {
@@ -168,6 +180,9 @@
     self.label3.font = [UIFont fontWithName:kRBFontName size:14.];
     self.label4.font = [UIFont fontWithName:kRBFontName size:14.];
     
+    self.backgroundView.hidden = YES;
+    self.lineView.hidden = NO;
+    
     [self updateLabelFrames];
 }
 
@@ -180,7 +195,15 @@
     self.label1.font = [UIFont fontWithName:kRBFontName size:30.];
     self.label2.font = [UIFont fontWithName:kRBFontName size:18.];
     
+    self.backgroundView.hidden = NO;
+    self.lineView.hidden = YES;
+    
     [self splitTextOnFirstTwoLabels:form.name];
+    
+    if (IsEmpty(self.label2.text)) {
+        self.label2.text = @"FORM";
+    }
+    
     [self updateLabelFrames];
 }
 
@@ -206,6 +229,9 @@
     self.label2.font = [UIFont fontWithName:kRBFontName size:30.];
     self.label3.font = [UIFont fontWithName:kRBFontName size:14.];
     self.label4.font = [UIFont fontWithName:kRBFontName size:14.];
+    
+    self.backgroundView.hidden = YES;
+    self.lineView.hidden = NO;
     
     [self updateLabelFrames];
 }

@@ -27,7 +27,7 @@
 
 @implementation RBUIGenerator
 
-- (RBFormView *)viewFromForm:(RBForm *)form withFrame:(CGRect)frame {
+- (RBFormView *)viewWithForm:(RBForm *)form client:(RBClient *)client frame:(CGRect)frame {
     RBFormView *view = [[[RBFormView alloc] initWithFrame:frame] autorelease];
     UIView *topLabel = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
     UIView *topInputField = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
@@ -35,9 +35,6 @@
     CGFloat realViewHeight = view.bounds.size.width;
     CGFloat maxHeight = realViewHeight;
     NSInteger numberOfPages = form.numberOfSections + 1; // +1 for RecipientsView
-    
-    MTLog(realViewWidth);
-    MTLog(realViewHeight);
     
     // iterate over all sections
     for (NSUInteger section=0;section < form.numberOfSections; section++) {
@@ -55,6 +52,14 @@
             NSString *labelText = [form valueForKey:kRBFormKeyLabel ofField:fieldID inSection:section];
             NSString *value = [form valueForKey:kRBFormKeyValue ofField:fieldID inSection:section];
             NSString *datatype = [form valueForKey:kRBFormKeyDatatype ofField:fieldID inSection:section];
+            
+            // match values for client if there is no value set
+            if (IsEmpty(value)) {
+                if ([form fieldWithID:fieldID inSection:section matches:kRBFormKeyMappingName]) {
+                    value = [client valueForKey:kRBFormKeyMappingName];
+                }
+            }
+            
             // create label and input field
             UILabel *label = [self labelWithText:labelText];
             UIControl *inputField = [self inputFieldWithID:fieldID value:value datatype:datatype];
@@ -65,9 +70,6 @@
             // position in Grid depending on anchor-views
             [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
             [inputField positionUnderView:topInputField padding:(kRBRowPadding + heightDiff) alignment:MTUIViewAlignmentLeftAligned];
-            
-            MTLog(label.frame);
-            MTLog(inputField.frame);
             
             [view addSubview:label];
             [view addSubview:inputField];
