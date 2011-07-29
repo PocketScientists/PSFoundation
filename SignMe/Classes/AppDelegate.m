@@ -132,6 +132,7 @@
         __block RBBoxLoginViewController *loginViewController = [[RBBoxLoginViewController alloc] initWithNibName:nil bundle:nil];
         
         loginViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+        NSLog(@"Just to make sure view is loaded: %@", loginViewController.view);
         
         [self.box syncFolderWithId:[NSUserDefaults standardUserDefaults].folderID
                         loginBlock:^UIWebView *(void) {
