@@ -10,6 +10,7 @@
 #import "PSIncludes.h"
 #import "RBHomeViewController.h"
 #import "RBForm.h"
+#import "Box.h"
 
 #ifdef kDCIntrospectEnabled
 #import "DCIntrospect.h"
@@ -17,6 +18,8 @@
 
 
 @interface AppDelegate ()
+
+@property (nonatomic, retain) RBHomeViewController *homeViewController;
 
 - (void)configureLogger;
 - (void)appplicationPrepareForBackgroundOrTermination:(UIApplication *)application;
@@ -28,7 +31,7 @@
 
 @synthesize window = window_;
 @synthesize navigationController = navigationController_;
-
+@synthesize homeViewController = homeViewController_;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -38,6 +41,7 @@
 - (void)dealloc {
     MCRelease(window_);
     MCRelease(navigationController_);
+    MCRelease(homeViewController_);
     
     [super dealloc];
 }
@@ -63,14 +67,14 @@
         DDLogWarn(@"NSZombieEnabled / NSAutoreleaseFreedObjectCheckEnabled enabled! Disable for release.");
     }
     
-    RBHomeViewController *homeViewController = [[[RBHomeViewController alloc] initWithNibName:@"RBHomeView" bundle:nil] autorelease];
+    self.homeViewController = [[[RBHomeViewController alloc] initWithNibName:@"RBHomeView" bundle:nil] autorelease];
     
     // Add the navigation controller's view to the window and display.
-    navigationController_ = [[UINavigationController alloc] initWithRootViewController:homeViewController];
-    navigationController_.navigationBarHidden = YES;
-    window_ = [[PSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    window_.rootViewController = navigationController_;
-    [window_ makeKeyAndVisible];
+    self.navigationController = [[[UINavigationController alloc] initWithRootViewController:self.homeViewController] autorelease];
+    self.navigationController.navigationBarHidden = YES;
+    self.window = [[[PSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window.rootViewController = self.navigationController;
+    [self.window makeKeyAndVisible];
     
     if (kPostFinishLaunchDelay > 0) {
         [self performSelector:@selector(postFinishLaunch) withObject:nil afterDelay:kPostFinishLaunchDelay];
@@ -118,8 +122,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 - (void)configureForNetworkStatus:(NSNotification *)notification {
-    // NetworkStatus networkStatus = [[notification.userInfo valueForKey:kPSNetworkStatusKey] intValue];
+    NetworkStatus networkStatus = [[notification.userInfo valueForKey:kPSNetworkStatusKey] intValue];
     
+    if (networkStatus != NotReachable) {
+        
+    }
 }
 
 
@@ -158,8 +165,8 @@
 
 // launched via post selector to speed up launch time
 - (void)postFinishLaunch {
-    //[[PSReachability sharedPSReachability] startCheckingHostAddress:kReachabilityHostURL];
-    //[[PSReachability sharedPSReachability] setupReachabilityFor:self];
+    [[PSReachability sharedPSReachability] startCheckingHostAddress:kReachabilityHostURL];
+    [[PSReachability sharedPSReachability] setupReachabilityFor:self];
 }
 
 @end

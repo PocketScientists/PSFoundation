@@ -111,40 +111,48 @@
 }
 
 - (void)beginLoading {
-    [UIView animateWithDuration:kRBLoadingAnimationDuration
-                     animations:^(void) {
-                         self.emptyLogoImageView.alpha = 1.f;
-                         self.fullLogoImageView.alpha = 0.f;
-                     } completion:^(BOOL finished) {
-                         self.fullLogoImageView.frameWidth = 1.f;
-                         self.fullLogoImageView.alpha = 1.f;
-                         [self showActivityViewAtPoint:CGPointMake(self.emptyLogoImageView.center.x-2, self.emptyLogoImageView.frameTop + 29)];
-                     }];
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [UIView animateWithDuration:kRBLoadingAnimationDuration
+                         animations:^(void) {
+                             self.emptyLogoImageView.alpha = 1.f;
+                             self.fullLogoImageView.alpha = 0.f;
+                         } completion:^(BOOL finished) {
+                             self.fullLogoImageView.frameWidth = 1.f;
+                             self.fullLogoImageView.alpha = 1.f;
+                             [self showActivityViewAtPoint:CGPointMake(self.emptyLogoImageView.center.x-2, self.emptyLogoImageView.frameTop + 29)];
+                         }];
+    });
 }
 
 - (void)setLoadingProgress:(float)progress {
-    if (progress <= 0.f) {
-        progress = 0.f;
-    } else if (progress >= 1.f) {
-        progress = 1.f;
-    }
-    
-    [UIView animateWithDuration:0.1f 
-                          delay:0.f
-                        options:UIViewAnimationOptionAllowUserInteraction 
-                     animations:^(void) {
-                         self.fullLogoImageView.frameWidth = self.emptyLogoImageView.frameWidth * progress;
-                     } completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        float realProgress = progress;
+        
+        if (progress <= 0.f) {
+            realProgress = 0.f;
+        } else if (progress >= 1.f) {
+            realProgress = 1.f;
+        }
+        
+        [UIView animateWithDuration:0.1f 
+                              delay:0.f
+                            options:UIViewAnimationOptionAllowUserInteraction 
+                         animations:^(void) {
+                             self.fullLogoImageView.frameWidth = self.emptyLogoImageView.frameWidth * realProgress;
+                         } completion:nil];
+    });
 }
 
 - (void)finishLoading {
-    [UIView animateWithDuration:kRBLoadingAnimationDuration
-                     animations:^(void) {
-                         self.fullLogoImageView.frameWidth = self.emptyLogoImageView.frameWidth;
-                     } completion:^(BOOL finished) {
-                         self.emptyLogoImageView.alpha = 0.f;
-                         [self hideActivityView];
-                     }];
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [UIView animateWithDuration:kRBLoadingAnimationDuration
+                         animations:^(void) {
+                             self.fullLogoImageView.frameWidth = self.emptyLogoImageView.frameWidth;
+                         } completion:^(BOOL finished) {
+                             self.emptyLogoImageView.alpha = 0.f;
+                             [self hideActivityView];
+                         }];
+    });
 }
 
 @end
