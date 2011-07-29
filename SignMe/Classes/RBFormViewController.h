@@ -11,14 +11,18 @@
 #import "RBForm.h"
 #import "RBFormView.h"
 #import "RBClient.h"
+#import "SSLineView.h"
 
 @interface RBFormViewController : PSBaseViewController
 
 @property (nonatomic, retain) RBForm *form;
 @property (nonatomic, retain) RBClient *client;
 
-@property (nonatomic, retain) RBFormView *formView;
 @property (nonatomic, retain) UILabel *headerLabel;
+@property (nonatomic, retain) SSLineView *topLine;
+@property (nonatomic, retain) SSLineView *bottomLine;
+@property (nonatomic, retain) RBFormView *formView;
+
 @property (nonatomic, retain) UIButton *cancelButton;
 @property (nonatomic, retain) UIButton *doneButton;
 

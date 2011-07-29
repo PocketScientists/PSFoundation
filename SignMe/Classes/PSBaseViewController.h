@@ -8,14 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import "PSFoundation.h"
+#import "RBTimeView.h"
 
 @interface PSBaseViewController : UIViewController <PSReachabilityAware> 
 
 @property (nonatomic, retain) UIImageView *backgroundImageView;
+@property (nonatomic, retain) RBTimeView *timeView;
 
 @property (nonatomic, retain) UIImageView *fullLogoImageView;
 @property (nonatomic, retain) UIImageView *emptyLogoImageView;
 @property (nonatomic, retain) UIActivityIndicatorView *activityView;
+@property (nonatomic, retain) UIImageView *logoSignMe;
 
 - (void)beginLoadingShowingProgress:(BOOL)showingProgress;
 - (void)setLoadingProgress:(float)progress;

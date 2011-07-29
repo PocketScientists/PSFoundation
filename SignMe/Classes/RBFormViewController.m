@@ -13,7 +13,8 @@
 #import "UIControl+RBForm.h"
 
 
-#define kRBOriginTop                191.f
+#define kRBOffsetTop               212.f
+#define kRBOffsetBottom             56.f
 
 @interface RBFormViewController ()
 
@@ -27,9 +28,11 @@
 @implementation RBFormViewController
 
 @synthesize form = form_;
+@synthesize headerLabel = headerLabel_;
+@synthesize topLine = topLine_;
+@synthesize bottomLine = bottomLine_;
 @synthesize formView = formView_;
 @synthesize client = client_;
-@synthesize headerLabel = headerLabel_;
 @synthesize cancelButton = cancelButton_;
 @synthesize doneButton = doneButton_;
 
@@ -49,9 +52,11 @@
 
 - (void)dealloc {
     MCRelease(form_);
+    MCRelease(headerLabel_);
+    MCRelease(topLine_);
+    MCRelease(bottomLine_);
     MCRelease(formView_);
     MCRelease(client_);
-    MCRelease(headerLabel_);
     MCRelease(cancelButton_);
     MCRelease(doneButton_);
     
@@ -75,33 +80,44 @@
     
     RBUIGenerator *generator = [[[RBUIGenerator alloc] init] autorelease];
     
-    self.formView = [generator viewFromForm:self.form withFrame:CGRectMake(0, kRBOriginTop, self.view.bounds.size.width, self.view.bounds.size.height-kRBOriginTop)];
+    self.formView = [generator viewFromForm:self.form withFrame:CGRectMake(0, kRBOffsetTop, self.view.bounds.size.width, self.view.bounds.size.height-kRBOffsetTop-kRBOffsetBottom)];
     
-    self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(134, 40, 500, 44)] autorelease];
-    self.headerLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(30, 172, 500, 27)] autorelease];
+    self.headerLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
     self.headerLabel.backgroundColor = [UIColor clearColor];
     self.headerLabel.textColor = kRBColorMain;
-    self.headerLabel.textAlignment = UITextAlignmentCenter;
-    self.headerLabel.font = [UIFont fontWithName:kRBFontName size:22];
-    self.headerLabel.numberOfLines = 2;
-    self.headerLabel.text = [[self.client.name stringByAppendingFormat:@":\n%@", self.form.name] uppercaseString];
+    self.headerLabel.textAlignment = UITextAlignmentLeft;
+    self.headerLabel.font = [UIFont fontWithName:kRBFontName size:24.];
+    self.headerLabel.text = self.form.name;
     
-    self.cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [self.cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    self.topLine = [[[SSLineView alloc] initWithFrame:CGRectMake(30, 202, 690, 1)] autorelease];
+    self.topLine.lineColor = [UIColor colorWithWhite:1.f alpha:0.3f];
+    self.topLine.insetColor = nil;
+    
+    self.bottomLine = [[[SSLineView alloc] initWithFrame:CGRectMake(30, 700, 690, 1)] autorelease];
+    self.bottomLine.lineColor = [UIColor colorWithWhite:1.f alpha:0.3f];
+    self.bottomLine.insetColor = nil;
+    
+    UIImage *cancelImage = [UIImage imageNamed:@"AbortButton"];
+    self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.cancelButton setImage:cancelImage forState:UIControlStateNormal];
     self.cancelButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
-    self.cancelButton.frame = CGRectMake(550, 40, 80, 44);
+    self.cancelButton.frame = CGRectMake(571, 165, cancelImage.size.width, cancelImage.size.height);
     [self.cancelButton addTarget:self action:@selector(handleCancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     
-    self.doneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [self.doneButton setTitle:@"Done" forState:UIControlStateNormal];
+    UIImage *doneImage = [UIImage imageNamed:@"SaveButton"];
+    self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.doneButton setImage:doneImage forState:UIControlStateNormal];
     self.doneButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
-    self.doneButton.frame = CGRectMake(650, 40, 80, 44);
+    self.doneButton.frame = CGRectMake(651, 165, doneImage.size.width, doneImage.size.height);
     [self.doneButton addTarget:self action:@selector(handleDoneButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:self.formView];
     [self.view addSubview:self.headerLabel];
+    [self.view addSubview:self.topLine];
+    [self.view addSubview:self.bottomLine];
     [self.view addSubview:self.cancelButton];
     [self.view addSubview:self.doneButton];
+    [self.view addSubview:self.formView];
     [self.view addSubview:self.formView.pageControl];
 }
 

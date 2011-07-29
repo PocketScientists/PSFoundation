@@ -13,11 +13,11 @@
 
 #define kDayFontSize        40
 #define kDayFontColor       kRBColorMain
-#define kDayRect            CGRectMake(0,20,self.bounds.size.width,40)
+#define kDayRect            CGRectMake(0,22,self.bounds.size.width,40)
 
 #define kTimeFontSize       12
 #define kTimeFontColor      kRBColorMain
-#define kTimeRect           CGRectMake(0,60,self.bounds.size.width,20)
+#define kTimeRect           CGRectMake(0,62,self.bounds.size.width,20)
 
 #import "RBTimeView.h"
 #import "PSIncludes.h"
@@ -82,21 +82,21 @@ static NSDateFormatter *timeFormatter = nil;
     [month drawInRect:kMonthRect
              withFont:[UIFont fontWithName:kRBFontName size:kMonthFontSize] 
         lineBreakMode:UILineBreakModeClip
-            alignment:UITextAlignmentCenter];
+            alignment:UITextAlignmentRight];
     
     // draw Day, e.g. 12
     [kDayFontColor set];
     [day drawInRect:kDayRect 
            withFont:[UIFont fontWithName:kRBFontName size:kDayFontSize] 
       lineBreakMode:UILineBreakModeClip 
-          alignment:UITextAlignmentCenter];
+          alignment:UITextAlignmentRight];
     
     // draw Time, e.g. 02:34 am
     [kTimeFontColor set];
     [time drawInRect:kTimeRect
             withFont:[UIFont fontWithName:kRBFontName size:kTimeFontSize]
        lineBreakMode:UILineBreakModeClip 
-           alignment:UITextAlignmentCenter];
+           alignment:UITextAlignmentRight];
     
     CGContextRestoreGState(context);
 }

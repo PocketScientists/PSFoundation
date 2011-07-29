@@ -63,6 +63,10 @@
 		3981E13A13DF644F00B23A7D /* UIControl+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E13913DF644F00B23A7D /* UIControl+RBForm.m */; };
 		3994620C12C91F1D005574A6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620B12C91F1D005574A6 /* CoreLocation.framework */; };
 		3994621012C91F27005574A6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620F12C91F27005574A6 /* MapKit.framework */; };
+		39A46C7113E30D2F00603CD6 /* SSLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A46C7013E30D2F00603CD6 /* SSLineView.m */; };
+		39A46C7513E30F8700603CD6 /* AbortButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7213E30F8700603CD6 /* AbortButton.png */; };
+		39A46C7613E30F8700603CD6 /* LogoSignMe.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7313E30F8700603CD6 /* LogoSignMe.png */; };
+		39A46C7713E30F8700603CD6 /* SaveButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7413E30F8700603CD6 /* SaveButton.png */; };
 		39A7F07713D9FF2D008338A4 /* RBPDFManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A7F07613D9FF2D008338A4 /* RBPDFManager.m */; };
 		39A7F07913D9FFC3008338A4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39A7F07813D9FFC3008338A4 /* CoreText.framework */; };
 		39A7F07E13DA207A008338A4 /* RBHomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39A7F07D13DA207A008338A4 /* RBHomeView.xib */; };
@@ -291,6 +295,11 @@
 		3981E13913DF644F00B23A7D /* UIControl+RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+RBForm.m"; sourceTree = "<group>"; };
 		3994620B12C91F1D005574A6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3994620F12C91F27005574A6 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		39A46C6F13E30D2F00603CD6 /* SSLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSLineView.h; sourceTree = "<group>"; };
+		39A46C7013E30D2F00603CD6 /* SSLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSLineView.m; sourceTree = "<group>"; };
+		39A46C7213E30F8700603CD6 /* AbortButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AbortButton.png; path = Images/AbortButton.png; sourceTree = "<group>"; };
+		39A46C7313E30F8700603CD6 /* LogoSignMe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LogoSignMe.png; path = Images/LogoSignMe.png; sourceTree = "<group>"; };
+		39A46C7413E30F8700603CD6 /* SaveButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SaveButton.png; path = Images/SaveButton.png; sourceTree = "<group>"; };
 		39A7F07513D9FF2D008338A4 /* RBPDFManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBPDFManager.h; sourceTree = "<group>"; };
 		39A7F07613D9FF2D008338A4 /* RBPDFManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBPDFManager.m; sourceTree = "<group>"; };
 		39A7F07813D9FFC3008338A4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -639,6 +648,9 @@
 				395EEF2413D72E39003C4DA8 /* Background.png */,
 				3911A22713E22AA600CD4F6C /* LogoEmpty.png */,
 				3911A22813E22AA600CD4F6C /* LogoFull.png */,
+				39A46C7213E30F8700603CD6 /* AbortButton.png */,
+				39A46C7313E30F8700603CD6 /* LogoSignMe.png */,
+				39A46C7413E30F8700603CD6 /* SaveButton.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -743,6 +755,8 @@
 		39C917BA139836840045489C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				39A46C6F13E30D2F00603CD6 /* SSLineView.h */,
+				39A46C7013E30D2F00603CD6 /* SSLineView.m */,
 				395EEF2713D72E85003C4DA8 /* RBTimeView.h */,
 				395EEF2813D72E85003C4DA8 /* RBTimeView.m */,
 				3900892313D780A30093E0B0 /* RBCarouselView.h */,
@@ -1049,6 +1063,9 @@
 				3981E13613DF419600B23A7D /* Red Bull Form.plist in Resources */,
 				3911A22913E22AA600CD4F6C /* LogoEmpty.png in Resources */,
 				3911A22A13E22AA600CD4F6C /* LogoFull.png in Resources */,
+				39A46C7513E30F8700603CD6 /* AbortButton.png in Resources */,
+				39A46C7613E30F8700603CD6 /* LogoSignMe.png in Resources */,
+				39A46C7713E30F8700603CD6 /* SaveButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1117,6 +1134,7 @@
 				3911A22613E228FB00CD4F6C /* RBBoxService.m in Sources */,
 				393AB0A413E2361000F1BE04 /* RBBoxLoginViewController.m in Sources */,
 				393AB0A713E2762900F1BE04 /* PSFunctions.m in Sources */,
+				39A46C7113E30D2F00603CD6 /* SSLineView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

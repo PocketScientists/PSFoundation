@@ -44,7 +44,7 @@
 #define kRBFormDirectoryPath        ([NSDocumentsFolder() stringByAppendingPathComponent:kRBFormDirectoryName])
 #define kRBFormSavedDirectoryPath   [kRBFormDirectoryPath stringByAppendingPathComponent:kRBFormSavedDirectoryName]
 
-#define kRBFontName                 @"Heiti SC"
+#define kRBFontName                 @"Heiti TC"
 #define kRBColorMain                [UIColor whiteColor]
 #define kRBColorDetail              [UIColor colorWithRed:0.7765f green:0.7333f blue:0.1137f alpha:1.0000f]
 #define kRBDateFormat               @"MM-dd-yyyy"

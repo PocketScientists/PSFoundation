@@ -9,15 +9,18 @@
 #import "PSBaseViewController.h"
 #import "PSIncludes.h"
 
-#define kRBLogoCenter                   CGPointMake(100,100)
+#define kRBLogoCenter                   CGPointMake(100,75)
+#define kRBLogoSignMeTopLeft            CGPointMake(180,82)
 #define kRBLoadingAnimationDuration     0.4f
 
 @implementation PSBaseViewController
 
 @synthesize backgroundImageView = backgroundImageView_;
+@synthesize timeView = timeView_;
 @synthesize fullLogoImageView = fullLogoImageView_;
 @synthesize emptyLogoImageView = emptyLogoImageView_;
 @synthesize activityView = activityView_;
+@synthesize logoSignMe = logoSignMe_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -34,9 +37,11 @@
 
 - (void)dealloc {
     MCRelease(backgroundImageView_);
+    MCRelease(timeView_);
     MCRelease(fullLogoImageView_);
     MCRelease(emptyLogoImageView_);
     MCRelease(activityView_);
+    MCRelease(logoSignMe_);
     
     [super dealloc];
 }
@@ -66,8 +71,15 @@
     self.fullLogoImageView.contentMode = UIViewContentModeLeft;
     self.fullLogoImageView.clipsToBounds = YES;
     
+    self.logoSignMe = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"LogoSignMe"]] autorelease];
+    self.logoSignMe.frame = (CGRect){kRBLogoSignMeTopLeft,self.logoSignMe.frame.size};
+    
     [self.view insertSubview:self.emptyLogoImageView aboveSubview:self.backgroundImageView];
     [self.view insertSubview:self.fullLogoImageView aboveSubview:self.emptyLogoImageView];
+    [self.view insertSubview:self.logoSignMe aboveSubview:self.fullLogoImageView];
+    
+    self.timeView = [[[RBTimeView alloc] initWithFrame:CGRectMake(926, 30, 70, 82)] autorelease];
+    [self.view addSubview:self.timeView];
     
     self.activityView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
 }
@@ -81,6 +93,7 @@
     self.fullLogoImageView = nil;
     self.emptyLogoImageView = nil;
     self.activityView = nil;
+    self.logoSignMe = nil;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -111,6 +124,8 @@
 }
 
 - (void)beginLoadingShowingProgress:(BOOL)showingProgress {
+    CGPoint activityPoint = CGPointMake(self.fullLogoImageView.center.x-5, self.fullLogoImageView.frameTop + 20);
+    
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         if (showingProgress) {
         [UIView animateWithDuration:kRBLoadingAnimationDuration
@@ -120,10 +135,10 @@
                          } completion:^(BOOL finished) {
                              self.fullLogoImageView.frameWidth = 0.f;
                              self.fullLogoImageView.alpha = 1.f;
-                             [self showActivityViewAtPoint:CGPointMake(self.emptyLogoImageView.center.x-2, self.emptyLogoImageView.frameTop + 29)];
+                             [self showActivityViewAtPoint:activityPoint];
                          }];
         } else {
-            [self showActivityViewAtPoint:CGPointMake(self.fullLogoImageView.center.x-2, self.fullLogoImageView.frameTop + 29)];
+            [self showActivityViewAtPoint:activityPoint];
         }
     });
 }

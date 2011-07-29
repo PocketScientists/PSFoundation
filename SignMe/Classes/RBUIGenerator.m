@@ -31,7 +31,7 @@
     RBFormView *view = [[[RBFormView alloc] initWithFrame:frame] autorelease];
     UIView *topLabel = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
     UIView *topInputField = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
-    CGFloat realViewWidth = view.screenFrame.size.height; // Because of landscape we have to switch width/height
+    CGFloat realViewWidth = [[UIScreen mainScreen] applicationFrame].size.height; // Because of landscape we have to switch width/height
     CGFloat realViewHeight = view.bounds.size.width;
     CGFloat maxHeight = realViewHeight;
     NSInteger numberOfPages = form.numberOfSections + 1; // +1 for RecipientsView
@@ -85,7 +85,7 @@
     [view addSubview:recipientsView];
     
     // set pageControl on view (isn't displayed yet, because it is not a subview of the scrollView)
-    UIPageControl *pageControl = [[[UIPageControl alloc] initWithFrame:CGRectMake(view.bounds.size.width/2 - 100, 650, 200, 30)] autorelease];
+    UIPageControl *pageControl = [[[UIPageControl alloc] initWithFrame:CGRectMake(view.bounds.size.width/2 - 100, 705, 200, 30)] autorelease];
     pageControl.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     pageControl.numberOfPages = numberOfPages;
     pageControl.hidesForSinglePage = YES;
@@ -93,8 +93,6 @@
     
     // enable horizontal scrolling
     view.contentSize = CGSizeMake(realViewWidth * numberOfPages, maxHeight);
-    
-    [view enableDebugBorder];
     
     return view;
 }

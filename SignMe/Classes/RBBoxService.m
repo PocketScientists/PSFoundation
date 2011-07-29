@@ -25,16 +25,18 @@ static Box *box = nil;
              startedFrom:(PSBaseViewController *)viewController
             successBlock:(void (^)(id boxObject))successBlock
             failureBlock:(void (^)(BoxResponseType response))failureBlock {
-    __block RBBoxLoginViewController *loginViewController = [[RBBoxLoginViewController alloc] initWithNibName:nil bundle:nil];
     
-    loginViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-    NSLog(@"Just to make sure view is loaded: %@", loginViewController.view);
+    __block RBBoxLoginViewController *loginViewController = nil;
     
     // start indicating loading
     [viewController beginLoadingShowingProgress:NO];
     
     [box syncFolderWithId:[NSUserDefaults standardUserDefaults].folderID
                     loginBlock:^UIWebView *(void) {
+                        loginViewController = [[RBBoxLoginViewController alloc] initWithNibName:nil bundle:nil];
+                        loginViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+                        
+                        NSLog(@"Just to make sure view is loaded: %@", loginViewController.view);
                         [viewController presentModalViewController:loginViewController animated:YES];
                         
                         return loginViewController.webView;

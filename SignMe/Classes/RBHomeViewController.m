@@ -37,7 +37,6 @@
 @property (nonatomic, assign) CGFloat formsViewDefaultY;
 @property (nonatomic, assign) CGFloat clientsViewDefaultY;
 
-@property (nonatomic, retain) RBTimeView *timeView;
 @property (nonatomic, retain) UILabel *formsLabel;
 @property (nonatomic, retain) UILabel *clientsLabel;
 
@@ -88,7 +87,6 @@
 @synthesize clientsFetchController = clientsFetchController_;
 @synthesize formsViewDefaultY = formsViewDefaultY_;
 @synthesize clientsViewDefaultY = clientsViewDefaultY_;
-@synthesize timeView = timeView_;
 @synthesize formsLabel = formsLabel_;
 @synthesize clientsLabel = clientsLabel_;
 @synthesize formsView = formsView_;
@@ -117,7 +115,6 @@
 }
 
 - (void)dealloc {
-    MCRelease(timeView_);
     MCRelease(formsLabel_);
     MCRelease(clientsLabel_);
     MCRelease(formsView_);
@@ -213,9 +210,6 @@
     self.detailCarousel.viewpointOffset = CGSizeMake(-self.formsLabel.frameWidth/2.f, 0);
     
     [self.view insertSubview:self.detailView belowSubview:self.formsView];
-    
-    self.timeView = [[[RBTimeView alloc] initWithFrame:CGRectMake(920, 30, 70, 80)] autorelease];
-    [self.view addSubview:self.timeView];
     
     // center 2nd item of formsCarousel
     [self.formsCarousel reloadData];
