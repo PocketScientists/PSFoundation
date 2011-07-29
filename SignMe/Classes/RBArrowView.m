@@ -24,7 +24,7 @@
     CGContextRef c = UIGraphicsGetCurrentContext(); 
     CGFloat center = self.bounds.size.width/2;
 	
-    [kRBDetailGradientStartColor set];
+    [kRBColorDetail set];
 	CGContextSetLineWidth(c,stroke);
 	
     // filled triangle

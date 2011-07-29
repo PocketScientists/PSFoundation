@@ -23,7 +23,7 @@
 
 #define kAnimationDuration      0.25
 #define kFormsYOffset            80.f
-#define kClientsYOffset         110.f
+#define kClientsYOffset          65.f
 #define kDetailViewHeight       230.f
 #define kDetailYOffset           95.f
 

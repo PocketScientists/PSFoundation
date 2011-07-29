@@ -108,10 +108,24 @@
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
     
+    CALayer * theLayer = self.layer;
+    
     if (selected) {
-        //[self setCornerRadius:0 borderWidth:1 borderColor:[UIColor redColor]];
+        if ([theLayer respondsToSelector:@selector(setShadowPath:)] && [theLayer respondsToSelector:@selector(shadowPath)]) {
+            if (theLayer.shadowRadius != 20.f) {
+                CGMutablePathRef path = CGPathCreateMutable();
+                CGPathAddRect(path, NULL, theLayer.bounds);
+                theLayer.shadowPath = path;
+                CGPathRelease(path);
+            }
+			
+            theLayer.shadowOffset = CGSizeZero;     
+            theLayer.shadowColor = [UIColor colorWithWhite:0.f alpha:0.3].CGColor;
+            theLayer.shadowRadius = 20.f;            
+            theLayer.shadowOpacity = 1.0;                
+        }
     } else {
-        //self.layer.borderWidth = 0.f;
+        theLayer.shadowOpacity = 0.0;
     }
 }
 

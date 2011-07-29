@@ -19,6 +19,9 @@
         
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.clipsToBounds = YES;
+        
+        RBArrowView *arrow = [[[RBArrowView alloc] initWithFrame:CGRectMake(frame.size.width/2, 5, 18, 14)] autorelease];
+        [self addSubview:arrow];
     }
     
     return self;

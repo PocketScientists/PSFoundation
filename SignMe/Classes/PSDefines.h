@@ -34,8 +34,10 @@
 #pragma mark Constants
 ////////////////////////////////////////////////////////////////////////
 
-#define kRBDetailGradientStartColor   [UIColor colorWithRed:0.0549f green:0.0471f blue:0.0510f alpha:1.0000f]
-#define kRBDetailGradientEndColor     [UIColor colorWithRed:0.0980f green:0.1137f blue:0.2549f alpha:1.0000f]
+#define kRBDetailGradientStartColor [UIColor colorWithRed:0.0627f green:0.0824f blue:0.1176f alpha:1.0000f]
+#define kRBDetailGradientEndColor   [UIColor colorWithRed:0.0824f green:0.1765f blue:0.4314f alpha:1.0000f]
+#define kRBColorMain                [UIColor whiteColor]
+#define kRBColorDetail              [UIColor colorWithRed:1.0000f green:0.7333f blue:0.0000f alpha:1.0000f]
 
 #define kRBFormDataType             @"plist"
 #define kRBFormExtension            @"." kRBFormDataType
@@ -45,8 +47,6 @@
 #define kRBFormSavedDirectoryPath   [kRBFormDirectoryPath stringByAppendingPathComponent:kRBFormSavedDirectoryName]
 
 #define kRBFontName                 @"Heiti TC"
-#define kRBColorMain                [UIColor whiteColor]
-#define kRBColorDetail              [UIColor colorWithRed:0.7765f green:0.7333f blue:0.1137f alpha:1.0000f]
 #define kRBDateFormat               @"MM-dd-yyyy"
 #define kRBDateTimeFormat           @"yyyy-MM-dd_hh-mm-ss"
 
