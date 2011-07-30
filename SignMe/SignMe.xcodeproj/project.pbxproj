@@ -78,6 +78,7 @@
 		39A7F07713D9FF2D008338A4 /* RBPDFManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A7F07613D9FF2D008338A4 /* RBPDFManager.m */; };
 		39A7F07913D9FFC3008338A4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39A7F07813D9FFC3008338A4 /* CoreText.framework */; };
 		39A7F07E13DA207A008338A4 /* RBHomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39A7F07D13DA207A008338A4 /* RBHomeView.xib */; };
+		39BB88DB13E3CCE00074543E /* RBClient+RBProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BB88DA13E3CCE00074543E /* RBClient+RBProperties.m */; };
 		39C9185B1398EBC40045489C /* PSWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C9185A1398EBC40045489C /* PSWindow.m */; };
 		39F772A513B63DD9006E12AF /* PSBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F772A413B63DD9006E12AF /* PSBaseViewController.m */; };
 		7856A40C12B441D10025424F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A40B12B441D10025424F /* MobileCoreServices.framework */; };
@@ -322,6 +323,8 @@
 		39A7F07613D9FF2D008338A4 /* RBPDFManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBPDFManager.m; sourceTree = "<group>"; };
 		39A7F07813D9FFC3008338A4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		39A7F07D13DA207A008338A4 /* RBHomeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RBHomeView.xib; sourceTree = "<group>"; };
+		39BB88D913E3CCE00074543E /* RBClient+RBProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RBClient+RBProperties.h"; sourceTree = "<group>"; };
+		39BB88DA13E3CCE00074543E /* RBClient+RBProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RBClient+RBProperties.m"; sourceTree = "<group>"; };
 		39C917BB139837940045489C /* PSIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSIncludes.h; sourceTree = "<group>"; };
 		39C918591398EBC40045489C /* PSWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSWindow.h; sourceTree = "<group>"; };
 		39C9185A1398EBC40045489C /* PSWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSWindow.m; sourceTree = "<group>"; };
@@ -776,6 +779,8 @@
 				390DD52513D9D53300EB1EFD /* RBClient.m */,
 				390DD52113D9D53300EB1EFD /* RBDocument.h */,
 				390DD52213D9D53300EB1EFD /* RBDocument.m */,
+				39BB88D913E3CCE00074543E /* RBClient+RBProperties.h */,
+				39BB88DA13E3CCE00074543E /* RBClient+RBProperties.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1171,6 +1176,7 @@
 				393AB0A413E2361000F1BE04 /* RBBoxLoginViewController.m in Sources */,
 				393AB0A713E2762900F1BE04 /* PSFunctions.m in Sources */,
 				39A46C7113E30D2F00603CD6 /* SSLineView.m in Sources */,
+				39BB88DB13E3CCE00074543E /* RBClient+RBProperties.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

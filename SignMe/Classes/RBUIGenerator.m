@@ -10,6 +10,7 @@
 #import "PSIncludes.h"
 #import "UIControl+RBForm.h"
 #import "RBRecipientsView.h"
+#import "RBClient+RBProperties.h"
 
 #define kRBLabelX                   50.f
 #define kRBInputFieldX              320.f
@@ -55,7 +56,7 @@
             
             // match values for client if there is no value set
             if (IsEmpty(value)) {
-                for (NSString *mapping in KRBFormKeyAllMappings) {
+                for (NSString *mapping in [RBClient propertyNamesForMapping]) {
                     if ([form fieldWithID:fieldID inSection:section matches:mapping]) {
                         value = [client valueForKey:mapping];
                     }
