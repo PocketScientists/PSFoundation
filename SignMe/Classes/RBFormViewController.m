@@ -171,7 +171,7 @@
 
 - (void)updateFormFromControls {
     // retreive all subviews, that are meant to be controls
-    NSArray *controls = [self.formView.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+    NSArray *controls = [self.formView.innerScrollView.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         if ([evaluatedObject tag] == kRBFormControlTag) {
             return YES;
         }

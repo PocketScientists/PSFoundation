@@ -8,6 +8,8 @@
 
 #import "RBFormView.h"
 #import "PSIncludes.h"
+#import "RBForm.h"
+#import "UIControl+RBForm.h"
 
 @interface RBFormView ()
 
@@ -44,6 +46,7 @@
         
         innerScrollView_ = [[UIScrollView alloc] initWithFrame:CGRectZero];
         innerScrollView_.scrollEnabled = NO;
+        innerScrollView_.delegate = self;
         
         UIImage *prevImage = [UIImage imageNamed:@"PrevButton"];
         prevButton_ = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
@@ -99,7 +102,6 @@
     NSInteger newPage = MAX(0,self.pageControl.currentPage - 1);
 
     self.pageControl.currentPage = newPage;
-    [self setContentOffset:CGPointMake(self.contentOffset.x, 0) animated:YES];
     [self.innerScrollView setContentOffset:CGPointMake(newPage*self.bounds.size.width,0) animated:YES];
     [self updateUI];
 }
@@ -108,7 +110,6 @@
     NSInteger newPage = MIN(self.pageControl.numberOfPages - 1,self.pageControl.currentPage + 1);
 
     self.pageControl.currentPage = newPage;
-    [self setContentOffset:CGPointMake(self.contentOffset.x, 0) animated:YES];
     [self.innerScrollView setContentOffset:CGPointMake(newPage*self.bounds.size.width,0) animated:YES];
     [self updateUI];
 }
@@ -116,9 +117,29 @@
 - (void)handlePageChange:(id)sender {
     int newPage = self.pageControl.currentPage;
 	
-    [self setContentOffset:CGPointMake(self.contentOffset.x, 0) animated:YES];
 	[self.innerScrollView setContentOffset:CGPointMake(newPage*self.bounds.size.width,0) animated:YES];
     [self updateUI];
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIScrollViewDelegate
+////////////////////////////////////////////////////////////////////////
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self setContentOffset:CGPointMake(self.contentOffset.x, 0) animated:YES];
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    NSArray *subviewsOnCurrentPage = [scrollView.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        if ([evaluatedObject tag] == kRBFormControlTag && [evaluatedObject formSection] == self.pageControl.currentPage) {
+            return YES;
+        }
+        
+        return NO;
+    }]];
+    
+    self.contentSize = CGSizeMake(self.contentSize.width, CGRectGetMaxY([[subviewsOnCurrentPage lastObject] frame]));
 }
 
 ////////////////////////////////////////////////////////////////////////

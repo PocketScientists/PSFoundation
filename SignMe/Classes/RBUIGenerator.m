@@ -13,8 +13,8 @@
 #import "RBClient+RBProperties.h"
 
 #define kRBLabelX                   50.f
-#define kRBInputFieldX              320.f
-#define kRBInputFieldWidth          530.f
+#define kRBInputFieldX              435.f
+#define kRBInputFieldWidth          560.f
 #define kRBRowHeight                35.f
 #define kRBRowPadding               11.f
 
