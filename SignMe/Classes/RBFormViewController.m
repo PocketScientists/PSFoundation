@@ -170,17 +170,8 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)updateFormFromControls {
-    // retreive all subviews, that are meant to be controls
-    NSArray *controls = [self.formView.innerScrollView.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        if ([evaluatedObject tag] == kRBFormControlTag) {
-            return YES;
-        }
-        
-        return NO;
-    }]];
-    
     // update the value in the form for each control
-    for (UIControl *control in controls) {
+    for (UIControl *control in self.formView.formControls) {
         [self.form setValue:control.formTextValue forField:control.formID inSection:control.formSection];
     }
 }

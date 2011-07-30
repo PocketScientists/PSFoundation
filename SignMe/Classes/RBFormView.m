@@ -93,6 +93,17 @@
     self.innerScrollView.frame = (CGRect){CGPointZero,size};
 }
 
+- (NSArray *)formControls {
+    // retreive all subviews, that are meant to be controls
+    return [self.innerScrollView.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        if ([evaluatedObject tag] == kRBFormControlTag) {
+            return YES;
+        }
+        
+        return NO;
+    }]];
+}
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Target/Action

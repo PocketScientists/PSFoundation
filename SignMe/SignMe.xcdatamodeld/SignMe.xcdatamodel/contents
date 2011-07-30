@@ -5,7 +5,7 @@
         <attribute name="company" optional="YES" attributeType="String"/>
         <attribute name="name" attributeType="String" defaultValueString="Unknown" indexed="YES"/>
         <attribute name="street" optional="YES" attributeType="String"/>
-        <attribute name="visible" optional="YES" attributeType="Boolean" defaultValueString="YES" indexed="YES"/>
+        <attribute name="visible" attributeType="Boolean" defaultValueString="YES" indexed="YES"/>
         <attribute name="zip" optional="YES" attributeType="String"/>
         <relationship name="documents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RBDocument" inverseName="client" inverseEntity="RBDocument"/>
     </entity>
@@ -13,11 +13,11 @@
         <attribute name="date" optional="YES" attributeType="Date"/>
         <attribute name="fileURL" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String" indexed="YES"/>
-        <attribute name="status" attributeType="Integer 16" defaultValueString="0"/>
+        <attribute name="status" attributeType="Integer 16" defaultValueString="0" indexed="YES"/>
         <relationship name="client" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBClient" inverseName="documents" inverseEntity="RBClient"/>
     </entity>
     <elements>
-        <element name="RBClient" positionX="160" positionY="48" width="128" height="105"/>
+        <element name="RBClient" positionX="160" positionY="48" width="128" height="150"/>
         <element name="RBDocument" positionX="340" positionY="-66" width="128" height="120"/>
     </elements>
 </model>

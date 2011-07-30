@@ -14,7 +14,9 @@
 @property (nonatomic, retain) UIPageControl *pageControl;
 @property (nonatomic, retain) UIButton *prevButton;
 @property (nonatomic, retain) UIButton *nextButton;
+@property (nonatomic, readonly) NSArray *formControls;
 
 - (void)setInnerScrollViewSize:(CGSize)size;
+
 
 @end

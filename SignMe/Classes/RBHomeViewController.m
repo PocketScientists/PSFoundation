@@ -61,7 +61,7 @@
 - (void)clientsCarouselDidSelectItemAtIndex:(NSInteger)index;
 - (void)detailCarouselDidSelectItemAtIndex:(NSInteger)index;
 
-- (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus;
+- (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus client:(RBClient *)client;
 - (void)showDetailView; // delay = 0
 - (void)showDetailViewWithDelay:(NSTimeInterval)delay;
 - (void)hideDetailView;
@@ -78,6 +78,7 @@
 - (void)prepareForFormPresentation;
 - (void)presentViewControllerForForm:(RBForm *)form client:(RBClient *)client;
 
+- (NSUInteger)numberOfDocumentsToDisplay;
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus;
 - (void)updateCarouselSelectionState:(iCarousel *)carousel selectedItem:(UIControl *)selectedItem;
 
@@ -299,7 +300,7 @@
         if (self.formsCarousel.currentItemIndex == RBFormStatusNew) {
             return self.emptyForms.count;
         } else {
-            return MAX(1,[self numberOfDocumentsWithFormStatus:self.formsCarousel.currentItemIndex]);
+            return MAX(1,[self numberOfDocumentsToDisplay]);
         }
     }
     
@@ -341,7 +342,7 @@
         if (self.formsCarousel.currentItemIndex == RBFormStatusNew) {
             [view setFromForm:[self.emptyForms objectAtIndex:index]];
         } else {
-            if ([self numberOfDocumentsWithFormStatus:self.formsCarousel.currentItemIndex] == 0) {
+            if ([self numberOfDocumentsToDisplay] == 0) {
                 [view setText:@"No Forms yet."];
             } else {
                 RBDocument *document = [self.documentsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
@@ -376,9 +377,9 @@
     }
     
     else if (carousel == self.detailCarousel) {
-       return kRBDetailCarouselItemWidth * kRBCarouselItemWidthScaleFactor;
+        return kRBDetailCarouselItemWidth * kRBCarouselItemWidthScaleFactor;
     }
-
+    
     return 0.f;
 }
 
@@ -388,7 +389,7 @@
         [self updateCarouselSelectionState:carousel selectedItem:(UIControl *)[carousel currentView]];
         self.detailItemSelected = NO;
         
-        [self updateDetailViewWithFormStatus:(RBFormStatus)carousel.currentItemIndex];
+        [self updateDetailViewWithFormStatus:RBFormStatusForIndex(carousel.currentItemIndex) client:nil];
         [self.detailView reloadData];
     }
 }
@@ -429,12 +430,12 @@
         if (self.formsCarousel.currentItemIndex != index) {
             [self.formsCarousel scrollToItemAtIndex:index animated:YES];
             [self performBlock:^(void) {
-                [self updateDetailViewWithFormStatus:(RBFormStatus)index];
+                [self updateDetailViewWithFormStatus:RBFormStatusForIndex(index) client:nil];
                 [self showDetailView];
             } afterDelay:0.4];
             
         } else {
-            [self updateDetailViewWithFormStatus:(RBFormStatus)index];
+            [self updateDetailViewWithFormStatus:RBFormStatusForIndex(index) client:nil];
             [self showDetailView];
         }
     }
@@ -444,13 +445,14 @@
     if (self.clientCarouselShowsAddItem && index == 0) {
         RBClient *client = [self clientWithName:self.searchField.text];
         [self editClient:client];
-    } else {
-        if (self.detailItemSelected) {
-            RBForm *form = [self.emptyForms objectAtIndex:self.detailCarousel.currentItemIndex];
-            RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-            
-            [self presentViewControllerForForm:form client:client];
-        }
+    } else if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) != RBFormStatusNew) {
+        RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+        [self updateDetailViewWithFormStatus:RBFormStatusForIndex(self.formsCarousel.currentItemIndex) client:client];
+    } else if (self.detailItemSelected) {
+        RBForm *form = [self.emptyForms objectAtIndex:self.detailCarousel.currentItemIndex];
+        RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+        
+        [self presentViewControllerForForm:form client:client];
     }
 }
 
@@ -575,9 +577,9 @@
     
     // create sections for beginDate
     documentsFetchController_ = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                  managedObjectContext:[NSManagedObjectContext defaultContext]
-                                                                    sectionNameKeyPath:nil
-                                                                             cacheName:kDocumentsCacheName];
+                                                                    managedObjectContext:[NSManagedObjectContext defaultContext]
+                                                                      sectionNameKeyPath:nil
+                                                                               cacheName:kDocumentsCacheName];
     documentsFetchController_.delegate = self;
     
     return documentsFetchController_;
@@ -747,16 +749,24 @@
     return NO;
 }
 
-- (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"status = %d", formStatus];
-    
-    [NSFetchedResultsController deleteCacheWithName:kDocumentsCacheName];
-    self.documentsFetchController.fetchRequest.predicate = predicate;
-	
-    NSError *error = nil;
-    if (![self.documentsFetchController performFetch:&error]) {
-        DDLogError(@"Unresolved error fetching documents %@, %@", error, [error userInfo]);
-    }  
+- (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus client:(RBClient *)client {
+    if (formStatus != RBFormStatusNew) {
+        NSPredicate *predicate = nil;
+        
+        if (client != nil) {
+            predicate = [NSPredicate predicateWithFormat:@"status = %d AND client = %@", formStatus, client];
+        } else {
+            predicate = [NSPredicate predicateWithFormat:@"status = %d", formStatus];
+        }
+        
+        [NSFetchedResultsController deleteCacheWithName:kDocumentsCacheName];
+        self.documentsFetchController.fetchRequest.predicate = predicate;
+        
+        NSError *error = nil;
+        if (![self.documentsFetchController performFetch:&error]) {
+            DDLogError(@"Unresolved error fetching documents %@, %@", error, [error userInfo]);
+        }  
+    }
     
     [self.detailView reloadData];
 }
@@ -818,6 +828,26 @@
     [self presentModalViewController:viewController animated:YES];
 }
 
+- (void)updateCarouselSelectionState:(iCarousel *)carousel selectedItem:(UIControl *)selectedItem {
+    // set selected of all views to no
+    [carousel.visibleViews makeObjectsPerformSelector:@selector(setSelected:) withObject:nil];
+    
+    // select current active view
+    selectedItem.selected = YES;
+}
+
+- (NSUInteger)numberOfDocumentsToDisplay {
+    NSUInteger numberOfRows = 0;
+    
+    if (self.documentsFetchController.sections.count > 0) {
+        id <NSFetchedResultsSectionInfo> sectionInfo = [self.documentsFetchController.sections objectAtIndex:0];
+        numberOfRows = [sectionInfo numberOfObjects];
+    }
+    
+    return numberOfRows;
+    
+}
+
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {
     RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
     
@@ -833,14 +863,6 @@
         case RBFormStatusUnknown:
             return 0;
     }
-}
-
-- (void)updateCarouselSelectionState:(iCarousel *)carousel selectedItem:(UIControl *)selectedItem {
-    // set selected of all views to no (nil --> setSelected:NO)
-    [carousel.visibleViews makeObjectsPerformSelector:@selector(setSelected:) withObject:nil];
-    
-    // select current active view
-    selectedItem.selected = YES;
 }
 
 - (NSUInteger)numberOfClients {
