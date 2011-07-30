@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RBFormView : UIScrollView <UIScrollViewDelegate>
+@interface RBFormView : UIScrollView
 
 @property (nonatomic, retain) UIPageControl *pageControl;
+@property (nonatomic, retain) UIButton *prevButton;
+@property (nonatomic, retain) UIButton *nextButton;
 
 @end

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "RBForm.h"
 #import "RBClient.h"
+#import "RBDocument.h"
 
 #define kRBFormsCarouselItemWidth           265.f
 #define kRBClientsCarouselItemWidth         200.f
@@ -26,5 +27,6 @@
 - (void)setFromFormStatus:(RBFormStatus)formStatus count:(NSUInteger)count;
 - (void)setFromForm:(RBForm *)form;
 - (void)setFromClient:(RBClient *)client;
+- (void)setFromDocument:(RBDocument *)document;
 
 @end

@@ -39,10 +39,15 @@ static char formSectionKey;
         UISwitch *switchSelf = (UISwitch *)self;
         
         switchSelf.on = [value isEqualToString:kRBSwitchOnTextValue] ? YES : NO;
+        if ([switchSelf respondsToSelector:@selector(setOnTintColor:)]) {
+            switchSelf.onTintColor = kRBColorDetail2;
+        }
     } else if ([self isKindOfClass:[UITextField class]]) {
         UITextField *textFieldSelf = (UITextField *)self;
         
-        textFieldSelf.borderStyle = UITextBorderStyleRoundedRect;
+        textFieldSelf.borderStyle = UITextBorderStyleBezel;
+        textFieldSelf.backgroundColor = [UIColor whiteColor];
+        textFieldSelf.font = [UIFont fontWithName:kRBFontName size:20];
         textFieldSelf.text = value;
     }
     

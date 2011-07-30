@@ -63,11 +63,14 @@
 		3981E13A13DF644F00B23A7D /* UIControl+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E13913DF644F00B23A7D /* UIControl+RBForm.m */; };
 		3994620C12C91F1D005574A6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620B12C91F1D005574A6 /* CoreLocation.framework */; };
 		3994621012C91F27005574A6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620F12C91F27005574A6 /* MapKit.framework */; };
+		399BBCA413E37E0E0062EC1E /* NextButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 399BBCA213E37E0E0062EC1E /* NextButton.png */; };
+		399BBCA513E37E0E0062EC1E /* PrevButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 399BBCA313E37E0E0062EC1E /* PrevButton.png */; };
 		39A46C7113E30D2F00603CD6 /* SSLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A46C7013E30D2F00603CD6 /* SSLineView.m */; };
 		39A46C7513E30F8700603CD6 /* AbortButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7213E30F8700603CD6 /* AbortButton.png */; };
 		39A46C7613E30F8700603CD6 /* LogoSignMe.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7313E30F8700603CD6 /* LogoSignMe.png */; };
 		39A46C7713E30F8700603CD6 /* SaveButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7413E30F8700603CD6 /* SaveButton.png */; };
 		39A46C7C13E358C000603CD6 /* CarouselDetailBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7B13E358C000603CD6 /* CarouselDetailBackground.png */; };
+		39A46C7E13E35C0B00603CD6 /* AddClientButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7D13E35C0B00603CD6 /* AddClientButton.png */; };
 		39A7F07713D9FF2D008338A4 /* RBPDFManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A7F07613D9FF2D008338A4 /* RBPDFManager.m */; };
 		39A7F07913D9FFC3008338A4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39A7F07813D9FFC3008338A4 /* CoreText.framework */; };
 		39A7F07E13DA207A008338A4 /* RBHomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39A7F07D13DA207A008338A4 /* RBHomeView.xib */; };
@@ -296,6 +299,8 @@
 		3981E13913DF644F00B23A7D /* UIControl+RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+RBForm.m"; sourceTree = "<group>"; };
 		3994620B12C91F1D005574A6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3994620F12C91F27005574A6 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		399BBCA213E37E0E0062EC1E /* NextButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NextButton.png; path = Images/NextButton.png; sourceTree = "<group>"; };
+		399BBCA313E37E0E0062EC1E /* PrevButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PrevButton.png; path = Images/PrevButton.png; sourceTree = "<group>"; };
 		39A46C6F13E30D2F00603CD6 /* SSLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSLineView.h; sourceTree = "<group>"; };
 		39A46C7013E30D2F00603CD6 /* SSLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSLineView.m; sourceTree = "<group>"; };
 		39A46C7213E30F8700603CD6 /* AbortButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AbortButton.png; path = Images/AbortButton.png; sourceTree = "<group>"; };
@@ -304,6 +309,7 @@
 		39A46C7813E33F6900603CD6 /* RBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBClient.h; path = Classes/RBClient.h; sourceTree = "<group>"; };
 		39A46C7913E33F6900603CD6 /* RBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBClient.m; path = Classes/RBClient.m; sourceTree = "<group>"; };
 		39A46C7B13E358C000603CD6 /* CarouselDetailBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CarouselDetailBackground.png; path = Images/CarouselDetailBackground.png; sourceTree = "<group>"; };
+		39A46C7D13E35C0B00603CD6 /* AddClientButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AddClientButton.png; path = Images/AddClientButton.png; sourceTree = "<group>"; };
 		39A7F07513D9FF2D008338A4 /* RBPDFManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBPDFManager.h; sourceTree = "<group>"; };
 		39A7F07613D9FF2D008338A4 /* RBPDFManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBPDFManager.m; sourceTree = "<group>"; };
 		39A7F07813D9FFC3008338A4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -610,13 +616,13 @@
 			name = Forms;
 			sourceTree = "<group>";
 		};
-		393AB0A113E235EE00F1BE04 /* Box.Net */ = {
+		393AB0A113E235EE00F1BE04 /* Box.net */ = {
 			isa = PBXGroup;
 			children = (
 				393AB0A213E2361000F1BE04 /* RBBoxLoginViewController.h */,
 				393AB0A313E2361000F1BE04 /* RBBoxLoginViewController.m */,
 			);
-			name = Box.Net;
+			name = Box.net;
 			sourceTree = "<group>";
 		};
 		394B914F13D6491A007BFF2E /* Products */ = {
@@ -658,6 +664,9 @@
 				39A46C7313E30F8700603CD6 /* LogoSignMe.png */,
 				39A46C7413E30F8700603CD6 /* SaveButton.png */,
 				39A46C7B13E358C000603CD6 /* CarouselDetailBackground.png */,
+				39A46C7D13E35C0B00603CD6 /* AddClientButton.png */,
+				399BBCA213E37E0E0062EC1E /* NextButton.png */,
+				399BBCA313E37E0E0062EC1E /* PrevButton.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -741,7 +750,7 @@
 				39680E6713E06A60006B47C1 /* Client */,
 				39A7F07F13DA208A008338A4 /* Home */,
 				3925C7D813DDE82C008810AF /* Form */,
-				393AB0A113E235EE00F1BE04 /* Box.Net */,
+				393AB0A113E235EE00F1BE04 /* Box.net */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -1074,6 +1083,9 @@
 				39A46C7613E30F8700603CD6 /* LogoSignMe.png in Resources */,
 				39A46C7713E30F8700603CD6 /* SaveButton.png in Resources */,
 				39A46C7C13E358C000603CD6 /* CarouselDetailBackground.png in Resources */,
+				39A46C7E13E35C0B00603CD6 /* AddClientButton.png in Resources */,
+				399BBCA413E37E0E0062EC1E /* NextButton.png in Resources */,
+				399BBCA513E37E0E0062EC1E /* PrevButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,6 +20,7 @@
 #define kMinNumberOfItemsToWrap   6
 
 #define kClientCacheName        @"RBClientCache"
+#define kDocumentsCacheName     @"RBDocumentsCache"
 
 #define kAnimationDuration      0.25
 #define kFormsYOffset            40.f
@@ -33,6 +34,7 @@
 @interface RBHomeViewController ()
 
 @property (nonatomic, readonly) NSFetchedResultsController *clientsFetchController;
+@property (nonatomic, readonly) NSFetchedResultsController *documentsFetchController;
 
 @property (nonatomic, assign) CGFloat formsViewDefaultY;
 @property (nonatomic, assign) CGFloat clientsViewDefaultY;
@@ -87,6 +89,7 @@
 @implementation RBHomeViewController
 
 @synthesize clientsFetchController = clientsFetchController_;
+@synthesize documentsFetchController = documentsFetchController_;
 @synthesize formsViewDefaultY = formsViewDefaultY_;
 @synthesize clientsViewDefaultY = clientsViewDefaultY_;
 @synthesize formsLabel = formsLabel_;
@@ -117,6 +120,8 @@
 }
 
 - (void)dealloc {
+    MCRelease(clientsFetchController_);
+    MCRelease(documentsFetchController_);
     MCRelease(formsLabel_);
     MCRelease(clientsLabel_);
     MCRelease(formsView_);
@@ -128,7 +133,6 @@
     MCRelease(detailView_);
     MCRelease(detailCarousel_);
     MCRelease(emptyForms_);
-    MCRelease(clientsFetchController_);
     
     [super dealloc];
 }
@@ -185,13 +189,17 @@
     self.clientsViewDefaultY = self.clientsView.frameTop;
     
     // Perform CoreData fetch
-    NSError *error;
+    NSError *error = nil;
 	if (self.clientsFetchController != nil && ![self.clientsFetchController performFetch:&error]) {
-		DDLogError(@"Unresolved error %@, %@", error, [error userInfo]);
+		DDLogError(@"Unresolved error fetching clients %@, %@", error, [error userInfo]);
 	} 
+    error = nil;
+    if (self.documentsFetchController != nil && ![self.documentsFetchController performFetch:&error]) {
+		DDLogError(@"Unresolved error fetching documents %@, %@", error, [error userInfo]);
+	}
     
     self.formsLabel = [self headerLabelForView:self.formsCarousel text:@"Forms"];
-    self.clientsLabel = [self headerLabelForView:self.addNewClientButton text:@"Clients"];
+    self.clientsLabel = [self headerLabelForView:self.clientsCarousel text:@"Clients"];
     
     [self.formsView addSubview:self.formsLabel];
     [self.clientsView addSubview:self.clientsLabel];
@@ -209,6 +217,7 @@
     self.detailCarousel = [[[iCarousel alloc] initWithFrame:CGRectInset(self.detailView.bounds,0.f,15.f)] autorelease];
     self.detailCarousel.delegate = self;
     self.detailCarousel.dataSource = self;
+    [self.detailView addSubview:self.detailCarousel];
     
     [self.view insertSubview:self.detailView belowSubview:self.formsView];
     
@@ -231,12 +240,14 @@
     self.clientsCarousel = nil;
     self.detailView = nil;
     MCReleaseNil(clientsFetchController_);
+    MCReleaseNil(documentsFetchController_);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     self.clientsFetchController.delegate = self;
+    self.documentsFetchController.delegate = self;
     
     [self.formsCarousel reloadData];
     [self.clientsCarousel reloadData];
@@ -249,6 +260,7 @@
     [super viewWillDisappear:animated];
     
     self.clientsFetchController.delegate = nil;
+    self.documentsFetchController.delegate = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
@@ -276,7 +288,11 @@
     }
     
     else if (carousel == self.detailCarousel) {
-        return self.emptyForms.count;
+        if (self.formsCarousel.currentItemIndex == RBFormStatusNew) {
+            return self.emptyForms.count;
+        } else {
+            return MAX(1,[self numberOfDocumentsWithFormStatus:self.formsCarousel.currentItemIndex]);
+        }
     }
     
     return 0;
@@ -313,7 +329,17 @@
     
     else if (carousel == self.detailCarousel) {
         view = [RBCarouselView carouselViewWithWidth:kRBDetailCarouselItemWidth];
-        [view setFromForm:[self.emptyForms objectAtIndex:index]];
+        
+        if (self.formsCarousel.currentItemIndex == RBFormStatusNew) {
+            [view setFromForm:[self.emptyForms objectAtIndex:index]];
+        } else {
+            if ([self numberOfDocumentsWithFormStatus:self.formsCarousel.currentItemIndex] == 0) {
+                [view setText:@"No Forms yet."];
+            } else {
+                RBDocument *document = [self.documentsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+                [view setFromDocument:document];
+            }
+        }
     }
     
     return view;
@@ -385,7 +411,6 @@
         [self performBlock:^(void) {
             if (self.formsCarousel.currentItemIndex != index) {
                 [self.formsCarousel scrollToItemAtIndex:index animated:YES];
-                [self updateDetailViewWithFormStatus:(RBFormStatus)index];
                 [self showDetailViewWithDelay:0.4];
             }
         } afterDelay:kAnimationDuration];
@@ -422,7 +447,13 @@
 }
 
 - (void)detailCarouselDidSelectItemAtIndex:(NSInteger)index {
-    [self prepareForFormPresentation];
+    if (self.formsCarousel.currentItemIndex == RBFormStatusNew) {
+        [self prepareForFormPresentation];
+    } else {
+        if ([self numberOfDocumentsWithFormStatus:self.formsCarousel.currentItemIndex] > 0) {
+            // TODO:
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -485,7 +516,11 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller { 
-    [self.clientsCarousel reloadData];
+    if (controller == self.clientsFetchController) {
+        [self.clientsCarousel reloadData];
+    } else {
+        [self.detailView reloadData];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -515,6 +550,29 @@
     clientsFetchController_.delegate = self;
     
     return clientsFetchController_;
+}
+
+- (NSFetchedResultsController *)documentsFetchController {
+    if (documentsFetchController_ != nil) {
+        return documentsFetchController_;
+    }
+    
+	NSFetchRequest *fetchRequest = [[[NSFetchRequest alloc] init] autorelease];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([RBDocument class])
+                                              inManagedObjectContext:[NSManagedObjectContext defaultContext]];
+    [fetchRequest setEntity:entity];
+    
+    NSSortDescriptor *idSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO] autorelease];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:idSortDescriptor]];
+    
+    // create sections for beginDate
+    documentsFetchController_ = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                  managedObjectContext:[NSManagedObjectContext defaultContext]
+                                                                    sectionNameKeyPath:nil
+                                                                             cacheName:kDocumentsCacheName];
+    documentsFetchController_.delegate = self;
+    
+    return documentsFetchController_;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -594,7 +652,7 @@
                          // Make clients-carousel expand width to cover add button
                          self.clientsCarousel.frame = CGRectMake(self.addNewClientButton.frameLeft, self.clientsCarousel.frameTop,
                                                                  self.clientsView.frameWidth - self.clientsLabel.frameWidth, self.clientsCarousel.frameHeight);
-                         //self.clientsCarousel.viewpointOffset = CGSizeMake(2*kCarouselItemWidth, 0);
+                         self.clientsCarousel.viewpointOffset = CGSizeMake(355.f, 0);
                      } 
                      completion:nil];
 }
@@ -611,7 +669,7 @@
         self.clientsCarousel.frame = CGRectMake(self.addNewClientButton.frameRight, self.clientsCarousel.frameTop,
                                                 self.clientsView.frameWidth - self.clientsLabel.frameWidth - self.addNewClientButton.frameWidth, self.clientsCarousel.frameHeight);
         self.addNewClientButton.alpha = 1.f;
-        //self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX, 0);
+        self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX, 0);
     }];
 }
 
@@ -653,12 +711,12 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (UILabel *)headerLabelForView:(UIView *)view text:(NSString *)text {
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, view.bounds.size.height, view.frameLeft)] autorelease];
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0.f, 0.f, 150.f, 40.f)] autorelease];
     
     label.text = [text uppercaseString];
     label.textAlignment = UITextAlignmentCenter;
     label.transform = CGAffineTransformMakeRotation(MTDegreesToRadian(90));
-    label.backgroundColor = [UIColor colorWithRed:0.7804f green:0.0000f blue:0.2941f alpha:1.0000f];
+    label.backgroundColor = kRBColorDetail2;
     label.textColor = kRBColorMain;
     label.font = [UIFont fontWithName:kRBFontName size:22.f];
     label.frameLeft = 0;
@@ -682,29 +740,15 @@
 }
 
 - (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus {
-    // remove all subview except arrow view
-    for (UIView *view in self.detailView.subviews) {
-        if (![view isKindOfClass:[RBArrowView class]]) {
-            [view removeFromSuperview];
-        }
-    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"status = %d", formStatus];
     
-    switch (formStatus) {
-        case RBFormStatusNew:
-            [self.detailView addSubview:self.detailCarousel];
-            break;
-            
-        case RBFormStatusPreSignature:
-            break;
-            
-        case RBFormStatusSigned:
-            break;
-            
-        case RBFormStatusCount:
-        case RBFormStatusUnknown:
-            // can't happen, just to please the compiler
-            break;
-    }
+    [NSFetchedResultsController deleteCacheWithName:kDocumentsCacheName];
+    self.documentsFetchController.fetchRequest.predicate = predicate;
+	
+    NSError *error = nil;
+    if (![self.documentsFetchController performFetch:&error]) {
+        DDLogError(@"Unresolved error fetching documents %@, %@", error, [error userInfo]);
+    }  
     
     [self.detailView reloadData];
 }

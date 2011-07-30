@@ -12,10 +12,10 @@
 #import "RBRecipientsView.h"
 
 #define kRBLabelX                   50.f
-#define kRBInputFieldX              280.f
-#define kRBInputFieldWidth          250.f
-#define kRBRowHeight                31.f
-#define kRBRowPadding               10.f
+#define kRBInputFieldX              320.f
+#define kRBInputFieldWidth          530.f
+#define kRBRowHeight                35.f
+#define kRBRowPadding               11.f
 
 
 @interface RBUIGenerator ()
@@ -55,8 +55,10 @@
             
             // match values for client if there is no value set
             if (IsEmpty(value)) {
-                if ([form fieldWithID:fieldID inSection:section matches:kRBFormKeyMappingName]) {
-                    value = [client valueForKey:kRBFormKeyMappingName];
+                for (NSString *mapping in KRBFormKeyAllMappings) {
+                    if ([form fieldWithID:fieldID inSection:section matches:mapping]) {
+                        value = [client valueForKey:mapping];
+                    }
                 }
             }
             
@@ -69,7 +71,7 @@
             
             // position in Grid depending on anchor-views
             [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
-            [inputField positionUnderView:topInputField padding:(kRBRowPadding + heightDiff) alignment:MTUIViewAlignmentLeftAligned];
+            [inputField positionUnderView:topInputField padding:(kRBRowPadding + heightDiff/2.f) alignment:MTUIViewAlignmentLeftAligned];
             
             [view addSubview:label];
             [view addSubview:inputField];
@@ -77,6 +79,7 @@
             // set new frames for anchor-views
             topLabel.frame = label.frame;
             topInputField.frame = inputField.frame;
+            topInputField.frameTop += heightDiff/2.f;
             
             maxHeight = MAX(maxHeight, topInputField.frameBottom);
         }
@@ -86,15 +89,11 @@
     RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*realViewWidth, 0, view.bounds.size.width, view.bounds.size.height)] autorelease];
     [view addSubview:recipientsView];
     
-    // set pageControl on view (isn't displayed yet, because it is not a subview of the scrollView)
-    UIPageControl *pageControl = [[[UIPageControl alloc] initWithFrame:CGRectMake(view.bounds.size.width/2 - 100, 705, 200, 30)] autorelease];
-    pageControl.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-    pageControl.numberOfPages = numberOfPages;
-    pageControl.hidesForSinglePage = YES;
-    view.pageControl = pageControl;
+    // update pageControl on view (isn't displayed yet, because it is not a subview of the scrollView)
+    view.pageControl.numberOfPages = numberOfPages;
     
-    // enable horizontal scrolling
-    view.contentSize = CGSizeMake(realViewWidth * numberOfPages, maxHeight);
+    // enable vertical scrolling
+    view.contentSize = CGSizeMake(realViewWidth, maxHeight);
     
     return view;
 }

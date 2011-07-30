@@ -14,7 +14,7 @@
 
 
 #define kRBOffsetTop               212.f
-#define kRBOffsetBottom             56.f
+#define kRBOffsetBottom             58.f
 
 @interface RBFormViewController ()
 
@@ -88,13 +88,13 @@
     
     self.formView = [generator viewWithForm:self.form client:self.client frame:CGRectMake(0, kRBOffsetTop, self.view.bounds.size.width, self.view.bounds.size.height-kRBOffsetTop-kRBOffsetBottom)];
     
-    self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(30, 172, 500, 27)] autorelease];
-    self.headerLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
+    self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(30, 172, 580, 27)] autorelease];
+    self.headerLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
     self.headerLabel.backgroundColor = [UIColor clearColor];
     self.headerLabel.textColor = kRBColorMain;
     self.headerLabel.textAlignment = UITextAlignmentLeft;
     self.headerLabel.font = [UIFont fontWithName:kRBFontName size:24.];
-    self.headerLabel.text = self.form.name;
+    self.headerLabel.text = [self.form.name stringByAppendingFormat:@": %@", self.client.name];
     
     self.topLine = [[[SSLineView alloc] initWithFrame:CGRectMake(30, 202, 690, 1)] autorelease];
     self.topLine.lineColor = [UIColor colorWithWhite:1.f alpha:0.3f];
@@ -125,6 +125,8 @@
     [self.view addSubview:self.doneButton];
     [self.view addSubview:self.formView];
     [self.view addSubview:self.formView.pageControl];
+    [self.view addSubview:self.formView.prevButton];
+    [self.view addSubview:self.formView.nextButton]; 
 }
 
 - (void)viewDidUnload {
@@ -136,6 +138,11 @@
     self.doneButton = nil;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self.formView flashScrollIndicators];
+}
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

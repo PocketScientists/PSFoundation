@@ -28,6 +28,8 @@
 #define kRBFormKeyMappingCity       @"city"
 #define kRBFormKeyMappingZip        @"zip"
 
+#define KRBFormKeyAllMappings       XARRAY(kRBFormKeyMappingName, kRBFormKeyMappingCompany, kRBFormKeyMappingStreet, kRBFormKeyMappingCity, kRBFormKeyMappingZip)
+
 
 // datatypes for form creation
 #define kRBFormDataTypeCheckbox     @"Btn"

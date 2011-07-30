@@ -144,24 +144,25 @@
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
-#pragma mark RBCarouselView
+#pragma mark Setters
 ////////////////////////////////////////////////////////////////////////
 
 - (void)setText:(NSString *)text {
     self.topMargin = 0.f;
     self.label2.text = [text uppercaseString];
+    self.backgroundView.hidden = NO;
+    self.lineView.hidden = YES;
     
     self.label2.frame = self.bounds;
     self.label2.textAlignment = UITextAlignmentCenter;
     self.label2.font = [UIFont fontWithName:kRBFontName size:22.];
-    
-    self.backgroundView.hidden = YES;
-    self.lineView.hidden = NO;
 }
 
 - (void)setFromFormStatus:(RBFormStatus)formStatus count:(NSUInteger)count {
     self.topMargin = 0.f;
     self.attachedObject = $I(formStatus);
+    self.backgroundView.hidden = YES;
+    self.lineView.hidden = NO;
     
     NSString *description = formStatus == RBFormStatusNew ? @"TEMPLATE" : @"DOCUMENT";
     
@@ -180,23 +181,20 @@
     self.label3.font = [UIFont fontWithName:kRBFontName size:14.];
     self.label4.font = [UIFont fontWithName:kRBFontName size:14.];
     
-    self.backgroundView.hidden = YES;
-    self.lineView.hidden = NO;
-    
     [self updateLabelFrames];
 }
 
 - (void)setFromForm:(RBForm *)form {
     self.topMargin = 22.f;
     self.attachedObject = form;
+    self.backgroundView.hidden = NO;
+    self.lineView.hidden = YES;
     
     self.label2.numberOfLines = 2;
     
     self.label1.font = [UIFont fontWithName:kRBFontName size:30.];
     self.label2.font = [UIFont fontWithName:kRBFontName size:18.];
     
-    self.backgroundView.hidden = NO;
-    self.lineView.hidden = YES;
     
     [self splitTextOnFirstTwoLabels:form.name];
     
@@ -210,6 +208,8 @@
 - (void)setFromClient:(RBClient *)client {
     self.topMargin = 0.f;
     self.attachedObject = client;
+    self.backgroundView.hidden = YES;
+    self.lineView.hidden = NO;
     
     [self splitTextOnFirstTwoLabels:client.name];
     
@@ -230,11 +230,33 @@
     self.label3.font = [UIFont fontWithName:kRBFontName size:14.];
     self.label4.font = [UIFont fontWithName:kRBFontName size:14.];
     
-    self.backgroundView.hidden = YES;
-    self.lineView.hidden = NO;
+    [self updateLabelFrames];
+}
+
+- (void)setFromDocument:(RBDocument *)document {
+    self.topMargin = 5.f;
+    self.attachedObject = document;
+    self.backgroundView.hidden = NO;
+    self.lineView.hidden = YES;
+    
+    [self splitTextOnFirstTwoLabels:[document.client.name uppercaseString]];
+    self.label3.text = [document.name uppercaseString];
+    self.label4.text = RBFormattedDateWithFormat(document.date, kRBDateFormat);
+    
+    self.label2.numberOfLines = 2;
+    
+    self.label1.font = [UIFont fontWithName:kRBFontName size:16.];
+    self.label2.font = [UIFont fontWithName:kRBFontName size:25.];
+    self.label3.font = [UIFont fontWithName:kRBFontName size:14.];
+    self.label4.font = [UIFont fontWithName:kRBFontName size:14.];
     
     [self updateLabelFrames];
 }
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Private
+////////////////////////////////////////////////////////////////////////
 
 - (void)splitTextOnFirstTwoLabels:(NSString *)text {
     NSString *upperCaseText = [text uppercaseString];
@@ -280,9 +302,9 @@
         self.label1.frameWidth = self.bounds.size.width;
         
         // sizeToFit doesn't work with numberOfLines != 0, Bug?
-        if (self.label2.numberOfLines != 0) {
+        if (self.label2.numberOfLines != 0) { 
             CGSize size = [self.label2.text sizeWithFont:self.label2.font
-                                       constrainedToSize:CGSizeMake(self.bounds.size.width, self.label2.numberOfLines*32)
+                                       constrainedToSize:CGSizeMake(self.bounds.size.width, self.label2.numberOfLines*self.label2.font.lineHeight)
                                            lineBreakMode:self.label2.lineBreakMode];
             self.label2.frame = (CGRect){CGPointZero,size};
         } else {
