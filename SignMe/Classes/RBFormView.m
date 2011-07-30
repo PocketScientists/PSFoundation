@@ -21,6 +21,7 @@
 
 @implementation RBFormView
 
+@synthesize innerScrollView = innerScrollView_;
 @synthesize pageControl = pageControl_;
 @synthesize prevButton = prevButton_;
 @synthesize nextButton = nextButton_;
@@ -41,6 +42,9 @@
         self.decelerationRate = UIScrollViewDecelerationRateFast;
         self.clipsToBounds = YES;
         
+        innerScrollView_ = [[UIScrollView alloc] initWithFrame:CGRectZero];
+        innerScrollView_.scrollEnabled = NO;
+        
         UIImage *prevImage = [UIImage imageNamed:@"PrevButton"];
         prevButton_ = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
         [prevButton_ setImage:prevImage forState:UIControlStateNormal];
@@ -60,12 +64,15 @@
         pageControl_.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         pageControl_.hidesForSinglePage = YES;
         [pageControl_ addTarget:self action:@selector(handlePageChange:) forControlEvents:UIControlEventValueChanged];
+        
+        [self addSubview:innerScrollView_];
 }
     
     return self;
 }
 
 - (void)dealloc {
+    MCRelease(innerScrollView_);
     MCRelease(pageControl_);
     MCRelease(prevButton_);
     MCRelease(nextButton_);
@@ -75,13 +82,12 @@
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
-#pragma mark UIScrollView
+#pragma mark RBFormView
 ////////////////////////////////////////////////////////////////////////
 
-- (void)setContentOffset:(CGPoint)contentOffset {
-    // restrict movement to vertical only
-    CGPoint newOffset = CGPointMake(self.pageControl.currentPage*self.bounds.size.width, contentOffset.y);
-    [super setContentOffset:newOffset];    
+- (void)setInnerScrollViewSize:(CGSize)size {
+    self.innerScrollView.contentSize = size;
+    self.innerScrollView.frame = (CGRect){CGPointZero,size};
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -93,7 +99,8 @@
     NSInteger newPage = MAX(0,self.pageControl.currentPage - 1);
 
     self.pageControl.currentPage = newPage;
-    [self setContentOffset:CGPointMake(newPage*self.bounds.size.width,0) animated:YES];
+    [self setContentOffset:CGPointMake(self.contentOffset.x, 0) animated:YES];
+    [self.innerScrollView setContentOffset:CGPointMake(newPage*self.bounds.size.width,0) animated:YES];
     [self updateUI];
 }
 
@@ -101,17 +108,18 @@
     NSInteger newPage = MIN(self.pageControl.numberOfPages - 1,self.pageControl.currentPage + 1);
 
     self.pageControl.currentPage = newPage;
-    [self setContentOffset:CGPointMake(newPage*self.bounds.size.width,0) animated:YES];
+    [self setContentOffset:CGPointMake(self.contentOffset.x, 0) animated:YES];
+    [self.innerScrollView setContentOffset:CGPointMake(newPage*self.bounds.size.width,0) animated:YES];
     [self updateUI];
 }
 
 - (void)handlePageChange:(id)sender {
     int newPage = self.pageControl.currentPage;
 	
-	[self setContentOffset:CGPointMake(newPage*self.bounds.size.width,0) animated:YES];
+    [self setContentOffset:CGPointMake(self.contentOffset.x, 0) animated:YES];
+	[self.innerScrollView setContentOffset:CGPointMake(newPage*self.bounds.size.width,0) animated:YES];
     [self updateUI];
 }
-
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

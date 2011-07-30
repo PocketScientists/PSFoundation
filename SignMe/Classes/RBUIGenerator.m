@@ -74,8 +74,8 @@
             [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
             [inputField positionUnderView:topInputField padding:(kRBRowPadding + heightDiff/2.f) alignment:MTUIViewAlignmentLeftAligned];
             
-            [view addSubview:label];
-            [view addSubview:inputField];
+            [view.innerScrollView addSubview:label];
+            [view.innerScrollView addSubview:inputField];
             
             // set new frames for anchor-views
             topLabel.frame = label.frame;
@@ -88,12 +88,13 @@
     
     // Add RecipientsView
     RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*realViewWidth, 0, view.bounds.size.width, view.bounds.size.height)] autorelease];
-    [view addSubview:recipientsView];
+    [view.innerScrollView addSubview:recipientsView];
     
     // update pageControl on view (isn't displayed yet, because it is not a subview of the scrollView)
     view.pageControl.numberOfPages = numberOfPages;
     
     // enable vertical scrolling
+    [view setInnerScrollViewSize:CGSizeMake(realViewWidth*numberOfPages, maxHeight)];
     view.contentSize = CGSizeMake(realViewWidth, maxHeight);
     
     return view;

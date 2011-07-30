@@ -10,8 +10,11 @@
 
 @interface RBFormView : UIScrollView
 
+@property (nonatomic, retain) UIScrollView *innerScrollView;
 @property (nonatomic, retain) UIPageControl *pageControl;
 @property (nonatomic, retain) UIButton *prevButton;
 @property (nonatomic, retain) UIButton *nextButton;
+
+- (void)setInnerScrollViewSize:(CGSize)size;
 
 @end
