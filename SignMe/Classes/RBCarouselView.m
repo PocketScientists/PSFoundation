@@ -125,7 +125,7 @@
     
     if (selected) {
         if ([theLayer respondsToSelector:@selector(setShadowPath:)] && [theLayer respondsToSelector:@selector(shadowPath)]) {
-            if (theLayer.shadowRadius != 26.f) {
+            if (theLayer.shadowRadius != 40.f) {
                 CGMutablePathRef path = CGPathCreateMutable();
                 CGPathAddRect(path, NULL, theLayer.bounds);
                 theLayer.shadowPath = path;
@@ -133,8 +133,8 @@
             }
 			
             theLayer.shadowOffset = CGSizeZero;     
-            theLayer.shadowColor = [UIColor colorWithWhite:0.f alpha:0.3].CGColor;
-            theLayer.shadowRadius = 26.f;            
+            theLayer.shadowColor = [UIColor colorWithWhite:1.f alpha:0.3].CGColor;
+            theLayer.shadowRadius = 40.f;            
             theLayer.shadowOpacity = 1.0;                
         }
     } else {
