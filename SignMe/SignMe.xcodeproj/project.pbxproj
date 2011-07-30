@@ -37,6 +37,10 @@
 		3911A22613E228FB00CD4F6C /* RBBoxService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A22513E228FB00CD4F6C /* RBBoxService.m */; };
 		3911A22913E22AA600CD4F6C /* LogoEmpty.png in Resources */ = {isa = PBXBuildFile; fileRef = 3911A22713E22AA600CD4F6C /* LogoEmpty.png */; };
 		3911A22A13E22AA600CD4F6C /* LogoFull.png in Resources */ = {isa = PBXBuildFile; fileRef = 3911A22813E22AA600CD4F6C /* LogoFull.png */; };
+		39134E9713E38D84000D45B6 /* CarouselBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 39134E9413E38D84000D45B6 /* CarouselBackground.png */; };
+		39134E9813E38D84000D45B6 /* SearchFieldInactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 39134E9513E38D84000D45B6 /* SearchFieldInactive.png */; };
+		39134E9913E38D84000D45B6 /* SearchFieldRightView.png in Resources */ = {isa = PBXBuildFile; fileRef = 39134E9613E38D84000D45B6 /* SearchFieldRightView.png */; };
+		39134E9B13E394CE000D45B6 /* SearchBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 39134E9A13E394CE000D45B6 /* SearchBackground.png */; };
 		3925C7D413DDE72B008810AF /* RBUIGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D313DDE72B008810AF /* RBUIGenerator.m */; };
 		3925C7D713DDE75C008810AF /* RBFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D613DDE75C008810AF /* RBFormView.m */; };
 		3925C7E013DDE863008810AF /* RBFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7DF13DDE863008810AF /* RBFormViewController.m */; };
@@ -259,6 +263,10 @@
 		3911A22513E228FB00CD4F6C /* RBBoxService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBBoxService.m; sourceTree = "<group>"; };
 		3911A22713E22AA600CD4F6C /* LogoEmpty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LogoEmpty.png; path = Images/LogoEmpty.png; sourceTree = "<group>"; };
 		3911A22813E22AA600CD4F6C /* LogoFull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LogoFull.png; path = Images/LogoFull.png; sourceTree = "<group>"; };
+		39134E9413E38D84000D45B6 /* CarouselBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CarouselBackground.png; path = Images/CarouselBackground.png; sourceTree = "<group>"; };
+		39134E9513E38D84000D45B6 /* SearchFieldInactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SearchFieldInactive.png; path = Images/SearchFieldInactive.png; sourceTree = "<group>"; };
+		39134E9613E38D84000D45B6 /* SearchFieldRightView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SearchFieldRightView.png; path = Images/SearchFieldRightView.png; sourceTree = "<group>"; };
+		39134E9A13E394CE000D45B6 /* SearchBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SearchBackground.png; path = Images/SearchBackground.png; sourceTree = "<group>"; };
 		3925C7D213DDE72B008810AF /* RBUIGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBUIGenerator.h; sourceTree = "<group>"; };
 		3925C7D313DDE72B008810AF /* RBUIGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBUIGenerator.m; sourceTree = "<group>"; };
 		3925C7D513DDE75C008810AF /* RBFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFormView.h; sourceTree = "<group>"; };
@@ -667,6 +675,10 @@
 				39A46C7D13E35C0B00603CD6 /* AddClientButton.png */,
 				399BBCA213E37E0E0062EC1E /* NextButton.png */,
 				399BBCA313E37E0E0062EC1E /* PrevButton.png */,
+				39134E9413E38D84000D45B6 /* CarouselBackground.png */,
+				39134E9513E38D84000D45B6 /* SearchFieldInactive.png */,
+				39134E9613E38D84000D45B6 /* SearchFieldRightView.png */,
+				39134E9A13E394CE000D45B6 /* SearchBackground.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -1086,6 +1098,10 @@
 				39A46C7E13E35C0B00603CD6 /* AddClientButton.png in Resources */,
 				399BBCA413E37E0E0062EC1E /* NextButton.png in Resources */,
 				399BBCA513E37E0E0062EC1E /* PrevButton.png in Resources */,
+				39134E9713E38D84000D45B6 /* CarouselBackground.png in Resources */,
+				39134E9813E38D84000D45B6 /* SearchFieldInactive.png in Resources */,
+				39134E9913E38D84000D45B6 /* SearchFieldRightView.png in Resources */,
+				39134E9B13E394CE000D45B6 /* SearchBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

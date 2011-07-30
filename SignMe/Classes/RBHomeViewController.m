@@ -166,6 +166,9 @@
     
     c = [RBClient createEntity];
     c.name = @"Staples Center Club Nokia";
+    c.street = @"Center Street";
+    c.zip = @"1234";
+    c.company = @"Nokia";
     
     c = [RBClient createEntity];
     c.name = @"Judokus";
@@ -203,6 +206,11 @@
     
     [self.formsView addSubview:self.formsLabel];
     [self.clientsView addSubview:self.clientsLabel];
+    
+    self.searchField.leftView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 25, 20)] autorelease];
+    self.searchField.leftViewMode = UITextFieldViewModeAlways;
+    self.searchField.rightView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SearchFieldRightView"]] autorelease];
+    self.searchField.rightViewMode = UITextFieldViewModeAlways;
     
     // we control centering for this carousel on our own
     self.formsCarousel.centerItemWhenSelected = NO;

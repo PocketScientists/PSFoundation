@@ -47,7 +47,9 @@ static char formSectionKey;
         
         textFieldSelf.borderStyle = UITextBorderStyleBezel;
         textFieldSelf.backgroundColor = [UIColor whiteColor];
-        textFieldSelf.font = [UIFont fontWithName:kRBFontName size:20];
+        textFieldSelf.font = [UIFont fontWithName:kRBFontName size:18];
+        textFieldSelf.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        textFieldSelf.clearButtonMode = UITextFieldViewModeWhileEditing;
         textFieldSelf.text = value;
     }
     
