@@ -10,7 +10,17 @@
 #import <objc/runtime.h>
 #import "PSIncludes.h"
 
+static char clientCreatedKey;
+
 @implementation RBClient (RBClient_RBProperties)
+
+- (void)setClientCreatedForEditing:(BOOL)clientCreatedForEditing {
+    [self associateValue:[NSNumber numberWithBool:clientCreatedForEditing] withKey:&clientCreatedKey];
+}
+
+- (BOOL)clientCreatedForEditing {
+    return [[self associatedValueForKey:&clientCreatedKey] boolValue];
+}
 
 + (NSArray *)propertyNamesForMapping {
     unsigned int propertyCount = 0;

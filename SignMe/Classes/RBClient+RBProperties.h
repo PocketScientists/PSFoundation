@@ -10,6 +10,10 @@
 
 @interface RBClient (RBClient_RBProperties)
 
+// states whether a client was just created for editing (it then gets removed if you press abort)
+- (BOOL)clientCreatedForEditing;
+- (void)setClientCreatedForEditing:(BOOL)clientCreatedForEditing;
+
 + (NSArray *)propertyNamesForMapping;
 
 - (void)setStringValue:(NSString *)stringValue forKey:(NSString *)key;

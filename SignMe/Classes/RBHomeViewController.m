@@ -16,6 +16,7 @@
 #import "RBDocument.h"
 #import "RBClientEditViewController.h"
 #import "RBPersistenceManager.h"
+#import "RBClient+RBProperties.h"
 
 #define kMinNumberOfItemsToWrap   6
 
@@ -444,6 +445,7 @@
 - (void)clientsCarouselDidSelectItemAtIndex:(NSInteger)index {
     if (self.clientCarouselShowsAddItem && index == 0) {
         RBClient *client = [self clientWithName:self.searchField.text];
+        client.clientCreatedForEditing = YES;
         [self editClient:client];
     } else if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) != RBFormStatusNew) {
         RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
@@ -821,11 +823,18 @@
 }
 
 - (void)updateCarouselSelectionState:(iCarousel *)carousel selectedItem:(UIControl *)selectedItem {
+    BOOL wasSelectedBefore = NO;
+    
     // set selected of all views to no
+    if (selectedItem.selected == YES) {
+        wasSelectedBefore = YES;
+    }
     [carousel.visibleViews makeObjectsPerformSelector:@selector(setSelected:) withObject:nil];
     
-    // select current active view
-    selectedItem.selected = YES;
+    if (!wasSelectedBefore) {
+        // select current active view
+        selectedItem.selected = YES;
+    }
 }
 
 - (NSUInteger)numberOfDocumentsToDisplay {

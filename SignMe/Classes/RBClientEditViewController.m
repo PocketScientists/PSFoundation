@@ -110,7 +110,7 @@
     
     self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 28, 300, cancelImage.size.height)] autorelease];
     self.headerLabel.font = [UIFont fontWithName:kRBFontName size:20];
-    self.headerLabel.text = self.client != nil ? @"Edit Client" : @"New Client";
+    self.headerLabel.text = (self.client != nil && !self.client.clientCreatedForEditing) ? @"Edit Client" : @"New Client";
     self.headerLabel.backgroundColor = [UIColor clearColor];
     self.headerLabel.textColor = kRBColorMain;
     
@@ -121,6 +121,8 @@
     if (self.client == nil) {
         self.clientWasCreated = YES;
         self.client = [RBClient createEntity];
+    } else if (self.client.clientCreatedForEditing) {
+        self.clientWasCreated = YES;
     }
     
     // Add input fields
