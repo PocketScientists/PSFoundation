@@ -10,6 +10,7 @@
 
 @interface UIControl (UIControl_RBForm)
 
+@property (nonatomic, retain) NSString *formMappingName;
 @property (nonatomic, retain) NSString *formID;
 @property (nonatomic, assign) NSInteger formSection;
 @property (nonatomic, readonly) NSString *formTextValue;

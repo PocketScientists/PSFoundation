@@ -14,6 +14,7 @@
 #define kRBSwitchOffTextValue       @""
 
 
+static char formMappingKey;
 static char formIDKey;
 static char formSectionKey;
 
@@ -54,6 +55,14 @@ static char formSectionKey;
     }
     
     self.autoresizingMask = UIViewAutoresizingNone;
+}
+
+- (void)setFormMappingName:(NSString *)mappingName {
+    [self associateValue:mappingName withKey:&formMappingKey];
+}
+
+- (NSString *)formMappingName {
+    return [self associatedValueForKey:&formMappingKey];
 }
 
 - (void)setFormID:(NSString *)formID {

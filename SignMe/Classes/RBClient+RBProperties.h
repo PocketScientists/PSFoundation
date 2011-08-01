@@ -12,4 +12,6 @@
 
 + (NSArray *)propertyNamesForMapping;
 
+- (void)setStringValue:(NSString *)stringValue forKey:(NSString *)key;
+
 @end

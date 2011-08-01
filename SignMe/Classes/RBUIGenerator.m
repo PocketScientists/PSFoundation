@@ -12,9 +12,8 @@
 #import "RBRecipientsView.h"
 #import "RBClient+RBProperties.h"
 
-#define kRBLabelX                   50.f
-#define kRBInputFieldX              435.f
-#define kRBInputFieldWidth          560.f
+#define kRBLabelX                   30.f
+#define kRBInputFieldPadding        30.f
 #define kRBRowHeight                35.f
 #define kRBRowPadding               11.f
 
@@ -22,7 +21,7 @@
 @interface RBUIGenerator ()
 
 - (UILabel *)labelWithText:(NSString *)text;
-- (UIControl *)inputFieldWithID:(NSString *)fieldID value:(NSString *)value datatype:(NSString *)datatype;
+- (UIControl *)inputFieldWithID:(NSString *)fieldID value:(NSString *)value datatype:(NSString *)datatype width:(CGFloat)width;
 
 @end
 
@@ -45,7 +44,6 @@
         topLabel.frameTop =  - kRBRowHeight - kRBRowPadding;
         topLabel.frameLeft = kRBLabelX + section * realViewWidth;
         topInputField.frameTop =  - kRBRowHeight - kRBRowPadding;
-        topInputField.frameLeft = kRBInputFieldX + section * realViewWidth;
         
         // iterate over all fields in the section
         for (NSString *fieldID in fieldIDs) {
@@ -65,14 +63,15 @@
             
             // create label and input field
             UILabel *label = [self labelWithText:labelText];
-            UIControl *inputField = [self inputFieldWithID:fieldID value:value datatype:datatype];
+            UIControl *inputField = [self inputFieldWithID:fieldID value:value datatype:datatype width:965 - label.frameRight - kRBInputFieldPadding];
             CGFloat heightDiff = kRBRowHeight - inputField.frameHeight; // Switch = 27 pt, TextField = 31 pt
             
             inputField.formSection = section;
             
             // position in Grid depending on anchor-views
             [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
-            [inputField positionUnderView:topInputField padding:(kRBRowPadding + heightDiff/2.f) alignment:MTUIViewAlignmentLeftAligned];
+            inputField.frameLeft = label.frameRight + kRBInputFieldPadding;
+            [inputField positionUnderView:topInputField padding:(kRBRowPadding + heightDiff/2.f) alignment:MTUIViewAlignmentUnchanged];
             
             [view.innerScrollView addSubview:label];
             [view.innerScrollView addSubview:inputField];
@@ -106,20 +105,22 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (UILabel *)labelWithText:(NSString *)text {
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, kRBInputFieldX - kRBLabelX - 30.f, kRBRowHeight)] autorelease];
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1000.f, kRBRowHeight)] autorelease];
     
     label.autoresizingMask = UIViewAutoresizingNone;
     label.backgroundColor = [UIColor clearColor];
     label.textColor = kRBColorMain;
     label.font = [UIFont fontWithName:kRBFontName size:16];
-    label.textAlignment = UITextAlignmentRight;
+    label.textAlignment = UITextAlignmentLeft;
     label.text = [text uppercaseString];
+    [label sizeToFit];
+    label.frameHeight = kRBRowHeight;
     
     return label;
 }
 
-- (UIControl *)inputFieldWithID:(NSString *)fieldID value:(NSString *)value datatype:(NSString *)datatype {
-    UIControl *control = [UIControl controlWithID:fieldID datatype:datatype size:CGSizeMake(kRBInputFieldWidth, kRBRowHeight)];
+- (UIControl *)inputFieldWithID:(NSString *)fieldID value:(NSString *)value datatype:(NSString *)datatype width:(CGFloat)width {
+    UIControl *control = [UIControl controlWithID:fieldID datatype:datatype size:CGSizeMake(width, kRBRowHeight)];
     
     [control configureControlUsingValue:value];
     

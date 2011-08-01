@@ -498,8 +498,7 @@
 - (IBAction)handleAddNewClientPress:(id)sender {
     self.detailItemSelected = NO;
     
-    RBClient *newClient = [RBClient createEntity];
-    [self editClient:newClient];
+    [self editClient:nil];
 }
 
 - (IBAction)handleBackgroundPress:(id)sender {
@@ -790,13 +789,6 @@
     
     [self.clientsCarousel reloadData];
 } 
-
-- (void)addNewClientWithName:(NSString *)name {
-    RBClient *newClient = [RBClient createEntity];
-    
-    newClient.name = name;
-    [self.clientsCarousel reloadData];
-}
 
 - (RBClient *)clientWithName:(NSString *)name {
     RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];

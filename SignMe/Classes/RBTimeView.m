@@ -7,11 +7,11 @@
 //
 
 
-#define kMonthFontSize      26
+#define kMonthFontSize      22
 #define kMonthFontColor     kRBColorMain
 #define kMonthRect          CGRectMake(0,0,self.bounds.size.width,20)
 
-#define kDayFontSize        40
+#define kDayFontSize        42
 #define kDayFontColor       kRBColorMain
 #define kDayRect            CGRectMake(0,22,self.bounds.size.width,40)
 
