@@ -113,24 +113,6 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
-#pragma mark Reachability
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-- (void)configureForNetworkStatus:(NSNotification *)notification {
-    NetworkStatus networkStatus = [[notification.userInfo valueForKey:kPSNetworkStatusKey] intValue];
-    
-    if (networkStatus != NotReachable) {
-        [RBBoxService syncFolderWithID:[NSUserDefaults standardUserDefaults].folderID
-                           startedFrom:self.homeViewController
-                          successBlock:^(id boxObject) {
-                              // TODO: ...
-                          } failureBlock:nil];
-    }
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark -
 #pragma mark Private Methods
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -159,13 +141,17 @@
     
     // post notification to all listeners
     [[NSNotificationCenter defaultCenter] postNotificationName:kAppplicationWillSuspendNotification object:application];
-    [[PSReachability sharedPSReachability] shutdownReachabilityFor:self];
 }
 
 // launched via post selector to speed up launch time
 - (void)postFinishLaunch {
     [[PSReachability sharedPSReachability] startCheckingHostAddress:kReachabilityHostURL];
-    [[PSReachability sharedPSReachability] setupReachabilityFor:self];
+
+    [RBBoxService syncFolderWithID:[NSUserDefaults standardUserDefaults].folderID
+                       startedFrom:self.homeViewController
+                      successBlock:^(id boxObject) {
+                          // TODO: ...
+                      } failureBlock:nil];
 }
 
 @end

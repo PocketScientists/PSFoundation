@@ -56,8 +56,9 @@
     
     [[PSReachability sharedPSReachability] setupReachabilityFor:self];
     
+    self.view.backgroundColor = [UIColor blackColor];
     self.backgroundImageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background"]] autorelease];
-    self.backgroundImageView.contentMode = UIViewContentModeCenter;
+    self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     [self.view insertSubview:self.backgroundImageView atIndex:0];
     
     self.emptyLogoImageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"LogoEmpty"]] autorelease];

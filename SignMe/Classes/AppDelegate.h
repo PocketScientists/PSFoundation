@@ -7,11 +7,10 @@
 //
 
 #import "PSDefines.h"
-#import "PSIncludes.h"
 #import "PSWindow.h"
 
 
-@interface AppDelegate : NSObject <UIApplicationDelegate, PSReachabilityAware> 
+@interface AppDelegate : NSObject <UIApplicationDelegate> 
 
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, retain) UINavigationController *navigationController;

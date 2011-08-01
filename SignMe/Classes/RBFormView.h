@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TPKeyboardAvoidingScrollView.h"
 
-@interface RBFormView : UIScrollView <UIScrollViewDelegate>
+@interface RBFormView : TPKeyboardAvoidingScrollView <UIScrollViewDelegate>
 
 @property (nonatomic, retain) UIScrollView *innerScrollView;
 @property (nonatomic, retain) UIPageControl *pageControl;

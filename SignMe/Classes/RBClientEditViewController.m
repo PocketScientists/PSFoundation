@@ -11,6 +11,7 @@
 #import "SSLineView.h"
 #import "RBClient+RBProperties.h"
 #import "UIControl+RBForm.h"
+#import "TPKeyboardAvoidingScrollView.h"
 
 
 #define kRBRowHeight    30
@@ -79,7 +80,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)loadView {
-    UIScrollView *scrollView = [[[UIScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds] autorelease];
+    TPKeyboardAvoidingScrollView *scrollView = [[[TPKeyboardAvoidingScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds] autorelease];
     
     scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view = scrollView;
@@ -126,6 +127,8 @@
     for (NSString *property in [RBClient propertyNamesForMapping]) {
         [self addInputFieldWithLabel:property];
     }
+        
+    [(UIScrollView *)self.view setContentSize:CGSizeMake(1, self.currentY)];
 }
 
 - (void)viewDidUnload {
@@ -133,6 +136,10 @@
     
     self.cancelButton = nil;
     self.doneButton = nil;
+    self.headerLabel = nil;
+    if (self.clientWasCreated) {
+        self.client = nil;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -153,7 +160,6 @@
     
     [self dismissModalViewControllerAnimated:YES];
 }
-
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

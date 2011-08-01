@@ -25,3 +25,6 @@
 [submodule "iPhoneContacts"]
 	path = iPhoneContacts
 	url = https://github.com/AlanQuatermain/iPhoneContacts.git
+[submodule "TPKeyboardAvoiding"]
+	path = TPKeyboardAvoiding
+	url = https://github.com/michaeltyson/TPKeyboardAvoiding.git
