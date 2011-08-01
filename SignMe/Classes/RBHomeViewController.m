@@ -46,11 +46,13 @@
 @property (nonatomic, retain) RBFormDetailView *detailView;
 @property (nonatomic, retain) iCarousel *detailCarousel;
 @property (nonatomic, retain) NSArray *emptyForms;
-@property (nonatomic, assign, getter = isDetailItemSelected) BOOL detailItemSelected;
 
 @property (nonatomic, readonly, getter = isDetailViewVisible) BOOL detailViewVisible;
 @property (nonatomic, readonly, getter = isSearchScreenVisible) BOOL searchScreenVisible;
 @property (nonatomic, readonly) BOOL clientCarouselShowsAddItem;
+
+@property (nonatomic, assign) NSInteger detailCarouselSelectedIndex;
+@property (nonatomic, assign) NSInteger clientsCarouselSelectedIndex;
 
 // header label for a carousel
 - (UILabel *)headerLabelForView:(UIView *)view text:(NSString *)text;
@@ -103,9 +105,10 @@
 @synthesize addNewClientButton = addNewClientButton_;
 @synthesize detailView = detailView_;
 @synthesize detailCarousel = detailCarousel_;
-@synthesize detailItemSelected = detailItemSelected_;
 @synthesize emptyForms = emptyForms_;
 @synthesize searchField = searchField_;
+@synthesize detailCarouselSelectedIndex = detailCarouselSelectedIndex_;
+@synthesize clientsCarouselSelectedIndex = clientsCarouselSelectedIndex_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -115,7 +118,8 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         emptyForms_ = [[RBForm allEmptyForms] retain];
-        detailItemSelected_ = NO;
+        detailCarouselSelectedIndex_ = NSNotFound;
+        clientsCarouselSelectedIndex_ = NSNotFound;
     }
     
     return self;
@@ -272,6 +276,9 @@
     self.clientsFetchController.delegate = nil;
     self.documentsFetchController.delegate = nil;
     
+    [self updateCarouselSelectionState:self.detailCarousel selectedItem:nil];
+    [self updateCarouselSelectionState:self.clientsCarousel selectedItem:nil];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
@@ -388,16 +395,14 @@
     // update detail view if user scrolled to new form while detailView is visible
     if (carousel == self.formsCarousel && self.detailView.alpha == 1.f) {
         [self updateCarouselSelectionState:carousel selectedItem:(UIControl *)[carousel currentView]];
-        self.detailItemSelected = NO;
+        self.detailCarouselSelectedIndex = NSNotFound;
         
         [self updateDetailViewWithFormStatus:RBFormStatusForIndex(carousel.currentItemIndex) client:nil];
         [self.detailView reloadData];
     }
 }
 
-- (void)carousel:(iCarousel *)carousel didSelectItem:(UIView *)selectedItem atIndex:(NSInteger)index {
-    [self updateCarouselSelectionState:carousel selectedItem:(UIControl *)selectedItem];
-    
+- (void)carousel:(iCarousel *)carousel didSelectItem:(UIView *)selectedItem atIndex:(NSInteger)index {    
     if (carousel == self.formsCarousel) {
         [self formsCarouselDidSelectItemAtIndex:index];
     }
@@ -409,10 +414,12 @@
     else if (carousel == self.detailCarousel) {
         [self detailCarouselDidSelectItemAtIndex:index];
     }
+    
+    [self updateCarouselSelectionState:carousel selectedItem:(UIControl *)selectedItem];
 }
 
 - (void)formsCarouselDidSelectItemAtIndex:(NSInteger)index {
-    self.detailItemSelected = NO;
+    self.detailCarouselSelectedIndex = NSNotFound;
     
     if (self.detailViewVisible) {
         [self updateCarouselSelectionState:self.formsCarousel selectedItem:nil];
@@ -443,6 +450,8 @@
 }
 
 - (void)clientsCarouselDidSelectItemAtIndex:(NSInteger)index {
+    self.clientsCarouselSelectedIndex = index;
+    
     if (self.clientCarouselShowsAddItem && index == 0) {
         RBClient *client = [self clientWithName:self.searchField.text];
         client.clientCreatedForEditing = YES;
@@ -450,16 +459,15 @@
     } else if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) != RBFormStatusNew) {
         RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
         [self updateDetailViewWithFormStatus:RBFormStatusForIndex(self.formsCarousel.currentItemIndex) client:client];
-    } else if (self.detailItemSelected) {
-        RBForm *form = [self.emptyForms objectAtIndex:self.detailCarousel.currentItemIndex];
-        RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-        
-        [self presentViewControllerForForm:form client:client];
+    } else {
+        [self prepareForFormPresentation];
     }
 }
 
 - (void)detailCarouselDidSelectItemAtIndex:(NSInteger)index {
-    if (self.formsCarousel.currentItemIndex == RBFormStatusNew) {
+    self.detailCarouselSelectedIndex = index;
+    
+    if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) == RBFormStatusNew) {
         [self prepareForFormPresentation];
     } else {
         if ([self numberOfDocumentsWithFormStatus:self.formsCarousel.currentItemIndex] > 0) {
@@ -498,8 +506,7 @@
 }
 
 - (IBAction)handleAddNewClientPress:(id)sender {
-    self.detailItemSelected = NO;
-    
+    self.detailCarouselSelectedIndex = NSNotFound;
     [self editClient:nil];
 }
 
@@ -615,7 +622,7 @@
 }
 
 - (void)hideDetailView {
-    self.detailItemSelected = NO;
+    self.detailCarouselSelectedIndex = NSNotFound;
     
     if (self.detailViewVisible) {
         [self.view bringSubviewToFront:self.formsView];
@@ -642,7 +649,8 @@
 }
 
 - (void)showSearchScreenWithDuration:(NSTimeInterval)duration {
-    self.detailItemSelected = NO;
+    self.detailCarouselSelectedIndex = NSNotFound;
+    self.clientsCarouselSelectedIndex = NSNotFound;
     self.formsView.userInteractionEnabled = NO;
     self.detailView.frameTop = self.formsViewDefaultY;
     self.detailView.alpha = 0.f;
@@ -809,8 +817,14 @@
 }
 
 - (void)prepareForFormPresentation {
-    // TODO: slide in drawer with label and button 
-    self.detailItemSelected = YES;
+    if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) == RBFormStatusNew 
+        && self.detailCarouselSelectedIndex != NSNotFound 
+        && self.clientsCarouselSelectedIndex != NSNotFound) {
+        RBForm *form = [self.emptyForms objectAtIndex:self.detailCarouselSelectedIndex];
+        RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
+        
+        [self presentViewControllerForForm:form client:client];
+    }
 }
 
 - (void)presentViewControllerForForm:(RBForm *)form client:(RBClient *)client { 
@@ -829,11 +843,18 @@
     if (selectedItem.selected == YES) {
         wasSelectedBefore = YES;
     }
+    
     [carousel.visibleViews makeObjectsPerformSelector:@selector(setSelected:) withObject:nil];
     
-    if (!wasSelectedBefore) {
+    if (selectedItem != nil && !wasSelectedBefore) {
         // select current active view
         selectedItem.selected = YES;
+    } else {
+        if (carousel == self.detailCarousel) {
+            self.detailCarouselSelectedIndex = NSNotFound;
+        } else if (carousel == self.clientsCarousel) {
+            self.clientsCarouselSelectedIndex = NSNotFound;
+        }
     }
 }
 
