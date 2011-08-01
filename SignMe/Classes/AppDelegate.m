@@ -71,6 +71,15 @@
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
     
+    // fade effect
+    UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default-Landscape~ipad"]] autorelease];
+    [self.navigationController.view addSubview:imageView];
+    [UIView animateWithDuration:0.4 animations:^(void) {
+        imageView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+        [imageView removeFromSuperview];
+    }];
+    
     if (kPostFinishLaunchDelay > 0) {
         [self performSelector:@selector(postFinishLaunch) withObject:nil afterDelay:kPostFinishLaunchDelay];
     }
