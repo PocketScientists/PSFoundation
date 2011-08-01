@@ -9,6 +9,13 @@
 #import "RBBoxLoginViewController.h"
 #import "PSIncludes.h"
 
+@interface RBBoxLoginViewController ()
+
+- (void)handleDonePress:(id)sender;
+- (void)handleRefreshPress:(id)sender;
+
+@end
+
 @implementation RBBoxLoginViewController
 
 @synthesize webView = webView_;
@@ -37,6 +44,13 @@
     self.view = self.webView;
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(handleDonePress:)] autorelease];
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(handleRefreshPress:)] autorelease];
+}
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Rotation
@@ -44,6 +58,18 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Target/Action
+////////////////////////////////////////////////////////////////////////
+
+- (void)handleDonePress:(id)sender {
+    [self.navigationController dismissModalViewControllerAnimated:YES];
+}
+- (void)handleRefreshPress:(id)sender {
+    [self.webView reload];
 }
 
 @end

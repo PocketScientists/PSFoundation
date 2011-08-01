@@ -37,10 +37,14 @@ static Box *box = nil;
     [box syncFolderWithId:[NSUserDefaults standardUserDefaults].folderID
                     loginBlock:^UIWebView *(void) {
                         loginViewController = [[RBBoxLoginViewController alloc] initWithNibName:nil bundle:nil];
-                        loginViewController.modalPresentationStyle = UIModalPresentationFormSheet;
                         
                         NSLog(@"Just to make sure view is loaded: %@", loginViewController.view);
-                        [viewController presentModalViewController:loginViewController animated:YES];
+                        
+                        UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:loginViewController] autorelease];
+                        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+                        navigationController.navigationBar.barStyle = UIBarStyleBlack;
+                        
+                        [viewController presentModalViewController:navigationController animated:YES];
                         
                         return loginViewController.webView;
                     } 
