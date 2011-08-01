@@ -71,6 +71,8 @@ static Box *box = nil;
                        if (failureBlock != nil) {
                            failureBlock(response);
                        }
+                       
+                       DDLogError(@"Error syncing box.net folder: %d, %@", response, boxObject);
                    }
                }];
 }
