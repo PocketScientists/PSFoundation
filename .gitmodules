@@ -28,3 +28,6 @@
 [submodule "TPKeyboardAvoiding"]
 	path = TPKeyboardAvoiding
 	url = https://github.com/michaeltyson/TPKeyboardAvoiding.git
+[submodule "DCRoundSwitch"]
+	path = DCRoundSwitch
+	url = https://github.com/domesticcatsoftware/DCRoundSwitch.git

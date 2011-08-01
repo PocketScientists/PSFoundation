@@ -82,6 +82,10 @@
 		39C9185B1398EBC40045489C /* PSWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C9185A1398EBC40045489C /* PSWindow.m */; };
 		39F2018D13E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2014213E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m */; };
 		39F2018E13E71FF100DA9093 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2014413E71FF100DA9093 /* TPKeyboardAvoidingTableView.m */; };
+		39F2019B13E741C500DA9093 /* DCRoundSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2019413E741C500DA9093 /* DCRoundSwitch.m */; };
+		39F2019C13E741C500DA9093 /* DCRoundSwitchKnobLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2019613E741C500DA9093 /* DCRoundSwitchKnobLayer.m */; };
+		39F2019D13E741C500DA9093 /* DCRoundSwitchOutlineLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2019813E741C500DA9093 /* DCRoundSwitchOutlineLayer.m */; };
+		39F2019E13E741C500DA9093 /* DCRoundSwitchToggleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2019A13E741C500DA9093 /* DCRoundSwitchToggleLayer.m */; };
 		39F772A513B63DD9006E12AF /* PSBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F772A413B63DD9006E12AF /* PSBaseViewController.m */; };
 		7856A40C12B441D10025424F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A40B12B441D10025424F /* MobileCoreServices.framework */; };
 		7856A40E12B441E00025424F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A40D12B441E00025424F /* SystemConfiguration.framework */; };
@@ -334,6 +338,14 @@
 		39F2014213E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		39F2014313E71FF100DA9093 /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
 		39F2014413E71FF100DA9093 /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
+		39F2019313E741C500DA9093 /* DCRoundSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCRoundSwitch.h; sourceTree = "<group>"; };
+		39F2019413E741C500DA9093 /* DCRoundSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCRoundSwitch.m; sourceTree = "<group>"; };
+		39F2019513E741C500DA9093 /* DCRoundSwitchKnobLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCRoundSwitchKnobLayer.h; sourceTree = "<group>"; };
+		39F2019613E741C500DA9093 /* DCRoundSwitchKnobLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCRoundSwitchKnobLayer.m; sourceTree = "<group>"; };
+		39F2019713E741C500DA9093 /* DCRoundSwitchOutlineLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCRoundSwitchOutlineLayer.h; sourceTree = "<group>"; };
+		39F2019813E741C500DA9093 /* DCRoundSwitchOutlineLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCRoundSwitchOutlineLayer.m; sourceTree = "<group>"; };
+		39F2019913E741C500DA9093 /* DCRoundSwitchToggleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCRoundSwitchToggleLayer.h; sourceTree = "<group>"; };
+		39F2019A13E741C500DA9093 /* DCRoundSwitchToggleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCRoundSwitchToggleLayer.m; sourceTree = "<group>"; };
 		39F772A313B63DD9006E12AF /* PSBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSBaseViewController.h; sourceTree = "<group>"; };
 		39F772A413B63DD9006E12AF /* PSBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSBaseViewController.m; sourceTree = "<group>"; };
 		7856A40B12B441D10025424F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -509,6 +521,7 @@
 				394B914E13D6491A007BFF2E /* box.xcodeproj */,
 				7856A47312B444A80025424F /* PSFoundation.xcodeproj */,
 				3911A1E213E1CCE700CD4F6C /* ABTableViewCell */,
+				39F2019213E741C500DA9093 /* DCRoundSwitch */,
 				3900891C13D77B8E0093E0B0 /* iCarousel */,
 				78E9B21212B44DDA00B32768 /* asi-http-request */,
 				7856A44C12B4445C0025424F /* CrashReporterSender */,
@@ -834,6 +847,22 @@
 			);
 			name = TPKeyboardAvoiding;
 			path = ../TPKeyboardAvoiding;
+			sourceTree = "<group>";
+		};
+		39F2019213E741C500DA9093 /* DCRoundSwitch */ = {
+			isa = PBXGroup;
+			children = (
+				39F2019313E741C500DA9093 /* DCRoundSwitch.h */,
+				39F2019413E741C500DA9093 /* DCRoundSwitch.m */,
+				39F2019513E741C500DA9093 /* DCRoundSwitchKnobLayer.h */,
+				39F2019613E741C500DA9093 /* DCRoundSwitchKnobLayer.m */,
+				39F2019713E741C500DA9093 /* DCRoundSwitchOutlineLayer.h */,
+				39F2019813E741C500DA9093 /* DCRoundSwitchOutlineLayer.m */,
+				39F2019913E741C500DA9093 /* DCRoundSwitchToggleLayer.h */,
+				39F2019A13E741C500DA9093 /* DCRoundSwitchToggleLayer.m */,
+			);
+			name = DCRoundSwitch;
+			path = ../DCRoundSwitch/DCRoundSwitch;
 			sourceTree = "<group>";
 		};
 		7856A44C12B4445C0025424F /* CrashReporterSender */ = {
@@ -1198,6 +1227,10 @@
 				39BB88DB13E3CCE00074543E /* RBClient+RBProperties.m in Sources */,
 				39F2018D13E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m in Sources */,
 				39F2018E13E71FF100DA9093 /* TPKeyboardAvoidingTableView.m in Sources */,
+				39F2019B13E741C500DA9093 /* DCRoundSwitch.m in Sources */,
+				39F2019C13E741C500DA9093 /* DCRoundSwitchKnobLayer.m in Sources */,
+				39F2019D13E741C500DA9093 /* DCRoundSwitchOutlineLayer.m in Sources */,
+				39F2019E13E741C500DA9093 /* DCRoundSwitchToggleLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

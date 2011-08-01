@@ -12,6 +12,8 @@
 
 @interface RBBoxService : NSObject
 
++ (Box *)box;
+
 + (void)syncFolderWithID:(NSInteger)folderID 
              startedFrom:(PSBaseViewController *)viewController
             successBlock:(void (^)(id boxObject))successBlock

@@ -7,7 +7,6 @@
 //
 
 #import "RBBoxService.h"
-#import "Box.h"
 #import "RBBoxLoginViewController.h"
 #import "PSIncludes.h"
 
@@ -19,6 +18,10 @@ static Box *box = nil;
     if (self == [RBBoxService class]) {
         box = [[Box alloc] init];
     }
+}
+
++ (Box *)box {
+    return box;
 }
 
 + (void)syncFolderWithID:(NSInteger)folderID 
@@ -42,7 +45,7 @@ static Box *box = nil;
                         return loginViewController.webView;
                     } 
                  progressBlock:^(BoxResponseType response, NSObject *boxObject) {
-                     if (loginViewController != nil) {
+                     if (loginViewController != nil && response != BoxResponseLoginError) {
                          [viewController dismissModalViewControllerAnimated:YES];
                          MCReleaseNil(loginViewController);
                      }
@@ -50,7 +53,7 @@ static Box *box = nil;
                      NSLog(@"progress box object: %@", [(BoxObject *)boxObject objectToString]);
                  } 
                completionBlock:^(BoxResponseType response, NSObject *boxObject) {
-                   if (loginViewController != nil) {
+                   if (loginViewController != nil  && response != BoxResponseLoginError) {
                        [viewController dismissModalViewControllerAnimated:YES];
                        MCReleaseNil(loginViewController);
                    }

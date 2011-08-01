@@ -9,6 +9,7 @@
 #import "UIControl+RBForm.h"
 #import "RBForm.h"
 #import "PSIncludes.h"
+#import "DCRoundSwitch.h"
 
 #define kRBSwitchOnTextValue        @"X"
 #define kRBSwitchOffTextValue       @""
@@ -24,7 +25,7 @@ static char formSectionKey;
     UIControl *control;
     
     if ([datatype isEqualToString:kRBFormDataTypeCheckbox]) {
-        control = [[[UISwitch alloc] initWithFrame:(CGRect){CGPointZero, size}] autorelease];
+        control = [[[DCRoundSwitch alloc] initWithFrame:(CGRect){CGPointZero, CGSizeMake(95.f,30.f)}] autorelease];
     } else {
         control = [[[UITextField alloc] initWithFrame:(CGRect){CGPointZero, size}] autorelease];
     }
@@ -36,13 +37,11 @@ static char formSectionKey;
 }
 
 - (void)configureControlUsingValue:(NSString *)value {
-    if ([self isKindOfClass:[UISwitch class]]) {
-        UISwitch *switchSelf = (UISwitch *)self;
+    if ([self isKindOfClass:[DCRoundSwitch class]]) {
+        DCRoundSwitch *switchSelf = (DCRoundSwitch *)self;
         
         switchSelf.on = [value isEqualToString:kRBSwitchOnTextValue] ? YES : NO;
-        if ([switchSelf respondsToSelector:@selector(setOnTintColor:)]) {
-            switchSelf.onTintColor = kRBColorDetail2;
-        }
+        switchSelf.onTintColor = kRBColorDetail2;
     } else if ([self isKindOfClass:[UITextField class]]) {
         UITextField *textFieldSelf = (UITextField *)self;
         
@@ -83,8 +82,8 @@ static char formSectionKey;
 
 - (NSString *)formTextValue {
     // Switches have value 'X' for checkbox
-    if ([self isKindOfClass:[UISwitch class]]) {
-        UISwitch *control = (UISwitch *)self;
+    if ([self isKindOfClass:[DCRoundSwitch class]]) {
+        DCRoundSwitch *control = (DCRoundSwitch *)self;
         return control.on ? kRBSwitchOnTextValue : kRBSwitchOffTextValue;
     }
     
