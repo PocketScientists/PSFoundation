@@ -844,6 +844,7 @@
         wasSelectedBefore = YES;
     }
     
+    // nil -> setSelected:NO
     [carousel.visibleViews makeObjectsPerformSelector:@selector(setSelected:) withObject:nil];
     
     if (selectedItem != nil && !wasSelectedBefore) {

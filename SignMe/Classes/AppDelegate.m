@@ -163,12 +163,12 @@
                           
                           if (formsFolder != nil) {
                               for (BoxFile *file in [formsFolder filesWithExtension:@"plist"]) {
-                                  /*[[RBBoxService box] downloadFile:file
+                                  [[RBBoxService box] downloadFile:file
                                                      progressBlock:^(float progress) {
                                                          MTLog(progress);
                                                      } completionBlock:^(BoxResponseType resultType, NSData *fileData) {
                                                          MTLog(fileData);
-                                                     }];*/
+                                                     }];
                               }
                           }
                       } failureBlock:nil];
