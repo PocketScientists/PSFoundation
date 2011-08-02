@@ -67,9 +67,22 @@
     NSMutableDictionary *annotationDict = [NSMutableDictionary dictionary];
     size_t numberOfPages = CGPDFDocumentGetNumberOfPages(document);
     NSMutableArray *sectionsArray = [NSMutableArray arrayWithCapacity:numberOfPages];
+    NSDictionary *sampleTab1 = [NSDictionary dictionaryWithObjectsAndKeys:@"1", kRBFormKeyTabPage,
+                                @"100", kRBFormKeyTabX,
+                                @"120", kRBFormKeyTabY,
+                                @"SignHere", kRBFormKeyTabType, nil];
+    NSDictionary *sampleTab2 = [NSDictionary dictionaryWithObjectsAndKeys:@"2", kRBFormKeyTabPage,
+                                @"200", kRBFormKeyTabX,
+                                @"140", kRBFormKeyTabY,
+                                @"InitialHere", kRBFormKeyTabType, nil];
+    NSArray *tabsArray = [NSArray arrayWithObjects:sampleTab1, sampleTab2, nil];
     
     // we create a dictionary with one section for each page
     [annotationDict setObject:sectionsArray forKey:kRBFormKeySection];
+    // pre-defined display name, could use fileName instead but am too lazy ;)
+    [annotationDict setObject:@"PDF Form" forKey:kRBFormKeyDisplayName];
+    // we create two sample-tabs so that the user sees how to create those
+    [annotationDict setObject:tabsArray forKey:kRBFormKeyTabs];
     
     for (int pageIndex = 1; pageIndex <= numberOfPages; pageIndex++) {        
         //Draw the page onto the new context

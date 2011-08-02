@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>displayName</key>
+	<string>PDF Form</string>
 	<key>sections</key>
 	<array>
 		<array>
@@ -853,7 +855,28 @@
 			</dict>
 		</array>
 	</array>
-	<key>displayName</key>
-	<string>W-9</string>
+	<key>tabs</key>
+	<array>
+		<dict>
+			<key>page</key>
+			<string>1</string>
+			<key>type</key>
+			<string>SignHere</string>
+			<key>x</key>
+			<string>100</string>
+			<key>y</key>
+			<string>120</string>
+		</dict>
+		<dict>
+			<key>page</key>
+			<string>2</string>
+			<key>type</key>
+			<string>InitialHere</string>
+			<key>x</key>
+			<string>200</string>
+			<key>y</key>
+			<string>140</string>
+		</dict>
+	</array>
 </dict>
 </plist>

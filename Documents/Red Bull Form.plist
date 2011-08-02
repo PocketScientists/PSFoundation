@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>displayName</key>
+	<string>PDF Form</string>
 	<key>sections</key>
 	<array>
 		<array>
@@ -13,7 +15,7 @@
 				<key>label</key>
 				<string>NameDBA</string>
 				<key>mapping</key>
-				<string>name</string>
+				<string></string>
 			</dict>
 			<dict>
 				<key>datatype</key>
@@ -23,7 +25,7 @@
 				<key>label</key>
 				<string>Operating Company Name</string>
 				<key>mapping</key>
-				<string>company</string>
+				<string></string>
 			</dict>
 			<dict>
 				<key>datatype</key>
@@ -53,7 +55,7 @@
 				<key>label</key>
 				<string>Street</string>
 				<key>mapping</key>
-				<string>street</string>
+				<string></string>
 			</dict>
 			<dict>
 				<key>datatype</key>
@@ -63,7 +65,7 @@
 				<key>label</key>
 				<string>City</string>
 				<key>mapping</key>
-				<string>city</string>
+				<string></string>
 			</dict>
 			<dict>
 				<key>datatype</key>
@@ -83,7 +85,7 @@
 				<key>label</key>
 				<string>Zip Code</string>
 				<key>mapping</key>
-				<string>zip</string>
+				<string></string>
 			</dict>
 			<dict>
 				<key>datatype</key>
@@ -523,7 +525,28 @@
 			</dict>
 		</array>
 	</array>
-	<key>displayName</key>
-	<string>Red Bull Form</string>
+	<key>tabs</key>
+	<array>
+		<dict>
+			<key>page</key>
+			<string>1</string>
+			<key>type</key>
+			<string>SignHere</string>
+			<key>x</key>
+			<string>100</string>
+			<key>y</key>
+			<string>120</string>
+		</dict>
+		<dict>
+			<key>page</key>
+			<string>2</string>
+			<key>type</key>
+			<string>InitialHere</string>
+			<key>x</key>
+			<string>200</string>
+			<key>y</key>
+			<string>140</string>
+		</dict>
+	</array>
 </dict>
 </plist>
