@@ -152,6 +152,7 @@
     
     // post notification to all listeners
     [[NSNotificationCenter defaultCenter] postNotificationName:kAppplicationWillSuspendNotification object:application];
+    [[NSManagedObjectContext defaultContext] saveOnMainThread];
 }
 
 // launched via post selector to speed up launch time
@@ -163,8 +164,10 @@
     NSFileManager *manager = [NSFileManager defaultManager];
     
     // check if directories already exist
-    if (![manager fileExistsAtPath:kRBFormSavedDirectoryPath]) {
-        [manager createDirectoryAtPath:kRBFormSavedDirectoryPath withIntermediateDirectories:YES attributes:nil error:nil];
+    for (NSString *directoryPath in XARRAY(kRBFormSavedDirectoryPath, kRBPDFSavedDirectoryPath)) {
+        if (![manager fileExistsAtPath:directoryPath]) {
+            [manager createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
     }
 }
 

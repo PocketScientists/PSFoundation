@@ -51,3 +51,9 @@ inline NSString *RBFileNameForFormWithName(NSString *formName) {
     
     return [NSString stringWithFormat:@"%@_%@%@", objectID, formName, kRBFormExtension];
 }
+
+inline NSString *RBFileNameForPDFWithName(NSString *formName) {
+    NSNumber *objectID = [[NSUserDefaults standardUserDefaults] objectIDForPDFWithName:formName];
+    
+    return [NSString stringWithFormat:@"%@_%@%@", objectID, formName, kRBPDFExtension];
+}

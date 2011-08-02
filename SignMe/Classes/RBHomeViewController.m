@@ -149,43 +149,57 @@
 }
 
 - (void)insertTempData {
-    [RBClient truncateAll];
-    [RBDocument truncateAll];
-    
-    RBClient *c = nil;
-    
-    c = [RBClient createEntity];
-    c.name = @"Client 1";
-    
-    c = [RBClient createEntity];
-    c.name = @"Client 2";
-    
-    c = [RBClient createEntity];
-    c.name = @"Client 3";
-    
-    c = [RBClient createEntity];
-    c.name = @"Client 4";
-    
-    c = [RBClient createEntity];
-    c.name = @"Client 5";
-    
-    c = [RBClient createEntity];
-    c.name = @"Alfred";
-    
-    c = [RBClient createEntity];
-    c.name = @"Cabana Club";
-    
-    c = [RBClient createEntity];
-    c.name = @"Staples Center Club Nokia";
-    c.street = @"Center Street";
-    c.zip = @"1234";
-    c.company = @"Nokia";
-    
-    c = [RBClient createEntity];
-    c.name = @"Judokus";
-    
-    c = [RBClient createEntity];
-    c.name = @"Quark";
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        if ([self numberOfClients] == 0) {
+            RBClient *c = nil;
+            
+            c = [RBClient createEntity];
+            c.name = @"Client 1";
+            c.visible = $B(YES);
+            
+            c = [RBClient createEntity];
+            c.name = @"Client 2";
+            c.visible = $B(YES);
+            
+            c = [RBClient createEntity];
+            c.name = @"Client 3";
+            c.visible = $B(YES);
+            
+            c = [RBClient createEntity];
+            c.name = @"Client 4";
+            c.visible = $B(YES);
+            
+            c = [RBClient createEntity];
+            c.name = @"Client 5";
+            c.visible = $B(YES);
+            
+            c = [RBClient createEntity];
+            c.name = @"Alfred";
+            c.visible = $B(YES);
+            
+            c = [RBClient createEntity];
+            c.name = @"Cabana Club";
+            c.visible = $B(YES);
+            
+            c = [RBClient createEntity];
+            c.name = @"Staples Center Club Nokia";
+            c.street = @"Center Street";
+            c.zip = @"1234";
+            c.company = @"Nokia";
+            c.visible = $B(YES);
+            
+            c = [RBClient createEntity];
+            c.name = @"Judokus";
+            c.visible = $B(YES);
+            
+            c = [RBClient createEntity];
+            c.name = @"Quark";
+            c.visible = $B(YES);
+            
+            [[NSManagedObjectContext defaultContext] saveOnMainThread];
+        }
+
+    });
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -197,9 +211,6 @@
     [super viewDidLoad];
     
     emptyForms_ = [[RBForm allEmptyForms] retain];
-    
-    // TODO: remove
-    [self insertTempData];
     
     self.formsViewDefaultY = self.formsView.frameTop;
     self.clientsViewDefaultY = self.clientsView.frameTop;
@@ -213,6 +224,9 @@
     if (self.documentsFetchController != nil && ![self.documentsFetchController performFetch:&error]) {
 		DDLogError(@"Unresolved error fetching documents %@, %@", error, [error userInfo]);
 	}
+    
+    // TODO: remove
+    [self insertTempData];
     
     self.formsLabel = [self headerLabelForView:self.formsCarousel text:@"Forms"];
     self.clientsLabel = [self headerLabelForView:self.clientsCarousel text:@"Clients"];
@@ -248,7 +262,7 @@
                           BoxFolder *formsFolder = (BoxFolder *)[boxObject objectAtFilePath:RBPathToEmptyForms()];
                           
                           if (formsFolder != nil) {
-                              for (BoxFile *file in [formsFolder filesWithExtensions:XARRAY(kRBFormDataType,@"pdf")]) {
+                              for (BoxFile *file in [formsFolder filesWithExtensions:XARRAY(kRBFormDataType,kRBPDFDataType)]) {
                                   DDLogInfo(@"Downloading %@", file.objectName);
                                   [[RBBoxService box] downloadFile:file
                                                      progressBlock:nil
@@ -261,10 +275,12 @@
                                                        
                                                        // update forms carousel
                                                        self.emptyForms = [RBForm allEmptyForms];
-                                                       [self.detailCarousel reloadData];
-                                                       BOOL selectedBefore = ((UIControl *)self.formsCarousel.currentView).selected;
-                                                       [self.formsCarousel reloadData];
-                                                       ((UIControl *)self.formsCarousel.currentView).selected = selectedBefore;
+                                                       
+                                                       dispatch_async(dispatch_get_main_queue(), ^(void) {
+                                                           [self.detailCarousel reloadData];
+                                                           [self.formsCarousel reloadData];
+                                                           ((UIControl *)self.formsCarousel.currentView).selected = self.detailViewVisible;
+                                                       });
                                                    }];
                               }
                           }
@@ -300,6 +316,8 @@
     
     [self.formsCarousel reloadData];
     [self.clientsCarousel reloadData];
+    
+    ((UIControl *)self.formsCarousel.currentView).selected = self.detailViewVisible;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];

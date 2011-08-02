@@ -49,11 +49,11 @@
 }
 
 - (void)setObjectID:(NSNumber *)objectID forPDFWithName:(NSString *)name {
-    [self setObjectID:objectID forObjectWithNameIncludingExtension:[name stringByAppendingString:@".pdf"]];
+    [self setObjectID:objectID forObjectWithNameIncludingExtension:[name stringByAppendingString:kRBPDFExtension]];
 }
 
 - (NSNumber *)objectIDForPDFWithName:(NSString *)name {
-    return [self objectIDForObjectWithNameIncludingExtension:[name stringByAppendingString:@".pdf"]];
+    return [self objectIDForObjectWithNameIncludingExtension:[name stringByAppendingString:kRBPDFExtension]];
 }
 
 @end

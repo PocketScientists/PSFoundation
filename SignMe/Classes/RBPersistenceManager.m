@@ -18,9 +18,9 @@
     
     // set form
     if ([form saveAsDocument]) {
-        DDLogInfo(@"Saved form at path: %@", form.filePath);
+        DDLogInfo(@"Saved form with name: %@", form.fileName);
         document.name = form.name;
-        document.fileURL = form.filePath;
+        document.fileURL = form.fileName;
         document.status = $I(RBFormStatusPreSignature);
         document.date = [NSDate date];
         
@@ -28,16 +28,16 @@
         document.client = client;
         
         // create PDF
-#pragma message("This will not work yet!!")
-        /*RBPDFWriter *pdfWriter = [[[RBPDFWriter alloc] init] autorelease];
-         NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[NSDocumentsFolder() stringByAppendingPathComponent:document.name]];
-         CGPDFDocumentRef pdfRef = [pdfWriter openDocument:urlToEmptyPDF];
-         
-         [pdfWriter writePDFDocument:pdfRef
-         withFormData:form.PDFDictionary 
-         toFile:[kRBFormPDFDirectoryPath stringByAppendingPathComponent:document.name]];*/
+        RBPDFWriter *pdfWriter = [[[RBPDFWriter alloc] init] autorelease];
+        NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForPDFWithName(document.name)]];
+        CGPDFDocumentRef pdfRef = [pdfWriter openDocument:urlToEmptyPDF];
+        NSString *pdfFileURL = [kRBPDFSavedDirectoryPath stringByAppendingPathComponent:[document.fileURL stringByAppendingString:kRBPDFExtension]];
+        
+        [pdfWriter writePDFDocument:pdfRef
+                       withFormData:form.PDFDictionary 
+                             toFile:pdfFileURL];
     } else {
-        DDLogError(@"Couldn't save form at path: %@", form.filePath);
+        DDLogError(@"Couldn't save form with name: %@", form.fileName);
     }
 }
 
@@ -54,9 +54,11 @@
 
 - (NSDate *)updateDateForClient:(RBClient *)client {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"client = %@ AND date = client.documents.@max.date", client];
-    RBDocument *lastUpdatedDocument = [RBDocument findFirstWithPredicate:predicate];
+    // RBDocument *lastUpdatedDocument = [RBDocument findFirstWithPredicate:predicate];
     
-    return lastUpdatedDocument.date;
+    //return lastUpdatedDocument.date;
+    
+    return [NSDate date];
 }
 
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {

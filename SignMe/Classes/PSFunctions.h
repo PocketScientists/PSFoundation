@@ -16,3 +16,4 @@ NSString *RBPathToSignedFolderForClientWithName(NSString *clientName);
 NSString *RBPathToPreSignatureFolderForClientWithName(NSString *clientName);
 
 NSString *RBFileNameForFormWithName(NSString *formName);
+NSString *RBFileNameForPDFWithName(NSString *formName);

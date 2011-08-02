@@ -58,7 +58,7 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index);
 + (NSArray *)allEmptyForms;
 
 - (id)initWithName:(NSString *)name;
-- (id)initWithPath:(NSString *)path;
+- (id)initWithPath:(NSString *)path name:(NSString *)name;
 
 /** All fields stored in the plist, e.g. name, sections, ... */
  @property (nonatomic, retain, readonly) NSDictionary *formData;
@@ -68,7 +68,7 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index);
 /** Name of the form, e.g. W9 */
 @property (nonatomic, copy, readonly) NSString *name;
 /** Path to the plist-file of the form (including values) */
-@property (nonatomic, readonly) NSString *filePath;
+@property (nonatomic, readonly) NSString *fileName;
 /** Sections for input view */
 @property (nonatomic, readonly) NSUInteger numberOfSections;
 @property (nonatomic, readonly) NSArray *sections;

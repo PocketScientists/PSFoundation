@@ -42,10 +42,15 @@
 
 #define kRBFormDataType             @"plist"
 #define kRBFormExtension            @"." kRBFormDataType
+#define kRBPDFDataType              @"pdf"
+#define kRBPDFExtension             @"." kRBPDFDataType
+
 #define kRBBoxNetDirectoryName      @"box.net"
 #define kRBFormSavedDirectoryName   @"SavedForms"
+#define kRBPDFSavedDirectoryName    @"PDFs"
 #define kRBBoxNetDirectoryPath      ([NSDocumentsFolder() stringByAppendingPathComponent:kRBBoxNetDirectoryName])
 #define kRBFormSavedDirectoryPath   ([NSDocumentsFolder() stringByAppendingPathComponent:kRBFormSavedDirectoryName])
+#define kRBPDFSavedDirectoryPath    ([NSDocumentsFolder() stringByAppendingPathComponent:kRBPDFSavedDirectoryName])
 
 #define kRBFontName                 @"Heiti TC"
 #define kRBDateFormat               @"MM-dd-yyyy"

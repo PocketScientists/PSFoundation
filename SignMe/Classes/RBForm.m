@@ -98,22 +98,13 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
     
     NSString *fullPath = [kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForFormWithName(name)];
     
-    return [self initWithPath:fullPath];
+    return [self initWithPath:fullPath name:name];
 }
 
-- (id)initWithPath:(NSString *)path {
+- (id)initWithPath:(NSString *)path name:(NSString *)name {
     if ((self = [super init])) {
         formData_ = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
-        
-        // remove extension from name
-        path = [path lastPathComponent];
-        
-        NSRange dotRange = [path rangeOfString:@"."];
-        if (dotRange.location != NSNotFound) {
-            path = [path substringToIndex:dotRange.location];
-        }
-        
-        name_ = [path copy];
+        name_ = [name copy];
     }
     
     return self;
@@ -140,12 +131,8 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
 #pragma mark Getters
 ////////////////////////////////////////////////////////////////////////
 
-- (NSString *)filePath {
-    NSString *fileComponent = [NSString stringWithFormat:@"%@__%@", self.name, RBFormattedDateWithFormat([NSDate date], kRBDateTimeFormat)];
-    // SavedForms/Name_Date.plist
-    NSString *filePath = [[kRBFormSavedDirectoryPath stringByAppendingPathComponent:fileComponent] stringByAppendingPathExtension:kRBFormDataType];
-    
-    return filePath;
+- (NSString *)fileName {
+    return [NSString stringWithFormat:@"%@__%@", self.name, RBFormattedDateWithFormat([NSDate date], kRBDateTimeFormat)];
 }
 
 - (NSString *)displayName {
@@ -249,7 +236,8 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
 ////////////////////////////////////////////////////////////////////////
 
 - (BOOL)saveAsDocument {
-    return [self.formData writeToFile:self.filePath atomically:YES];
+    NSString *filePath = [kRBFormSavedDirectoryPath stringByAppendingPathComponent:[self.fileName stringByAppendingString:kRBFormExtension]];
+    return [self.formData writeToFile:filePath atomically:YES];
 }
 
 ////////////////////////////////////////////////////////////////////////
