@@ -38,6 +38,7 @@
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.tag = kRBRecipientsViewTag;
         
         UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 5, 150, 31)] autorelease];
         label.font = [UIFont fontWithName:kRBFontName size:18];
@@ -86,10 +87,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	RBRecipientTableViewCell *cell = [RBRecipientTableViewCell cellForTableView:tableView style:UITableViewCellStyleDefault];
-    ABPerson *personWrapper = [self.recipients objectAtIndex:indexPath.row];
+    ABPerson *person = [[ABAddressBook sharedAddressBook] personWithRecordID:[[self.recipients objectAtIndex:indexPath.row] intValue]];
     
-    cell.mainText = personWrapper.fullName;
-    cell.detailText = personWrapper.mainEMail;
+    cell.mainText = person.fullName;
+    cell.detailText = person.mainEMail;
     
     
     return cell;
@@ -128,14 +129,16 @@
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker 
       shouldContinueAfterSelectingPerson:(ABRecordRef)person {
     ABPerson *personWrapper = [[ABAddressBook sharedAddressBook] personWithRecordRef:person];
+    NSNumber *recordID = $I(personWrapper.recordID);
     
-    if ([self.recipients containsObject:personWrapper]) {
-        NSInteger index = [self.recipients indexOfObject:personWrapper];
-        [self.recipients removeObject:personWrapper];
+    if ([self.recipients containsObject:recordID]) {
+        NSInteger index = [self.recipients indexOfObject:recordID];
+        
+        [self.recipients removeObject:recordID];
         [self.tableView deleteRowsAtIndexPaths:XARRAY([NSIndexPath indexPathForRow:index inSection:0]) withRowAnimation:UITableViewRowAnimationMiddle];
     } else {
-        [self.recipients addObject:personWrapper];
-        NSInteger index = [self.recipients indexOfObject:personWrapper];
+        [self.recipients addObject:recordID];
+        NSInteger index = [self.recipients indexOfObject:recordID];
         [self.tableView insertRowsAtIndexPaths:XARRAY([NSIndexPath indexPathForRow:index inSection:0]) withRowAnimation:UITableViewRowAnimationMiddle];
     }
     

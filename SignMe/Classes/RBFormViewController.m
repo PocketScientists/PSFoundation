@@ -100,7 +100,10 @@
     
     RBUIGenerator *generator = [[[RBUIGenerator alloc] init] autorelease];
     
-    self.formView = [generator viewWithForm:self.form client:self.client frame:CGRectMake(0, kRBOffsetTop, self.view.bounds.size.width, self.view.bounds.size.height-kRBOffsetTop-kRBOffsetBottom)];
+    self.formView = [generator viewWithFrame:CGRectMake(0, kRBOffsetTop, self.view.bounds.size.width, self.view.bounds.size.height-kRBOffsetTop-kRBOffsetBottom)
+                                        form:self.form
+                                      client:self.client
+                                  recipients:[self.document.recipients allObjects]];
     
     self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(30, 172, 580, 27)] autorelease];
     self.headerLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
@@ -174,10 +177,10 @@
     [self updateFormFromControls];
     
     if (self.document != nil) {
-        [persistenceManager updateDocument:self.document usingForm:self.form];
+        [persistenceManager updateDocument:self.document usingForm:self.form recipients:self.formView.recipients];
     } else {
         // create a new document with the given form/client
-        [persistenceManager persistDocumentUsingForm:self.form client:self.client];
+        [persistenceManager persistDocumentUsingForm:self.form client:self.client recipients:self.formView.recipients];
     }
     
 #pragma message("TODO: Ask if user wants to upload file")

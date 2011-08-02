@@ -77,6 +77,7 @@
 		39A7F07E13DA207A008338A4 /* RBHomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39A7F07D13DA207A008338A4 /* RBHomeView.xib */; };
 		39BB88DB13E3CCE00074543E /* RBClient+RBProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BB88DA13E3CCE00074543E /* RBClient+RBProperties.m */; };
 		39C9185B1398EBC40045489C /* PSWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C9185A1398EBC40045489C /* PSWindow.m */; };
+		39F06F7F13E8B63B008DAB60 /* RBRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F06F7E13E8B63B008DAB60 /* RBRecipient.m */; };
 		39F2018D13E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2014213E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m */; };
 		39F2018E13E71FF100DA9093 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2014413E71FF100DA9093 /* TPKeyboardAvoidingTableView.m */; };
 		39F2019B13E741C500DA9093 /* DCRoundSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2019413E741C500DA9093 /* DCRoundSwitch.m */; };
@@ -330,6 +331,10 @@
 		39C917BB139837940045489C /* PSIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSIncludes.h; sourceTree = "<group>"; };
 		39C918591398EBC40045489C /* PSWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSWindow.h; sourceTree = "<group>"; };
 		39C9185A1398EBC40045489C /* PSWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSWindow.m; sourceTree = "<group>"; };
+		39F06F7A13E8B63B008DAB60 /* RBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBDocument.h; path = Classes/RBDocument.h; sourceTree = "<group>"; };
+		39F06F7B13E8B63B008DAB60 /* RBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBDocument.m; path = Classes/RBDocument.m; sourceTree = "<group>"; };
+		39F06F7D13E8B63B008DAB60 /* RBRecipient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBRecipient.h; path = Classes/RBRecipient.h; sourceTree = "<group>"; };
+		39F06F7E13E8B63B008DAB60 /* RBRecipient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBRecipient.m; path = Classes/RBRecipient.m; sourceTree = "<group>"; };
 		39F2014113E71FF100DA9093 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		39F2014213E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		39F2014313E71FF100DA9093 /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
@@ -563,6 +568,10 @@
 			isa = PBXGroup;
 			children = (
 				390DD51813D9D21400EB1EFD /* SignMe.xcdatamodeld */,
+				39F06F7D13E8B63B008DAB60 /* RBRecipient.h */,
+				39F06F7E13E8B63B008DAB60 /* RBRecipient.m */,
+				39F06F7A13E8B63B008DAB60 /* RBDocument.h */,
+				39F06F7B13E8B63B008DAB60 /* RBDocument.m */,
 				39A46C7813E33F6900603CD6 /* RBClient.h */,
 				39A46C7913E33F6900603CD6 /* RBClient.m */,
 			);
@@ -1217,6 +1226,7 @@
 				39F2019D13E741C500DA9093 /* DCRoundSwitchOutlineLayer.m in Sources */,
 				39F2019E13E741C500DA9093 /* DCRoundSwitchToggleLayer.m in Sources */,
 				390BCFBB13E89FCF00568B25 /* RBDocument+RBForm.m in Sources */,
+				39F06F7F13E8B63B008DAB60 /* RBRecipient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,6 +16,7 @@
 @property (nonatomic, retain) UIButton *prevButton;
 @property (nonatomic, retain) UIButton *nextButton;
 @property (nonatomic, readonly) NSArray *formControls;
+@property (nonatomic, readonly) NSArray *recipients;
 
 - (void)setInnerScrollViewSize:(CGSize)size;
 

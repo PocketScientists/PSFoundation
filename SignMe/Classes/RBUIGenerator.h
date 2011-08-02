@@ -13,6 +13,6 @@
 
 @interface RBUIGenerator : NSObject
 
-- (RBFormView *)viewWithForm:(RBForm *)form client:(RBClient *)client frame:(CGRect)frame;
+- (RBFormView *)viewWithFrame:(CGRect)frame form:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients;
 
 @end

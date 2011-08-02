@@ -10,6 +10,7 @@
 #import "PSIncludes.h"
 #import "UIControl+RBForm.h"
 #import "RBRecipientsView.h"
+#import "RBRecipient.h"
 #import "RBClient+RBProperties.h"
 
 #define kRBLabelX                   30.f
@@ -27,7 +28,7 @@
 
 @implementation RBUIGenerator
 
-- (RBFormView *)viewWithForm:(RBForm *)form client:(RBClient *)client frame:(CGRect)frame {
+- (RBFormView *)viewWithFrame:(CGRect)frame form:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients {
     RBFormView *view = [[[RBFormView alloc] initWithFrame:frame] autorelease];
     UIView *topLabel = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
     UIView *topInputField = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
@@ -87,6 +88,9 @@
     
     // Add RecipientsView
     RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*realViewWidth, 0, view.bounds.size.width, view.bounds.size.height)] autorelease];
+    for (RBRecipient *recipient in recipients) {
+        [recipientsView.recipients addObject:recipient.addressBookPersonID];
+    }
     [view.innerScrollView addSubview:recipientsView];
     
     // update pageControl on view (isn't displayed yet, because it is not a subview of the scrollView)

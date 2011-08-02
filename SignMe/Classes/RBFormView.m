@@ -10,6 +10,7 @@
 #import "PSIncludes.h"
 #import "RBForm.h"
 #import "UIControl+RBForm.h"
+#import "RBRecipientsView.h"
 
 @interface RBFormView ()
 
@@ -102,6 +103,11 @@
         
         return NO;
     }]];
+}
+
+- (NSArray *)recipients {
+    RBRecipientsView *recipientsView = (RBRecipientsView *)[self.innerScrollView viewWithTag:kRBRecipientsViewTag];
+    return [[recipientsView.recipients copy] autorelease];
 }
 
 ////////////////////////////////////////////////////////////////////////

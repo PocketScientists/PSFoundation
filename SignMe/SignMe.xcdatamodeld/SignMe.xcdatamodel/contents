@@ -15,9 +15,15 @@
         <attribute name="name" optional="YES" attributeType="String" indexed="YES"/>
         <attribute name="status" attributeType="Integer 16" defaultValueString="0" indexed="YES"/>
         <relationship name="client" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBClient" inverseName="documents" inverseEntity="RBClient"/>
+        <relationship name="recipients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RBRecipient" inverseName="document" inverseEntity="RBRecipient"/>
+    </entity>
+    <entity name="RBRecipient" representedClassName="RBRecipient">
+        <attribute name="addressBookPersonID" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <relationship name="document" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBDocument" inverseName="recipients" inverseEntity="RBDocument"/>
     </entity>
     <elements>
         <element name="RBClient" positionX="160" positionY="48" width="128" height="150"/>
-        <element name="RBDocument" positionX="340" positionY="-66" width="128" height="120"/>
+        <element name="RBDocument" positionX="340" positionY="-66" width="128" height="135"/>
+        <element name="RBRecipient" positionX="565" positionY="-3" width="128" height="75"/>
     </elements>
 </model>

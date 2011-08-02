@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <AddressBookUI/AddressBookUI.h>
 
+#define kRBRecipientsViewTag    540492
+
 @interface RBRecipientsView : UIView <UITableViewDataSource, UITableViewDelegate, ABPeoplePickerNavigationControllerDelegate>
 
 @property (nonatomic, retain) NSMutableArray *recipients;

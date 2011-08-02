@@ -8,6 +8,7 @@
 
 #import "RBPersistenceManager.h"
 #import "RBDocument.h"
+#import "RBRecipient.h"
 #import "PSIncludes.h"
 #import "RBPDFWriter.h"
 
@@ -19,7 +20,7 @@
 
 @implementation RBPersistenceManager
 
-- (void)persistDocumentUsingForm:(RBForm *)form client:(RBClient *)client {
+- (void)persistDocumentUsingForm:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients {
     RBDocument *document = [RBDocument createEntity];
     
     // set form
@@ -31,6 +32,14 @@
         document.date = [NSDate date];
         // set client
         document.client = client;
+        
+        // add recipients of document
+        for (NSNumber *recipientID in recipients) {
+            RBRecipient *recipient = [RBRecipient createEntity];
+            
+            recipient.addressBookPersonID = recipientID;
+            recipient.document = document;
+        }
  
         [self createPDFForDocument:document form:form];
         [[NSManagedObjectContext defaultContext] saveOnMainThread];
@@ -39,13 +48,25 @@
     }
 }
 
-- (void)updateDocument:(RBDocument *)document usingForm:(RBForm *)form {
+- (void)updateDocument:(RBDocument *)document usingForm:(RBForm *)form recipients:(NSArray *)recipients {
     document.date = [NSDate date];
     
     // update Form Plist
     [form saveAsDocumentWithName:document.fileURL];
     // update PDF Document
     [self createPDFForDocument:document form:form];
+    
+    // update recipients
+    // delete old ones
+    [RBRecipient truncateAllMatchingPredicate:[NSPredicate predicateWithFormat:@"document = %@", document]];
+    // add new ones
+    // add recipients of document
+    for (NSNumber *recipientID in recipients) {
+        RBRecipient *recipient = [RBRecipient createEntity];
+        
+        recipient.addressBookPersonID = recipientID;
+        recipient.document = document;
+    }
     
     [[NSManagedObjectContext defaultContext] saveOnMainThread];
 }
