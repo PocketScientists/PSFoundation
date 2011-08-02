@@ -80,7 +80,7 @@
 
 - (RBClient *)clientWithName:(NSString *)name;
 - (void)editClient:(RBClient *)client;
-- (void)prepareForFormPresentation;
+- (void)presentFormIfPossible;
 - (void)presentViewControllerForForm:(RBForm *)form client:(RBClient *)client;
 
 - (NSUInteger)numberOfDocumentsToDisplay;
@@ -517,7 +517,7 @@
         RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
         [self updateDetailViewWithFormStatus:RBFormStatusForIndex(self.formsCarousel.currentItemIndex) client:client];
     } else {
-        [self prepareForFormPresentation];
+        [self presentFormIfPossible];
     }
 }
 
@@ -525,11 +525,13 @@
     self.detailCarouselSelectedIndex = index;
     
     if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) == RBFormStatusNew) {
-        [self prepareForFormPresentation];
+        [self presentFormIfPossible];
     } else {
         if ([self numberOfDocumentsWithFormStatus:self.formsCarousel.currentItemIndex] > 0) {
-            // TODO:
-            [self previewDocument:[self.documentsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]]];
+            NSTimeInterval delay = (index != self.detailCarousel.currentItemIndex) ? 0.4 : 0.0;
+            [self performBlock:^(void) {
+                [self previewDocument:[self.documentsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]]];
+            } afterDelay:delay];
         }
     }
 }
@@ -574,6 +576,8 @@
     if (self.detailViewVisible) {
         [self hideDetailView];
     }
+    
+    [self updateCarouselSelectionState:self.formsCarousel selectedItem:nil];
 }
 
 - (void)handleClientLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
@@ -792,17 +796,14 @@
 }
 
 - (void)documentInteractionControllerDidEndPreview:(UIDocumentInteractionController *)controller {
-    [controller release];
+
 }
 
-/*- (CGRect)documentInteractionControllerRectForPreview:(UIDocumentInteractionController *)controller;
- - (UIView *)documentInteractionControllerViewForPreview:(UIDocumentInteractionController *)controller;
- // If preview is supported, these provide the view and rect that will be used as the starting point for the animation to the full screen preview.
- // The actual animation that is performed depends upon the platform and other factors.
- // If documentInteractionControllerRectForPreview is not implemented, the specified view's bounds will be used.
- // If documentInteractionControllerViewForPreview is not implemented, the preview controller will simply fade in instead of scaling up.
- 
- - (void)documentInteractionControllerWillBeginPreview:(UIDocumentInteractionController *)controller;
+- (BOOL)documentInteractionController:(UIDocumentInteractionController *)controller canPerformAction:(SEL)action {
+    return YES;
+}
+
+/*- (void)documentInteractionControllerWillBeginPreview:(UIDocumentInteractionController *)controller;
  // Preview presented/dismissed on document.  Use to set up any HI underneath.
  
  - (void)documentInteractionControllerWillPresentOptionsMenu:(UIDocumentInteractionController *)controller;
@@ -817,7 +818,6 @@
  - (void)documentInteractionController:(UIDocumentInteractionController *)controller didEndSendingToApplication:(NSString *)application;
  // Synchronous.  May be called when inside preview.  Usually followed by app termination.  Can use willBegin... to set annotation.
  
- - (BOOL)documentInteractionController:(UIDocumentInteractionController *)controller canPerformAction:(SEL)action;
  - (BOOL)documentInteractionController:(UIDocumentInteractionController *)controller performAction:(SEL)action;*/
 
 ////////////////////////////////////////////////////////////////////////
@@ -912,14 +912,16 @@
     [self presentModalViewController:editViewController animated:YES];
 }
 
-- (void)prepareForFormPresentation {
+- (void)presentFormIfPossible {
     if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) == RBFormStatusNew 
         && self.detailCarouselSelectedIndex != NSNotFound 
         && self.clientsCarouselSelectedIndex != NSNotFound) {
-        RBForm *form = [self.emptyForms objectAtIndex:self.detailCarouselSelectedIndex];
-        RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
-        
-        [self presentViewControllerForForm:form client:client];
+        [self performBlock:^(void) {
+            RBForm *form = [self.emptyForms objectAtIndex:self.detailCarouselSelectedIndex];
+            RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
+            
+            [self presentViewControllerForForm:form client:client];
+        } afterDelay:0.4];
     }
 }
 
@@ -996,8 +998,9 @@
 }
 
 - (void)previewDocument:(RBDocument *)document {
-    NSURL *url = [NSURL fileURLWithPath:document.fileURL];
-    UIDocumentInteractionController *documentController = [[UIDocumentInteractionController interactionControllerWithURL:url] retain];
+    NSString *pdfFilePath = [kRBPDFSavedDirectoryPath stringByAppendingPathComponent:[document.fileURL stringByAppendingString:kRBPDFExtension]];
+    NSURL *url = [NSURL fileURLWithPath:pdfFilePath];
+    UIDocumentInteractionController *documentController = [UIDocumentInteractionController interactionControllerWithURL:url];
     
     documentController.delegate = self;
     
