@@ -11,7 +11,7 @@
 #import "RBFormDetailView.h"
 
 
-@interface RBHomeViewController : PSBaseViewController <iCarouselDataSource, iCarouselDelegate, NSFetchedResultsControllerDelegate>
+@interface RBHomeViewController : PSBaseViewController <iCarouselDataSource, iCarouselDelegate, NSFetchedResultsControllerDelegate, UIDocumentInteractionControllerDelegate>
 
 @property (nonatomic, retain) IBOutlet UIView *formsView;
 @property (nonatomic, retain) IBOutlet iCarousel *formsCarousel;

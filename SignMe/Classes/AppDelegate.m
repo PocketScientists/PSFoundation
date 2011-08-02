@@ -19,6 +19,7 @@
 - (void)configureLogger;
 - (void)appplicationPrepareForBackgroundOrTermination:(UIApplication *)application;
 - (void)postFinishLaunch;
+- (void)setupFileStructure;
 @end
 
 
@@ -49,8 +50,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // setup CocoaLumberJack-Logging
     [self configureLogger];
-    // copy plist-files for forms from bundle to documents-directory
-    [RBForm copyFormsFromBundle];
+    // create needed folders
+    [self setupFileStructure];
+    
     // setup CoreData
 	[ActiveRecordHelpers setupCoreDataStack];
     
@@ -153,25 +155,17 @@
 }
 
 // launched via post selector to speed up launch time
-- (void)postFinishLaunch {
-    [[PSReachability sharedPSReachability] startCheckingHostAddress:kReachabilityHostURL];
+- (void)postFinishLaunch {    
+    
+}
 
-    [RBBoxService syncFolderWithID:[NSUserDefaults standardUserDefaults].folderID
-                       startedFrom:self.homeViewController
-                      successBlock:^(id boxObject) {
-                          BoxFolder *formsFolder = (BoxFolder *)[boxObject objectAtFilePath:RBPathToEmptyForms()];
-                          
-                          if (formsFolder != nil) {
-                              for (BoxFile *file in [formsFolder filesWithExtension:@"plist"]) {
-                                  [[RBBoxService box] downloadFile:file
-                                                     progressBlock:^(float progress) {
-                                                         MTLog(progress);
-                                                     } completionBlock:^(BoxResponseType resultType, NSData *fileData) {
-                                                         MTLog(fileData);
-                                                     }];
-                              }
-                          }
-                      } failureBlock:nil];
+- (void)setupFileStructure {
+    NSFileManager *manager = [NSFileManager defaultManager];
+    
+    // check if directories already exist
+    if (![manager fileExistsAtPath:kRBFormSavedDirectoryPath]) {
+        [manager createDirectoryAtPath:kRBFormSavedDirectoryPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
 }
 
 @end

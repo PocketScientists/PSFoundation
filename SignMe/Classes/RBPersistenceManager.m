@@ -9,6 +9,7 @@
 #import "RBPersistenceManager.h"
 #import "RBDocument.h"
 #import "PSIncludes.h"
+#import "RBPDFWriter.h"
 
 @implementation RBPersistenceManager
 
@@ -16,14 +17,28 @@
     RBDocument *document = [RBDocument createEntity];
     
     // set form
-    [form saveAsDocument];
-    document.name = form.name;
-    document.fileURL = form.filePath;
-    document.status = $I(RBFormStatusPreSignature);
-    document.date = [NSDate date];
-    
-    // set client
-    document.client = client;
+    if ([form saveAsDocument]) {
+        DDLogInfo(@"Saved form at path: %@", form.filePath);
+        document.name = form.name;
+        document.fileURL = form.filePath;
+        document.status = $I(RBFormStatusPreSignature);
+        document.date = [NSDate date];
+        
+        // set client
+        document.client = client;
+        
+        // create PDF
+#pragma message("This will not work yet!!")
+        /*RBPDFWriter *pdfWriter = [[[RBPDFWriter alloc] init] autorelease];
+         NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[NSDocumentsFolder() stringByAppendingPathComponent:document.name]];
+         CGPDFDocumentRef pdfRef = [pdfWriter openDocument:urlToEmptyPDF];
+         
+         [pdfWriter writePDFDocument:pdfRef
+         withFormData:form.PDFDictionary 
+         toFile:[kRBFormPDFDirectoryPath stringByAppendingPathComponent:document.name]];*/
+    } else {
+        DDLogError(@"Couldn't save form at path: %@", form.filePath);
+    }
 }
 
 - (RBClient *)clientWithName:(NSString *)name {

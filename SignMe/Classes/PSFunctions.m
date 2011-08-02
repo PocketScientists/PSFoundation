@@ -45,3 +45,9 @@ inline NSString *RBPathToPreSignatureFolderForClientWithName(NSString *clientNam
     
     return [[kRBFolderUser stringByAppendingPathComponent:[clientName lowercaseString]] stringByAppendingPathComponent:kRBFolderPreSignature];
 }
+
+inline NSString *RBFileNameForFormWithName(NSString *formName) {
+    NSNumber *objectID = [[NSUserDefaults standardUserDefaults] objectIDForPlistWithName:formName];
+    
+    return [NSString stringWithFormat:@"%@_%@%@", objectID, formName, kRBFormExtension];
+}

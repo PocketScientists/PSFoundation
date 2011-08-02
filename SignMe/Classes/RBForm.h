@@ -8,6 +8,7 @@
 
 
 // keys for plist
+#define kRBFormKeyDisplayName       @"displayName"      // name of the form to display
 #define kRBFormKeySection           @"sections"         // section the field appears in in the iPad App
 #define kRBFormKeyID                @"id"               // id of the field
 #define kRBFormKeyLabel             @"label"            // label of the field
@@ -55,7 +56,6 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index);
 
 + (RBForm *)emptyFormWithName:(NSString *)name;
 + (NSArray *)allEmptyForms;
-+ (void)copyFormsFromBundle;
 
 - (id)initWithName:(NSString *)name;
 - (id)initWithPath:(NSString *)path;
@@ -74,6 +74,8 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index);
 @property (nonatomic, readonly) NSArray *sections;
 /** Returns a dictionary with key-value pairs (ID/Value) for the pdf-form */
 @property (nonatomic, readonly) NSDictionary *PDFDictionary;
+
+@property (nonatomic, readonly) NSString *displayName;
 
 /** all field IDs of a section */
 - (NSArray *)fieldIDsOfSection:(NSUInteger)section;

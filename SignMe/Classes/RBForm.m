@@ -74,52 +74,15 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
 }
 
 + (NSArray *)allEmptyForms {
-    NSError *error = nil;
-    NSArray *formNames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:kRBFormDirectoryPath error:&error];
-    
-    if(IsEmpty(formNames)) {
-        DDLogError(@"Error in reading form directory: %@", [error localizedDescription]);
-        return nil;
-    }
-    
+    NSArray *formNames = [[NSUserDefaults standardUserDefaults] allStoredObjectNames];
     NSMutableArray *allForms = [NSMutableArray arrayWithCapacity:formNames.count];
     
     // Create array of RBForm-Objects with the given names
-    for (NSString *fileName in formNames) {
-        if ([fileName hasSuffix:kRBFormExtension]) {
-            [allForms addObject:[RBForm emptyFormWithName:fileName]];
-        }
+    for (NSString *formName in formNames) {
+        [allForms addObject:[RBForm emptyFormWithName:formName]];
     }
     
     return allForms;
-}
-
-+ (void)copyFormsFromBundle {    
-    NSError *error = nil;
-    NSArray *forms = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:kRBFormDirectoryPath error:&error];
-    
-    // if there are no files in the directory yet, copy files from App Bundle
-    if (IsEmpty(forms)) {
-        // Create forms directory (Forms/Saved, because of intermediate=YES also forms-directory gets created)
-        if ([[NSFileManager defaultManager] createDirectoryAtPath:kRBFormSavedDirectoryPath withIntermediateDirectories:YES attributes:nil error:&error]) {
-            // TODO: Update with all forms shipped
-            for (NSString *fileName in XARRAY(@"W-9", @"Red Bull Form", @"Partnership Agreement")) {
-                NSString *bundlePath = [[NSBundle mainBundle] pathForResource:fileName ofType:kRBFormDataType];
-                NSString *documentsPath = [[kRBFormDirectoryPath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:kRBFormDataType];
-                
-                error = nil;
-                if ([[NSFileManager defaultManager] copyItemAtPath:bundlePath toPath:documentsPath error:&error]) {
-                    DDLogInfo(@"Copied file '%@' from bundle.", fileName);
-                } else {
-                    DDLogError(@"Error copying file '%@' from bundle: %@", fileName, [error localizedDescription]);
-                }
-            }
-        } else {
-            DDLogError(@"Couldn't create directory for forms: %@", [error localizedDescription]);
-        }
-    } else {
-        DDLogInfo(@"No need to copy files from bundle");
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -133,7 +96,7 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
         name = [name substringToIndex:[name rangeOfString:kRBFormExtension].location];
     }
     
-    NSString *fullPath = [[kRBFormDirectoryPath stringByAppendingPathComponent:name] stringByAppendingPathExtension:kRBFormDataType];
+    NSString *fullPath = [kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForFormWithName(name)];
     
     return [self initWithPath:fullPath];
 }
@@ -179,9 +142,14 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
 
 - (NSString *)filePath {
     NSString *fileComponent = [NSString stringWithFormat:@"%@__%@", self.name, RBFormattedDateWithFormat([NSDate date], kRBDateTimeFormat)];
+    // SavedForms/Name_Date.plist
+    NSString *filePath = [[kRBFormSavedDirectoryPath stringByAppendingPathComponent:fileComponent] stringByAppendingPathExtension:kRBFormDataType];
     
-    // Forms/Saved/Name_Date.plist
-    return [[kRBFormSavedDirectoryPath stringByAppendingPathComponent:fileComponent] stringByAppendingPathExtension:kRBFormDataType];
+    return filePath;
+}
+
+- (NSString *)displayName {
+    return [self.formData valueForKey:kRBFormKeyDisplayName];
 }
 
 - (NSUInteger)numberOfSections {

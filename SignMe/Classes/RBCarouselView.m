@@ -196,7 +196,7 @@
     self.label2.font = [UIFont fontWithName:kRBFontName size:18.];
     
     
-    [self splitTextOnFirstTwoLabels:form.name];
+    [self splitTextOnFirstTwoLabels:form.displayName];
     
     if (IsEmpty(self.label2.text)) {
         self.label2.text = @"FORM";

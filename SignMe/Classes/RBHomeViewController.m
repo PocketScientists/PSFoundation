@@ -54,6 +54,8 @@
 @property (nonatomic, assign) NSInteger detailCarouselSelectedIndex;
 @property (nonatomic, assign) NSInteger clientsCarouselSelectedIndex;
 
+@property (nonatomic, assign) BOOL formsCarouselChangeWasInitiatedByTap;
+
 // header label for a carousel
 - (UILabel *)headerLabelForView:(UIView *)view text:(NSString *)text;
 
@@ -88,6 +90,8 @@
 - (void)handleClientLongPress:(UILongPressGestureRecognizer *)gestureRecognizer;
 - (NSUInteger)numberOfClients;
 
+- (void)previewDocument:(RBDocument *)document;
+
 @end
 
 @implementation RBHomeViewController
@@ -109,6 +113,7 @@
 @synthesize searchField = searchField_;
 @synthesize detailCarouselSelectedIndex = detailCarouselSelectedIndex_;
 @synthesize clientsCarouselSelectedIndex = clientsCarouselSelectedIndex_;
+@synthesize formsCarouselChangeWasInitiatedByTap = formsCarouselChangeWasInitiatedByTap_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -117,9 +122,9 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        emptyForms_ = [[RBForm allEmptyForms] retain];
         detailCarouselSelectedIndex_ = NSNotFound;
         clientsCarouselSelectedIndex_ = NSNotFound;
+        formsCarouselChangeWasInitiatedByTap_ = NO;
     }
     
     return self;
@@ -191,6 +196,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    emptyForms_ = [[RBForm allEmptyForms] retain];
+    
     // TODO: remove
     [self insertTempData];
     
@@ -234,6 +241,34 @@
     [self.detailView addSubview:self.detailCarousel];
     
     [self.view insertSubview:self.detailView belowSubview:self.formsView];
+    
+    [RBBoxService syncFolderWithID:[NSUserDefaults standardUserDefaults].folderID
+                       startedFrom:self
+                      successBlock:^(id boxObject) {
+                          BoxFolder *formsFolder = (BoxFolder *)[boxObject objectAtFilePath:RBPathToEmptyForms()];
+                          
+                          if (formsFolder != nil) {
+                              for (BoxFile *file in [formsFolder filesWithExtensions:XARRAY(kRBFormDataType,@"pdf")]) {
+                                  DDLogInfo(@"Downloading %@", file.objectName);
+                                  [[RBBoxService box] downloadFile:file
+                                                     progressBlock:nil
+                                                   completionBlock:^(BoxResponseType resultType, NSData *fileData) {
+                                                       // save id of file under name of file in userDefaults
+                                                       // this is to retreive the stored files later from the folder Documents/box.net
+                                                       // because they are stored with objectID and objectName
+                                                       [[NSUserDefaults standardUserDefaults] setObjectID:file.objectId 
+                                                                      forObjectWithNameIncludingExtension:file.objectName];
+                                                       
+                                                       // update forms carousel
+                                                       self.emptyForms = [RBForm allEmptyForms];
+                                                       [self.detailCarousel reloadData];
+                                                       BOOL selectedBefore = ((UIControl *)self.formsCarousel.currentView).selected;
+                                                       [self.formsCarousel reloadData];
+                                                       ((UIControl *)self.formsCarousel.currentView).selected = selectedBefore;
+                                                   }];
+                              }
+                          }
+                      } failureBlock:nil];
     
     // center 2nd item of formsCarousel
     [self.formsCarousel reloadData];
@@ -393,13 +428,17 @@
 
 - (void)carouselCurrentItemIndexUpdated:(iCarousel *)carousel {        
     // update detail view if user scrolled to new form while detailView is visible
-    if (carousel == self.formsCarousel && self.detailView.alpha == 1.f) {
-        [self updateCarouselSelectionState:carousel selectedItem:(UIControl *)[carousel currentView]];
+    if (carousel == self.formsCarousel && self.detailViewVisible) {
+        if (!self.formsCarouselChangeWasInitiatedByTap) {
+            [self updateCarouselSelectionState:carousel selectedItem:(UIControl *)[carousel currentView]];
+        }
         self.detailCarouselSelectedIndex = NSNotFound;
         
         [self updateDetailViewWithFormStatus:RBFormStatusForIndex(carousel.currentItemIndex) client:nil];
         [self.detailView reloadData];
     }
+    
+    self.formsCarouselChangeWasInitiatedByTap = NO;
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItem:(UIView *)selectedItem atIndex:(NSInteger)index {    
@@ -419,10 +458,10 @@
 }
 
 - (void)formsCarouselDidSelectItemAtIndex:(NSInteger)index {
+    self.formsCarouselChangeWasInitiatedByTap = YES;
     self.detailCarouselSelectedIndex = NSNotFound;
     
     if (self.detailViewVisible) {
-        [self updateCarouselSelectionState:self.formsCarousel selectedItem:nil];
         [self hideDetailView];
         
         [self performBlock:^(void) {
@@ -472,6 +511,7 @@
     } else {
         if ([self numberOfDocumentsWithFormStatus:self.formsCarousel.currentItemIndex] > 0) {
             // TODO:
+            [self previewDocument:[self.documentsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]]];
         }
     }
 }
@@ -726,6 +766,44 @@
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
+#pragma mark UIDocumentInteractionControllerDelegate
+////////////////////////////////////////////////////////////////////////
+
+- (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {
+    return self;
+}
+
+- (void)documentInteractionControllerDidEndPreview:(UIDocumentInteractionController *)controller {
+    [controller release];
+}
+
+/*- (CGRect)documentInteractionControllerRectForPreview:(UIDocumentInteractionController *)controller;
+ - (UIView *)documentInteractionControllerViewForPreview:(UIDocumentInteractionController *)controller;
+ // If preview is supported, these provide the view and rect that will be used as the starting point for the animation to the full screen preview.
+ // The actual animation that is performed depends upon the platform and other factors.
+ // If documentInteractionControllerRectForPreview is not implemented, the specified view's bounds will be used.
+ // If documentInteractionControllerViewForPreview is not implemented, the preview controller will simply fade in instead of scaling up.
+ 
+ - (void)documentInteractionControllerWillBeginPreview:(UIDocumentInteractionController *)controller;
+ // Preview presented/dismissed on document.  Use to set up any HI underneath.
+ 
+ - (void)documentInteractionControllerWillPresentOptionsMenu:(UIDocumentInteractionController *)controller;
+ - (void)documentInteractionControllerDidDismissOptionsMenu:(UIDocumentInteractionController *)controller;
+ // Options menu presented/dismissed on document.  Use to set up any HI underneath.
+ 
+ - (void)documentInteractionControllerWillPresentOpenInMenu:(UIDocumentInteractionController *)controller;
+ - (void)documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller;
+ // Open in menu presented/dismissed on document.  Use to set up any HI underneath.
+ 
+ - (void)documentInteractionController:(UIDocumentInteractionController *)controller willBeginSendingToApplication:(NSString *)application;	 // bundle ID
+ - (void)documentInteractionController:(UIDocumentInteractionController *)controller didEndSendingToApplication:(NSString *)application;
+ // Synchronous.  May be called when inside preview.  Usually followed by app termination.  Can use willBegin... to set annotation.
+ 
+ - (BOOL)documentInteractionController:(UIDocumentInteractionController *)controller canPerformAction:(SEL)action;
+ - (BOOL)documentInteractionController:(UIDocumentInteractionController *)controller performAction:(SEL)action;*/
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
 #pragma mark Private
 ////////////////////////////////////////////////////////////////////////
 
@@ -745,7 +823,7 @@
 }
 
 - (BOOL)isDetailViewVisible {
-    return self.detailView.alpha > 0;
+    return self.detailView.alpha > 0 && self.detailView.frameHeight == kDetailViewHeight;
 }
 
 - (BOOL)clientCarouselShowsAddItem {
@@ -897,6 +975,17 @@
     }
     
     return numberOfRows;
+}
+
+- (void)previewDocument:(RBDocument *)document {
+    NSURL *url = [NSURL fileURLWithPath:document.fileURL];
+    UIDocumentInteractionController *documentController = [[UIDocumentInteractionController interactionControllerWithURL:url] retain];
+    
+    documentController.delegate = self;
+    
+    if (![documentController presentPreviewAnimated:YES]) {
+        DDLogInfo(@"Wasn't able to display file");
+    }
 }
 
 @end

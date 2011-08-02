@@ -14,3 +14,5 @@ NSString *RBFormattedDateWithFormat(NSDate *date, NSString *format);
 NSString *RBPathToEmptyForms();
 NSString *RBPathToSignedFolderForClientWithName(NSString *clientName);
 NSString *RBPathToPreSignatureFolderForClientWithName(NSString *clientName);
+
+NSString *RBFileNameForFormWithName(NSString *formName);

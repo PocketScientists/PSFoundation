@@ -42,10 +42,10 @@
 
 #define kRBFormDataType             @"plist"
 #define kRBFormExtension            @"." kRBFormDataType
-#define kRBFormDirectoryName        @"Forms"
-#define kRBFormSavedDirectoryName   @"Saved"
-#define kRBFormDirectoryPath        ([NSDocumentsFolder() stringByAppendingPathComponent:kRBFormDirectoryName])
-#define kRBFormSavedDirectoryPath   [kRBFormDirectoryPath stringByAppendingPathComponent:kRBFormSavedDirectoryName]
+#define kRBBoxNetDirectoryName      @"box.net"
+#define kRBFormSavedDirectoryName   @"SavedForms"
+#define kRBBoxNetDirectoryPath      ([NSDocumentsFolder() stringByAppendingPathComponent:kRBBoxNetDirectoryName])
+#define kRBFormSavedDirectoryPath   ([NSDocumentsFolder() stringByAppendingPathComponent:kRBFormSavedDirectoryName])
 
 #define kRBFontName                 @"Heiti TC"
 #define kRBDateFormat               @"MM-dd-yyyy"
@@ -77,3 +77,5 @@
 #define kAppplicationWillSuspendNotification @"kAppplicationWillSuspendNotification"
 // device shaken
 #define kDeviceWasShakenNotification         @"kDeviceWasShakenNotification"
+// Download of a file finished
+#define kBoxNetFileDownloadFinishedNotification     @"kBoxNetFileDownloadFinishedNotification"

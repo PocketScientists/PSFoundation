@@ -44,8 +44,6 @@
 		3925C7D413DDE72B008810AF /* RBUIGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D313DDE72B008810AF /* RBUIGenerator.m */; };
 		3925C7D713DDE75C008810AF /* RBFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D613DDE75C008810AF /* RBFormView.m */; };
 		3925C7E013DDE863008810AF /* RBFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7DF13DDE863008810AF /* RBFormViewController.m */; };
-		3925C7E313DDF01C008810AF /* W-9.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3925C7E213DDF01C008810AF /* W-9.plist */; };
-		3925C7E513DDF028008810AF /* Partnership Agreement.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3925C7E413DDF028008810AF /* Partnership Agreement.plist */; };
 		393AB0A413E2361000F1BE04 /* RBBoxLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393AB0A313E2361000F1BE04 /* RBBoxLoginViewController.m */; };
 		393AB0A713E2762900F1BE04 /* PSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393AB0A613E2762800F1BE04 /* PSFunctions.m */; };
 		394B916A13D64BB1007BFF2E /* PSBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916913D64BB1007BFF2E /* PSBaseTableViewController.m */; };
@@ -62,7 +60,6 @@
 		3981E13013DF3C8F00B23A7D /* RBPDFWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E12F13DF3C8F00B23A7D /* RBPDFWriter.m */; };
 		3981E13213DF3D7200B23A7D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3981E13113DF3D7200B23A7D /* QuartzCore.framework */; };
 		3981E13413DF3DF300B23A7D /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3981E13313DF3DF300B23A7D /* ApplicationServices.framework */; };
-		3981E13613DF419600B23A7D /* Red Bull Form.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3981E13513DF419600B23A7D /* Red Bull Form.plist */; };
 		3981E13A13DF644F00B23A7D /* UIControl+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E13913DF644F00B23A7D /* UIControl+RBForm.m */; };
 		3994620C12C91F1D005574A6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620B12C91F1D005574A6 /* CoreLocation.framework */; };
 		3994621012C91F27005574A6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620F12C91F27005574A6 /* MapKit.framework */; };
@@ -280,8 +277,6 @@
 		3925C7D613DDE75C008810AF /* RBFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFormView.m; sourceTree = "<group>"; };
 		3925C7DE13DDE863008810AF /* RBFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFormViewController.h; sourceTree = "<group>"; };
 		3925C7DF13DDE863008810AF /* RBFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFormViewController.m; sourceTree = "<group>"; };
-		3925C7E213DDF01C008810AF /* W-9.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "W-9.plist"; sourceTree = "<group>"; };
-		3925C7E413DDF028008810AF /* Partnership Agreement.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Partnership Agreement.plist"; sourceTree = "<group>"; };
 		393AB0A213E2361000F1BE04 /* RBBoxLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBBoxLoginViewController.h; sourceTree = "<group>"; };
 		393AB0A313E2361000F1BE04 /* RBBoxLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBBoxLoginViewController.m; sourceTree = "<group>"; };
 		393AB0A513E2762800F1BE04 /* PSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSFunctions.h; sourceTree = "<group>"; };
@@ -308,7 +303,6 @@
 		3981E12F13DF3C8F00B23A7D /* RBPDFWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBPDFWriter.m; sourceTree = "<group>"; };
 		3981E13113DF3D7200B23A7D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		3981E13313DF3DF300B23A7D /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/ApplicationServices.framework; sourceTree = DEVELOPER_DIR; };
-		3981E13513DF419600B23A7D /* Red Bull Form.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Red Bull Form.plist"; sourceTree = "<group>"; };
 		3981E13813DF644F00B23A7D /* UIControl+RBForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+RBForm.h"; sourceTree = "<group>"; };
 		3981E13913DF644F00B23A7D /* UIControl+RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+RBForm.m"; sourceTree = "<group>"; };
 		3994620B12C91F1D005574A6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -502,7 +496,6 @@
 			isa = PBXGroup;
 			children = (
 				39F2019F13E754E600DA9093 /* Default-Landscape~ipad.png */,
-				3925C7E113DDF009008810AF /* Forms */,
 				390DD51713D9D1FE00EB1EFD /* Model */,
 				395EEF2613D72E3C003C4DA8 /* Images */,
 				78BCBB2612B5323D0093AE0C /* Localization */,
@@ -635,16 +628,6 @@
 				3925C7DF13DDE863008810AF /* RBFormViewController.m */,
 			);
 			name = Form;
-			sourceTree = "<group>";
-		};
-		3925C7E113DDF009008810AF /* Forms */ = {
-			isa = PBXGroup;
-			children = (
-				3925C7E213DDF01C008810AF /* W-9.plist */,
-				3925C7E413DDF028008810AF /* Partnership Agreement.plist */,
-				3981E13513DF419600B23A7D /* Red Bull Form.plist */,
-			);
-			name = Forms;
 			sourceTree = "<group>";
 		};
 		393AB0A113E235EE00F1BE04 /* Box.net */ = {
@@ -1138,9 +1121,6 @@
 				394B917413D64CE3007BFF2E /* Icon.png in Resources */,
 				395EEF2513D72E39003C4DA8 /* Background.png in Resources */,
 				39A7F07E13DA207A008338A4 /* RBHomeView.xib in Resources */,
-				3925C7E313DDF01C008810AF /* W-9.plist in Resources */,
-				3925C7E513DDF028008810AF /* Partnership Agreement.plist in Resources */,
-				3981E13613DF419600B23A7D /* Red Bull Form.plist in Resources */,
 				3911A22913E22AA600CD4F6C /* LogoEmpty.png in Resources */,
 				3911A22A13E22AA600CD4F6C /* LogoFull.png in Resources */,
 				39A46C7513E30F8700603CD6 /* AbortButton.png in Resources */,

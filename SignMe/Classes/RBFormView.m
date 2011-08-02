@@ -151,6 +151,7 @@
     }]];
     
     self.contentSize = CGSizeMake(self.contentSize.width, CGRectGetMaxY([[subviewsOnCurrentPage lastObject] frame]));
+    [self flashScrollIndicators];
 }
 
 ////////////////////////////////////////////////////////////////////////
