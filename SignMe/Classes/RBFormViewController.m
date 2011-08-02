@@ -11,6 +11,8 @@
 #import "PSIncludes.h"
 #import "RBPersistenceManager.h"
 #import "UIControl+RBForm.h"
+#import "RBDocument.h"
+#import "RBDocument+RBForm.h"
 
 
 #define kRBOffsetTop               212.f
@@ -34,11 +36,12 @@
 @implementation RBFormViewController
 
 @synthesize form = form_;
+@synthesize client = client_;
+@synthesize document = document_;
 @synthesize headerLabel = headerLabel_;
 @synthesize topLine = topLine_;
 @synthesize bottomLine = bottomLine_;
 @synthesize formView = formView_;
-@synthesize client = client_;
 @synthesize cancelButton = cancelButton_;
 @synthesize doneButton = doneButton_;
 
@@ -56,8 +59,19 @@
     return self;
 }
 
+- (id)initWithDocument:(RBDocument *)document {
+    if ((self = [super initWithNibName:nil bundle:nil])) {
+        document_ = [document retain];
+        form_ = [document.form retain];
+        client_ = [document.client retain];
+    }
+    
+    return self;
+}
+
 - (void)dealloc {
     MCRelease(form_);
+    MCRelease(document_);
     MCRelease(headerLabel_);
     MCRelease(topLine_);
     MCRelease(bottomLine_);
@@ -158,8 +172,16 @@
     
     // update form-property with new values entered into controls
     [self updateFormFromControls];
-    // create a new document with the given form/client
-    [persistenceManager persistDocumentUsingForm:self.form client:self.client];
+    
+    if (self.document != nil) {
+        [persistenceManager updateDocument:self.document usingForm:self.form];
+    } else {
+        // create a new document with the given form/client
+        [persistenceManager persistDocumentUsingForm:self.form client:self.client];
+    }
+    
+#pragma message("TODO: Ask if user wants to upload file")
+    
     // go back to HomeViewController
     [self dismissModalViewControllerAnimated:YES];
 }

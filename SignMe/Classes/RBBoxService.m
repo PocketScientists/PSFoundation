@@ -53,8 +53,6 @@ static Box *box = nil;
                          [viewController dismissModalViewControllerAnimated:YES];
                          MCReleaseNil(loginViewController);
                      }
-                     
-                     NSLog(@"progress box object: %@", [(BoxObject *)boxObject objectToString]);
                  } 
                completionBlock:^(BoxResponseType response, NSObject *boxObject) {
                    if (loginViewController != nil  && response != BoxResponseLoginError) {

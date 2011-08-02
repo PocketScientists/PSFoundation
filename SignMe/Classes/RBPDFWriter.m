@@ -74,12 +74,10 @@
                 CGPDFStringRef name;
                 CGPDFDictionaryGetString(field, "T", &name);
                 CFStringRef nameString = CGPDFStringCopyTextString(name);
-                NSLog(@"field %d name: %@", i, nameString);
                 
                 // retreive the data type
                 const char *datatype;
                 CGPDFDictionaryGetName(field, "FT", &datatype);
-                NSLog(@"Type: %s", datatype);
                 
                 // write the form data
                 NSString *text = [formData objectForKey:(NSString *)nameString];
@@ -93,7 +91,6 @@
                     CGPDFArrayGetNumber(rectArr, 1, &rect.origin.y);
                     CGPDFArrayGetNumber(rectArr, 2, &rect.size.width);
                     CGPDFArrayGetNumber(rectArr, 3, &rect.size.height);
-                    NSLog(@"%f, %f", rect.origin.x, rect.origin.y);
                     
                     CTFontRef ctFont = CTFontCreateWithName((CFStringRef)self.font.fontName, self.font.pointSize, NULL);
                     NSDictionary *attributesDict = [NSDictionary dictionaryWithObjectsAndKeys:

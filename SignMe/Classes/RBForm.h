@@ -89,5 +89,6 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index);
 
 /** writes the data to a plist-file */
 - (BOOL)saveAsDocument;
+- (BOOL)saveAsDocumentWithName:(NSString *)name;
 
 @end

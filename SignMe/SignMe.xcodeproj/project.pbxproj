@@ -17,6 +17,7 @@
 		3900892513D780A30093E0B0 /* RBCarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892413D780A30093E0B0 /* RBCarouselView.m */; };
 		3900892B13D799530093E0B0 /* RBFormDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892A13D799530093E0B0 /* RBFormDetailView.m */; };
 		3900894A13D882760093E0B0 /* RBArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900894913D882760093E0B0 /* RBArrowView.m */; };
+		390BCFBB13E89FCF00568B25 /* RBDocument+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BCFBA13E89FCF00568B25 /* RBDocument+RBForm.m */; };
 		390DD51A13D9D21400EB1EFD /* SignMe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 390DD51813D9D21400EB1EFD /* SignMe.xcdatamodeld */; };
 		390DD52313D9D53300EB1EFD /* RBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 390DD52213D9D53300EB1EFD /* RBDocument.m */; };
 		390DD52613D9D53300EB1EFD /* RBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 390DD52513D9D53300EB1EFD /* RBClient.m */; };
@@ -242,6 +243,8 @@
 		3900892A13D799530093E0B0 /* RBFormDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFormDetailView.m; sourceTree = "<group>"; };
 		3900894813D882760093E0B0 /* RBArrowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBArrowView.h; sourceTree = "<group>"; };
 		3900894913D882760093E0B0 /* RBArrowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBArrowView.m; sourceTree = "<group>"; };
+		390BCFB913E89FCF00568B25 /* RBDocument+RBForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RBDocument+RBForm.h"; sourceTree = "<group>"; };
+		390BCFBA13E89FCF00568B25 /* RBDocument+RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RBDocument+RBForm.m"; sourceTree = "<group>"; };
 		390DD51913D9D21400EB1EFD /* SignMe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SignMe.xcdatamodel; sourceTree = "<group>"; };
 		390DD52113D9D53300EB1EFD /* RBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDocument.h; sourceTree = "<group>"; };
 		390DD52213D9D53300EB1EFD /* RBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDocument.m; sourceTree = "<group>"; };
@@ -784,6 +787,8 @@
 				390DD52213D9D53300EB1EFD /* RBDocument.m */,
 				39BB88D913E3CCE00074543E /* RBClient+RBProperties.h */,
 				39BB88DA13E3CCE00074543E /* RBClient+RBProperties.m */,
+				390BCFB913E89FCF00568B25 /* RBDocument+RBForm.h */,
+				390BCFBA13E89FCF00568B25 /* RBDocument+RBForm.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1211,6 +1216,7 @@
 				39F2019C13E741C500DA9093 /* DCRoundSwitchKnobLayer.m in Sources */,
 				39F2019D13E741C500DA9093 /* DCRoundSwitchOutlineLayer.m in Sources */,
 				39F2019E13E741C500DA9093 /* DCRoundSwitchToggleLayer.m in Sources */,
+				390BCFBB13E89FCF00568B25 /* RBDocument+RBForm.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,10 +17,12 @@
 
 @property (nonatomic, retain) RBForm *form;
 @property (nonatomic, retain) RBClient *client;
+@property (nonatomic, retain) RBDocument *document;
 
 @property (nonatomic, retain) RBFormView *formView;
 
 
 - (id)initWithForm:(RBForm *)form client:(RBClient *)client;
+- (id)initWithDocument:(RBDocument *)document;
 
 @end

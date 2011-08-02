@@ -11,9 +11,13 @@
 
 NSString *RBFormattedDateWithFormat(NSDate *date, NSString *format);
 
+// path to Box.net folders
 NSString *RBPathToEmptyForms();
 NSString *RBPathToSignedFolderForClientWithName(NSString *clientName);
 NSString *RBPathToPreSignatureFolderForClientWithName(NSString *clientName);
+
+// path to local plist file
+NSString *RBPathToPlistWithName(NSString *name);
 
 NSString *RBFileNameForFormWithName(NSString *formName);
 NSString *RBFileNameForPDFWithName(NSString *formName);

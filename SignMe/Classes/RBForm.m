@@ -110,6 +110,12 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
     return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    RBForm *copy = [[[self class] allocWithZone:zone] initWithName:self.name];
+        
+    return copy;
+}
+
 - (void)dealloc {
     MCRelease(formData_);
     MCRelease(name_);
@@ -236,7 +242,11 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
 ////////////////////////////////////////////////////////////////////////
 
 - (BOOL)saveAsDocument {
-    NSString *filePath = [kRBFormSavedDirectoryPath stringByAppendingPathComponent:[self.fileName stringByAppendingString:kRBFormExtension]];
+    return [self saveAsDocumentWithName:self.fileName];
+}
+
+- (BOOL)saveAsDocumentWithName:(NSString *)name {
+    NSString *filePath = RBPathToPlistWithName(name);
     return [self.formData writeToFile:filePath atomically:YES];
 }
 

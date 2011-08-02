@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "RBForm.h"
 #import "RBClient.h"
+#import "RBDocument.h"
 
 @interface RBPersistenceManager : NSObject
 
 // saves a plist for the from and creates a document in CoreData
 - (void)persistDocumentUsingForm:(RBForm *)form client:(RBClient *)client;
+- (void)updateDocument:(RBDocument *)document usingForm:(RBForm *)form;
 
 // returns either a given client with the name or a new client with the given name
 - (RBClient *)clientWithName:(NSString *)name;

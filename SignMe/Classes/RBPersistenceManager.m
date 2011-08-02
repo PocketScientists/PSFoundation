@@ -11,6 +11,12 @@
 #import "PSIncludes.h"
 #import "RBPDFWriter.h"
 
+@interface RBPersistenceManager ()
+
+- (void)createPDFForDocument:(RBDocument *)document form:(RBForm *)form;
+
+@end
+
 @implementation RBPersistenceManager
 
 - (void)persistDocumentUsingForm:(RBForm *)form client:(RBClient *)client {
@@ -23,22 +29,25 @@
         document.fileURL = form.fileName;
         document.status = $I(RBFormStatusPreSignature);
         document.date = [NSDate date];
-        
         // set client
         document.client = client;
-        
-        // create PDF
-        RBPDFWriter *pdfWriter = [[[RBPDFWriter alloc] init] autorelease];
-        NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForPDFWithName(document.name)]];
-        CGPDFDocumentRef pdfRef = [pdfWriter openDocument:urlToEmptyPDF];
-        NSString *pdfFileURL = [kRBPDFSavedDirectoryPath stringByAppendingPathComponent:[document.fileURL stringByAppendingString:kRBPDFExtension]];
-        
-        [pdfWriter writePDFDocument:pdfRef
-                       withFormData:form.PDFDictionary 
-                             toFile:pdfFileURL];
+ 
+        [self createPDFForDocument:document form:form];
+        [[NSManagedObjectContext defaultContext] saveOnMainThread];
     } else {
         DDLogError(@"Couldn't save form with name: %@", form.fileName);
     }
+}
+
+- (void)updateDocument:(RBDocument *)document usingForm:(RBForm *)form {
+    document.date = [NSDate date];
+    
+    // update Form Plist
+    [form saveAsDocumentWithName:document.fileURL];
+    // update PDF Document
+    [self createPDFForDocument:document form:form];
+    
+    [[NSManagedObjectContext defaultContext] saveOnMainThread];
 }
 
 - (RBClient *)clientWithName:(NSString *)name {
@@ -47,6 +56,7 @@
     if (existingClient == nil) {
         existingClient = [RBClient createEntity];
         existingClient.name = name;
+        [[NSManagedObjectContext defaultContext] saveOnMainThread];
     }
     
     return existingClient;
@@ -64,6 +74,23 @@
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"status = %d",(NSInteger)formStatus];
     return [[RBDocument numberOfEntitiesWithPredicate:predicate] intValue];
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Private
+////////////////////////////////////////////////////////////////////////
+
+- (void)createPDFForDocument:(RBDocument *)document form:(RBForm *)form {
+    // create PDF
+    RBPDFWriter *pdfWriter = [[[RBPDFWriter alloc] init] autorelease];
+    NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForPDFWithName(document.name)]];
+    CGPDFDocumentRef pdfRef = [pdfWriter openDocument:urlToEmptyPDF];
+    NSString *pdfFileURL = [kRBPDFSavedDirectoryPath stringByAppendingPathComponent:[document.fileURL stringByAppendingString:kRBPDFExtension]];
+    
+    [pdfWriter writePDFDocument:pdfRef
+                   withFormData:form.PDFDictionary 
+                         toFile:pdfFileURL];
 }
 
 @end

@@ -64,7 +64,7 @@
 
 - (void)formsCarouselDidSelectItemAtIndex:(NSInteger)index;
 - (void)clientsCarouselDidSelectItemAtIndex:(NSInteger)index;
-- (void)detailCarouselDidSelectItemAtIndex:(NSInteger)index;
+- (void)detailCarouselDidSelectItem:(UIControl *)item atIndex:(NSInteger)index;
 
 - (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus client:(RBClient *)client;
 - (void)showDetailView; // delay = 0
@@ -81,7 +81,8 @@
 - (RBClient *)clientWithName:(NSString *)name;
 - (void)editClient:(RBClient *)client;
 - (void)presentFormIfPossible;
-- (void)presentViewControllerForForm:(RBForm *)form client:(RBClient *)client;
+- (void)presentFormViewControllerForForm:(RBForm *)form client:(RBClient *)client;
+- (void)presentFormViewControllerForDocument:(RBDocument *)document;
 
 - (NSUInteger)numberOfDocumentsToDisplay;
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus;
@@ -469,7 +470,7 @@
     }
     
     else if (carousel == self.detailCarousel) {
-        [self detailCarouselDidSelectItemAtIndex:index];
+        [self detailCarouselDidSelectItem:(UIControl *)selectedItem atIndex:index];
     }
     
     [self updateCarouselSelectionState:carousel selectedItem:(UIControl *)selectedItem];
@@ -521,13 +522,45 @@
     }
 }
 
-- (void)detailCarouselDidSelectItemAtIndex:(NSInteger)index {
+- (void)detailCarouselDidSelectItem:(UIControl *)item atIndex:(NSInteger)index {
     self.detailCarouselSelectedIndex = index;
     
-    if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) == RBFormStatusNew) {
+    RBFormStatus formStatus = RBFormStatusForIndex(self.formsCarousel.currentItemIndex);
+    
+    // create a new document if user has already been selected
+    if (formStatus == RBFormStatusNew) {
         [self presentFormIfPossible];
-    } else {
-        if ([self numberOfDocumentsWithFormStatus:self.formsCarousel.currentItemIndex] > 0) {
+    } 
+    
+    // pre-signed documents can be viewed or edited
+    else if (formStatus == RBFormStatusPreSignature) {
+        if ([self numberOfDocumentsWithFormStatus:formStatus] > 0) {
+            RBDocument *document = [self.documentsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+            PSActionSheet *actionSheet = [PSActionSheet sheetWithTitle:[[NSString stringWithFormat:@"Document '%@'", document.name] uppercaseString]];
+            NSTimeInterval delay = (index != self.detailCarousel.currentItemIndex) ? 0.4 : 0.0;
+            
+            [actionSheet addButtonWithTitle:@"Edit" block:^(void) {
+                [self presentFormViewControllerForDocument:document];
+            }];
+            
+            [actionSheet addButtonWithTitle:@"View" block:^(void) {
+                [self previewDocument:document];
+            }];
+            
+            [actionSheet addButtonWithTitle:@"Cancel" block:^(void) {
+                [actionSheet.sheet dismissWithClickedButtonIndex:2 animated:YES];
+            }];
+            
+            [self performBlock:^(void) {
+                [actionSheet showFromRect:[self.view convertRect:(CGRect){CGPointMake(item.frameLeft,item.frameTop-30),item.size} fromView:item] 
+                                   inView:self.view 
+                                 animated:YES];
+            } afterDelay:delay];
+        }
+    } 
+    // signed documents can only be displayed
+    else if (formStatus == RBFormStatusSigned) {
+        if ([self numberOfDocumentsWithFormStatus:formStatus] > 0) {
             NSTimeInterval delay = (index != self.detailCarousel.currentItemIndex) ? 0.4 : 0.0;
             [self performBlock:^(void) {
                 [self previewDocument:[self.documentsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]]];
@@ -917,16 +950,25 @@
         && self.detailCarouselSelectedIndex != NSNotFound 
         && self.clientsCarouselSelectedIndex != NSNotFound) {
         [self performBlock:^(void) {
-            RBForm *form = [self.emptyForms objectAtIndex:self.detailCarouselSelectedIndex];
+            RBForm *form = [[self.emptyForms objectAtIndex:self.detailCarouselSelectedIndex] copy];
             RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
             
-            [self presentViewControllerForForm:form client:client];
+            [self presentFormViewControllerForForm:form client:client];
         } afterDelay:0.4];
     }
 }
 
-- (void)presentViewControllerForForm:(RBForm *)form client:(RBClient *)client { 
+- (void)presentFormViewControllerForForm:(RBForm *)form client:(RBClient *)client { 
     RBFormViewController *viewController = [[[RBFormViewController alloc] initWithForm:form client:client] autorelease];
+    
+    viewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    viewController.modalPresentationStyle = UIModalPresentationFullScreen;
+    
+    [self presentModalViewController:viewController animated:YES];
+}
+
+- (void)presentFormViewControllerForDocument:(RBDocument *)document {
+    RBFormViewController *viewController = [[[RBFormViewController alloc] initWithDocument:document] autorelease];
     
     viewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     viewController.modalPresentationStyle = UIModalPresentationFullScreen;
