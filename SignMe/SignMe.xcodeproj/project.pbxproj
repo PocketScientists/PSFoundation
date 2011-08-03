@@ -60,8 +60,6 @@
 		3981E13213DF3D7200B23A7D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3981E13113DF3D7200B23A7D /* QuartzCore.framework */; };
 		3981E13413DF3DF300B23A7D /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3981E13313DF3DF300B23A7D /* ApplicationServices.framework */; };
 		3981E13A13DF644F00B23A7D /* UIControl+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E13913DF644F00B23A7D /* UIControl+RBForm.m */; };
-		3994620C12C91F1D005574A6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620B12C91F1D005574A6 /* CoreLocation.framework */; };
-		3994621012C91F27005574A6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3994620F12C91F27005574A6 /* MapKit.framework */; };
 		399BBCA413E37E0E0062EC1E /* NextButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 399BBCA213E37E0E0062EC1E /* NextButton.png */; };
 		399BBCA513E37E0E0062EC1E /* PrevButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 399BBCA313E37E0E0062EC1E /* PrevButton.png */; };
 		39A46C7113E30D2F00603CD6 /* SSLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A46C7013E30D2F00603CD6 /* SSLineView.m */; };
@@ -94,14 +92,9 @@
 		7856A41612B441FB0025424F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A41512B441FB0025424F /* AudioToolbox.framework */; };
 		7856A41812B442070025424F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A41712B442070025424F /* CFNetwork.framework */; };
 		7856A41A12B4420E0025424F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A41912B4420E0025424F /* Security.framework */; };
-		7856A45212B4445C0025424F /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A44B12B4445C0025424F /* CrashReporter.framework */; };
-		7856A45312B4445C0025424F /* CrashReportSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 7856A44E12B4445C0025424F /* CrashReportSender.m */; };
-		7856A45412B4445C0025424F /* CrashReporter.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7856A44F12B4445C0025424F /* CrashReporter.strings */; };
 		7856A47F12B444AD0025424F /* libPSFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A47E12B444A80025424F /* libPSFoundation.a */; };
-		787BC4F612DB0C6E008DC03C /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 787BC4F512DB0C6E008DC03C /* JSONKit.m */; };
 		78BCBB2A12B5323D0093AE0C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 78BCBB2712B5323D0093AE0C /* Localizable.strings */; };
 		78E9B1C312B44BB900B32768 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78E9B1C212B44BB900B32768 /* QuartzCore.framework */; };
-		78E9B21112B44D4300B32768 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B20D12B44D4300B32768 /* RegexKitLite.m */; };
 		78E9B22D12B44DE400B32768 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B21A12B44DE400B32768 /* ASIAuthenticationDialog.m */; };
 		78E9B22E12B44DE400B32768 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B21D12B44DE400B32768 /* ASIDataCompressor.m */; };
 		78E9B22F12B44DE400B32768 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B21F12B44DE400B32768 /* ASIDataDecompressor.m */; };
@@ -307,8 +300,6 @@
 		3981E13313DF3DF300B23A7D /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/ApplicationServices.framework; sourceTree = DEVELOPER_DIR; };
 		3981E13813DF644F00B23A7D /* UIControl+RBForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+RBForm.h"; sourceTree = "<group>"; };
 		3981E13913DF644F00B23A7D /* UIControl+RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+RBForm.m"; sourceTree = "<group>"; };
-		3994620B12C91F1D005574A6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		3994620F12C91F27005574A6 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		399BBCA213E37E0E0062EC1E /* NextButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NextButton.png; path = Images/NextButton.png; sourceTree = "<group>"; };
 		399BBCA313E37E0E0062EC1E /* PrevButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PrevButton.png; path = Images/PrevButton.png; sourceTree = "<group>"; };
 		39A46C6F13E30D2F00603CD6 /* SSLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSLineView.h; sourceTree = "<group>"; };
@@ -357,11 +348,6 @@
 		7856A41512B441FB0025424F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		7856A41712B442070025424F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		7856A41912B4420E0025424F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		7856A44B12B4445C0025424F /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../CrashReporter.framework; sourceTree = SOURCE_ROOT; };
-		7856A44D12B4445C0025424F /* CrashReportSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashReportSender.h; sourceTree = "<group>"; };
-		7856A44E12B4445C0025424F /* CrashReportSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrashReportSender.m; sourceTree = "<group>"; };
-		7856A45012B4445C0025424F /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/CrashReporter.strings; sourceTree = "<group>"; };
-		7856A45112B4445C0025424F /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/CrashReporter.strings; sourceTree = "<group>"; };
 		7856A47312B444A80025424F /* PSFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PSFoundation.xcodeproj; path = ../PSFoundation/PSFoundation.xcodeproj; sourceTree = SOURCE_ROOT; };
 		787251DE130DABEE00571A6E /* Build-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Build-Info.plist"; sourceTree = "<group>"; };
 		787251DF130DABEE00571A6E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -370,17 +356,10 @@
 		7876F54E130D856A00A79E01 /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		7876F54F130D856A00A79E01 /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = debug.xcconfig; sourceTree = "<group>"; };
 		7876F550130D856A00A79E01 /* distribution.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = distribution.xcconfig; sourceTree = "<group>"; };
-		787BC4F412DB0C6E008DC03C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = ../JSONKit/JSONKit.h; sourceTree = SOURCE_ROOT; };
-		787BC4F512DB0C6E008DC03C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = ../JSONKit/JSONKit.m; sourceTree = SOURCE_ROOT; };
 		78BCBB2812B5323D0093AE0C /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		78BCBB2912B5323D0093AE0C /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		78E9B16812B4468E00B32768 /* PSDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSDefines.h; sourceTree = "<group>"; };
-		78E9B18A12B449B800B32768 /* FlurryAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAdDelegate.h; sourceTree = "<group>"; };
-		78E9B18B12B449B800B32768 /* FlurryAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAPI.h; sourceTree = "<group>"; };
-		78E9B18C12B449B800B32768 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
 		78E9B1C212B44BB900B32768 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		78E9B20B12B44D4300B32768 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
-		78E9B20D12B44D4300B32768 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		78E9B21912B44DE400B32768 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIAuthenticationDialog.h; path = "../asi-http-request/Classes/ASIAuthenticationDialog.h"; sourceTree = SOURCE_ROOT; };
 		78E9B21A12B44DE400B32768 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASIAuthenticationDialog.m; path = "../asi-http-request/Classes/ASIAuthenticationDialog.m"; sourceTree = SOURCE_ROOT; };
 		78E9B21B12B44DE400B32768 /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASICacheDelegate.h; path = "../asi-http-request/Classes/ASICacheDelegate.h"; sourceTree = SOURCE_ROOT; };
@@ -427,12 +406,9 @@
 				7856A41612B441FB0025424F /* AudioToolbox.framework in Frameworks */,
 				7856A41812B442070025424F /* CFNetwork.framework in Frameworks */,
 				7856A41A12B4420E0025424F /* Security.framework in Frameworks */,
-				7856A45212B4445C0025424F /* CrashReporter.framework in Frameworks */,
 				7856A47F12B444AD0025424F /* libPSFoundation.a in Frameworks */,
 				78E9B1C312B44BB900B32768 /* QuartzCore.framework in Frameworks */,
 				78E9B25212B4514200B32768 /* libicucore.A.dylib in Frameworks */,
-				3994620C12C91F1D005574A6 /* CoreLocation.framework in Frameworks */,
-				3994621012C91F27005574A6 /* MapKit.framework in Frameworks */,
 				3911A21A13E1DB7B00CD4F6C /* DocuSign.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -526,17 +502,12 @@
 				39F2019213E741C500DA9093 /* DCRoundSwitch */,
 				3900891C13D77B8E0093E0B0 /* iCarousel */,
 				78E9B21212B44DDA00B32768 /* asi-http-request */,
-				7856A44C12B4445C0025424F /* CrashReporterSender */,
-				78E9B18912B449B800B32768 /* FlurryLib */,
 				39F200BE13E71FF100DA9093 /* TPKeyboardAvoiding */,
-				787BC4EF12DB0C62008DC03C /* JSON */,
-				78E9B20812B44D4300B32768 /* regexkitlite */,
 				3911A21913E1DB7B00CD4F6C /* DocuSign.framework */,
 				3911A1EB13E1CFD400CD4F6C /* AddressBook.framework */,
 				3911A1EC13E1CFD400CD4F6C /* AddressBookUI.framework */,
 				39A7F07813D9FFC3008338A4 /* CoreText.framework */,
 				390DD52813D9E26600EB1EFD /* CoreData.framework */,
-				7856A44B12B4445C0025424F /* CrashReporter.framework */,
 				78E9B1C212B44BB900B32768 /* QuartzCore.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
@@ -546,8 +517,6 @@
 				7856A41512B441FB0025424F /* AudioToolbox.framework */,
 				7856A41712B442070025424F /* CFNetwork.framework */,
 				7856A41912B4420E0025424F /* Security.framework */,
-				3994620B12C91F1D005574A6 /* CoreLocation.framework */,
-				3994620F12C91F27005574A6 /* MapKit.framework */,
 				78E9B25112B4514200B32768 /* libicucore.A.dylib */,
 				7856A41312B441F40025424F /* libz.1.1.3.dylib */,
 				3911A21B13E1DCC000CD4F6C /* libxml2.dylib */,
@@ -862,17 +831,6 @@
 			path = ../DCRoundSwitch/DCRoundSwitch;
 			sourceTree = "<group>";
 		};
-		7856A44C12B4445C0025424F /* CrashReporterSender */ = {
-			isa = PBXGroup;
-			children = (
-				7856A44D12B4445C0025424F /* CrashReportSender.h */,
-				7856A44E12B4445C0025424F /* CrashReportSender.m */,
-				7856A44F12B4445C0025424F /* CrashReporter.strings */,
-			);
-			name = CrashReporterSender;
-			path = ../CrashReporterSender;
-			sourceTree = SOURCE_ROOT;
-		};
 		7856A47412B444A80025424F /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -898,15 +856,6 @@
 			path = ../Xcode;
 			sourceTree = SOURCE_ROOT;
 		};
-		787BC4EF12DB0C62008DC03C /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				787BC4F412DB0C6E008DC03C /* JSONKit.h */,
-				787BC4F512DB0C6E008DC03C /* JSONKit.m */,
-			);
-			name = JSON;
-			sourceTree = "<group>";
-		};
 		78BCBB2612B5323D0093AE0C /* Localization */ = {
 			isa = PBXGroup;
 			children = (
@@ -914,27 +863,6 @@
 			);
 			path = Localization;
 			sourceTree = "<group>";
-		};
-		78E9B18912B449B800B32768 /* FlurryLib */ = {
-			isa = PBXGroup;
-			children = (
-				78E9B18A12B449B800B32768 /* FlurryAdDelegate.h */,
-				78E9B18B12B449B800B32768 /* FlurryAPI.h */,
-				78E9B18C12B449B800B32768 /* libFlurry.a */,
-			);
-			name = FlurryLib;
-			path = "../Flurry/iPhone v2.7 (build 42)/FlurryLib";
-			sourceTree = SOURCE_ROOT;
-		};
-		78E9B20812B44D4300B32768 /* regexkitlite */ = {
-			isa = PBXGroup;
-			children = (
-				78E9B20B12B44D4300B32768 /* RegexKitLite.h */,
-				78E9B20D12B44D4300B32768 /* RegexKitLite.m */,
-			);
-			name = regexkitlite;
-			path = ../regexkitlite;
-			sourceTree = SOURCE_ROOT;
 		};
 		78E9B21212B44DDA00B32768 /* asi-http-request */ = {
 			isa = PBXGroup;
@@ -1130,7 +1058,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7856A45412B4445C0025424F /* CrashReporter.strings in Resources */,
 				78BCBB2A12B5323D0093AE0C /* Localizable.strings in Resources */,
 				394B917413D64CE3007BFF2E /* Icon.png in Resources */,
 				395EEF2513D72E39003C4DA8 /* Background.png in Resources */,
@@ -1178,8 +1105,6 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
-				7856A45312B4445C0025424F /* CrashReportSender.m in Sources */,
-				78E9B21112B44D4300B32768 /* RegexKitLite.m in Sources */,
 				78E9B22D12B44DE400B32768 /* ASIAuthenticationDialog.m in Sources */,
 				78E9B22E12B44DE400B32768 /* ASIDataCompressor.m in Sources */,
 				78E9B22F12B44DE400B32768 /* ASIDataDecompressor.m in Sources */,
@@ -1188,7 +1113,6 @@
 				78E9B23212B44DE400B32768 /* ASIHTTPRequest.m in Sources */,
 				78E9B23312B44DE400B32768 /* ASIInputStream.m in Sources */,
 				78E9B23412B44DE400B32768 /* ASINetworkQueue.m in Sources */,
-				787BC4F612DB0C6E008DC03C /* JSONKit.m in Sources */,
 				39C9185B1398EBC40045489C /* PSWindow.m in Sources */,
 				39F772A513B63DD9006E12AF /* PSBaseViewController.m in Sources */,
 				394B916A13D64BB1007BFF2E /* PSBaseTableViewController.m in Sources */,
@@ -1267,15 +1191,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		7856A44F12B4445C0025424F /* CrashReporter.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7856A45012B4445C0025424F /* English */,
-				7856A45112B4445C0025424F /* German */,
-			);
-			name = CrashReporter.strings;
-			sourceTree = "<group>";
-		};
 		78BCBB2712B5323D0093AE0C /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

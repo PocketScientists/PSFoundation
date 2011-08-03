@@ -26,6 +26,6 @@
     <elements>
         <element name="RBClient" positionX="160" positionY="48" width="128" height="150"/>
         <element name="RBDocument" positionX="340" positionY="-66" width="128" height="135"/>
-        <element name="RBRecipient" positionX="565" positionY="-3" width="128" height="75"/>
+        <element name="RBRecipient" positionX="594" positionY="60" width="128" height="75"/>
     </elements>
 </model>

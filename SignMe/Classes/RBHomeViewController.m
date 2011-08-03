@@ -833,7 +833,7 @@
 }
 
 - (void)documentInteractionControllerDidEndPreview:(UIDocumentInteractionController *)controller {
-
+    [controller release];
 }
 
 - (BOOL)documentInteractionController:(UIDocumentInteractionController *)controller canPerformAction:(SEL)action {
@@ -1054,7 +1054,7 @@
 - (void)previewDocument:(RBDocument *)document {
     NSString *pdfFilePath = RBPathToPDFWithName(document.fileURL);
     NSURL *url = [NSURL fileURLWithPath:pdfFilePath];
-    UIDocumentInteractionController *documentController = [UIDocumentInteractionController interactionControllerWithURL:url];
+    UIDocumentInteractionController *documentController = [[UIDocumentInteractionController interactionControllerWithURL:url] retain];
     
     documentController.delegate = self;
     
