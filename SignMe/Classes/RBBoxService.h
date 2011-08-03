@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "PSBaseViewController.h"
 #import "Box.h"
+#import "RBDocument.h"
 
 @interface RBBoxService : NSObject
 
@@ -18,5 +19,9 @@
              startedFrom:(PSBaseViewController *)viewController
             successBlock:(void (^)(id boxObject))successBlock
             failureBlock:(void (^)(BoxResponseType response))failureBlock;
+
+
++ (void)uploadDocument:(RBDocument *)document toFolder:(BoxFolder *)folder;
++ (void)uploadDocument:(RBDocument *)document toFolderAtPath:(NSString *)path;
 
 @end

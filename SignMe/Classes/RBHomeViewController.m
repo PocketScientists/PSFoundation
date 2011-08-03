@@ -197,7 +197,7 @@
             
             [[NSManagedObjectContext defaultContext] saveOnMainThread];
         }
-
+        
     });
 }
 
@@ -260,6 +260,7 @@
                       successBlock:^(id boxObject) {
                           BoxFolder *formsFolder = (BoxFolder *)[boxObject objectAtFilePath:RBPathToEmptyForms()];
                           
+                          // download empty forms and plists
                           if (formsFolder != nil) {
                               for (BoxFile *file in [formsFolder filesWithExtensions:XARRAY(kRBFormDataType,kRBPDFDataType)]) {
                                   DDLogInfo(@"Downloading %@", file.objectName);
@@ -284,6 +285,18 @@
                                                    }];
                               }
                           }
+                          
+                          // create folder for muskateer (userName)
+                          if ([boxObject objectAtFilePath:kRBFolderUser] == nil) {
+                              [[RBBoxService box] createFolder:kRBFolderUser
+                                                      inFolder:boxObject
+                                               completionBlock:^(BoxResponseType resultTypeCreation, NSObject *boxObjectCreation) {
+                                                   if (resultTypeCreation != BoxResponseSuccess) {
+                                                       DDLogError(@"Error creating folder for muskateer: %@, %d", kRBFolderUser, resultTypeCreation);
+                                                   }
+                                               }];
+                          }
+                          
                       } failureBlock:nil];
     
     // center 2nd item of formsCarousel

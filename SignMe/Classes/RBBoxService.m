@@ -10,6 +10,7 @@
 #import "RBBoxLoginViewController.h"
 #import "PSIncludes.h"
 
+
 static Box *box = nil;
 
 @implementation RBBoxService
@@ -73,6 +74,65 @@ static Box *box = nil;
                        DDLogError(@"Error syncing box.net folder: %d, %@", response, boxObject);
                    }
                }];
+}
+
++ (void)uploadDocument:(RBDocument *)document toFolder:(BoxFolder *)folder {
+    if (folder && [folder isKindOfClass:[BoxFolder class]]) {
+        NSString *pathToSavedPDF = RBPathToPDFWithName(document.fileURL);
+        NSData *savedPDFData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:pathToSavedPDF]];
+        NSString *pathToSavedPlist = RBPathToPlistWithName(document.fileURL);
+        NSData *savedPlistData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:pathToSavedPlist]];
+        
+        // upload pdf
+        if (savedPDFData != nil) {
+            [[RBBoxService box] uploadFile:[document.fileURL stringByAppendingString:kRBPDFExtension]
+                                      data:savedPDFData
+                               contentType:@"application/pdf" 
+                                  inFolder:folder
+                           completionBlock:^(BoxResponseType resultType, NSObject *boxObject) {
+                               if (resultType == BoxResponseSuccess) {
+                                   document.uploadedToBox = $B(YES);
+                               } else {
+                                   DDLogError(@"Error uploading PDF %@: %d", document.fileURL, resultType);
+                               }
+                           }];
+        }
+        
+        // upload
+        if (savedPlistData != nil) {
+            [[RBBoxService box] uploadFile:[document.fileURL stringByAppendingString:kRBFormExtension]
+                                      data:savedPlistData
+                               contentType:@"application/plist" 
+                                  inFolder:folder
+                           completionBlock:^(BoxResponseType resultType, NSObject *boxObject) {
+                               if (resultType != BoxResponseSuccess) {
+                                   DDLogError(@"Error uploading Plist %@: %d", document.fileURL, resultType);
+                               }
+                           }];
+        }
+    }
+}
+
++ (void)uploadDocument:(RBDocument *)document toFolderAtPath:(NSString *)path {
+    BoxFolder *folder = (BoxFolder *)[box.rootFolder objectAtFilePath:path];
+    
+    // folder doesn't exist yet, create it
+    if (folder == nil) {
+        [[RBBoxService box] createFolder:path
+                                inFolder:box.rootFolder
+                         completionBlock:^(BoxResponseType resultType, NSObject *boxObject) {
+                             if (resultType == BoxResponseSuccess) {
+                                 [RBBoxService uploadDocument:document toFolder:(BoxFolder *)boxObject];
+                             } else {
+                                 DDLogError(@"Error creating folder at path: %@, %d", path, resultType);
+                             }
+                         }];
+    } 
+    
+    // folder exists, upload files directly
+    else {
+        [RBBoxService uploadDocument:document toFolder:folder];
+    }
 }
 
 
