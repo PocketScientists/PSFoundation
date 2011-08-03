@@ -190,11 +190,29 @@
         if (preSignatureFolder && [preSignatureFolder isKindOfClass:[BoxFolder class]]) {
             NSString *pathToSavedPDF = RBPathToPDFWithName(self.document.fileURL);
             NSData *savedPDFData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:pathToSavedPDF]];
+            NSString *pathToSavedPlist = RBPathToPlistWithName(self.document.fileURL);
+            NSData *savedPlistData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:pathToSavedPlist]];
             
+            // upload pdf
             if (savedPDFData != nil) {
                 [[RBBoxService box] uploadFile:[self.document.fileURL stringByAppendingString:kRBPDFExtension]
                                           data:savedPDFData
                                    contentType:@"application/pdf" 
+                                      inFolder:preSignatureFolder
+                               completionBlock:^(BoxResponseType resultType, NSObject *boxObject) {
+                                   if (resultType == BoxResponseSuccess) {
+                                       self.document.uploadedToBox = $B(YES);
+                                   }
+                                   MTLog(resultType);
+                                   MTLog(boxObject);
+                               }];
+            }
+            
+            // upload
+            if (savedPlistData != nil) {
+                [[RBBoxService box] uploadFile:[self.document.fileURL stringByAppendingString:kRBFormExtension]
+                                          data:savedPlistData
+                                   contentType:@"application/plist" 
                                       inFolder:preSignatureFolder
                                completionBlock:^(BoxResponseType resultType, NSObject *boxObject) {
                                    MTLog(resultType);
