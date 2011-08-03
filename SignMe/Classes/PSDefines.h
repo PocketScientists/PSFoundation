@@ -64,7 +64,7 @@
 #pragma mark Box.net Folder Structure
 ////////////////////////////////////////////////////////////////////////
 
-#define kRBFolderUser               [[BoxUser savedUser] userName]
+#define kRBFolderUser               [[[BoxUser savedUser] userName] lowercaseString]
 #define kRBFolderEmptyForms         @"forms"
 #define kRBFolderPreSignature       @"pre-signature"
 #define kRBFolderSigned             @"signed"

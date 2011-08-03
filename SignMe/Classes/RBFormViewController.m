@@ -192,9 +192,9 @@
             NSData *savedPDFData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:pathToSavedPDF]];
             
             if (savedPDFData != nil) {
-                [[RBBoxService box] uploadFile:self.document.fileURL
+                [[RBBoxService box] uploadFile:[self.document.fileURL stringByAppendingString:kRBPDFExtension]
                                           data:savedPDFData
-                                   contentType:@"pdf" 
+                                   contentType:@"application/pdf" 
                                       inFolder:preSignatureFolder
                                completionBlock:^(BoxResponseType resultType, NSObject *boxObject) {
                                    MTLog(resultType);
