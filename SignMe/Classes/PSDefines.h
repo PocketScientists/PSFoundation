@@ -56,6 +56,9 @@
 #define kRBDateFormat               @"MM-dd-yyyy"
 #define kRBDateTimeFormat           @"yyyy-MM-dd_hh-mm-ss"
 
+#define kRBRecipientPersonID        @"addressBookPersonID"
+#define kRBRecipientEmailID         @"emailPropertyID"
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Box.net Folder Structure

@@ -18,6 +18,7 @@ NSString *RBPathToPreSignatureFolderForClientWithName(NSString *clientName);
 
 // path to local plist file
 NSString *RBPathToPlistWithName(NSString *name);
+NSString *RBPathToPDFWithName(NSString *name);
 
 NSString *RBFileNameForFormWithName(NSString *formName);
 NSString *RBFileNameForPDFWithName(NSString *formName);

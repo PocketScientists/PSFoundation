@@ -91,7 +91,7 @@
     RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*realViewWidth, 0.f, 1024.f, 475.f)] autorelease];
     
     for (RBRecipient *recipient in recipients) {
-        NSDictionary *dictionaryRepresentation = [recipient dictionaryWithValuesForKeys:XARRAY(@"addressBookPersonID", @"emailPropertyID")];
+        NSDictionary *dictionaryRepresentation = [recipient dictionaryWithValuesForKeys:XARRAY(kRBRecipientPersonID, kRBRecipientEmailID)];
         [recipientsView.recipients addObject:dictionaryRepresentation];
     }
     

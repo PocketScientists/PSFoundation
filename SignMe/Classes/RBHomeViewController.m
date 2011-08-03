@@ -1052,7 +1052,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)previewDocument:(RBDocument *)document {
-    NSString *pdfFilePath = [kRBPDFSavedDirectoryPath stringByAppendingPathComponent:[document.fileURL stringByAppendingString:kRBPDFExtension]];
+    NSString *pdfFilePath = RBPathToPDFWithName(document.fileURL);
     NSURL *url = [NSURL fileURLWithPath:pdfFilePath];
     UIDocumentInteractionController *documentController = [UIDocumentInteractionController interactionControllerWithURL:url];
     

@@ -103,13 +103,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	RBRecipientTableViewCell *cell = [RBRecipientTableViewCell cellForTableView:tableView style:UITableViewCellStyleDefault];
     NSDictionary *personDict = [self.recipients objectAtIndex:indexPath.row];
-    ABPerson *person = [[ABAddressBook sharedAddressBook] personWithRecordID:[[personDict valueForKey:@"addressBookPersonID"] intValue]];
+    ABPerson *person = [[ABAddressBook sharedAddressBook] personWithRecordID:[[personDict valueForKey:kRBRecipientPersonID] intValue]];
     
     if (person.imageData != nil) {
         cell.image = [UIImage imageWithData:person.imageData];
     }
     cell.mainText = person.fullName;
-    cell.detailText = [person emailForID:[personDict valueForKey:@"emailPropertyID"]];
+    cell.detailText = [person emailForID:[personDict valueForKey:kRBRecipientEmailID]];
     
     return cell;
 }
@@ -156,7 +156,7 @@
                               identifier:(ABMultiValueIdentifier)identifier {
     
     ABPerson *personWrapper = [[ABAddressBook sharedAddressBook] personWithRecordRef:person];
-    NSDictionary *personDict = XDICT($I(personWrapper.recordID), @"addressBookPersonID", $I(identifier), @"emailPropertyID");
+    NSDictionary *personDict = XDICT($I(personWrapper.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID);
     
     if ([self.recipients containsObject:personDict]) {
         NSInteger index = [self.recipients indexOfObject:personDict];

@@ -50,6 +50,10 @@ inline NSString *RBPathToPlistWithName(NSString *name) {
     return [kRBFormSavedDirectoryPath stringByAppendingPathComponent:[name stringByAppendingString:kRBFormExtension]];
 }
 
+inline NSString *RBPathToPDFWithName(NSString *name) {
+    return [kRBPDFSavedDirectoryPath stringByAppendingPathComponent:[name stringByAppendingString:kRBPDFExtension]];
+}
+
 inline NSString *RBFileNameForFormWithName(NSString *formName) {
     NSNumber *objectID = [[NSUserDefaults standardUserDefaults] objectIDForPlistWithName:formName];
     

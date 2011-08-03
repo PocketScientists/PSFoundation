@@ -180,10 +180,29 @@
         [persistenceManager updateDocument:self.document usingForm:self.form recipients:self.formView.recipients];
     } else {
         // create a new document with the given form/client
-        [persistenceManager persistDocumentUsingForm:self.form client:self.client recipients:self.formView.recipients];
+        self.document = [persistenceManager persistedDocumentUsingForm:self.form client:self.client recipients:self.formView.recipients];
     }
     
-#pragma message("TODO: Ask if user wants to upload file")
+    // upload file to Box.net
+    if (self.document != nil && [[RBBoxService box] isLoggedIn]) {
+        BoxFolder *preSignatureFolder = (BoxFolder *) [[RBBoxService box].rootFolder objectAtFilePath:RBPathToPreSignatureFolderForClientWithName(self.client.name)];
+        
+        if (preSignatureFolder && [preSignatureFolder isKindOfClass:[BoxFolder class]]) {
+            NSString *pathToSavedPDF = RBPathToPDFWithName(self.document.fileURL);
+            NSData *savedPDFData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:pathToSavedPDF]];
+            
+            if (savedPDFData != nil) {
+                [[RBBoxService box] uploadFile:self.document.fileURL
+                                          data:savedPDFData
+                                   contentType:@"pdf" 
+                                      inFolder:preSignatureFolder
+                               completionBlock:^(BoxResponseType resultType, NSObject *boxObject) {
+                                   MTLog(resultType);
+                                   MTLog(boxObject);
+                               }];
+            }
+        }
+    }
     
     // go back to HomeViewController
     [self dismissModalViewControllerAnimated:YES];

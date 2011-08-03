@@ -20,7 +20,7 @@
 
 @implementation RBPersistenceManager
 
-- (void)persistDocumentUsingForm:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients {
+- (RBDocument *)persistedDocumentUsingForm:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients {
     RBDocument *document = [RBDocument createEntity];
     
     // set form
@@ -46,8 +46,11 @@
  
         [self createPDFForDocument:document form:form];
         [[NSManagedObjectContext defaultContext] saveOnMainThread];
+        
+        return document;
     } else {
         DDLogError(@"Couldn't save form with name: %@", form.fileName);
+        return nil;
     }
 }
 
@@ -119,8 +122,8 @@
     RBPDFWriter *pdfWriter = [[[RBPDFWriter alloc] init] autorelease];
     NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForPDFWithName(document.name)]];
     CGPDFDocumentRef pdfRef = [pdfWriter openDocument:urlToEmptyPDF];
-    NSString *pdfFileURL = [kRBPDFSavedDirectoryPath stringByAppendingPathComponent:[document.fileURL stringByAppendingString:kRBPDFExtension]];
-    
+    NSString *pdfFileURL = RBPathToPDFWithName(document.fileURL);
+
     [pdfWriter writePDFDocument:pdfRef
                    withFormData:form.PDFDictionary 
                          toFile:pdfFileURL];
