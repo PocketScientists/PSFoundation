@@ -63,7 +63,7 @@
 - (void)clientsCarouselDidSelectItemAtIndex:(NSInteger)index;
 - (void)detailCarouselDidSelectItem:(UIControl *)item atIndex:(NSInteger)index;
 
-- (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus client:(RBClient *)client;
+- (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus;
 - (void)showDetailView; // delay = 0
 - (void)showDetailViewWithDelay:(NSTimeInterval)delay;
 - (void)hideDetailView;
@@ -451,12 +451,7 @@
         }
         self.detailCarouselSelectedIndex = NSNotFound;
         
-        RBClient *client = nil;
-        if (self.clientsCarouselSelectedIndex != NSNotFound) {
-            client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
-        }
-        
-        [self updateDetailViewWithFormStatus:RBFormStatusForIndex(carousel.currentItemIndex) client:client];
+        [self updateDetailViewWithFormStatus:RBFormStatusForIndex(carousel.currentItemIndex)];
         [self.detailView reloadData];
     }
     
@@ -499,12 +494,12 @@
         if (self.formsCarousel.currentItemIndex != index) {
             [self.formsCarousel scrollToItemAtIndex:index animated:YES];
             [self performBlock:^(void) {
-                [self updateDetailViewWithFormStatus:RBFormStatusForIndex(index) client:nil];
+                [self updateDetailViewWithFormStatus:RBFormStatusForIndex(index)];
                 [self showDetailView];
             } afterDelay:0.4];
             
         } else {
-            [self updateDetailViewWithFormStatus:RBFormStatusForIndex(index) client:nil];
+            [self updateDetailViewWithFormStatus:RBFormStatusForIndex(index)];
             [self showDetailView];
         }
     }
@@ -522,7 +517,7 @@
         client.clientCreatedForEditing = YES;
         [self editClient:client];
     } else if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) != RBFormStatusNew) {
-        [self updateDetailViewWithFormStatus:RBFormStatusForIndex(self.formsCarousel.currentItemIndex) client:nil];
+        [self updateDetailViewWithFormStatus:RBFormStatusForIndex(self.formsCarousel.currentItemIndex)];
     } else {
         [self presentFormIfPossible];
     }
@@ -894,11 +889,11 @@
     return NO;
 }
 
-- (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus client:(RBClient *)client {    
+- (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus {    
     if (formStatus != RBFormStatusNew) {
+        RBClient *client = nil;
         NSPredicate *predicate = nil;
         
-        client = nil;
         if (self.clientsCarouselSelectedIndex != NSNotFound) {
             client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
         }
