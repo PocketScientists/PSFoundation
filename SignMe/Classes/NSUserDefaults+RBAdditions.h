@@ -11,6 +11,7 @@
 @interface NSUserDefaults (NSUserDefaults_RBAdditions)
 
 @property (nonatomic, assign) NSInteger folderID;
+@property (nonatomic, retain) NSDate *formsUpdateDate;
 
 - (NSArray *)allStoredObjectNames;
 

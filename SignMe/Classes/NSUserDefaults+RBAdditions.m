@@ -19,6 +19,14 @@
     return [self integerForKey:kRBSettingsFolderIDKey];
 }
 
+- (void)setFormsUpdateDate:(NSDate *)formsUpdateDate {
+    [self setObject:formsUpdateDate forKey:kRBSettingsFormsUpdateDateKey];
+}
+
+- (NSDate *)formsUpdateDate {
+    return [self objectForKey:kRBSettingsFormsUpdateDateKey];
+}
+
 - (NSArray *)allStoredObjectNames {
     NSDictionary *dictionary = [self dictionaryRepresentation];
     NSMutableArray *keys = [NSMutableArray arrayWithArray:[[dictionary allKeys] pathsMatchingExtensions:XARRAY(kRBFormDataType)]];    

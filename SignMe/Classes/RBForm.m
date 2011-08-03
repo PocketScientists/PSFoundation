@@ -8,14 +8,15 @@
 
 #import "RBForm.h"
 #import "PSIncludes.h"
+#import "RBPersistenceManager.h"
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Form Status
 ////////////////////////////////////////////////////////////////////////
 
-NSString *RBFormStatusStringRepresentation(RBFormStatus formType) {
-    switch (formType) {
+NSString *RBFormStatusStringRepresentation(RBFormStatus formStatus) {
+    switch (formStatus) {
         case RBFormStatusNew:
             return @"New Form";
             
@@ -43,7 +44,33 @@ RBFormStatus RBFormStatusForIndex(NSUInteger index) {
     return RBFormStatusUnknown;
 }
 
-
+NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
+    NSDate *updateDate = nil;
+    
+    switch (formStatus) {
+        case RBFormStatusNew:
+            updateDate = [NSUserDefaults standardUserDefaults].formsUpdateDate;
+            break;
+            
+        case RBFormStatusPreSignature:
+        case RBFormStatusSigned: 
+        {
+            RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+            updateDate = [persistenceManager updateDateForFormStatus:formStatus];
+            break;
+        }
+            
+        case RBFormStatusCount:
+        case RBFormStatusUnknown:
+            return @"";
+    }
+    
+    if (updateDate != nil) {
+        return [NSString stringWithFormat:@"UPDATED %@",RBFormattedDateWithFormat(updateDate, kRBDateFormat)];
+    } else {
+        return @"NEVER UPDATED";
+    }
+}
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Private Class Extension

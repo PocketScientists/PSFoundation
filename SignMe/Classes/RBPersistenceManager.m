@@ -85,11 +85,18 @@
 
 - (NSDate *)updateDateForClient:(RBClient *)client {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"client = %@ AND date = client.documents.@max.date", client];
-    // RBDocument *lastUpdatedDocument = [RBDocument findFirstWithPredicate:predicate];
+    RBDocument *lastUpdatedDocument = [RBDocument findFirstWithPredicate:predicate];
     
-    //return lastUpdatedDocument.date;
+    return lastUpdatedDocument.date;
     
-    return [NSDate date];
+    // return [NSDate date];
+}
+
+- (NSDate *)updateDateForFormStatus:(RBFormStatus)formStatus {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"date = @max.date AND status = %d", formStatus];
+    RBDocument *lastUpdatedDocument = [RBDocument findFirstWithPredicate:predicate];
+    
+    return lastUpdatedDocument.date;
 }
 
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {

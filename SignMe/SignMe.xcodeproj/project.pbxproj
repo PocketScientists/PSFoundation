@@ -19,8 +19,6 @@
 		3900894A13D882760093E0B0 /* RBArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900894913D882760093E0B0 /* RBArrowView.m */; };
 		390BCFBB13E89FCF00568B25 /* RBDocument+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BCFBA13E89FCF00568B25 /* RBDocument+RBForm.m */; };
 		390DD51A13D9D21400EB1EFD /* SignMe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 390DD51813D9D21400EB1EFD /* SignMe.xcdatamodeld */; };
-		390DD52313D9D53300EB1EFD /* RBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 390DD52213D9D53300EB1EFD /* RBDocument.m */; };
-		390DD52613D9D53300EB1EFD /* RBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 390DD52513D9D53300EB1EFD /* RBClient.m */; };
 		390DD52713D9E25300EB1EFD /* libPSFoundation_CoreData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A47C12B444A80025424F /* libPSFoundation_CoreData.a */; };
 		390DD52913D9E26600EB1EFD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 390DD52813D9E26600EB1EFD /* CoreData.framework */; };
 		3911A1C413E1C3C900CD4F6C /* RBRecipientsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A1C313E1C3C900CD4F6C /* RBRecipientsView.m */; };
@@ -77,7 +75,9 @@
 		39A7F07E13DA207A008338A4 /* RBHomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39A7F07D13DA207A008338A4 /* RBHomeView.xib */; };
 		39BB88DB13E3CCE00074543E /* RBClient+RBProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BB88DA13E3CCE00074543E /* RBClient+RBProperties.m */; };
 		39C9185B1398EBC40045489C /* PSWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C9185A1398EBC40045489C /* PSWindow.m */; };
-		39F06F7F13E8B63B008DAB60 /* RBRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F06F7E13E8B63B008DAB60 /* RBRecipient.m */; };
+		39F06FA613E99B2C008DAB60 /* RBRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F06FA513E99B2C008DAB60 /* RBRecipient.m */; };
+		39F06FA913E99B2C008DAB60 /* RBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F06FA813E99B2C008DAB60 /* RBClient.m */; };
+		39F06FAC13E99B2C008DAB60 /* RBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F06FAB13E99B2C008DAB60 /* RBDocument.m */; };
 		39F2018D13E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2014213E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m */; };
 		39F2018E13E71FF100DA9093 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2014413E71FF100DA9093 /* TPKeyboardAvoidingTableView.m */; };
 		39F2019B13E741C500DA9093 /* DCRoundSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2019413E741C500DA9093 /* DCRoundSwitch.m */; };
@@ -247,10 +247,6 @@
 		390BCFB913E89FCF00568B25 /* RBDocument+RBForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RBDocument+RBForm.h"; sourceTree = "<group>"; };
 		390BCFBA13E89FCF00568B25 /* RBDocument+RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RBDocument+RBForm.m"; sourceTree = "<group>"; };
 		390DD51913D9D21400EB1EFD /* SignMe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SignMe.xcdatamodel; sourceTree = "<group>"; };
-		390DD52113D9D53300EB1EFD /* RBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDocument.h; sourceTree = "<group>"; };
-		390DD52213D9D53300EB1EFD /* RBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDocument.m; sourceTree = "<group>"; };
-		390DD52413D9D53300EB1EFD /* RBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBClient.h; sourceTree = "<group>"; };
-		390DD52513D9D53300EB1EFD /* RBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBClient.m; sourceTree = "<group>"; };
 		390DD52813D9E26600EB1EFD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3911A1C213E1C3C900CD4F6C /* RBRecipientsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBRecipientsView.h; sourceTree = "<group>"; };
 		3911A1C313E1C3C900CD4F6C /* RBRecipientsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBRecipientsView.m; sourceTree = "<group>"; };
@@ -318,8 +314,6 @@
 		39A46C7213E30F8700603CD6 /* AbortButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AbortButton.png; path = Images/AbortButton.png; sourceTree = "<group>"; };
 		39A46C7313E30F8700603CD6 /* LogoSignMe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LogoSignMe.png; path = Images/LogoSignMe.png; sourceTree = "<group>"; };
 		39A46C7413E30F8700603CD6 /* SaveButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SaveButton.png; path = Images/SaveButton.png; sourceTree = "<group>"; };
-		39A46C7813E33F6900603CD6 /* RBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBClient.h; path = Classes/RBClient.h; sourceTree = "<group>"; };
-		39A46C7913E33F6900603CD6 /* RBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBClient.m; path = Classes/RBClient.m; sourceTree = "<group>"; };
 		39A46C7B13E358C000603CD6 /* CarouselDetailBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CarouselDetailBackground.png; path = Images/CarouselDetailBackground.png; sourceTree = "<group>"; };
 		39A46C7D13E35C0B00603CD6 /* AddClientButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AddClientButton.png; path = Images/AddClientButton.png; sourceTree = "<group>"; };
 		39A7F07513D9FF2D008338A4 /* RBPDFManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBPDFManager.h; sourceTree = "<group>"; };
@@ -331,10 +325,12 @@
 		39C917BB139837940045489C /* PSIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSIncludes.h; sourceTree = "<group>"; };
 		39C918591398EBC40045489C /* PSWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSWindow.h; sourceTree = "<group>"; };
 		39C9185A1398EBC40045489C /* PSWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSWindow.m; sourceTree = "<group>"; };
-		39F06F7A13E8B63B008DAB60 /* RBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBDocument.h; path = Classes/RBDocument.h; sourceTree = "<group>"; };
-		39F06F7B13E8B63B008DAB60 /* RBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBDocument.m; path = Classes/RBDocument.m; sourceTree = "<group>"; };
-		39F06F7D13E8B63B008DAB60 /* RBRecipient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBRecipient.h; path = Classes/RBRecipient.h; sourceTree = "<group>"; };
-		39F06F7E13E8B63B008DAB60 /* RBRecipient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBRecipient.m; path = Classes/RBRecipient.m; sourceTree = "<group>"; };
+		39F06FA413E99B2C008DAB60 /* RBRecipient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBRecipient.h; sourceTree = "<group>"; };
+		39F06FA513E99B2C008DAB60 /* RBRecipient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBRecipient.m; sourceTree = "<group>"; };
+		39F06FA713E99B2C008DAB60 /* RBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBClient.h; sourceTree = "<group>"; };
+		39F06FA813E99B2C008DAB60 /* RBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBClient.m; sourceTree = "<group>"; };
+		39F06FAA13E99B2C008DAB60 /* RBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDocument.h; sourceTree = "<group>"; };
+		39F06FAB13E99B2C008DAB60 /* RBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDocument.m; sourceTree = "<group>"; };
 		39F2014113E71FF100DA9093 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		39F2014213E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		39F2014313E71FF100DA9093 /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
@@ -568,12 +564,6 @@
 			isa = PBXGroup;
 			children = (
 				390DD51813D9D21400EB1EFD /* SignMe.xcdatamodeld */,
-				39F06F7D13E8B63B008DAB60 /* RBRecipient.h */,
-				39F06F7E13E8B63B008DAB60 /* RBRecipient.m */,
-				39F06F7A13E8B63B008DAB60 /* RBDocument.h */,
-				39F06F7B13E8B63B008DAB60 /* RBDocument.m */,
-				39A46C7813E33F6900603CD6 /* RBClient.h */,
-				39A46C7913E33F6900603CD6 /* RBClient.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -788,12 +778,14 @@
 		39C917B91398367C0045489C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				39F06FAA13E99B2C008DAB60 /* RBDocument.h */,
+				39F06FAB13E99B2C008DAB60 /* RBDocument.m */,
+				39F06FA713E99B2C008DAB60 /* RBClient.h */,
+				39F06FA813E99B2C008DAB60 /* RBClient.m */,
+				39F06FA413E99B2C008DAB60 /* RBRecipient.h */,
+				39F06FA513E99B2C008DAB60 /* RBRecipient.m */,
 				3900892013D77F790093E0B0 /* RBForm.h */,
 				3900892113D77F790093E0B0 /* RBForm.m */,
-				390DD52413D9D53300EB1EFD /* RBClient.h */,
-				390DD52513D9D53300EB1EFD /* RBClient.m */,
-				390DD52113D9D53300EB1EFD /* RBDocument.h */,
-				390DD52213D9D53300EB1EFD /* RBDocument.m */,
 				39BB88D913E3CCE00074543E /* RBClient+RBProperties.h */,
 				39BB88DA13E3CCE00074543E /* RBClient+RBProperties.m */,
 				390BCFB913E89FCF00568B25 /* RBDocument+RBForm.h */,
@@ -1199,8 +1191,6 @@
 				3900892B13D799530093E0B0 /* RBFormDetailView.m in Sources */,
 				3900894A13D882760093E0B0 /* RBArrowView.m in Sources */,
 				390DD51A13D9D21400EB1EFD /* SignMe.xcdatamodeld in Sources */,
-				390DD52313D9D53300EB1EFD /* RBDocument.m in Sources */,
-				390DD52613D9D53300EB1EFD /* RBClient.m in Sources */,
 				39A7F07713D9FF2D008338A4 /* RBPDFManager.m in Sources */,
 				3925C7D413DDE72B008810AF /* RBUIGenerator.m in Sources */,
 				3925C7D713DDE75C008810AF /* RBFormView.m in Sources */,
@@ -1226,7 +1216,9 @@
 				39F2019D13E741C500DA9093 /* DCRoundSwitchOutlineLayer.m in Sources */,
 				39F2019E13E741C500DA9093 /* DCRoundSwitchToggleLayer.m in Sources */,
 				390BCFBB13E89FCF00568B25 /* RBDocument+RBForm.m in Sources */,
-				39F06F7F13E8B63B008DAB60 /* RBRecipient.m in Sources */,
+				39F06FA613E99B2C008DAB60 /* RBRecipient.m in Sources */,
+				39F06FA913E99B2C008DAB60 /* RBClient.m in Sources */,
+				39F06FAC13E99B2C008DAB60 /* RBDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

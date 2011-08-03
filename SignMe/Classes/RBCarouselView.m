@@ -174,7 +174,7 @@
     self.label1.text = [RBFormStatusStringRepresentation(formStatus) uppercaseString];
     self.label2.text = @"AGREEMENTS";
     self.label3.text = [NSString stringWithFormat:@"%d %@", count, description];
-    self.label4.text = @"UPDATED ___";
+    self.label4.text = RBUpdateStringForFormStatus(formStatus);
     
     self.label1.font = [UIFont fontWithName:kRBFontName size:30.];
     self.label2.font = [UIFont fontWithName:kRBFontName size:18.];

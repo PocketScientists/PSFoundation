@@ -71,7 +71,8 @@
 #pragma mark Settings
 ////////////////////////////////////////////////////////////////////////
 
-#define kRBSettingsFolderIDKey      @"kRBSettingsFolderIDKey"
+#define kRBSettingsFolderIDKey              @"kRBSettingsFolderIDKey"
+#define kRBSettingsFormsUpdateDateKey       @"kRBSettingsFormsUpdateDateKey"
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

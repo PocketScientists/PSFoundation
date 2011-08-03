@@ -22,6 +22,7 @@
 
 // last update date of a client (= last update date of the client's documents)
 - (NSDate *)updateDateForClient:(RBClient *)client;
+- (NSDate *)updateDateForFormStatus:(RBFormStatus)formStatus;
 
 // returns the document count with a specific formStatus
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus;

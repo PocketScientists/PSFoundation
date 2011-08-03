@@ -2,7 +2,7 @@
 //  RBClient.m
 //  SignMe
 //
-//  Created by Tretter Matthias on 29.07.11.
+//  Created by Tretter Matthias on 03.08.11.
 //  Copyright (c) 2011 NOUS Wissensmanagement GmbH. All rights reserved.
 //
 
@@ -11,11 +11,11 @@
 
 
 @implementation RBClient
-@dynamic name;
-@dynamic visible;
-@dynamic street;
-@dynamic company;
 @dynamic city;
+@dynamic company;
+@dynamic name;
+@dynamic street;
+@dynamic visible;
 @dynamic zip;
 @dynamic documents;
 

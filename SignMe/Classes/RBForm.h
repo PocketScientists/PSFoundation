@@ -46,8 +46,9 @@ typedef enum {
 } RBFormStatus;
 
 
-NSString *RBFormStatusStringRepresentation(RBFormStatus formType);
+NSString *RBFormStatusStringRepresentation(RBFormStatus formStatus);
 RBFormStatus RBFormStatusForIndex(NSUInteger index);
+NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus);
 
 
 @interface RBForm : NSObject 

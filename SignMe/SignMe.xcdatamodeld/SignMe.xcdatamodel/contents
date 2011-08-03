@@ -14,6 +14,7 @@
         <attribute name="fileURL" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String" indexed="YES"/>
         <attribute name="status" attributeType="Integer 16" defaultValueString="0" indexed="YES"/>
+        <attribute name="uploadedToBox" attributeType="Boolean" defaultValueString="NO"/>
         <relationship name="client" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBClient" inverseName="documents" inverseEntity="RBClient"/>
         <relationship name="recipients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RBRecipient" inverseName="document" inverseEntity="RBRecipient"/>
     </entity>

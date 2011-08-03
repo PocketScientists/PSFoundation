@@ -2,7 +2,7 @@
 //  RBRecipient.h
 //  SignMe
 //
-//  Created by Tretter Matthias on 02.08.11.
+//  Created by Tretter Matthias on 03.08.11.
 //  Copyright (c) 2011 NOUS Wissensmanagement GmbH. All rights reserved.
 //
 

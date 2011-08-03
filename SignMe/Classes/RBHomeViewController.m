@@ -20,9 +20,6 @@
 
 #define kMinNumberOfItemsToWrap   6
 
-#define kClientCacheName        @"RBClientCache"
-#define kDocumentsCacheName     @"RBDocumentsCache"
-
 #define kAnimationDuration      0.25
 #define kFormsYOffset            40.f
 #define kClientsYOffset          65.f
@@ -278,6 +275,7 @@
                                                        self.emptyForms = [RBForm allEmptyForms];
                                                        
                                                        dispatch_async(dispatch_get_main_queue(), ^(void) {
+                                                           [NSUserDefaults standardUserDefaults].formsUpdateDate = [NSDate date];
                                                            [self.detailCarousel reloadData];
                                                            [self.formsCarousel reloadData];
                                                            ((UIControl *)self.formsCarousel.currentView).selected = self.detailViewVisible;
@@ -453,7 +451,12 @@
         }
         self.detailCarouselSelectedIndex = NSNotFound;
         
-        [self updateDetailViewWithFormStatus:RBFormStatusForIndex(carousel.currentItemIndex) client:nil];
+        RBClient *client = nil;
+        if (self.clientsCarouselSelectedIndex != NSNotFound) {
+            client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
+        }
+        
+        [self updateDetailViewWithFormStatus:RBFormStatusForIndex(carousel.currentItemIndex) client:client];
         [self.detailView reloadData];
     }
     
@@ -508,15 +511,18 @@
 }
 
 - (void)clientsCarouselDidSelectItemAtIndex:(NSInteger)index {
-    self.clientsCarouselSelectedIndex = index;
+    if (index == self.clientsCarouselSelectedIndex) {
+        self.clientsCarouselSelectedIndex = NSNotFound;
+    } else {
+        self.clientsCarouselSelectedIndex = index;
+    }
     
     if (self.clientCarouselShowsAddItem && index == 0) {
         RBClient *client = [self clientWithName:self.searchField.text];
         client.clientCreatedForEditing = YES;
         [self editClient:client];
     } else if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) != RBFormStatusNew) {
-        RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-        [self updateDetailViewWithFormStatus:RBFormStatusForIndex(self.formsCarousel.currentItemIndex) client:client];
+        [self updateDetailViewWithFormStatus:RBFormStatusForIndex(self.formsCarousel.currentItemIndex) client:nil];
     } else {
         [self presentFormIfPossible];
     }
@@ -659,7 +665,7 @@
     clientsFetchController_ = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                   managedObjectContext:[NSManagedObjectContext defaultContext]
                                                                     sectionNameKeyPath:nil
-                                                                             cacheName:kClientCacheName];
+                                                                             cacheName:nil];
     clientsFetchController_.delegate = self;
     
     return clientsFetchController_;
@@ -682,7 +688,7 @@
     documentsFetchController_ = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                     managedObjectContext:[NSManagedObjectContext defaultContext]
                                                                       sectionNameKeyPath:nil
-                                                                               cacheName:kDocumentsCacheName];
+                                                                               cacheName:nil];
     documentsFetchController_.delegate = self;
     
     return documentsFetchController_;
@@ -750,6 +756,7 @@
     self.detailView.frameTop = self.formsViewDefaultY;
     self.detailView.alpha = 0.f;
     self.addNewClientButton.alpha = 0.f;
+    [self updateCarouselSelectionState:self.formsCarousel selectedItem:nil];
     
     [UIView animateWithDuration:duration
                           delay:0.f 
@@ -887,9 +894,14 @@
     return NO;
 }
 
-- (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus client:(RBClient *)client {
+- (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus client:(RBClient *)client {    
     if (formStatus != RBFormStatusNew) {
         NSPredicate *predicate = nil;
+        
+        client = nil;
+        if (self.clientsCarouselSelectedIndex != NSNotFound) {
+            client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
+        }
         
         if (client != nil) {
             predicate = [NSPredicate predicateWithFormat:@"status = %d AND client = %@", formStatus, client];
@@ -897,7 +909,6 @@
             predicate = [NSPredicate predicateWithFormat:@"status = %d", formStatus];
         }
         
-        [NSFetchedResultsController deleteCacheWithName:kDocumentsCacheName];
         self.documentsFetchController.fetchRequest.predicate = predicate;
         
         NSError *error = nil;
@@ -918,7 +929,6 @@
         predicate = [NSPredicate predicateWithFormat:@"visible = YES"];
     }
     
-    [NSFetchedResultsController deleteCacheWithName:kClientCacheName];
     self.clientsFetchController.fetchRequest.predicate = predicate;
 	
     NSError *error = nil;

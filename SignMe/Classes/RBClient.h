@@ -2,7 +2,7 @@
 //  RBClient.h
 //  SignMe
 //
-//  Created by Tretter Matthias on 29.07.11.
+//  Created by Tretter Matthias on 03.08.11.
 //  Copyright (c) 2011 NOUS Wissensmanagement GmbH. All rights reserved.
 //
 
@@ -11,13 +11,14 @@
 
 @class RBDocument;
 
-@interface RBClient : NSManagedObject 
-
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSNumber * visible;
-@property (nonatomic, retain) NSString * street;
-@property (nonatomic, retain) NSString * company;
+@interface RBClient : NSManagedObject {
+@private
+}
 @property (nonatomic, retain) NSString * city;
+@property (nonatomic, retain) NSString * company;
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * street;
+@property (nonatomic, retain) NSNumber * visible;
 @property (nonatomic, retain) NSString * zip;
 @property (nonatomic, retain) NSSet *documents;
 @end

@@ -111,7 +111,7 @@
     self.headerLabel.textColor = kRBColorMain;
     self.headerLabel.textAlignment = UITextAlignmentLeft;
     self.headerLabel.font = [UIFont fontWithName:kRBFontName size:24.];
-    self.headerLabel.text = [self.form.name stringByAppendingFormat:@": %@", self.client.name];
+    self.headerLabel.text = [self.form.displayName stringByAppendingFormat:@": %@", self.client.name];
     
     self.topLine = [[[SSLineView alloc] initWithFrame:CGRectMake(30, 202, 690, 1)] autorelease];
     self.topLine.lineColor = [UIColor colorWithWhite:1.f alpha:0.3f];
