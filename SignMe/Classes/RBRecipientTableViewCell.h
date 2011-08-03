@@ -14,6 +14,7 @@
 + (NSString *)cellIdentifier;
 + (id)cellForTableView:(UITableView *)tableView style:(UITableViewCellStyle)style;
 
+@property (nonatomic, retain) UIImage *image;
 @property (nonatomic, copy) NSString *mainText;
 @property (nonatomic, copy) NSString *detailText;
 

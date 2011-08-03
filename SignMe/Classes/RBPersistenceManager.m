@@ -34,10 +34,13 @@
         document.client = client;
         
         // add recipients of document
-        for (NSNumber *recipientID in recipients) {
+        for (NSDictionary *recipientDict in recipients) {
             RBRecipient *recipient = [RBRecipient createEntity];
             
-            recipient.addressBookPersonID = recipientID;
+            for (NSString *key in [recipientDict allKeys]) {
+                [recipient setValue:[recipient valueForKey:key] forKey:key];
+            }
+            
             recipient.document = document;
         }
  
@@ -60,11 +63,13 @@
     // delete old ones
     [RBRecipient truncateAllMatchingPredicate:[NSPredicate predicateWithFormat:@"document = %@", document]];
     // add new ones
-    // add recipients of document
-    for (NSNumber *recipientID in recipients) {
+    for (NSDictionary *recipientDict in recipients) {
         RBRecipient *recipient = [RBRecipient createEntity];
         
-        recipient.addressBookPersonID = recipientID;
+        for (NSString *key in [recipientDict allKeys]) {
+            [recipient setValue:[recipient valueForKey:key] forKey:key];
+        }
+        
         recipient.document = document;
     }
     

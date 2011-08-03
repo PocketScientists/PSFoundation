@@ -15,6 +15,7 @@
 @private
 }
 @property (nonatomic, retain) NSNumber * addressBookPersonID;
+@property (nonatomic, retain) NSNumber * emailPropertyID;
 @property (nonatomic, retain) RBDocument *document;
 
 @end

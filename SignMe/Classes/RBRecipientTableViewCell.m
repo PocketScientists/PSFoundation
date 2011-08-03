@@ -16,6 +16,7 @@ static UIFont *detailTextFont = nil;
 
 @implementation RBRecipientTableViewCell
 
+@synthesize image = image_;
 @synthesize mainText = mainText_;
 @synthesize detailText = detailText_;
 
@@ -46,16 +47,16 @@ static UIFont *detailTextFont = nil;
     return cell;    
 }
 
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
-        
+        image_ = [[UIImage imageNamed:@"EmptyContact"] retain];
     }
     
     return self;
 }
 
 - (void)dealloc {
+    MCRelease(image_);
     MCRelease(mainText_);
     MCRelease(detailText_);
     
@@ -66,6 +67,16 @@ static UIFont *detailTextFont = nil;
 #pragma mark -
 #pragma mark Setter
 ////////////////////////////////////////////////////////////////////////
+
+- (void)setImage:(UIImage *)image {
+	if (image_ != image) {
+        [image_ release];
+        image_ = [image copy];
+    }
+    
+	[self setNeedsDisplay];
+}
+
 
 - (void)setMainText:(NSString *)mainText {
 	if (mainText != mainText_) {
@@ -103,7 +114,7 @@ static UIFont *detailTextFont = nil;
     CGContextRef context = UIGraphicsGetCurrentContext();
 	UIColor *mainTextColor = kRBColorMain;
     UIColor *detailTextColor = kRBColorDetail;
-    CGPoint p;
+    CGPoint p = CGPointMake(45.f, 5.f);
     
     // change colors when selected
 	if(highlighted) {
@@ -112,10 +123,13 @@ static UIFont *detailTextFont = nil;
         mainTextColor   = kRBColorDetail;
 	}
     
+    // draw image
+    if (image_ != nil) {
+        [image_ drawInRect:CGRectMake(45.f, 5.f, self.height-10.f, self.height-10.f)];
+        p.x += self.height;
+    }
     
     // draw main text
-    p.x = 45.f;
-    p.y = 4.f;
     [mainTextColor set];
     NSString *textToDraw = [self.mainText stringByTruncatingToWidth:self.frame.size.width - p.x - 20.f withFont:mainTextFont];
     [textToDraw drawAtPoint:p withFont:mainTextFont];

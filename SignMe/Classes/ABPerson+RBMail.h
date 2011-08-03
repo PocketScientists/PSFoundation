@@ -10,10 +10,9 @@
 
 @interface ABPerson (ABPerson_RBMail)
 
-
-@property (nonatomic, readonly) BOOL hasEMail;
-@property (nonatomic, readonly) NSString *mainEMail;
-
 @property (nonatomic, readonly) NSString *fullName;
+
+- (NSString *)emailForID:(NSNumber *)emailID;
+
 
 @end

@@ -12,6 +12,7 @@
 
 @implementation RBRecipient
 @dynamic addressBookPersonID;
+@dynamic emailPropertyID;
 @dynamic document;
 
 @end

@@ -89,6 +89,7 @@
 - (NSUInteger)numberOfClients;
 
 - (void)previewDocument:(RBDocument *)document;
+- (void)finalizeDocument:(RBDocument *)document;
 
 @end
 
@@ -548,8 +549,9 @@
                 [self previewDocument:document];
             }];
             
-            [actionSheet addButtonWithTitle:@"Cancel" block:^(void) {
-                [actionSheet.sheet dismissWithClickedButtonIndex:2 animated:YES];
+            // send to DocuSign
+            [actionSheet setDestructiveButtonWithTitle:@"Finalize" block:^(void) {
+                [self finalizeDocument:document];
             }];
             
             [self performBlock:^(void) {
@@ -1044,6 +1046,11 @@
     return numberOfRows;
 }
 
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Document Handling
+////////////////////////////////////////////////////////////////////////
+
 - (void)previewDocument:(RBDocument *)document {
     NSString *pdfFilePath = [kRBPDFSavedDirectoryPath stringByAppendingPathComponent:[document.fileURL stringByAppendingString:kRBPDFExtension]];
     NSURL *url = [NSURL fileURLWithPath:pdfFilePath];
@@ -1054,6 +1061,10 @@
     if (![documentController presentPreviewAnimated:YES]) {
         DDLogInfo(@"Wasn't able to display file");
     }
+}
+
+- (void)finalizeDocument:(RBDocument *)document {
+    // TODO:
 }
 
 @end

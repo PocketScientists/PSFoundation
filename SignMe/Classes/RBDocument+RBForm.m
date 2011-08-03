@@ -8,11 +8,23 @@
 
 #import "RBDocument+RBForm.h"
 #import "PSIncludes.h"
+#import "RBRecipient.h"
+#import "RBRecipient+RBDocuSign.h"
 
 @implementation RBDocument (RBDocument_RBForm)
 
 - (RBForm *)form {
     return [[[RBForm alloc] initWithPath:RBPathToPlistWithName(self.fileURL) name:self.name] autorelease];
+}
+
+- (NSArray *)recipientsAsDictionary {
+    NSMutableArray *recipientsArray = [NSMutableArray arrayWithCapacity:self.recipients.count];
+    
+    for (RBRecipient *recipient in self.recipients) {
+        [recipientsArray addObject:[recipient dictionaryRepresentation]];
+    }
+    
+    return [[recipientsArray copy] autorelease];
 }
 
 @end

@@ -12,5 +12,7 @@
 @interface RBDocument (RBDocument_RBForm)
 
 @property (nonatomic, readonly) RBForm *form;
+// return recipients in the form DocuSign needs them (as dictionary with name, e-mail)
+@property (nonatomic, readonly) NSArray *recipientsAsDictionary;
 
 @end

@@ -64,7 +64,7 @@
         nextButton_.frame = CGRectMake(651, 702, nextImage.size.width, nextImage.size.height);
         [nextButton_ addTarget:self action:@selector(handleNextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
         
-        pageControl_ = [[UIPageControl alloc] initWithFrame:CGRectMake(self.bounds.size.width/2 - 100, 705, 200, 30)];
+        pageControl_ = [[UIPageControl alloc] initWithFrame:CGRectMake(self.bounds.size.width/2 - 250, 705, 500, 30)];
         pageControl_.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         pageControl_.hidesForSinglePage = YES;
         [pageControl_ addTarget:self action:@selector(handlePageChange:) forControlEvents:UIControlEventValueChanged];

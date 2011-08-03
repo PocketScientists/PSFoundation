@@ -20,6 +20,8 @@
 #define kRBFormKeyTabX              @"x"                // the x-position the tab should appear
 #define kRBFormKeyTabY              @"y"                // the y-position the tab should appear
 #define kRBFormKeyTabType           @"type"             // the type of the tab (Initial/Sign)
+#define kRBFormKeyTabDocumentIndex  @"documentIndex"    // is always 0 in our case
+#define kRBFormKeyTabRecipientIndex @"recipientIndex"   // increasing number that matches current recipient
 
 #define kRBFormKeyMapping           @"mapping"          // the mapping of the field to the client (name, address, ...)
 #define kRBFormKeyMappingNone       @""
@@ -73,6 +75,9 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus);
 /** Sections for input view */
 @property (nonatomic, readonly) NSUInteger numberOfSections;
 @property (nonatomic, readonly) NSArray *sections;
+/** Tabs for DocuSign */
+@property (nonatomic, readonly) NSUInteger numberOfTabs;
+@property (nonatomic, readonly) NSArray *tabs;
 /** Returns a dictionary with key-value pairs (ID/Value) for the pdf-form */
 @property (nonatomic, readonly) NSDictionary *PDFDictionary;
 
@@ -80,6 +85,9 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus);
 
 /** all field IDs of a section */
 - (NSArray *)fieldIDsOfSection:(NSUInteger)section;
+
+- (NSUInteger)numberOfTabsWithType:(NSString *)tabType;
+- (NSArray *)tabsWithType:(NSString *)tabType;
 
 /** Retreive/set values of the dictionary stored in a specific section */
 - (id)valueForKey:(NSString *)key ofField:(NSString *)fieldID inSection:(NSUInteger)section;

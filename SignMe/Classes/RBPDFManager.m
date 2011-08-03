@@ -67,13 +67,13 @@
     NSMutableDictionary *annotationDict = [NSMutableDictionary dictionary];
     size_t numberOfPages = CGPDFDocumentGetNumberOfPages(document);
     NSMutableArray *sectionsArray = [NSMutableArray arrayWithCapacity:numberOfPages];
-    NSDictionary *sampleTab1 = [NSDictionary dictionaryWithObjectsAndKeys:@"1", kRBFormKeyTabPage,
-                                @"100", kRBFormKeyTabX,
-                                @"120", kRBFormKeyTabY,
+    NSDictionary *sampleTab1 = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], kRBFormKeyTabPage,
+                                [NSNumber numberWithInt:100], kRBFormKeyTabX,
+                                [NSNumber numberWithInt:120], kRBFormKeyTabY,
                                 @"SignHere", kRBFormKeyTabType, nil];
-    NSDictionary *sampleTab2 = [NSDictionary dictionaryWithObjectsAndKeys:@"2", kRBFormKeyTabPage,
-                                @"200", kRBFormKeyTabX,
-                                @"140", kRBFormKeyTabY,
+    NSDictionary *sampleTab2 = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:2], kRBFormKeyTabPage,
+                                [NSNumber numberWithInt:200], kRBFormKeyTabX,
+                                [NSNumber numberWithInt:140], kRBFormKeyTabY,
                                 @"InitialHere", kRBFormKeyTabType, nil];
     NSArray *tabsArray = [NSArray arrayWithObjects:sampleTab1, sampleTab2, nil];
     

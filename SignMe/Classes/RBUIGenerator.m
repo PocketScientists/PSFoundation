@@ -12,6 +12,7 @@
 #import "RBRecipientsView.h"
 #import "RBRecipient.h"
 #import "RBClient+RBProperties.h"
+#import "DocuSignService.h"
 
 #define kRBLabelX                   30.f
 #define kRBInputFieldPadding        30.f
@@ -87,10 +88,14 @@
     }
     
     // Add RecipientsView
-    RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*realViewWidth, 0, view.bounds.size.width, view.bounds.size.height)] autorelease];
+    RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*realViewWidth, 0.f, 1024.f, 475.f)] autorelease];
+    
     for (RBRecipient *recipient in recipients) {
         [recipientsView.recipients addObject:recipient.addressBookPersonID];
     }
+    
+    recipientsView.maxNumberOfRecipients = [form numberOfTabsWithType:kDSTabTypeSignHere];
+    
     [view.innerScrollView addSubview:recipientsView];
     
     // update pageControl on view (isn't displayed yet, because it is not a subview of the scrollView)

@@ -15,15 +15,15 @@
 
 @implementation ABPerson (ABPerson_RBMail)
 
-- (BOOL)hasEMail {
-    return ![self.mainEMail isEqualToString:kRBNoMailString];
-}
-
-- (NSString *)mainEMail {
+- (NSString *)emailForID:(NSNumber *)emailID {
     ABMultiValue *multiValue = [self valueForProperty:kABPersonEmailProperty];
     
-    if (multiValue.count) {
-        return [multiValue valueAtIndex:0];
+    if (multiValue.count > 0) {
+        int index = [multiValue indexForIdentifier:[emailID intValue]];
+        
+        if (index >=0 && index < multiValue.count) {
+            return [multiValue valueAtIndex:index];
+        }
     }
     
     return kRBNoMailString;

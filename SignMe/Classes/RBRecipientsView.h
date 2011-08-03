@@ -13,6 +13,7 @@
 
 @interface RBRecipientsView : UIView <UITableViewDataSource, UITableViewDelegate, ABPeoplePickerNavigationControllerDelegate>
 
+@property (nonatomic, assign) NSUInteger maxNumberOfRecipients;
 @property (nonatomic, retain) NSMutableArray *recipients;
 
 @property (nonatomic, retain) UITableView *tableView;

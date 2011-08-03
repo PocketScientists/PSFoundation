@@ -20,6 +20,7 @@
     </entity>
     <entity name="RBRecipient" representedClassName="RBRecipient">
         <attribute name="addressBookPersonID" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="emailPropertyID" optional="YES" attributeType="Integer 32" defaultValueString="-1"/>
         <relationship name="document" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBDocument" inverseName="recipients" inverseEntity="RBDocument"/>
     </entity>
     <elements>

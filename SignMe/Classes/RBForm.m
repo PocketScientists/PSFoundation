@@ -180,6 +180,44 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     return [self.formData valueForKey:kRBFormKeySection];
 }
 
+- (NSUInteger)numberOfTabs {
+    return self.tabs.count;
+}
+
+- (NSUInteger)numberOfTabsWithType:(NSString *)tabType {
+    return [self tabsWithType:tabType].count;
+}
+
+- (NSArray *)tabsWithType:(NSString *)tabType {
+    return [self.tabs filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        if ([[evaluatedObject valueForKey:kRBFormKeyTabType] isEqualToStringIgnoringCase:tabType]) {
+            return YES;
+        }
+        
+        return NO;
+    }]];
+}
+
+- (NSArray *)tabs {
+    NSArray *tabs = [self.formData valueForKey:kRBFormKeyTabs];
+    
+    // add additional information to tabs
+    for (NSUInteger i=0;i<tabs.count;i++) {
+        NSDictionary *tab = [tabs objectAtIndex:i];
+        
+        // we always have document index 0
+        [tab setValue:$I(0) forKey:kRBFormKeyTabDocumentIndex];
+        // we set a default-value for the recipient-index (increasing)
+        [tab setValue:$I(i) forKey:kRBFormKeyTabRecipientIndex];
+        // we let the page-index start with 1 instead of 0 to make it easier for the user
+        // -> decrease it here
+        NSUInteger pageIndex = [[tab valueForKey:kRBFormKeyTabPage] intValue];
+        [tab setValue:$I(MAX(0,pageIndex-1)) forKey:kRBFormKeyTabPage];
+    }
+    
+    return tabs;
+}
+
 - (NSDictionary *)PDFDictionary {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     

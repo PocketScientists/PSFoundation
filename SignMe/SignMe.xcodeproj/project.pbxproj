@@ -75,9 +75,11 @@
 		39A7F07E13DA207A008338A4 /* RBHomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39A7F07D13DA207A008338A4 /* RBHomeView.xib */; };
 		39BB88DB13E3CCE00074543E /* RBClient+RBProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BB88DA13E3CCE00074543E /* RBClient+RBProperties.m */; };
 		39C9185B1398EBC40045489C /* PSWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C9185A1398EBC40045489C /* PSWindow.m */; };
-		39F06FA613E99B2C008DAB60 /* RBRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F06FA513E99B2C008DAB60 /* RBRecipient.m */; };
 		39F06FA913E99B2C008DAB60 /* RBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F06FA813E99B2C008DAB60 /* RBClient.m */; };
 		39F06FAC13E99B2C008DAB60 /* RBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F06FAB13E99B2C008DAB60 /* RBDocument.m */; };
+		39F06FAF13E9B5D0008DAB60 /* RBRecipient+RBDocuSign.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F06FAE13E9B5D0008DAB60 /* RBRecipient+RBDocuSign.m */; };
+		39F06FBB13E9C1E1008DAB60 /* RBRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F06FBA13E9C1E1008DAB60 /* RBRecipient.m */; };
+		39F06FBD13E9CB5A008DAB60 /* EmptyContact.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F06FBC13E9CB5A008DAB60 /* EmptyContact.png */; };
 		39F2018D13E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2014213E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m */; };
 		39F2018E13E71FF100DA9093 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2014413E71FF100DA9093 /* TPKeyboardAvoidingTableView.m */; };
 		39F2019B13E741C500DA9093 /* DCRoundSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2019413E741C500DA9093 /* DCRoundSwitch.m */; };
@@ -325,12 +327,15 @@
 		39C917BB139837940045489C /* PSIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSIncludes.h; sourceTree = "<group>"; };
 		39C918591398EBC40045489C /* PSWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSWindow.h; sourceTree = "<group>"; };
 		39C9185A1398EBC40045489C /* PSWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSWindow.m; sourceTree = "<group>"; };
-		39F06FA413E99B2C008DAB60 /* RBRecipient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBRecipient.h; sourceTree = "<group>"; };
-		39F06FA513E99B2C008DAB60 /* RBRecipient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBRecipient.m; sourceTree = "<group>"; };
 		39F06FA713E99B2C008DAB60 /* RBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBClient.h; sourceTree = "<group>"; };
 		39F06FA813E99B2C008DAB60 /* RBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBClient.m; sourceTree = "<group>"; };
 		39F06FAA13E99B2C008DAB60 /* RBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDocument.h; sourceTree = "<group>"; };
 		39F06FAB13E99B2C008DAB60 /* RBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDocument.m; sourceTree = "<group>"; };
+		39F06FAD13E9B5CF008DAB60 /* RBRecipient+RBDocuSign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RBRecipient+RBDocuSign.h"; sourceTree = "<group>"; };
+		39F06FAE13E9B5D0008DAB60 /* RBRecipient+RBDocuSign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RBRecipient+RBDocuSign.m"; sourceTree = "<group>"; };
+		39F06FB913E9C1E1008DAB60 /* RBRecipient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBRecipient.h; sourceTree = "<group>"; };
+		39F06FBA13E9C1E1008DAB60 /* RBRecipient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBRecipient.m; sourceTree = "<group>"; };
+		39F06FBC13E9CB5A008DAB60 /* EmptyContact.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EmptyContact.png; sourceTree = "<group>"; };
 		39F2014113E71FF100DA9093 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		39F2014213E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		39F2014313E71FF100DA9093 /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
@@ -687,6 +692,7 @@
 				39134E9513E38D84000D45B6 /* SearchFieldInactive.png */,
 				39134E9613E38D84000D45B6 /* SearchFieldRightView.png */,
 				39134E9A13E394CE000D45B6 /* SearchBackground.png */,
+				39F06FBC13E9CB5A008DAB60 /* EmptyContact.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -780,16 +786,18 @@
 			children = (
 				39F06FAA13E99B2C008DAB60 /* RBDocument.h */,
 				39F06FAB13E99B2C008DAB60 /* RBDocument.m */,
+				39F06FB913E9C1E1008DAB60 /* RBRecipient.h */,
+				39F06FBA13E9C1E1008DAB60 /* RBRecipient.m */,
 				39F06FA713E99B2C008DAB60 /* RBClient.h */,
 				39F06FA813E99B2C008DAB60 /* RBClient.m */,
-				39F06FA413E99B2C008DAB60 /* RBRecipient.h */,
-				39F06FA513E99B2C008DAB60 /* RBRecipient.m */,
 				3900892013D77F790093E0B0 /* RBForm.h */,
 				3900892113D77F790093E0B0 /* RBForm.m */,
 				39BB88D913E3CCE00074543E /* RBClient+RBProperties.h */,
 				39BB88DA13E3CCE00074543E /* RBClient+RBProperties.m */,
 				390BCFB913E89FCF00568B25 /* RBDocument+RBForm.h */,
 				390BCFBA13E89FCF00568B25 /* RBDocument+RBForm.m */,
+				39F06FAD13E9B5CF008DAB60 /* RBRecipient+RBDocuSign.h */,
+				39F06FAE13E9B5D0008DAB60 /* RBRecipient+RBDocuSign.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1141,6 +1149,7 @@
 				39134E9913E38D84000D45B6 /* SearchFieldRightView.png in Resources */,
 				39134E9B13E394CE000D45B6 /* SearchBackground.png in Resources */,
 				39F201A013E754E600DA9093 /* Default-Landscape~ipad.png in Resources */,
+				39F06FBD13E9CB5A008DAB60 /* EmptyContact.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1216,9 +1225,10 @@
 				39F2019D13E741C500DA9093 /* DCRoundSwitchOutlineLayer.m in Sources */,
 				39F2019E13E741C500DA9093 /* DCRoundSwitchToggleLayer.m in Sources */,
 				390BCFBB13E89FCF00568B25 /* RBDocument+RBForm.m in Sources */,
-				39F06FA613E99B2C008DAB60 /* RBRecipient.m in Sources */,
 				39F06FA913E99B2C008DAB60 /* RBClient.m in Sources */,
 				39F06FAC13E99B2C008DAB60 /* RBDocument.m in Sources */,
+				39F06FAF13E9B5D0008DAB60 /* RBRecipient+RBDocuSign.m in Sources */,
+				39F06FBB13E9C1E1008DAB60 /* RBRecipient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1293,6 +1303,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.pch;
 				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2/**",
 					"../iPhoneContacts/**",
 					"../external/**",
 					"../PSFoundation/**",
@@ -1318,6 +1329,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.pch;
 				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2/**",
 					"../iPhoneContacts/**",
 					"../external/**",
 					"../PSFoundation/**",
@@ -1457,6 +1469,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.pch;
 				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2/**",
 					"../iPhoneContacts/**",
 					"../external/**",
 					"../PSFoundation/**",
