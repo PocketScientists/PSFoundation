@@ -165,7 +165,13 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
 ////////////////////////////////////////////////////////////////////////
 
 - (NSString *)fileName {
-    return [NSString stringWithFormat:@"%@__%@", self.name, RBFormattedDateWithFormat([NSDate date], kRBDateTimeFormat)];
+    static NSDate *creationDate = nil;
+    
+    if (creationDate == nil) {
+        creationDate = [[NSDate date] retain];
+    }
+    
+    return [NSString stringWithFormat:@"%@__%@", self.name, RBFormattedDateWithFormat(creationDate, kRBDateTimeFormat)];
 }
 
 - (NSString *)displayName {

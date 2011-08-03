@@ -91,7 +91,8 @@
     RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*realViewWidth, 0.f, 1024.f, 475.f)] autorelease];
     
     for (RBRecipient *recipient in recipients) {
-        [recipientsView.recipients addObject:recipient.addressBookPersonID];
+        NSDictionary *dictionaryRepresentation = [recipient dictionaryWithValuesForKeys:XARRAY(@"addressBookPersonID", @"emailPropertyID")];
+        [recipientsView.recipients addObject:dictionaryRepresentation];
     }
     
     recipientsView.maxNumberOfRecipients = [form numberOfTabsWithType:kDSTabTypeSignHere];

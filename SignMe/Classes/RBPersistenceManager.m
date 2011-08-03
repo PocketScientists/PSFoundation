@@ -38,7 +38,7 @@
             RBRecipient *recipient = [RBRecipient createEntity];
             
             for (NSString *key in [recipientDict allKeys]) {
-                [recipient setValue:[recipient valueForKey:key] forKey:key];
+                [recipient setValue:[recipientDict valueForKey:key] forKey:key];
             }
             
             recipient.document = document;
