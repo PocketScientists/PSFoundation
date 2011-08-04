@@ -8,12 +8,14 @@
 
 #import "PSDefines.h"
 #import "PSWindow.h"
+#import "RBHomeViewController.h"
 
 
 @interface AppDelegate : NSObject <UIApplicationDelegate> 
 
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, retain) UINavigationController *navigationController;
+@property (nonatomic, retain) RBHomeViewController *homeViewController;
 
 @end
 

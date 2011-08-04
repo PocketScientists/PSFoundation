@@ -29,4 +29,6 @@
 - (IBAction)handleAddNewClientPress:(id)sender;
 - (IBAction)handleBackgroundPress:(id)sender;
 
+- (void)updateUI;
+
 @end

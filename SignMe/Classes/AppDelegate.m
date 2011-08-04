@@ -8,13 +8,10 @@
 
 #import "AppDelegate.h"
 #import "PSIncludes.h"
-#import "RBHomeViewController.h"
 #import "RBForm.h"
 
 
 @interface AppDelegate ()
-
-@property (nonatomic, retain) RBHomeViewController *homeViewController;
 
 - (void)configureLogger;
 - (void)appplicationPrepareForBackgroundOrTermination:(UIApplication *)application;

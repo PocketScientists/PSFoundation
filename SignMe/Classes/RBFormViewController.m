@@ -13,6 +13,7 @@
 #import "UIControl+RBForm.h"
 #import "RBDocument.h"
 #import "RBDocument+RBForm.h"
+#import "AppDelegate.h"
 
 
 #define kRBOffsetTop               212.f
@@ -171,25 +172,33 @@
 }
 
 - (void)handleDoneButtonPress:(id)sender {
-    RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
     // update form-property with new values entered into controls
     [self updateFormFromControls];
     
-    if (self.document != nil) {
-        [persistenceManager updateDocument:self.document usingForm:self.form recipients:self.formView.recipients subject:self.formView.subject];
-    } else {
-        // create a new document with the given form/client
-        self.document = [persistenceManager persistedDocumentUsingForm:self.form client:self.client recipients:self.formView.recipients subject:self.formView.subject];
-    }
-    
-    // upload files to box.net
-    if (self.document != nil && [[RBBoxService box] isLoggedIn]) {
-        [RBBoxService uploadDocument:self.document toFolderAtPath:RBPathToPreSignatureFolderForClientWithName(self.client.name)];
-    }
-    
     // go back to HomeViewController
     [self dismissModalViewControllerAnimated:YES];
+    
+    dispatch_async(queue, ^(void) {
+        RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+        
+        if (self.document != nil) {
+            [persistenceManager updateDocument:self.document usingForm:self.form recipients:self.formView.recipients subject:self.formView.subject];
+        } else {
+            // create a new document with the given form/client
+            self.document = [persistenceManager persistedDocumentUsingForm:self.form client:self.client recipients:self.formView.recipients subject:self.formView.subject];
+        }
+        
+        // upload files to box.net
+        if (self.document != nil && [[RBBoxService box] isLoggedIn]) {
+            [RBBoxService uploadDocument:self.document toFolderAtPath:RBPathToPreSignatureFolderForClientWithName(self.client.name)];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [MTApplicationDelegate.homeViewController updateUI];
+        });
+    });
 }
 
 ////////////////////////////////////////////////////////////////////////

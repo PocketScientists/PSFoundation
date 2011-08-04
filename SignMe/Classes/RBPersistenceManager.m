@@ -21,7 +21,7 @@
 @implementation RBPersistenceManager
 
 - (RBDocument *)persistedDocumentUsingForm:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients subject:(NSString *)subject {
-    RBDocument *document = [RBDocument createEntity];
+    RBDocument *document = [RBDocument createInContext:[NSManagedObjectContext defaultContext]];
     
     // set form
     if ([form saveAsDocument]) {
@@ -36,7 +36,7 @@
         
         // add recipients of document
         for (NSDictionary *recipientDict in recipients) {
-            RBRecipient *recipient = [RBRecipient createEntity];
+            RBRecipient *recipient = [RBRecipient createInContext:[NSManagedObjectContext defaultContext]];
             
             for (NSString *key in [recipientDict allKeys]) {
                 [recipient setValue:[recipientDict valueForKey:key] forKey:key];
@@ -44,7 +44,7 @@
             
             recipient.document = document;
         }
- 
+        
         [self createPDFForDocument:document form:form];
         [[NSManagedObjectContext defaultContext] saveOnMainThread];
         
@@ -69,7 +69,7 @@
     [RBRecipient truncateAllMatchingPredicate:[NSPredicate predicateWithFormat:@"document = %@", document]];
     // add new ones
     for (NSDictionary *recipientDict in recipients) {
-        RBRecipient *recipient = [RBRecipient createEntity];
+        RBRecipient *recipient = [RBRecipient createInContext:[NSManagedObjectContext defaultContext]];
         
         for (NSString *key in [recipientDict allKeys]) {
             [recipient setValue:[recipient valueForKey:key] forKey:key];
@@ -94,19 +94,19 @@
 }
 
 - (NSDate *)updateDateForClient:(RBClient *)client {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"client = %@ AND date = client.documents.@max.date", client];
-    RBDocument *lastUpdatedDocument = [RBDocument findFirstWithPredicate:predicate];
+    NSArray *allDocuments = [RBDocument findAllSortedBy:@"date" 
+                                              ascending:NO 
+                                          withPredicate:[NSPredicate predicateWithFormat:@"client = %@", client]];
     
-    return lastUpdatedDocument.date;
-    
-    // return [NSDate date];
+    return [[allDocuments firstObject] valueForKey:@"date"];
 }
 
 - (NSDate *)updateDateForFormStatus:(RBFormStatus)formStatus {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"date = @max.date AND status = %d", formStatus];
-    RBDocument *lastUpdatedDocument = [RBDocument findFirstWithPredicate:predicate];
+    NSArray *allDocuments = [RBDocument findAllSortedBy:@"date" 
+                                              ascending:NO 
+                                          withPredicate:[NSPredicate predicateWithFormat:@"status = %d", formStatus]];
     
-    return lastUpdatedDocument.date;
+    return [[allDocuments firstObject] valueForKey:@"date"];
 }
 
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {
@@ -125,7 +125,7 @@
     NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForPDFWithName(document.name)]];
     CGPDFDocumentRef pdfRef = [pdfWriter newOpenDocument:urlToEmptyPDF];
     NSString *pdfFileURL = RBPathToPDFWithName(document.fileURL);
-
+    
     [pdfWriter writePDFDocument:pdfRef
                    withFormData:form.PDFDictionary 
                          toFile:pdfFileURL];

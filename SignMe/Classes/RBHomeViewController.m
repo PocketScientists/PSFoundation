@@ -327,10 +327,7 @@
     self.clientsFetchController.delegate = self;
     self.documentsFetchController.delegate = self;
     
-    [self.formsCarousel reloadData];
-    [self.clientsCarousel reloadData];
-    
-    ((UIControl *)self.formsCarousel.currentView).selected = self.detailViewVisible;
+    [self updateUI];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -347,6 +344,14 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)updateUI {
+    [self.formsCarousel reloadData];
+    [self.clientsCarousel reloadData];
+    [self.detailCarousel reloadData];
+    
+    ((UIControl *)self.formsCarousel.currentView).selected = self.detailViewVisible;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -641,19 +646,6 @@
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
-#pragma mark NSFetchedResultsControllerDelegate
-////////////////////////////////////////////////////////////////////////
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller { 
-    if (controller == self.clientsFetchController) {
-        [self.clientsCarousel reloadData];
-    } else {
-        [self.detailView reloadData];
-    }
-}
-
-////////////////////////////////////////////////////////////////////////
-#pragma mark -
 #pragma mark Core Data Persistence
 ////////////////////////////////////////////////////////////////////////
 
@@ -702,6 +694,19 @@
     documentsFetchController_.delegate = self;
     
     return documentsFetchController_;
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark NSFetchedResultsControllerDelegate
+////////////////////////////////////////////////////////////////////////
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller { 
+    if (controller == self.clientsFetchController) {
+        [self.clientsCarousel reloadData];
+    } else {
+        [self.detailView reloadData];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -846,7 +851,7 @@
 }
 
 - (void)documentInteractionControllerDidEndPreview:(UIDocumentInteractionController *)controller {
-    [controller release];
+    [controller autorelease];
 }
 
 - (BOOL)documentInteractionController:(UIDocumentInteractionController *)controller canPerformAction:(SEL)action {
@@ -1067,12 +1072,14 @@
 - (void)previewDocument:(RBDocument *)document {
     NSString *pdfFilePath = RBPathToPDFWithName(document.fileURL);
     NSURL *url = [NSURL fileURLWithPath:pdfFilePath];
-    UIDocumentInteractionController *documentController = [[UIDocumentInteractionController interactionControllerWithURL:url] retain];
+    UIDocumentInteractionController *documentController = [UIDocumentInteractionController interactionControllerWithURL:url];
     
     documentController.delegate = self;
     
     if (![documentController presentPreviewAnimated:YES]) {
         DDLogInfo(@"Wasn't able to display file");
+    } else {
+        [documentController retain];
     }
 }
 
