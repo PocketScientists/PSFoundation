@@ -14,12 +14,11 @@
 #import "ABPerson.h"
 #import "ABPerson+RBMail.h"
 
-#define kRBHeaderViewHeight     40
-
 @interface RBRecipientsView ()
 
 @property (nonatomic, readonly) UIViewController *viewControllerResponder;
 @property (nonatomic, retain) UIButton *addContactButton;
+@property (nonatomic, retain) UITextField *subjectTextField;
 
 - (void)showPeoplePicker;
 - (void)handleAddContactPress:(id)sender;
@@ -32,6 +31,7 @@
 @synthesize recipients = recipients_;
 @synthesize maxNumberOfRecipients = maxNumberOfRecipients_;
 @synthesize addContactButton = addContactButton_;
+@synthesize subjectTextField = subjectTextField_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -46,15 +46,32 @@
         label.font = [UIFont fontWithName:kRBFontName size:18];
         label.textColor = kRBColorMain;
         label.backgroundColor = [UIColor clearColor];
-        label.text = @"Add Recipient: ";
+        label.text = @"Subject";
         [self addSubview:label];
         
-        addContactButton_ = [[UIButton buttonWithType:UIButtonTypeContactAdd] retain];
-        addContactButton_.frame = CGRectMake(label.frameRight, label.frameTop, 31, 31);
+        subjectTextField_ = [[UITextField alloc] initWithFrame:CGRectMake(200.f, 5.f, 795.f, 35.f)];
+        subjectTextField_.borderStyle = UITextBorderStyleBezel;
+        subjectTextField_.backgroundColor = [UIColor whiteColor];
+        subjectTextField_.font = [UIFont fontWithName:kRBFontName size:18];
+        subjectTextField_.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        subjectTextField_.clearButtonMode = UITextFieldViewModeWhileEditing;
+        subjectTextField_.placeholder = @"DocuSign Subject";
+        [self addSubview:subjectTextField_];
+        
+        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 50.f, 150, 35.f)] autorelease];
+        label.font = [UIFont fontWithName:kRBFontName size:18];
+        label.textColor = kRBColorMain;
+        label.backgroundColor = [UIColor clearColor];
+        label.text = @"Add Recipient";
+        [self addSubview:label];
+        
+        addContactButton_ = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+        [addContactButton_ setImage:[UIImage imageNamed:@"AddButton"] forState:UIControlStateNormal];
+        addContactButton_.frame = CGRectMake(200.f, label.frameTop, 35.f, 35.f);
         [addContactButton_ addTarget:self action:@selector(handleAddContactPress:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:addContactButton_];
         
-        tableView_ = [[UITableView alloc] initWithFrame:CGRectMake(30, kRBHeaderViewHeight, 480, self.bounds.size.height-kRBHeaderViewHeight) style:UITableViewStylePlain];
+        tableView_ = [[UITableView alloc] initWithFrame:CGRectMake(30, addContactButton_.frameBottom + 15.f, 480, self.bounds.size.height-(addContactButton_.frameBottom + 15.f)) style:UITableViewStylePlain];
         tableView_.delegate = self;
         tableView_.dataSource = self;
         tableView_.autoresizingMask = UIViewAutoresizingFlexibleHeight;
@@ -75,6 +92,7 @@
     MCRelease(tableView_);
     MCRelease(recipients_);
     MCRelease(addContactButton_);
+    MCRelease(subjectTextField_);
     
     [super dealloc];
 }
@@ -89,6 +107,19 @@
         self.addContactButton.enabled = self.recipients.count < self.maxNumberOfRecipients;
         [self.tableView reloadData];
     }
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Setter/Getter
+////////////////////////////////////////////////////////////////////////
+
+- (void)setSubject:(NSString *)subject {
+    self.subjectTextField.text = subject;
+}
+
+- (NSString *)subject {
+    return self.subjectTextField.text;
 }
 
 ////////////////////////////////////////////////////////////////////////

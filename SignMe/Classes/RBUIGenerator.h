@@ -10,9 +10,10 @@
 #import "RBFormView.h"
 #import "RBForm.h"
 #import "RBClient.h"
+#import "RBDocument.h"
 
 @interface RBUIGenerator : NSObject
 
-- (RBFormView *)viewWithFrame:(CGRect)frame form:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients;
+- (RBFormView *)viewWithFrame:(CGRect)frame form:(RBForm *)form client:(RBClient *)client document:(RBDocument *)document;
 
 @end

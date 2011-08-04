@@ -14,6 +14,7 @@
         <attribute name="fileURL" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String" indexed="YES"/>
         <attribute name="status" attributeType="Integer 16" defaultValueString="0" indexed="YES"/>
+        <attribute name="subject" optional="YES" attributeType="String" defaultValueString="Sign this document"/>
         <attribute name="uploadedToBox" attributeType="Boolean" defaultValueString="NO"/>
         <relationship name="client" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBClient" inverseName="documents" inverseEntity="RBClient"/>
         <relationship name="recipients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RBRecipient" inverseName="document" inverseEntity="RBRecipient"/>
@@ -25,7 +26,7 @@
     </entity>
     <elements>
         <element name="RBClient" positionX="160" positionY="48" width="128" height="150"/>
-        <element name="RBDocument" positionX="340" positionY="-66" width="128" height="135"/>
+        <element name="RBDocument" positionX="340" positionY="-66" width="128" height="165"/>
         <element name="RBRecipient" positionX="594" positionY="60" width="128" height="75"/>
     </elements>
 </model>

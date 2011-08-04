@@ -30,7 +30,7 @@
 #pragma mark PDF Handling
 ////////////////////////////////////////////////////////////////////////
 
-- (CGPDFDocumentRef)openDocument:(NSURL *)url {
+- (CGPDFDocumentRef)newOpenDocument:(NSURL *)url {
     CGPDFDocumentRef myDocument = CGPDFDocumentCreateWithURL((CFURLRef)url);
     
     if (myDocument == NULL) {

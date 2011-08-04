@@ -970,7 +970,7 @@
         && self.detailCarouselSelectedIndex != NSNotFound 
         && self.clientsCarouselSelectedIndex != NSNotFound) {
         [self performBlock:^(void) {
-            RBForm *form = [[self.emptyForms objectAtIndex:self.detailCarouselSelectedIndex] copy];
+            RBForm *form = [[[self.emptyForms objectAtIndex:self.detailCarouselSelectedIndex] copy] autorelease];
             RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
             
             [self presentFormViewControllerForForm:form client:client];

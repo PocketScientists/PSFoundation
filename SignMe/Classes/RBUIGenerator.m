@@ -29,7 +29,7 @@
 
 @implementation RBUIGenerator
 
-- (RBFormView *)viewWithFrame:(CGRect)frame form:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients {
+- (RBFormView *)viewWithFrame:(CGRect)frame form:(RBForm *)form client:(RBClient *)client document:(RBDocument *)document {
     RBFormView *view = [[[RBFormView alloc] initWithFrame:frame] autorelease];
     UIView *topLabel = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
     UIView *topInputField = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
@@ -90,12 +90,13 @@
     // Add RecipientsView
     RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*realViewWidth, 0.f, 1024.f, 475.f)] autorelease];
     
-    for (RBRecipient *recipient in recipients) {
+    for (RBRecipient *recipient in [document.recipients allObjects]) {
         NSDictionary *dictionaryRepresentation = [recipient dictionaryWithValuesForKeys:XARRAY(kRBRecipientPersonID, kRBRecipientEmailID)];
         [recipientsView.recipients addObject:dictionaryRepresentation];
     }
     
     recipientsView.maxNumberOfRecipients = [form numberOfTabsWithType:kDSTabTypeSignHere];
+    recipientsView.subject = document.subject;
     
     [view.innerScrollView addSubview:recipientsView];
     

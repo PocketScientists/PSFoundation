@@ -103,7 +103,7 @@
     self.formView = [generator viewWithFrame:CGRectMake(0, kRBOffsetTop, self.view.bounds.size.width, self.view.bounds.size.height-kRBOffsetTop-kRBOffsetBottom)
                                         form:self.form
                                       client:self.client
-                                  recipients:[self.document.recipients allObjects]];
+                                    document:self.document];
     
     self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(30, 172, 580, 27)] autorelease];
     self.headerLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
@@ -177,10 +177,10 @@
     [self updateFormFromControls];
     
     if (self.document != nil) {
-        [persistenceManager updateDocument:self.document usingForm:self.form recipients:self.formView.recipients];
+        [persistenceManager updateDocument:self.document usingForm:self.form recipients:self.formView.recipients subject:self.formView.subject];
     } else {
         // create a new document with the given form/client
-        self.document = [persistenceManager persistedDocumentUsingForm:self.form client:self.client recipients:self.formView.recipients];
+        self.document = [persistenceManager persistedDocumentUsingForm:self.form client:self.client recipients:self.formView.recipients subject:self.formView.subject];
     }
     
     // upload files to box.net

@@ -20,7 +20,7 @@
 
 @implementation RBPersistenceManager
 
-- (RBDocument *)persistedDocumentUsingForm:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients {
+- (RBDocument *)persistedDocumentUsingForm:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients subject:(NSString *)subject {
     RBDocument *document = [RBDocument createEntity];
     
     // set form
@@ -30,6 +30,7 @@
         document.fileURL = form.fileName;
         document.status = $I(RBFormStatusPreSignature);
         document.date = [NSDate date];
+        document.subject = subject;
         // set client
         document.client = client;
         
@@ -54,8 +55,9 @@
     }
 }
 
-- (void)updateDocument:(RBDocument *)document usingForm:(RBForm *)form recipients:(NSArray *)recipients {
+- (void)updateDocument:(RBDocument *)document usingForm:(RBForm *)form recipients:(NSArray *)recipients subject:(NSString *)subject {
     document.date = [NSDate date];
+    document.subject = subject;
     
     // update Form Plist
     [form saveAsDocumentWithName:document.fileURL];
@@ -121,12 +123,14 @@
     // create PDF
     RBPDFWriter *pdfWriter = [[[RBPDFWriter alloc] init] autorelease];
     NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForPDFWithName(document.name)]];
-    CGPDFDocumentRef pdfRef = [pdfWriter openDocument:urlToEmptyPDF];
+    CGPDFDocumentRef pdfRef = [pdfWriter newOpenDocument:urlToEmptyPDF];
     NSString *pdfFileURL = RBPathToPDFWithName(document.fileURL);
 
     [pdfWriter writePDFDocument:pdfRef
                    withFormData:form.PDFDictionary 
                          toFile:pdfFileURL];
+    
+    CFRelease(pdfRef);
 }
 
 @end

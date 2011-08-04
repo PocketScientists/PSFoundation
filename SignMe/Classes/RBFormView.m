@@ -110,6 +110,11 @@
     return [[recipientsView.recipients copy] autorelease];
 }
 
+- (NSString *)subject {
+    RBRecipientsView *recipientsView = (RBRecipientsView *)[self.innerScrollView viewWithTag:kRBRecipientsViewTag];
+    return recipientsView.subject;
+}
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Target/Action

@@ -17,6 +17,7 @@
 @dynamic name;
 @dynamic status;
 @dynamic uploadedToBox;
+@dynamic subject;
 @dynamic client;
 @dynamic recipients;
 

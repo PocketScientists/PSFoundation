@@ -19,6 +19,7 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * status;
 @property (nonatomic, retain) NSNumber * uploadedToBox;
+@property (nonatomic, retain) NSString * subject;
 @property (nonatomic, retain) RBClient *client;
 @property (nonatomic, retain) NSSet *recipients;
 @end
