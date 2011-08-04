@@ -89,6 +89,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus);
 
 - (NSUInteger)numberOfTabsWithType:(NSString *)tabType;
 - (NSArray *)tabsWithType:(NSString *)tabType;
+- (NSArray *)tabsForNumberOfRecipients:(NSUInteger)numberOfRecipients;
 
 /** Retreive/set values of the dictionary stored in a specific section */
 - (id)valueForKey:(NSString *)key ofField:(NSString *)fieldID inSection:(NSUInteger)section;

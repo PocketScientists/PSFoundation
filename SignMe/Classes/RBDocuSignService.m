@@ -27,9 +27,8 @@
         NSDictionary *documentDictionary = XDICT(document.name, @"name", document.filledPDFData, @"pdf");
         // all the recipients of the PDF
         NSArray *recipients = [document recipientsAsDictionary];
-        NSArray *tabs = document.form.tabs;
-        NSString *subject = @"Sign this Red Bull Document"; //document.subject != nil ? document.subject : @"Sign this Red Bull Document";
-        
+        NSArray *tabs = [document.form tabsForNumberOfRecipients:recipients.count];
+        NSString *subject = !IsEmpty(document.subject) ? document.subject : @"Sign this Red Bull Document";
         
         [docuSign createAndSendEnvelopeWithDocuments:[NSArray arrayWithObject:documentDictionary] 
                                           recipients:recipients

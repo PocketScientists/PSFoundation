@@ -233,6 +233,14 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     return flattenedTabs;
 }
 
+- (NSArray *)tabsForNumberOfRecipients:(NSUInteger)numberOfRecipients {
+    if (numberOfRecipients > 0 && numberOfRecipients < self.numberOfTabs) {
+        return [self.tabs subarrayWithRange:NSMakeRange(0, numberOfRecipients)];
+    }
+    
+    return nil;
+}
+
 - (NSDictionary *)PDFDictionary {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
