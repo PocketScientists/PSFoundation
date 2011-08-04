@@ -21,7 +21,8 @@
 @implementation RBPersistenceManager
 
 - (RBDocument *)persistedDocumentUsingForm:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients subject:(NSString *)subject {
-    RBDocument *document = [RBDocument createInContext:[NSManagedObjectContext defaultContext]];
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    RBDocument *document = [RBDocument createEntity];
     
     // set form
     if ([form saveAsDocument]) {
@@ -36,7 +37,7 @@
         
         // add recipients of document
         for (NSDictionary *recipientDict in recipients) {
-            RBRecipient *recipient = [RBRecipient createInContext:[NSManagedObjectContext defaultContext]];
+            RBRecipient *recipient = [RBRecipient createEntity];
             
             for (NSString *key in [recipientDict allKeys]) {
                 [recipient setValue:[recipientDict valueForKey:key] forKey:key];
@@ -45,7 +46,10 @@
             recipient.document = document;
         }
         
-        [self createPDFForDocument:document form:form];
+        dispatch_async(queue, ^(void) {
+            [self createPDFForDocument:document form:form];
+        });
+        
         [[NSManagedObjectContext defaultContext] saveOnMainThread];
         
         return document;
@@ -56,23 +60,29 @@
 }
 
 - (void)updateDocument:(RBDocument *)document usingForm:(RBForm *)form recipients:(NSArray *)recipients subject:(NSString *)subject {
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
     document.date = [NSDate date];
     document.subject = subject;
     
-    // update Form Plist
-    [form saveAsDocumentWithName:document.fileURL];
-    // update PDF Document
-    [self createPDFForDocument:document form:form];
+    
+    dispatch_async(queue, ^(void) {
+        // update Form Plist
+        [form saveAsDocumentWithName:document.fileURL];
+        // update PDF Document
+        [self createPDFForDocument:document form:form];
+    });
     
     // update recipients
-    // delete old ones
+    // delete old ones 
+    document.recipients = nil;
     [RBRecipient truncateAllMatchingPredicate:[NSPredicate predicateWithFormat:@"document = %@", document]];
     // add new ones
     for (NSDictionary *recipientDict in recipients) {
-        RBRecipient *recipient = [RBRecipient createInContext:[NSManagedObjectContext defaultContext]];
+        RBRecipient *recipient = [RBRecipient createEntity];
         
         for (NSString *key in [recipientDict allKeys]) {
-            [recipient setValue:[recipient valueForKey:key] forKey:key];
+            [recipient setValue:[recipientDict valueForKey:key] forKey:key];
         }
         
         recipient.document = document;
