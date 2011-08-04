@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>displayName</key>
-	<string>PDF Form</string>
+	<string>Red Bull Form</string>
 	<key>sections</key>
 	<array>
 		<array>
@@ -15,7 +15,7 @@
 				<key>label</key>
 				<string>NameDBA</string>
 				<key>mapping</key>
-				<string></string>
+				<string>name</string>
 			</dict>
 			<dict>
 				<key>datatype</key>
@@ -25,7 +25,7 @@
 				<key>label</key>
 				<string>Operating Company Name</string>
 				<key>mapping</key>
-				<string></string>
+				<string>company</string>
 			</dict>
 			<dict>
 				<key>datatype</key>
@@ -55,7 +55,7 @@
 				<key>label</key>
 				<string>Street</string>
 				<key>mapping</key>
-				<string></string>
+				<string>street</string>
 			</dict>
 			<dict>
 				<key>datatype</key>
@@ -65,7 +65,7 @@
 				<key>label</key>
 				<string>City</string>
 				<key>mapping</key>
-				<string></string>
+				<string>city</string>
 			</dict>
 			<dict>
 				<key>datatype</key>
@@ -527,26 +527,50 @@
 	</array>
 	<key>tabs</key>
 	<array>
-		<dict>
-			<key>page</key>
-			<string>1</string>
-			<key>type</key>
-			<string>SignHere</string>
-			<key>x</key>
-			<string>100</string>
-			<key>y</key>
-			<string>120</string>
-		</dict>
-		<dict>
-			<key>page</key>
-			<string>2</string>
-			<key>type</key>
-			<string>InitialHere</string>
-			<key>x</key>
-			<string>200</string>
-			<key>y</key>
-			<string>140</string>
-		</dict>
+		<array>
+			<dict>
+				<key>page</key>
+				<integer>1</integer>
+				<key>type</key>
+				<string>SignHere</string>
+				<key>x</key>
+				<integer>100</integer>
+				<key>y</key>
+				<integer>120</integer>
+			</dict>
+			<dict>
+				<key>page</key>
+				<integer>1</integer>
+				<key>type</key>
+				<string>InitialHere</string>
+				<key>x</key>
+				<integer>400</integer>
+				<key>y</key>
+				<integer>140</integer>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>page</key>
+				<integer>2</integer>
+				<key>type</key>
+				<string>SignHere</string>
+				<key>x</key>
+				<integer>100</integer>
+				<key>y</key>
+				<integer>120</integer>
+			</dict>
+			<dict>
+				<key>page</key>
+				<integer>2</integer>
+				<key>type</key>
+				<string>InitialHere</string>
+				<key>x</key>
+				<integer>400</integer>
+				<key>y</key>
+				<integer>140</integer>
+			</dict>
+		</array>
 	</array>
 </dict>
 </plist>

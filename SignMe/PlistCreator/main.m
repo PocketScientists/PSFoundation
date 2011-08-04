@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
 #import "RBPDFManager.h"
+#import "RBForm.h"
 
 int main (int argc, const char * argv[]) {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -24,10 +25,14 @@ int main (int argc, const char * argv[]) {
         NSString *pdfName = [NSString stringWithCString:argv[i] encoding:NSUTF8StringEncoding];
         RBPDFManager *manager = [[RBPDFManager alloc] init];
         NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@.pdf", pdfName]];
-        CGPDFDocumentRef document = [manager openDocument:url];
-        NSDictionary *annoationDictionary = [manager annotsForPDFDocument:document];
+        CGPDFDocumentRef document = [manager newOpenDocument:url];
+        NSMutableDictionary *annoationDictionary = [manager annotsForPDFDocument:document];
+        
+        [annoationDictionary setValue:pdfName forKey:kRBFormKeyDisplayName];
         
         [annoationDictionary writeToFile:[NSString stringWithFormat:@"%@.plist", pdfName] atomically:YES];
+        CFRelease(document);
+        
         NSLog(@"Created %@.plist", pdfName);
     }
     

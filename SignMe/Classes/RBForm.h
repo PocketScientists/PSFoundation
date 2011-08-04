@@ -77,6 +77,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus);
 @property (nonatomic, readonly) NSArray *sections;
 /** Tabs for DocuSign */
 @property (nonatomic, readonly) NSUInteger numberOfTabs;
+@property (nonatomic, readonly) NSUInteger numberOfRecipients;
 @property (nonatomic, readonly) NSArray *tabs;
 /** Returns a dictionary with key-value pairs (ID/Value) for the pdf-form */
 @property (nonatomic, readonly) NSDictionary *PDFDictionary;

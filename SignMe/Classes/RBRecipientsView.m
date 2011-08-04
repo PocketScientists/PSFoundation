@@ -172,6 +172,9 @@
 #pragma mark ABPeoplePickerNavigationControllerDelegate
 ////////////////////////////////////////////////////////////////////////
 
+//- (BOOL)personViewController:(ABPersonViewController *)personViewController shouldPerformDefaultActionForPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifierForValue
+
+
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker {
     [self.viewControllerResponder dismissModalViewControllerAnimated:YES];
 }

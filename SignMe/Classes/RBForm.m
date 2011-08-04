@@ -190,6 +190,10 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     return self.tabs.count;
 }
 
+- (NSUInteger)numberOfRecipients {
+    return [[self.formData valueForKey:kRBFormKeyTabs] count];
+}
+
 - (NSUInteger)numberOfTabsWithType:(NSString *)tabType {
     return [self tabsWithType:tabType].count;
 }
@@ -206,22 +210,27 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
 
 - (NSArray *)tabs {
     NSArray *tabs = [self.formData valueForKey:kRBFormKeyTabs];
+    NSMutableArray *flattenedTabs = [NSMutableArray array];
     
-    // add additional information to tabs
-    for (NSUInteger i=0;i<tabs.count;i++) {
-        NSDictionary *tab = [tabs objectAtIndex:i];
+    // tabs stores an array of recipients, which contains an array of tabs for this recipient
+    for (NSUInteger i = 0;i < tabs.count;i++) {
+        NSArray *tabsForRecipient = [tabs objectAtIndex:i];
         
-        // we always have document index 0
-        [tab setValue:$I(0) forKey:kRBFormKeyTabDocumentIndex];
-        // we set a default-value for the recipient-index (increasing)
-        [tab setValue:$I(i) forKey:kRBFormKeyTabRecipientIndex];
-        // we let the page-index start with 1 instead of 0 to make it easier for the user
-        // -> decrease it here
-        NSUInteger pageIndex = [[tab valueForKey:kRBFormKeyTabPage] intValue];
-        [tab setValue:$I(MAX(0,pageIndex-1)) forKey:kRBFormKeyTabPage];
+        // add additional information to tabs
+        for (NSDictionary *tab in tabsForRecipient) {
+            NSMutableDictionary *tabCopy = [[tab mutableCopy] autorelease];
+            
+            // we always have document index 0
+            [tabCopy setValue:$I(0) forKey:kRBFormKeyTabDocumentIndex];
+            // we set a default-value for the recipient-index (increasing)
+            [tabCopy setValue:$I(i) forKey:kRBFormKeyTabRecipientIndex];
+            
+            // add object to flattened tabs
+            [flattenedTabs addObject:tabCopy];
+        }
     }
     
-    return tabs;
+    return flattenedTabs;
 }
 
 - (NSDictionary *)PDFDictionary {

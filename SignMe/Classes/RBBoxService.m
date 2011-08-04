@@ -9,6 +9,7 @@
 #import "RBBoxService.h"
 #import "RBBoxLoginViewController.h"
 #import "PSIncludes.h"
+#import "RBDocument+RBForm.h"
 
 
 static Box *box = nil;
@@ -78,10 +79,8 @@ static Box *box = nil;
 
 + (void)uploadDocument:(RBDocument *)document toFolder:(BoxFolder *)folder {
     if (folder && [folder isKindOfClass:[BoxFolder class]]) {
-        NSString *pathToSavedPDF = RBPathToPDFWithName(document.fileURL);
-        NSData *savedPDFData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:pathToSavedPDF]];
-        NSString *pathToSavedPlist = RBPathToPlistWithName(document.fileURL);
-        NSData *savedPlistData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:pathToSavedPlist]];
+        NSData *savedPDFData = document.filledPDFData;
+        NSData *savedPlistData = document.filledPlistData;
         
         // upload pdf
         if (savedPDFData != nil) {

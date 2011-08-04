@@ -63,7 +63,7 @@
     return myDocument;
 }
 
-- (NSDictionary *)annotsForPDFDocument:(CGPDFDocumentRef)document {
+- (NSMutableDictionary *)annotsForPDFDocument:(CGPDFDocumentRef)document {
     NSMutableDictionary *annotationDict = [NSMutableDictionary dictionary];
     size_t numberOfPages = CGPDFDocumentGetNumberOfPages(document);
     NSMutableArray *sectionsArray = [NSMutableArray arrayWithCapacity:numberOfPages];
@@ -75,7 +75,8 @@
                                 [NSNumber numberWithInt:200], kRBFormKeyTabX,
                                 [NSNumber numberWithInt:140], kRBFormKeyTabY,
                                 @"InitialHere", kRBFormKeyTabType, nil];
-    NSArray *tabsArray = [NSArray arrayWithObjects:sampleTab1, sampleTab2, nil];
+    NSArray *recipientArray = [NSArray arrayWithObjects:sampleTab1, sampleTab2, nil];
+    NSArray *tabsArray = [NSArray arrayWithObject:recipientArray];
     
     // we create a dictionary with one section for each page
     [annotationDict setObject:sectionsArray forKey:kRBFormKeySection];
@@ -127,7 +128,7 @@
         }
     }
     
-    return [[annotationDict copy] autorelease];
+    return annotationDict;
 }
 
 

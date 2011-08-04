@@ -53,8 +53,10 @@
     // setup CoreData
 	[ActiveRecordHelpers setupCoreDataStack];
     
-    // TODO: Add Settings bundle instead of hardcoded value
+#pragma message("Add Settings bundle instead of hardcoded values")
     [NSUserDefaults standardUserDefaults].folderID = 0;
+    [NSUserDefaults standardUserDefaults].docuSignUserName = @"j.falb@nousguide.com";
+    [NSUserDefaults standardUserDefaults].docuSignPassword = @"fss386";
     
     // check for NSZombie (memory leak if enabled, but very useful!)
     if(getenv("NSZombieEnabled") || getenv("NSAutoreleaseFreedObjectCheckEnabled")) {

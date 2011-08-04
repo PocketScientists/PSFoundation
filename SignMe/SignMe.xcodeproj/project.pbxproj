@@ -19,6 +19,7 @@
 		3900894A13D882760093E0B0 /* RBArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900894913D882760093E0B0 /* RBArrowView.m */; };
 		390396A413EA1CE6009465E7 /* AddButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 390396A313EA1CE6009465E7 /* AddButton.png */; };
 		390396A713EA1FF4009465E7 /* RBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 390396A613EA1FF4009465E7 /* RBDocument.m */; };
+		3905750413EB11D7002CE9ED /* RBDocuSignService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3905750313EB11D7002CE9ED /* RBDocuSignService.m */; };
 		390BCFBB13E89FCF00568B25 /* RBDocument+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BCFBA13E89FCF00568B25 /* RBDocument+RBForm.m */; };
 		390DD51A13D9D21400EB1EFD /* SignMe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 390DD51813D9D21400EB1EFD /* SignMe.xcdatamodeld */; };
 		390DD52713D9E25300EB1EFD /* libPSFoundation_CoreData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A47C12B444A80025424F /* libPSFoundation_CoreData.a */; };
@@ -243,6 +244,8 @@
 		390396A313EA1CE6009465E7 /* AddButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AddButton.png; path = Images/AddButton.png; sourceTree = "<group>"; };
 		390396A513EA1FF4009465E7 /* RBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDocument.h; sourceTree = "<group>"; };
 		390396A613EA1FF4009465E7 /* RBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDocument.m; sourceTree = "<group>"; };
+		3905750213EB11D7002CE9ED /* RBDocuSignService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDocuSignService.h; sourceTree = "<group>"; };
+		3905750313EB11D7002CE9ED /* RBDocuSignService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDocuSignService.m; sourceTree = "<group>"; };
 		390BCFB913E89FCF00568B25 /* RBDocument+RBForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RBDocument+RBForm.h"; sourceTree = "<group>"; };
 		390BCFBA13E89FCF00568B25 /* RBDocument+RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RBDocument+RBForm.m"; sourceTree = "<group>"; };
 		390DD51913D9D21400EB1EFD /* SignMe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SignMe.xcdatamodel; sourceTree = "<group>"; };
@@ -433,7 +436,7 @@
 			children = (
 				3925C7D013DDE70B008810AF /* Utils */,
 				39C918581398EBA10045489C /* Includes */,
-				3911A22313E228C400CD4F6C /* Requests */,
+				3911A22313E228C400CD4F6C /* APIs */,
 				39680E6313DF8373006B47C1 /* Persistence */,
 				39C917B91398367C0045489C /* Model */,
 				3911A1C913E1CC4700CD4F6C /* Cells */,
@@ -571,13 +574,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3911A22313E228C400CD4F6C /* Requests */ = {
+		3911A22313E228C400CD4F6C /* APIs */ = {
 			isa = PBXGroup;
 			children = (
 				3911A22413E228FB00CD4F6C /* RBBoxService.h */,
 				3911A22513E228FB00CD4F6C /* RBBoxService.m */,
+				3905750213EB11D7002CE9ED /* RBDocuSignService.h */,
+				3905750313EB11D7002CE9ED /* RBDocuSignService.m */,
 			);
-			name = Requests;
+			name = APIs;
 			sourceTree = "<group>";
 		};
 		3925C7D013DDE70B008810AF /* Utils */ = {
@@ -1157,6 +1162,7 @@
 				39F06FAF13E9B5D0008DAB60 /* RBRecipient+RBDocuSign.m in Sources */,
 				39F06FBB13E9C1E1008DAB60 /* RBRecipient.m in Sources */,
 				390396A713EA1FF4009465E7 /* RBDocument.m in Sources */,
+				3905750413EB11D7002CE9ED /* RBDocuSignService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

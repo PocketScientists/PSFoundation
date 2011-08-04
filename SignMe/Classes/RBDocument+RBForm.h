@@ -15,4 +15,10 @@
 // return recipients in the form DocuSign needs them (as dictionary with name, e-mail)
 @property (nonatomic, readonly) NSArray *recipientsAsDictionary;
 
+@property (nonatomic, readonly) NSURL *filledPlistURL;
+@property (nonatomic, readonly) NSData *filledPlistData;
+
+@property (nonatomic, readonly) NSURL *filledPDFURL;
+@property (nonatomic, readonly) NSData *filledPDFData;
+
 @end

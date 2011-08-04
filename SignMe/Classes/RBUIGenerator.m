@@ -95,7 +95,7 @@
         [recipientsView.recipients addObject:dictionaryRepresentation];
     }
     
-    recipientsView.maxNumberOfRecipients = [form numberOfTabsWithType:kDSTabTypeSignHere];
+    recipientsView.maxNumberOfRecipients = form.numberOfRecipients;
     recipientsView.subject = document.subject;
     
     [view.innerScrollView addSubview:recipientsView];

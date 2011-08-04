@@ -27,4 +27,21 @@
     return [[recipientsArray copy] autorelease];
 }
 
+- (NSURL *)filledPlistURL {
+    return [NSURL fileURLWithPath:RBPathToPlistWithName(self.fileURL)];
+}
+
+- (NSData *)filledPlistData {
+    return [NSData dataWithContentsOfURL:self.filledPlistURL];
+}
+
+
+- (NSURL *)filledPDFURL {
+    return [NSURL fileURLWithPath:RBPathToPDFWithName(self.fileURL)];
+}
+
+- (NSData *)filledPDFData {
+    return [NSData dataWithContentsOfURL:self.filledPDFURL];
+}
+
 @end

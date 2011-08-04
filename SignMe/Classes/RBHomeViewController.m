@@ -17,6 +17,7 @@
 #import "RBClientEditViewController.h"
 #import "RBPersistenceManager.h"
 #import "RBClient+RBProperties.h"
+#import "RBDocuSignService.h"
 
 #define kMinNumberOfItemsToWrap   6
 
@@ -1084,7 +1085,7 @@
 }
 
 - (void)finalizeDocument:(RBDocument *)document {
-    // TODO:
+    [RBDocuSignService sendDocument:document];
 }
 
 @end

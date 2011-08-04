@@ -18,6 +18,7 @@
 
 - (void)setFolderID:(NSInteger)folderID {
     [self setInteger:folderID forKey:kRBSettingsFolderIDKey];
+    [self synchronize];
 }
 
 - (NSInteger)folderID {
@@ -26,6 +27,7 @@
 
 - (void)setFormsUpdateDate:(NSDate *)formsUpdateDate {
     [self setObject:formsUpdateDate forKey:kRBSettingsFormsUpdateDateKey];
+    [self synchronize];
 }
 
 - (NSDate *)formsUpdateDate {
@@ -34,6 +36,7 @@
 
 - (void)setDocuSignUserName:(NSString *)docuSignUserName {
     [self setObject:docuSignUserName forKey:kRBSettingsDocuSignUserNameKey];
+    [self synchronize];
 }
 
 - (NSString *)docuSignUserName {
@@ -42,6 +45,7 @@
 
 - (void)setDocuSignPassword:(NSString *)docuSignPassword {
     [self setObject:docuSignPassword forKey:kRBSettingsDocuSignPasswordKey];
+    [self synchronize];
 }
 
 - (NSString *)docuSignPassword {
@@ -69,6 +73,7 @@
 
 - (void)setObjectID:(NSNumber *)objectID forObjectWithNameIncludingExtension:(NSString *)name {
     [self setObject:objectID forKey:name];
+    [self synchronize];
 }
 - (NSNumber *)objectIDForObjectWithNameIncludingExtension:(NSString *)name {
     return [self objectForKey:name];

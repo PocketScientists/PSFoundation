@@ -15,6 +15,6 @@
 @property(nonatomic, retain) NSString *password;
 
 - (CGPDFDocumentRef)newOpenDocument:(NSURL *)url;
-- (NSDictionary *)annotsForPDFDocument:(CGPDFDocumentRef)document;
+- (NSMutableDictionary *)annotsForPDFDocument:(CGPDFDocumentRef)document;
 
 @end

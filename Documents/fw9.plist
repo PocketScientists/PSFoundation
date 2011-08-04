@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>displayName</key>
-	<string>PDF Form</string>
+	<string>fw9</string>
 	<key>sections</key>
 	<array>
 		<array>
@@ -857,26 +857,28 @@
 	</array>
 	<key>tabs</key>
 	<array>
-		<dict>
-			<key>page</key>
-			<string>1</string>
-			<key>type</key>
-			<string>SignHere</string>
-			<key>x</key>
-			<string>100</string>
-			<key>y</key>
-			<string>120</string>
-		</dict>
-		<dict>
-			<key>page</key>
-			<string>2</string>
-			<key>type</key>
-			<string>InitialHere</string>
-			<key>x</key>
-			<string>200</string>
-			<key>y</key>
-			<string>140</string>
-		</dict>
+		<array>
+			<dict>
+				<key>page</key>
+				<integer>1</integer>
+				<key>type</key>
+				<string>SignHere</string>
+				<key>x</key>
+				<integer>100</integer>
+				<key>y</key>
+				<integer>120</integer>
+			</dict>
+			<dict>
+				<key>page</key>
+				<integer>2</integer>
+				<key>type</key>
+				<string>InitialHere</string>
+				<key>x</key>
+				<integer>200</integer>
+				<key>y</key>
+				<integer>140</integer>
+			</dict>
+		</array>
 	</array>
 </dict>
 </plist>
