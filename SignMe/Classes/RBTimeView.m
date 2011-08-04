@@ -45,6 +45,8 @@ static NSDateFormatter *timeFormatter = nil;
         
         [monthFormatter setDateFormat:@"MMM"];
         [dayFormatter setDateFormat:@"dd"];
+        // always use US-Locale for timeFormatter to display AM/PM instead of e.g. vorm/nachm for german locale
+        [timeFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
         [timeFormatter setDateFormat:@"h:mm aa"];
     }
 }
