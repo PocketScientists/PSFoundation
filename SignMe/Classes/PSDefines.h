@@ -76,6 +76,8 @@
 
 #define kRBSettingsFolderIDKey              @"kRBSettingsFolderIDKey"
 #define kRBSettingsFormsUpdateDateKey       @"kRBSettingsFormsUpdateDateKey"
+#define kRBSettingsDocuSignUserNameKey      @"kRBSettingsDocuSignUserNameKey"
+#define kRBSettingsDocuSignPasswordKey      @"kRBSettingsDocuSignPasswordKey"
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

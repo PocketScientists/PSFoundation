@@ -12,6 +12,8 @@
 
 @property (nonatomic, assign) NSInteger folderID;
 @property (nonatomic, retain) NSDate *formsUpdateDate;
+@property (nonatomic, retain) NSString *docuSignUserName;
+@property (nonatomic, retain) NSString *docuSignPassword;
 
 - (NSArray *)allStoredObjectNames;
 

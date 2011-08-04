@@ -11,6 +11,11 @@
 
 @implementation NSUserDefaults (NSUserDefaults_RBAdditions)
 
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark General UserDefaults
+////////////////////////////////////////////////////////////////////////
+
 - (void)setFolderID:(NSInteger)folderID {
     [self setInteger:folderID forKey:kRBSettingsFolderIDKey];
 }
@@ -26,6 +31,27 @@
 - (NSDate *)formsUpdateDate {
     return [self objectForKey:kRBSettingsFormsUpdateDateKey];
 }
+
+- (void)setDocuSignUserName:(NSString *)docuSignUserName {
+    [self setObject:docuSignUserName forKey:kRBSettingsDocuSignUserNameKey];
+}
+
+- (NSString *)docuSignUserName {
+    return [self stringForKey:kRBSettingsDocuSignUserNameKey];
+}
+
+- (void)setDocuSignPassword:(NSString *)docuSignPassword {
+    [self setObject:docuSignPassword forKey:kRBSettingsDocuSignPasswordKey];
+}
+
+- (NSString *)docuSignPassword {
+    return [self stringForKey:kRBSettingsDocuSignPasswordKey];
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Box.net objects
+////////////////////////////////////////////////////////////////////////
 
 - (NSArray *)allStoredObjectNames {
     NSDictionary *dictionary = [self dictionaryRepresentation];
