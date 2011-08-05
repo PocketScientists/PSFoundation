@@ -29,4 +29,5 @@
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus;
 
 - (void)deleteDocument:(RBDocument *)document;
+- (void)deleteAllSavedData;
 @end

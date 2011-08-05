@@ -10,6 +10,7 @@
 #import "PSIncludes.h"
 #import "RBForm.h"
 #import "RBDocuSignService.h"
+#import "RBPersistenceManager.h"
 
 
 @interface AppDelegate ()
@@ -20,6 +21,7 @@
 - (void)appplicationPrepareForBackgroundOrTermination:(UIApplication *)application;
 - (void)postFinishLaunch;
 - (void)setupFileStructure;
+- (void)logoutUserIfSpecifiedInSettings;
 @end
 
 
@@ -57,13 +59,10 @@
     // create needed folders
     [self setupFileStructure];
     
+    // log out of box.net? was set in Settings Application
+    [self logoutUserIfSpecifiedInSettings];
     // setup CoreData
 	[ActiveRecordHelpers setupCoreDataStack];
-    
-#pragma message("Add Settings bundle instead of hardcoded values")
-    [NSUserDefaults standardUserDefaults].folderID = 0;
-    [NSUserDefaults standardUserDefaults].docuSignUserName = @"j.falb@nousguide.com";
-    [NSUserDefaults standardUserDefaults].docuSignPassword = @"fss386";
     
     // check for NSZombie (memory leak if enabled, but very useful!)
     if(getenv("NSZombieEnabled") || getenv("NSAutoreleaseFreedObjectCheckEnabled")) {
@@ -144,12 +143,6 @@
     fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
     fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
     [DDLog addLogger:fileLogger];
-    
-#ifndef DISTRIBUTION
-    // log to network (disabled for now, as it breaks clang 1.7)
-    // [DDLog addLogger:[DDNSLoggerLogger sharedInstance]];
-#endif
-    
 #endif
 }
 
@@ -178,6 +171,30 @@
         if (![manager fileExistsAtPath:directoryPath]) {
             [manager createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:nil];
         }
+    }
+}
+
+- (void)logoutUserIfSpecifiedInSettings {
+    if ([NSUserDefaults standardUserDefaults].shouldLogOutOfBox && [[BoxUser savedUser] loggedIn]) {
+        
+        PSAlertView *alertView = [PSAlertView alertWithTitle:[BoxUser savedUser].userName
+                                                     message:@"Do you really want to logout?\nThis will delete all your saved data from this device."];
+        
+        [alertView addButtonWithTitle:@"Log out" block:^(void) {
+            RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+            
+            [persistenceManager deleteAllSavedData];
+            
+            [[BoxUser savedUser] logOut];
+            [NSUserDefaults standardUserDefaults].shouldLogOutOfBox = NO;
+            [[NSUserDefaults standardUserDefaults] deleteStoredObjectNames];
+            
+            [self.homeViewController updateUI];
+            [self.homeViewController syncBoxNet];
+        }];
+        
+        [alertView setCancelButtonWithTitle:@"Cancel" block:nil];
+        [alertView show];
     }
 }
 

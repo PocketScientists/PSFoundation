@@ -13,13 +13,13 @@
 
 @implementation RBDocument
 @dynamic date;
+@dynamic docuSignEnvelopeID;
 @dynamic fileURL;
+@dynamic lastDocuSignStatus;
 @dynamic name;
 @dynamic status;
 @dynamic subject;
 @dynamic uploadedToBox;
-@dynamic docuSignEnvelopeID;
-@dynamic lastDocuSignStatus;
 @dynamic client;
 @dynamic recipients;
 

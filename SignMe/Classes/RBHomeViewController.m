@@ -256,49 +256,7 @@
     
     [self.view insertSubview:self.detailView belowSubview:self.formsView];
     
-    [RBBoxService syncFolderWithID:[NSUserDefaults standardUserDefaults].folderID
-                       startedFrom:self
-                      successBlock:^(id boxObject) {
-                          BoxFolder *formsFolder = (BoxFolder *)[boxObject objectAtFilePath:RBPathToEmptyForms()];
-                          
-                          // download empty forms and plists
-                          if (formsFolder != nil) {
-                              for (BoxFile *file in [formsFolder filesWithExtensions:XARRAY(kRBFormDataType,kRBPDFDataType)]) {
-                                  DDLogInfo(@"Downloading %@", file.objectName);
-                                  [[RBBoxService box] downloadFile:file
-                                                     progressBlock:nil
-                                                   completionBlock:^(BoxResponseType resultType, NSData *fileData) {
-                                                       // save id of file under name of file in userDefaults
-                                                       // this is to retreive the stored files later from the folder Documents/box.net
-                                                       // because they are stored with objectID and objectName
-                                                       [[NSUserDefaults standardUserDefaults] setObjectID:file.objectId 
-                                                                      forObjectWithNameIncludingExtension:file.objectName];
-                                                       
-                                                       // update forms carousel
-                                                       self.emptyForms = [RBForm allEmptyForms];
-                                                       
-                                                       dispatch_async(dispatch_get_main_queue(), ^(void) {
-                                                           [NSUserDefaults standardUserDefaults].formsUpdateDate = [NSDate date];
-                                                           [self.detailCarousel reloadData];
-                                                           [self.formsCarousel reloadData];
-                                                           ((UIControl *)self.formsCarousel.currentView).selected = self.detailViewVisible;
-                                                       });
-                                                   }];
-                              }
-                          }
-                          
-                          // create folder for muskateer (userName)
-                          if ([boxObject objectAtFilePath:kRBFolderUser] == nil) {
-                              [[RBBoxService box] createFolder:kRBFolderUser
-                                                      inFolder:boxObject
-                                               completionBlock:^(BoxResponseType resultTypeCreation, NSObject *boxObjectCreation) {
-                                                   if (resultTypeCreation != BoxResponseSuccess) {
-                                                       DDLogError(@"Error creating folder for muskateer: %@, %d", kRBFolderUser, resultTypeCreation);
-                                                   }
-                                               }];
-                          }
-                          
-                      } failureBlock:nil];
+    [self syncBoxNet];
     
     // center 2nd item of formsCarousel
     [self.formsCarousel reloadData];
@@ -348,6 +306,8 @@
 }
 
 - (void)updateUI {
+    self.emptyForms = [RBForm allEmptyForms];
+    
     if ([self isViewLoaded]) {
         [self.formsCarousel reloadData];
         [self.clientsCarousel reloadData];
@@ -355,6 +315,52 @@
         
         ((UIControl *)self.formsCarousel.currentView).selected = self.detailViewVisible;
     }
+}
+
+- (void)syncBoxNet {
+    [RBBoxService syncFolderWithID:[NSUserDefaults standardUserDefaults].folderID
+                       startedFrom:self
+                      successBlock:^(id boxObject) {
+                          BoxFolder *formsFolder = (BoxFolder *)[boxObject objectAtFilePath:RBPathToEmptyForms()];
+                          
+                          // download empty forms and plists
+                          if (formsFolder != nil) {
+                              for (BoxFile *file in [formsFolder filesWithExtensions:XARRAY(kRBFormDataType,kRBPDFDataType)]) {
+                                  DDLogInfo(@"Downloading %@", file.objectName);
+                                  [[RBBoxService box] downloadFile:file
+                                                     progressBlock:nil
+                                                   completionBlock:^(BoxResponseType resultType, NSData *fileData) {
+                                                       // save id of file under name of file in userDefaults
+                                                       // this is to retreive the stored files later from the folder Documents/box.net
+                                                       // because they are stored with objectID and objectName
+                                                       [[NSUserDefaults standardUserDefaults] setObjectID:file.objectId 
+                                                                      forObjectWithNameIncludingExtension:file.objectName];
+                                                       
+                                                       // update forms carousel
+                                                       self.emptyForms = [RBForm allEmptyForms];
+                                                       
+                                                       dispatch_async(dispatch_get_main_queue(), ^(void) {
+                                                           [NSUserDefaults standardUserDefaults].formsUpdateDate = [NSDate date];
+                                                           [self.detailCarousel reloadData];
+                                                           [self.formsCarousel reloadData];
+                                                           ((UIControl *)self.formsCarousel.currentView).selected = self.detailViewVisible;
+                                                       });
+                                                   }];
+                              }
+                          }
+                          
+                          // create folder for muskateer (userName)
+                          if ([boxObject objectAtFilePath:kRBFolderUser] == nil) {
+                              [[RBBoxService box] createFolder:kRBFolderUser
+                                                      inFolder:boxObject
+                                               completionBlock:^(BoxResponseType resultTypeCreation, NSObject *boxObjectCreation) {
+                                                   if (resultTypeCreation != BoxResponseSuccess) {
+                                                       DDLogError(@"Error creating folder for muskateer: %@, %d", kRBFolderUser, resultTypeCreation);
+                                                   }
+                                               }];
+                          }
+                          
+                      } failureBlock:nil];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -572,7 +578,7 @@
             
             // send to DocuSign
             [actionSheet addButtonWithTitle:@"Finalize" block:^(void) {
-                PSAlertView *alertView = [PSAlertView alertWithTitle:document.name message:@"Do you want to finalize this document?"];
+                PSAlertView *alertView = [PSAlertView alertWithTitle:document.name message:[NSString stringWithFormat:@"Do you want to finalize this document for %@?",document.client.name]];
                 
                 [alertView addButtonWithTitle:@"Finalize" block:^(void) {
                     [self finalizeDocument:document];
@@ -585,7 +591,7 @@
             
             // delete document
             [actionSheet setDestructiveButtonWithTitle:@"Delete" block:^(void) {
-                PSAlertView *alertView = [PSAlertView alertWithTitle:document.name message:@"Do you really want to delete this document?"];
+                PSAlertView *alertView = [PSAlertView alertWithTitle:document.name message:[NSString stringWithFormat:@"Do you really want to delete this document for %@?",document.client.name]];
                 
                 [alertView addButtonWithTitle:@"Delete" block:^(void) {
                     RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];

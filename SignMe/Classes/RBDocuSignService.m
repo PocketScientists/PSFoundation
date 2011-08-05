@@ -56,6 +56,9 @@ static DocuSignService *docuSign = nil;
                 dispatch_async(dispatch_get_main_queue(), ^(void) {
                     [MTApplicationDelegate.homeViewController updateUI];
                 });
+                
+                // update document status after 10 seconds
+                [self performSelector:@selector(updateStatusOfDocuments) afterDelay:10.];
             } else {
                 DDLogError(@"Wasn't able to send document: %d", status.Status);
             }

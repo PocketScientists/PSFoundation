@@ -11,18 +11,36 @@
 
 @implementation NSUserDefaults (NSUserDefaults_RBAdditions)
 
++ (void)initialize {
+    if (self == [NSUserDefaults class]) {
+        // Setting Defaults for Settings
+        NSDictionary *appDefaults = XDICT($B(NO), kRBSettingsBoxLogoutKey, $I(0), kRBSettingsBoxFolderIDKey);
+        [[self standardUserDefaults] registerDefaults:appDefaults];
+        [[self standardUserDefaults] synchronize];
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark General UserDefaults
 ////////////////////////////////////////////////////////////////////////
 
 - (void)setFolderID:(NSInteger)folderID {
-    [self setInteger:folderID forKey:kRBSettingsFolderIDKey];
+    [self setInteger:folderID forKey:kRBSettingsBoxFolderIDKey];
     [self synchronize];
 }
 
 - (NSInteger)folderID {
-    return [self integerForKey:kRBSettingsFolderIDKey];
+    return [self integerForKey:kRBSettingsBoxFolderIDKey];
+}
+
+- (void)setShouldLogOutOfBox:(BOOL)shouldLogOutOfBox {
+    [self setBool:shouldLogOutOfBox forKey:kRBSettingsBoxLogoutKey];
+    [self synchronize];
+}
+
+- (BOOL)shouldLogOutOfBox {
+    return [self boolForKey:kRBSettingsBoxLogoutKey];
 }
 
 - (void)setFormsUpdateDate:(NSDate *)formsUpdateDate {
@@ -69,6 +87,14 @@
     }
     
     return [[keys copy] autorelease];
+}
+
+- (void)deleteStoredObjectNames {
+    NSArray *keys = [[[self dictionaryRepresentation] allKeys] pathsMatchingExtensions:XARRAY(kRBFormDataType)];
+    
+    for (NSString *key in keys) {
+        [self removeObjectForKey:key];
+    }
 }
 
 - (void)setObjectID:(NSNumber *)objectID forObjectWithNameIncludingExtension:(NSString *)name {

@@ -30,5 +30,6 @@
 - (IBAction)handleBackgroundPress:(id)sender;
 
 - (void)updateUI;
+- (void)syncBoxNet;
 
 @end

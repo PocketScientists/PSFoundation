@@ -59,8 +59,7 @@
 #define kRBRecipientPersonID        @"addressBookPersonID"
 #define kRBRecipientEmailID         @"emailPropertyID"
 
-#pragma message("Set interval to 30 minutes or so")
-#define kRBDocuSignUpdateTimeInterval MTTimeIntervalSeconds(30) //MTTimeIntervalMinutes(30)
+#define kRBDocuSignUpdateTimeInterval MTTimeIntervalMinutes(10)
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -77,7 +76,8 @@
 #pragma mark Settings
 ////////////////////////////////////////////////////////////////////////
 
-#define kRBSettingsFolderIDKey              @"kRBSettingsFolderIDKey"
+#define kRBSettingsBoxFolderIDKey           @"kRBSettingsBoxFolderIDKey"
+#define kRBSettingsBoxLogoutKey             @"kRBSettingsBoxLogoutKey"
 #define kRBSettingsFormsUpdateDateKey       @"kRBSettingsFormsUpdateDateKey"
 #define kRBSettingsDocuSignUserNameKey      @"kRBSettingsDocuSignUserNameKey"
 #define kRBSettingsDocuSignPasswordKey      @"kRBSettingsDocuSignPasswordKey"

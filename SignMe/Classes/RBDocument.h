@@ -14,14 +14,14 @@
 @interface RBDocument : NSManagedObject {
 @private
 }
-@property (nonatomic, retain) NSNumber * date;
+@property (nonatomic, retain) NSDate * date;
+@property (nonatomic, retain) NSString * docuSignEnvelopeID;
 @property (nonatomic, retain) NSString * fileURL;
+@property (nonatomic, retain) NSNumber * lastDocuSignStatus;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * status;
 @property (nonatomic, retain) NSString * subject;
 @property (nonatomic, retain) NSNumber * uploadedToBox;
-@property (nonatomic, retain) NSString * docuSignEnvelopeID;
-@property (nonatomic, retain) NSNumber * lastDocuSignStatus;
 @property (nonatomic, retain) RBClient *client;
 @property (nonatomic, retain) NSSet *recipients;
 @end

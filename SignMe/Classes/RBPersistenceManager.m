@@ -133,6 +133,29 @@
     [[NSManagedObjectContext defaultContext] save];
 }
 
+- (void)deleteAllSavedData {
+    // delete CoreData entities
+    [RBDocument truncateAll];
+    [RBClient truncateAll];
+    [RBRecipient truncateAll];
+    [[NSManagedObjectContext defaultContext] save];
+    
+    // delete files
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    if ([fileManager fileExistsAtPath:kRBBoxNetDirectoryPath]) {
+        [fileManager removeItemAtPath:kRBBoxNetDirectoryPath error:nil];
+    }
+
+    if ([fileManager fileExistsAtPath:kRBPDFSavedDirectoryPath]) {
+        [fileManager removeItemAtPath:kRBPDFSavedDirectoryPath error:nil];
+    }
+    
+    if ([fileManager fileExistsAtPath:kRBFormSavedDirectoryPath]) {
+        [fileManager removeItemAtPath:kRBFormSavedDirectoryPath error:nil];
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Private
