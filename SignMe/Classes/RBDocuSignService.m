@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "RBPersistenceManager.h"
 
+
 static DocuSignService *docuSign = nil;
 
 @implementation RBDocuSignService
@@ -42,6 +43,7 @@ static DocuSignService *docuSign = nil;
             NSString *subject = !IsEmpty(document.subject) ? document.subject : @"Sign this Red Bull Document";
             
             DDLogInfo(@"DocuSign: Will send document '%@' of client '%@' with Subject '%@': %d Recipients, %d Tabs", document.name, document.client.name, subject, recipients.count, tabs.count);
+            [MTApplicationDelegate showLoadingMessage:@"Sending to DocuSign"];
             
             DSAPIService_EnvelopeStatus *status = [docuSign createAndSendEnvelopeWithDocuments:[NSArray arrayWithObject:documentDictionary] 
                                                                                     recipients:recipients
@@ -54,15 +56,18 @@ static DocuSignService *docuSign = nil;
                 document.docuSignEnvelopeID = status.EnvelopeID;
                 
                 dispatch_async(dispatch_get_main_queue(), ^(void) {
+                    [MTApplicationDelegate showSuccessMessage:@"Sending succesful"];
                     [MTApplicationDelegate.homeViewController updateUI];
                 });
                 
                 // update document status after 10 seconds
                 [self performSelector:@selector(updateStatusOfDocuments) afterDelay:10.];
             } else {
+                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"DocuSign error: %@",DSAPIService_EnvelopeStatusCode_stringFromEnum(status.Status)]];
                 DDLogError(@"Wasn't able to send document: %d", status.Status);
             }
         } else {
+            [MTApplicationDelegate showErrorMessage:@"Error logging in to DocuSign"];
             DDLogError(@"Error logging in to DocuSign Service!");
         }
     });
@@ -76,6 +81,8 @@ static DocuSignService *docuSign = nil;
     DDLogInfo(@"DocuSign: %d documents to update status.", documents.count);
     
     dispatch_async(queue, ^(void) {
+        BOOL documentGotSigned = NO;
+        
         [docuSign login];
         
         if (docuSign.account != nil) {
@@ -90,6 +97,7 @@ static DocuSignService *docuSign = nil;
                 // Is document finished? -> update status
                 if (status.Status == DSAPIService_EnvelopeStatusCode_Completed) {
                     document.status = $I(RBFormStatusSigned);
+                    documentGotSigned = YES;
                 }
                 
                 // update saved PDF
@@ -109,6 +117,10 @@ static DocuSignService *docuSign = nil;
             
             // call main thread to update UI and CoreData
             dispatch_async(dispatch_get_main_queue(), ^(void) {
+                if (documentGotSigned) {
+                    [MTApplicationDelegate showSuccessMessage:@"A document was fully signed!"];
+                }
+                
                 [[NSManagedObjectContext defaultContext] save];
                 [MTApplicationDelegate.homeViewController updateUI];
             });

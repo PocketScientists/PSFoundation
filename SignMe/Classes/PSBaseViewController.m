@@ -15,6 +15,15 @@
 #define kRBLoadingAnimationDuration     0.4f
 #define kRBHUDDuration                  1.5f
 
+void dispatch_sync_on_main_queue(dispatch_block_t block);
+
+inline void dispatch_sync_on_main_queue(dispatch_block_t block) {
+    if (dispatch_get_current_queue() == dispatch_get_main_queue()) {
+        block();
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), block);
+    }
+}
 
 @interface PSBaseViewController ()
 
@@ -113,19 +122,27 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)showLoadingMessage:(NSString *)message {
-    [self showHUDWithCaption:@"Loading Data" image:nil interactionEnabled:NO];
+    dispatch_sync_on_main_queue(^(void) {
+        [self showHUDWithCaption:message image:nil interactionEnabled:NO];
+    });
 }
 
 - (void)showSuccessMessage:(NSString *)message {
-    [self showHUDWithCaption:message image:[UIImage imageNamed:@"19-check"] hideAfterDuration:kRBHUDDuration];
+    dispatch_sync_on_main_queue(^(void) {
+        [self showHUDWithCaption:message image:[UIImage imageNamed:@"19-check"] hideAfterDuration:kRBHUDDuration];
+    });
 }
 
 - (void)showErrorMessage:(NSString *)message {
-    [self showHUDWithCaption:message image:[UIImage imageNamed:@"11-x"] hideAfterDuration:kRBHUDDuration];
+    dispatch_sync_on_main_queue(^(void) {
+        [self showHUDWithCaption:message image:[UIImage imageNamed:@"11-x"] hideAfterDuration:kRBHUDDuration];
+    });
 }
 
 - (void)hideMessage {
-    [self hideHUD];
+    dispatch_sync_on_main_queue(^(void) {
+        [self hideHUD];
+    });
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -134,13 +151,16 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)showHUDWithCaption:(NSString *)caption image:(UIImage *)image interactionEnabled:(BOOL)interactionEnabled {
+    CGSize hudSize = CGSizeMake(180, 111); // goldener Schnitt :)
+    
     [self.hud hide];
     self.hud = [[[ATMHud alloc] init] autorelease];
+    self.hud.view.center = CGPointMake(506.f,350.f);
     self.hud.allowSuperviewInteraction = interactionEnabled;
     self.hud.blockTouches = !interactionEnabled;
     self.hud.accessoryPosition = ATMHudAccessoryPositionTop;
     [self.hud setCaption:caption];
-    [self.hud setFixedSize:CGSizeMake(180, 111)]; // goldener Schnitt :)
+    [self.hud setFixedSize:hudSize]; 
     
     if (image) {
         [self.hud setImage:image];
@@ -148,10 +168,8 @@
         [self.hud setActivity:YES];
         [self.hud setActivityStyle:UIActivityIndicatorViewStyleWhiteLarge];
     }
-    self.hud.view.center = self.view.center;
-    self.hud.view.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-    [self.view addSubview:self.hud.view];
     
+    [self.view addSubview:self.hud.view];
     [self.hud show];
 }
 

@@ -17,5 +17,10 @@
 @property (nonatomic, retain) UINavigationController *navigationController;
 @property (nonatomic, retain) RBHomeViewController *homeViewController;
 
+- (void)showLoadingMessage:(NSString *)message;
+- (void)showSuccessMessage:(NSString *)message;
+- (void)showErrorMessage:(NSString *)message;
+- (void)hideMessage;
+
 @end
 

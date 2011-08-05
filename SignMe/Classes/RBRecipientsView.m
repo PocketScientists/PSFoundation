@@ -16,7 +16,7 @@
 
 @interface RBRecipientsView ()
 
-@property (nonatomic, readonly) UIViewController *viewControllerResponder;
+@property (nonatomic, readonly) PSBaseViewController *viewControllerResponder;
 @property (nonatomic, retain) UIButton *addContactButton;
 @property (nonatomic, retain) UITextField *subjectTextField;
 
@@ -96,7 +96,7 @@
         label.backgroundColor = [UIColor clearColor];
         label.text = @"Recipients";
         
-        tableView_ = [[UITableView alloc] initWithFrame:CGRectMake(535.f, 5.f, 440.f, self.bounds.size.height-10.f) style:UITableViewStylePlain];
+        tableView_ = [[UITableView alloc] initWithFrame:CGRectMake(545.f, 5.f, 420.f, self.bounds.size.height-10.f) style:UITableViewStylePlain];
         tableView_.delegate = self;
         tableView_.dataSource = self;
         tableView_.autoresizingMask = UIViewAutoresizingFlexibleHeight;
@@ -184,6 +184,14 @@
     }
 }
 
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    [self.recipients exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
+}
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark UITableViewDelegate
@@ -232,6 +240,7 @@
     if (self.recipients.count >= self.maxNumberOfRecipients) {
         self.addContactButton.enabled = NO;
         [self.viewControllerResponder dismissModalViewControllerAnimated:YES];
+        [self.viewControllerResponder performSelector:@selector(showSuccessMessage:) withObject:@"All recipients added" afterDelay:0.5];
     }
     
     return NO;
@@ -244,6 +253,10 @@
 
 - (void)newPersonViewController:(ABNewPersonViewController *)newPersonView didCompleteWithNewPerson:(ABRecordRef)person {
     [self.viewControllerResponder dismissModalViewControllerAnimated:YES];
+    
+    if (person) {
+        [self.viewControllerResponder performSelector:@selector(showSuccessMessage:) withObject:@"Contact added" afterDelay:0.5f];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -267,14 +280,14 @@
 ////////////////////////////////////////////////////////////////////////
 
 // retreives the first viewController in the responder chain
-- (UIViewController *)viewControllerResponder {
+- (PSBaseViewController *)viewControllerResponder {
     UIResponder *responder = self.nextResponder;
     
-    while (responder != nil && ![responder isKindOfClass:[UIViewController class]]) {
+    while (responder != nil && ![responder isKindOfClass:[PSBaseViewController class]]) {
         responder = responder.nextResponder;
     }
     
-    return (UIViewController *)responder;
+    return (PSBaseViewController *)responder;
 }
 
 - (void)showPeoplePicker {

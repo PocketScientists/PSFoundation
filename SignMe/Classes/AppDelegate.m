@@ -127,6 +127,30 @@
     // TODO: Release memory, or hell freazes over!
 }
 
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Message HUDs
+////////////////////////////////////////////////////////////////////////
+
+- (void)showLoadingMessage:(NSString *)message {
+    PSBaseViewController *visibleViewController = (PSBaseViewController *)self.navigationController.visibleViewController;
+    [visibleViewController showLoadingMessage:message];
+}
+
+- (void)showSuccessMessage:(NSString *)message {
+    PSBaseViewController *visibleViewController = (PSBaseViewController *)self.navigationController.visibleViewController;
+    [visibleViewController showSuccessMessage:message];
+}
+
+- (void)showErrorMessage:(NSString *)message {
+    PSBaseViewController *visibleViewController = (PSBaseViewController *)self.navigationController.visibleViewController;
+    [visibleViewController showErrorMessage:message];
+}
+- (void)hideMessage {
+    PSBaseViewController *visibleViewController = (PSBaseViewController *)self.navigationController.visibleViewController;
+    [visibleViewController hideMessage];
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Private Methods

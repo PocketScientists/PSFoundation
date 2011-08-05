@@ -168,7 +168,15 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)handleCancelButtonPress:(id)sender {
-    [self dismissModalViewControllerAnimated:YES];
+    PSAlertView *alertView = [PSAlertView alertWithTitle:self.form.displayName message:@"Do you want to discard your changes?"];
+    
+    [alertView addButtonWithTitle:@"Discard" block:^(void) {
+        [self dismissModalViewControllerAnimated:YES];
+    }];
+    
+    [alertView setCancelButtonWithTitle:@"Don't discard" block:nil];
+    
+    [alertView show];
 }
 
 - (void)handleDoneButtonPress:(id)sender {

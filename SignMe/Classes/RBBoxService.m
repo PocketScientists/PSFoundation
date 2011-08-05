@@ -10,6 +10,7 @@
 #import "RBBoxLoginViewController.h"
 #import "PSIncludes.h"
 #import "RBDocument+RBForm.h"
+#import "AppDelegate.h"
 
 
 static Box *box = nil;
@@ -34,7 +35,7 @@ static Box *box = nil;
     __block RBBoxLoginViewController *loginViewController = nil;
     
     // start indicating loading
-    [viewController showLoadingMessage:@"Updating Data"];
+    [viewController showLoadingMessage:@"Updating box.net"];
     
     [box syncFolderWithId:[NSUserDefaults standardUserDefaults].folderID
                     loginBlock:^UIWebView *(void) {
@@ -95,6 +96,7 @@ static Box *box = nil;
                                    document.uploadedToBox = $B(YES);
                                } else {
                                    DDLogError(@"Error uploading PDF %@: %d", document.fileURL, resultType);
+                                   [MTApplicationDelegate showErrorMessage:@"Error uploading PDF to box.net"];
                                }
                            }];
         }
@@ -126,6 +128,7 @@ static Box *box = nil;
                                  [RBBoxService uploadDocument:document toFolder:(BoxFolder *)boxObject];
                              } else {
                                  DDLogError(@"Error creating folder at path: %@, %d", path, resultType);
+                                 [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error creating folder %@ on box.net", folder.objectName]];
                              }
                          }];
     } 

@@ -341,9 +341,7 @@
                                                        
                                                        dispatch_async(dispatch_get_main_queue(), ^(void) {
                                                            [NSUserDefaults standardUserDefaults].formsUpdateDate = [NSDate date];
-                                                           [self.detailCarousel reloadData];
-                                                           [self.formsCarousel reloadData];
-                                                           ((UIControl *)self.formsCarousel.currentView).selected = self.detailViewVisible;
+                                                           [self updateUI];
                                                        });
                                                    }];
                               }
@@ -356,6 +354,7 @@
                                                completionBlock:^(BoxResponseType resultTypeCreation, NSObject *boxObjectCreation) {
                                                    if (resultTypeCreation != BoxResponseSuccess) {
                                                        DDLogError(@"Error creating folder for muskateer: %@, %d", kRBFolderUser, resultTypeCreation);
+                                                       [self showErrorMessage:[NSString stringWithFormat:@"Error creating box.net folder for user %@", [BoxUser savedUser].userName]];
                                                    }
                                                }];
                           }
@@ -603,6 +602,7 @@
                     RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
                     [persistenceManager deleteDocument:document];
                     [self.formsCarousel reloadData];
+                    [self performSelector:@selector(showSuccessMessage:) withObject:@"Document deleted" afterDelay:0.5f];
                 }];
                 
                 [alertView setCancelButtonWithTitle:@"Cancel" block:nil];

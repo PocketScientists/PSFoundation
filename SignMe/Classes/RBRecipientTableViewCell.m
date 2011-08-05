@@ -114,7 +114,7 @@ static UIFont *detailTextFont = nil;
     CGContextRef context = UIGraphicsGetCurrentContext();
 	UIColor *mainTextColor = kRBColorMain;
     UIColor *detailTextColor = kRBColorDetail;
-    CGPoint p = CGPointMake(45.f, 5.f);
+    CGPoint p = CGPointMake(50.f, 5.f);
     
     // change colors when selected
 	if(highlighted) {
@@ -125,8 +125,8 @@ static UIFont *detailTextFont = nil;
     
     // draw image
     if (image_ != nil) {
-        [image_ drawInRect:CGRectMake(45.f, 5.f, self.height-10.f, self.height-10.f)];
-        p.x += self.height;
+        [image_ drawInRect:CGRectMake(50.f, 5.f, self.height-10.f, self.height-10.f)];
+        p.x += (self.height+5.f);
     }
     
     // draw main text
