@@ -66,6 +66,7 @@
 		39782FFA13EC4F35005CE8D6 /* ATMProgressLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782F9313EC4F34005CE8D6 /* ATMProgressLayer.m */; };
 		39782FFB13EC4F35005CE8D6 /* ATMSoundFX.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782F9513EC4F34005CE8D6 /* ATMSoundFX.m */; };
 		39782FFC13EC4F35005CE8D6 /* ATMTextLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782F9713EC4F34005CE8D6 /* ATMTextLayer.m */; };
+		397B773713EC7694009438F1 /* RBTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B773613EC7694009438F1 /* RBTextField.m */; };
 		3981E12013DF3A4F00B23A7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		3981E12313DF3A4F00B23A7D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E12213DF3A4F00B23A7D /* main.m */; };
 		3981E12713DF3A4F00B23A7D /* PlistCreator.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3981E12613DF3A4F00B23A7D /* PlistCreator.1 */; };
@@ -327,6 +328,8 @@
 		39782F9513EC4F34005CE8D6 /* ATMSoundFX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMSoundFX.m; sourceTree = "<group>"; };
 		39782F9613EC4F34005CE8D6 /* ATMTextLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMTextLayer.h; sourceTree = "<group>"; };
 		39782F9713EC4F34005CE8D6 /* ATMTextLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMTextLayer.m; sourceTree = "<group>"; };
+		397B773513EC7694009438F1 /* RBTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTextField.h; sourceTree = "<group>"; };
+		397B773613EC7694009438F1 /* RBTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTextField.m; sourceTree = "<group>"; };
 		3981E11E13DF3A4F00B23A7D /* PlistCreator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PlistCreator; sourceTree = BUILT_PRODUCTS_DIR; };
 		3981E12213DF3A4F00B23A7D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3981E12513DF3A4F00B23A7D /* PlistCreator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PlistCreator-Prefix.pch"; sourceTree = "<group>"; };
@@ -857,6 +860,8 @@
 				3925C7D613DDE75C008810AF /* RBFormView.m */,
 				3911A1C213E1C3C900CD4F6C /* RBRecipientsView.h */,
 				3911A1C313E1C3C900CD4F6C /* RBRecipientsView.m */,
+				397B773513EC7694009438F1 /* RBTextField.h */,
+				397B773613EC7694009438F1 /* RBTextField.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1237,6 +1242,7 @@
 				39782FFA13EC4F35005CE8D6 /* ATMProgressLayer.m in Sources */,
 				39782FFB13EC4F35005CE8D6 /* ATMSoundFX.m in Sources */,
 				39782FFC13EC4F35005CE8D6 /* ATMTextLayer.m in Sources */,
+				397B773713EC7694009438F1 /* RBTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

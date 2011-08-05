@@ -13,6 +13,7 @@
 #import "RBRecipient.h"
 #import "RBClient+RBProperties.h"
 #import "DocuSignService.h"
+#import "RBTextField.h"
 
 #define kRBLabelX                   30.f
 #define kRBInputFieldPadding        30.f
@@ -22,12 +23,23 @@
 
 @interface RBUIGenerator ()
 
+@property (nonatomic, assign) RBTextField *previousTextField;
+
 - (UILabel *)labelWithText:(NSString *)text;
 - (UIControl *)inputFieldWithID:(NSString *)fieldID value:(NSString *)value datatype:(NSString *)datatype width:(CGFloat)width;
+
+- (void)createNextResponderChainWithControl:(UIControl *)control inView:(RBFormView *)view;
 
 @end
 
 @implementation RBUIGenerator
+
+@synthesize previousTextField = previousTextField_;
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark RBUIGenerator
+////////////////////////////////////////////////////////////////////////
 
 - (RBFormView *)viewWithFrame:(CGRect)frame form:(RBForm *)form client:(RBClient *)client document:(RBDocument *)document {
     RBFormView *view = [[[RBFormView alloc] initWithFrame:frame] autorelease];
@@ -46,6 +58,8 @@
         topLabel.frameTop =  - kRBRowHeight - kRBRowPadding;
         topLabel.frameLeft = kRBLabelX + section * realViewWidth;
         topInputField.frameTop =  - kRBRowHeight - kRBRowPadding;
+        // a new section starts with a new "first" textfield
+        self.previousTextField = nil;
         
         // iterate over all fields in the section
         for (NSString *fieldID in fieldIDs) {
@@ -69,6 +83,9 @@
             CGFloat heightDiff = kRBRowHeight - inputField.frameHeight; // Switch = 27 pt, TextField = 31 pt
             
             inputField.formSection = section;
+            
+            // Setup chain to go from one textfield to the next
+            [self createNextResponderChainWithControl:inputField inView:view];
             
             // position in Grid depending on anchor-views
             [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
@@ -136,6 +153,18 @@
     [control configureControlUsingValue:value];
     
     return control;
+}
+
+- (void)createNextResponderChainWithControl:(UIControl *)control inView:(RBFormView *)view {
+    if ([control isKindOfClass:[RBTextField class]]) {
+        RBTextField *textField = (RBTextField *)control;
+        
+        textField.delegate = view;
+        
+        self.previousTextField.nextField = (UITextField *)control;
+        self.previousTextField = textField;
+
+    }
 }
 
 @end

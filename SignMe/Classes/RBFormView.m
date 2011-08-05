@@ -11,6 +11,7 @@
 #import "RBForm.h"
 #import "UIControl+RBForm.h"
 #import "RBRecipientsView.h"
+#import "RBTextField.h"
 
 @interface RBFormView ()
 
@@ -163,6 +164,26 @@
     
     self.contentSize = CGSizeMake(self.contentSize.width, CGRectGetMaxY([[subviewsOnCurrentPage lastObject] frame]));
     [self flashScrollIndicators];
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UITextFieldDelegate
+////////////////////////////////////////////////////////////////////////
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    BOOL didResign = [textField resignFirstResponder];
+    if (!didResign) {
+        return NO;
+    }
+    
+    if ([textField isKindOfClass:[RBTextField class]]) {
+        dispatch_async(dispatch_get_current_queue(), ^(void) {
+            [((RBTextField *)textField).nextField becomeFirstResponder]; 
+        });
+    }
+    
+    return YES;
 }
 
 ////////////////////////////////////////////////////////////////////////

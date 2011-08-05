@@ -10,6 +10,7 @@
 #import "RBForm.h"
 #import "PSIncludes.h"
 #import "DCRoundSwitch.h"
+#import "RBTextField.h"
 
 #define kRBSwitchOnTextValue        @"X"
 #define kRBSwitchOffTextValue       @""
@@ -27,7 +28,7 @@ static char formSectionKey;
     if ([datatype isEqualToString:kRBFormDataTypeCheckbox]) {
         control = [[[DCRoundSwitch alloc] initWithFrame:(CGRect){CGPointZero, CGSizeMake(95.f,30.f)}] autorelease];
     } else {
-        control = [[[UITextField alloc] initWithFrame:(CGRect){CGPointZero, size}] autorelease];
+        control = [[[RBTextField alloc] initWithFrame:(CGRect){CGPointZero, size}] autorelease];
     }
     
     control.tag = kRBFormControlTag;
