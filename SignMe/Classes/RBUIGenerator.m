@@ -122,7 +122,7 @@
     
     // enable vertical scrolling
     [view setInnerScrollViewSize:CGSizeMake(realViewWidth*numberOfPages, maxHeight)];
-    view.contentSize = CGSizeMake(realViewWidth, maxHeight);
+    view.contentSize = CGSizeMake(realViewWidth, maxHeight + 10.f);
     
     return view;
 }

@@ -80,6 +80,8 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)loadView {
+    // TODO: This is a quick-fix solution because my custom RBKeyboardAvoidingScrollView doesn't work here
+    // this should be changed to RBKeyboardAvoidingScrollView when there's more time (and fixed of course)
     TPKeyboardAvoidingScrollView *scrollView = [[[TPKeyboardAvoidingScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds] autorelease];
     
     scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;

@@ -67,6 +67,8 @@
 		39782FFB13EC4F35005CE8D6 /* ATMSoundFX.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782F9513EC4F34005CE8D6 /* ATMSoundFX.m */; };
 		39782FFC13EC4F35005CE8D6 /* ATMTextLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782F9713EC4F34005CE8D6 /* ATMTextLayer.m */; };
 		397B773713EC7694009438F1 /* RBTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B773613EC7694009438F1 /* RBTextField.m */; };
+		397B773A13ECA61A009438F1 /* RBKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B773913ECA619009438F1 /* RBKeyboardAvoidingScrollView.m */; };
+		397B773D13ECAD7E009438F1 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B773C13ECAD7E009438F1 /* TPKeyboardAvoidingScrollView.m */; };
 		3981E12013DF3A4F00B23A7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		3981E12313DF3A4F00B23A7D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E12213DF3A4F00B23A7D /* main.m */; };
 		3981E12713DF3A4F00B23A7D /* PlistCreator.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3981E12613DF3A4F00B23A7D /* PlistCreator.1 */; };
@@ -94,8 +96,6 @@
 		39F06FAF13E9B5D0008DAB60 /* RBRecipient+RBDocuSign.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F06FAE13E9B5D0008DAB60 /* RBRecipient+RBDocuSign.m */; };
 		39F06FBB13E9C1E1008DAB60 /* RBRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F06FBA13E9C1E1008DAB60 /* RBRecipient.m */; };
 		39F06FBD13E9CB5A008DAB60 /* EmptyContact.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F06FBC13E9CB5A008DAB60 /* EmptyContact.png */; };
-		39F2018D13E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2014213E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m */; };
-		39F2018E13E71FF100DA9093 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2014413E71FF100DA9093 /* TPKeyboardAvoidingTableView.m */; };
 		39F2019B13E741C500DA9093 /* DCRoundSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2019413E741C500DA9093 /* DCRoundSwitch.m */; };
 		39F2019C13E741C500DA9093 /* DCRoundSwitchKnobLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2019613E741C500DA9093 /* DCRoundSwitchKnobLayer.m */; };
 		39F2019D13E741C500DA9093 /* DCRoundSwitchOutlineLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2019813E741C500DA9093 /* DCRoundSwitchOutlineLayer.m */; };
@@ -330,6 +330,10 @@
 		39782F9713EC4F34005CE8D6 /* ATMTextLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMTextLayer.m; sourceTree = "<group>"; };
 		397B773513EC7694009438F1 /* RBTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTextField.h; sourceTree = "<group>"; };
 		397B773613EC7694009438F1 /* RBTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTextField.m; sourceTree = "<group>"; };
+		397B773813ECA619009438F1 /* RBKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
+		397B773913ECA619009438F1 /* RBKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
+		397B773B13ECAD7E009438F1 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
+		397B773C13ECAD7E009438F1 /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		3981E11E13DF3A4F00B23A7D /* PlistCreator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PlistCreator; sourceTree = BUILT_PRODUCTS_DIR; };
 		3981E12213DF3A4F00B23A7D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3981E12513DF3A4F00B23A7D /* PlistCreator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PlistCreator-Prefix.pch"; sourceTree = "<group>"; };
@@ -368,10 +372,6 @@
 		39F06FB913E9C1E1008DAB60 /* RBRecipient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBRecipient.h; sourceTree = "<group>"; };
 		39F06FBA13E9C1E1008DAB60 /* RBRecipient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBRecipient.m; sourceTree = "<group>"; };
 		39F06FBC13E9CB5A008DAB60 /* EmptyContact.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EmptyContact.png; sourceTree = "<group>"; };
-		39F2014113E71FF100DA9093 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
-		39F2014213E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
-		39F2014313E71FF100DA9093 /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
-		39F2014413E71FF100DA9093 /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
 		39F2019313E741C500DA9093 /* DCRoundSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCRoundSwitch.h; sourceTree = "<group>"; };
 		39F2019413E741C500DA9093 /* DCRoundSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCRoundSwitch.m; sourceTree = "<group>"; };
 		39F2019513E741C500DA9093 /* DCRoundSwitchKnobLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCRoundSwitchKnobLayer.h; sourceTree = "<group>"; };
@@ -545,7 +545,6 @@
 				39F2019213E741C500DA9093 /* DCRoundSwitch */,
 				3900891C13D77B8E0093E0B0 /* iCarousel */,
 				78E9B21212B44DDA00B32768 /* asi-http-request */,
-				39F200BE13E71FF100DA9093 /* TPKeyboardAvoiding */,
 				3911A21913E1DB7B00CD4F6C /* DocuSign.framework */,
 				3911A1EB13E1CFD400CD4F6C /* AddressBook.framework */,
 				3911A1EC13E1CFD400CD4F6C /* AddressBookUI.framework */,
@@ -862,6 +861,10 @@
 				3911A1C313E1C3C900CD4F6C /* RBRecipientsView.m */,
 				397B773513EC7694009438F1 /* RBTextField.h */,
 				397B773613EC7694009438F1 /* RBTextField.m */,
+				397B773813ECA619009438F1 /* RBKeyboardAvoidingScrollView.h */,
+				397B773913ECA619009438F1 /* RBKeyboardAvoidingScrollView.m */,
+				397B773B13ECAD7E009438F1 /* TPKeyboardAvoidingScrollView.h */,
+				397B773C13ECAD7E009438F1 /* TPKeyboardAvoidingScrollView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -875,18 +878,6 @@
 				393AB0A613E2762800F1BE04 /* PSFunctions.m */,
 			);
 			name = Includes;
-			sourceTree = "<group>";
-		};
-		39F200BE13E71FF100DA9093 /* TPKeyboardAvoiding */ = {
-			isa = PBXGroup;
-			children = (
-				39F2014113E71FF100DA9093 /* TPKeyboardAvoidingScrollView.h */,
-				39F2014213E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m */,
-				39F2014313E71FF100DA9093 /* TPKeyboardAvoidingTableView.h */,
-				39F2014413E71FF100DA9093 /* TPKeyboardAvoidingTableView.m */,
-			);
-			name = TPKeyboardAvoiding;
-			path = ../TPKeyboardAvoiding;
 			sourceTree = "<group>";
 		};
 		39F2019213E741C500DA9093 /* DCRoundSwitch */ = {
@@ -1224,8 +1215,6 @@
 				393AB0A713E2762900F1BE04 /* PSFunctions.m in Sources */,
 				39A46C7113E30D2F00603CD6 /* SSLineView.m in Sources */,
 				39BB88DB13E3CCE00074543E /* RBClient+RBProperties.m in Sources */,
-				39F2018D13E71FF100DA9093 /* TPKeyboardAvoidingScrollView.m in Sources */,
-				39F2018E13E71FF100DA9093 /* TPKeyboardAvoidingTableView.m in Sources */,
 				39F2019B13E741C500DA9093 /* DCRoundSwitch.m in Sources */,
 				39F2019C13E741C500DA9093 /* DCRoundSwitchKnobLayer.m in Sources */,
 				39F2019D13E741C500DA9093 /* DCRoundSwitchOutlineLayer.m in Sources */,
@@ -1243,6 +1232,8 @@
 				39782FFB13EC4F35005CE8D6 /* ATMSoundFX.m in Sources */,
 				39782FFC13EC4F35005CE8D6 /* ATMTextLayer.m in Sources */,
 				397B773713EC7694009438F1 /* RBTextField.m in Sources */,
+				397B773A13ECA61A009438F1 /* RBKeyboardAvoidingScrollView.m in Sources */,
+				397B773D13ECAD7E009438F1 /* TPKeyboardAvoidingScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -37,7 +37,6 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.pagingEnabled = YES;
         self.directionalLockEnabled = YES;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.showsHorizontalScrollIndicator = NO;
@@ -48,6 +47,7 @@
         
         innerScrollView_ = [[UIScrollView alloc] initWithFrame:CGRectZero];
         innerScrollView_.scrollEnabled = NO;
+        innerScrollView_.pagingEnabled = YES;
         innerScrollView_.delegate = self;
         
         UIImage *prevImage = [UIImage imageNamed:@"PrevButton"];
