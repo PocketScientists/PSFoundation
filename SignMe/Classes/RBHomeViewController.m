@@ -318,48 +318,51 @@
 }
 
 - (void)syncBoxNet {
-    [RBBoxService syncFolderWithID:[NSUserDefaults standardUserDefaults].folderID
-                       startedFrom:self
-                      successBlock:^(id boxObject) {
-                          BoxFolder *formsFolder = (BoxFolder *)[boxObject objectAtFilePath:RBPathToEmptyForms()];
-                          
-                          // download empty forms and plists
-                          if (formsFolder != nil) {
-                              for (BoxFile *file in [formsFolder filesWithExtensions:XARRAY(kRBFormDataType,kRBPDFDataType)]) {
-                                  DDLogInfo(@"Downloading %@", file.objectName);
-                                  [[RBBoxService box] downloadFile:file
-                                                     progressBlock:nil
-                                                   completionBlock:^(BoxResponseType resultType, NSData *fileData) {
-                                                       // save id of file under name of file in userDefaults
-                                                       // this is to retreive the stored files later from the folder Documents/box.net
-                                                       // because they are stored with objectID and objectName
-                                                       [[NSUserDefaults standardUserDefaults] setObjectID:file.objectId 
-                                                                      forObjectWithNameIncludingExtension:file.objectName];
-                                                       
-                                                       // update forms carousel
-                                                       self.emptyForms = [RBForm allEmptyForms];
-                                                       
-                                                       dispatch_async(dispatch_get_main_queue(), ^(void) {
-                                                           [NSUserDefaults standardUserDefaults].formsUpdateDate = [NSDate date];
-                                                           [self updateUI];
-                                                       });
+    // only update forms once a day
+    if (![[NSUserDefaults standardUserDefaults].formsUpdateDate isToday]) {
+        [RBBoxService syncFolderWithID:[NSUserDefaults standardUserDefaults].folderID
+                           startedFrom:self
+                          successBlock:^(id boxObject) {
+                              BoxFolder *formsFolder = (BoxFolder *)[boxObject objectAtFilePath:RBPathToEmptyForms()];
+                              
+                              // download empty forms and plists
+                              if (formsFolder != nil) {
+                                  for (BoxFile *file in [formsFolder filesWithExtensions:XARRAY(kRBFormDataType,kRBPDFDataType)]) {
+                                      DDLogInfo(@"Downloading %@", file.objectName);
+                                      [[RBBoxService box] downloadFile:file
+                                                         progressBlock:nil
+                                                       completionBlock:^(BoxResponseType resultType, NSData *fileData) {
+                                                           // save id of file under name of file in userDefaults
+                                                           // this is to retreive the stored files later from the folder Documents/box.net
+                                                           // because they are stored with objectID and objectName
+                                                           [[NSUserDefaults standardUserDefaults] setObjectID:file.objectId 
+                                                                          forObjectWithNameIncludingExtension:file.objectName];
+                                                           
+                                                           // update forms carousel
+                                                           self.emptyForms = [RBForm allEmptyForms];
+                                                           
+                                                           dispatch_async(dispatch_get_main_queue(), ^(void) {
+                                                               [NSUserDefaults standardUserDefaults].formsUpdateDate = [NSDate date];
+                                                               [self updateUI];
+                                                           });
+                                                       }];
+                                  }
+                              }
+                              
+                              // create folder for muskateer (userName)
+                              if ([boxObject objectAtFilePath:kRBFolderUser] == nil) {
+                                  [[RBBoxService box] createFolder:kRBFolderUser
+                                                          inFolder:boxObject
+                                                   completionBlock:^(BoxResponseType resultTypeCreation, NSObject *boxObjectCreation) {
+                                                       if (resultTypeCreation != BoxResponseSuccess) {
+                                                           DDLogError(@"Error creating folder for muskateer: %@, %d", kRBFolderUser, resultTypeCreation);
+                                                           [self showErrorMessage:[NSString stringWithFormat:@"Error creating box.net folder for user %@", [BoxUser savedUser].userName]];
+                                                       }
                                                    }];
                               }
-                          }
-                          
-                          // create folder for muskateer (userName)
-                          if ([boxObject objectAtFilePath:kRBFolderUser] == nil) {
-                              [[RBBoxService box] createFolder:kRBFolderUser
-                                                      inFolder:boxObject
-                                               completionBlock:^(BoxResponseType resultTypeCreation, NSObject *boxObjectCreation) {
-                                                   if (resultTypeCreation != BoxResponseSuccess) {
-                                                       DDLogError(@"Error creating folder for muskateer: %@, %d", kRBFolderUser, resultTypeCreation);
-                                                       [self showErrorMessage:[NSString stringWithFormat:@"Error creating box.net folder for user %@", [BoxUser savedUser].userName]];
-                                                   }
-                                               }];
-                          }
-                          
-                      } failureBlock:nil];
+                              
+                          } failureBlock:nil];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -606,7 +609,7 @@
                 }];
                 
                 [alertView setCancelButtonWithTitle:@"Cancel" block:nil];
-                 
+                
                 [alertView show];
             }];
             

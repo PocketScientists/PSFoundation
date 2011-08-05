@@ -149,11 +149,20 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)handleCancelButtonPress:(id)sender {
-    if (self.clientWasCreated) {
-        [self.client deleteEntity];
-    }
+    PSAlertView *alertView = [PSAlertView alertWithTitle:(IsEmpty(self.client.name) ? @"Edit Client" : self.client.name) 
+                                                 message:@"Do you want to discard your changes?"];
     
-    [self dismissModalViewControllerAnimated:YES];
+    [alertView addButtonWithTitle:@"Discard" block:^(void) {
+        if (self.clientWasCreated) {
+            [self.client deleteEntity];
+        }
+        
+        [self dismissModalViewControllerAnimated:YES];
+    }];
+    
+    [alertView setCancelButtonWithTitle:@"Don't discard" block:nil];
+    
+    [alertView show];
 }
 
 - (void)handleDoneButtonPress:(id)sender {
