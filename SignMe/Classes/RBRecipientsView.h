@@ -11,7 +11,8 @@
 
 #define kRBRecipientsViewTag    540492
 
-@interface RBRecipientsView : UIView <UITableViewDataSource, UITableViewDelegate, ABPeoplePickerNavigationControllerDelegate>
+@interface RBRecipientsView : UIView <UITableViewDataSource, UITableViewDelegate, 
+                                      ABPeoplePickerNavigationControllerDelegate, ABNewPersonViewControllerDelegate>
 
 @property (nonatomic, assign) NSUInteger maxNumberOfRecipients;
 @property (nonatomic, retain) NSMutableArray *recipients;

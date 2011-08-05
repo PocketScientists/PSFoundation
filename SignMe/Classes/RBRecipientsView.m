@@ -21,7 +21,9 @@
 @property (nonatomic, retain) UITextField *subjectTextField;
 
 - (void)showPeoplePicker;
+- (void)showNewContactScreen;
 - (void)handleAddContactPress:(id)sender;
+- (void)handleNewContactPress:(id)sender;
 
 @end
 
@@ -42,14 +44,14 @@
     if ((self = [super initWithFrame:frame])) {
         self.tag = kRBRecipientsViewTag;
         
-        UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 5, 150, 31)] autorelease];
+        UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 10.f, 150, 31)] autorelease];
         label.font = [UIFont fontWithName:kRBFontName size:18];
         label.textColor = kRBColorMain;
         label.backgroundColor = [UIColor clearColor];
         label.text = @"Subject";
         [self addSubview:label];
         
-        subjectTextField_ = [[UITextField alloc] initWithFrame:CGRectMake(200.f, 5.f, 795.f, 35.f)];
+        subjectTextField_ = [[UITextField alloc] initWithFrame:CGRectMake(130.f, 10.f, 360.f, 35.f)];
         subjectTextField_.borderStyle = UITextBorderStyleBezel;
         subjectTextField_.backgroundColor = [UIColor whiteColor];
         subjectTextField_.font = [UIFont fontWithName:kRBFontName size:18];
@@ -58,7 +60,7 @@
         subjectTextField_.placeholder = @"DocuSign Subject";
         [self addSubview:subjectTextField_];
         
-        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 50.f, 150, 35.f)] autorelease];
+        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 80.f, 150, 35.f)] autorelease];
         label.font = [UIFont fontWithName:kRBFontName size:18];
         label.textColor = kRBColorMain;
         label.backgroundColor = [UIColor clearColor];
@@ -67,17 +69,41 @@
         
         addContactButton_ = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
         [addContactButton_ setImage:[UIImage imageNamed:@"AddButton"] forState:UIControlStateNormal];
-        addContactButton_.frame = CGRectMake(200.f, label.frameTop, 35.f, 35.f);
+        addContactButton_.frame = CGRectMake(190.f, label.frameTop, 35.f, 35.f);
         [addContactButton_ addTarget:self action:@selector(handleAddContactPress:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:addContactButton_];
         
-        tableView_ = [[UITableView alloc] initWithFrame:CGRectMake(30, addContactButton_.frameBottom + 15.f, 480, self.bounds.size.height-(addContactButton_.frameBottom + 15.f)) style:UITableViewStylePlain];
+        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 125.f, 150, 35.f)] autorelease];
+        label.font = [UIFont fontWithName:kRBFontName size:18];
+        label.textColor = kRBColorMain;
+        label.backgroundColor = [UIColor clearColor];
+        label.text = @"New Contact";
+        [self addSubview:label];
+        
+        UIButton *newContactButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [newContactButton setImage:[UIImage imageNamed:@"NewContactButton"] forState:UIControlStateNormal];
+        newContactButton.frame = CGRectMake(190.f, label.frameTop, 35.f, 35.f);
+        [newContactButton addTarget:self action:@selector(handleNewContactPress:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:newContactButton];
+        
+        UIView *dividerView = [[[UIView alloc] initWithFrame:CGRectMake(self.bounds.size.width/2.f, 5.f, 1.f, self.bounds.size.height-10.f)] autorelease];
+        dividerView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.3f];
+        [self addSubview:dividerView];
+        
+        label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 35.f)] autorelease];
+        label.font = [UIFont fontWithName:kRBFontName size:19];
+        label.textColor = kRBColorMain;
+        label.backgroundColor = [UIColor clearColor];
+        label.text = @"Recipients";
+        
+        tableView_ = [[UITableView alloc] initWithFrame:CGRectMake(535.f, 5.f, 440.f, self.bounds.size.height-10.f) style:UITableViewStylePlain];
         tableView_.delegate = self;
         tableView_.dataSource = self;
         tableView_.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         tableView_.backgroundColor = [UIColor clearColor];
         tableView_.backgroundView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-        tableView_.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+        tableView_.tableHeaderView = label; 
+        // tableView_.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
         tableView_.editing = YES;
         
         [self addSubview:tableView_];
@@ -213,6 +239,15 @@
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
+#pragma mark ABNewPersonViewControllerDelegate
+////////////////////////////////////////////////////////////////////////
+
+- (void)newPersonViewController:(ABNewPersonViewController *)newPersonView didCompleteWithNewPerson:(ABRecordRef)person {
+    [self.viewControllerResponder dismissModalViewControllerAnimated:YES];
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
 #pragma mark Target/Action
 ////////////////////////////////////////////////////////////////////////
 
@@ -220,6 +255,10 @@
     if (self.recipients.count < self.maxNumberOfRecipients) {
         [self showPeoplePicker];
     }
+}
+
+- (void)handleNewContactPress:(id)sender {
+    [self showNewContactScreen];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -247,6 +286,17 @@
     
 	// Show the picker 
 	[self.viewControllerResponder presentModalViewController:picker animated:YES];
+}
+
+- (void)showNewContactScreen {
+    ABNewPersonViewController *viewController = [[[ABNewPersonViewController alloc] init] autorelease];
+    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:viewController] autorelease];
+    
+    viewController.newPersonViewDelegate = self;
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    
+    [self.viewControllerResponder presentModalViewController:navigationController animated:YES];
+    
 }
 
 @end
