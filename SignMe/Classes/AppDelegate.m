@@ -176,24 +176,28 @@
 
 - (void)logoutUserIfSpecifiedInSettings {
     if ([NSUserDefaults standardUserDefaults].shouldLogOutOfBox && [[BoxUser savedUser] loggedIn]) {
+        // log out from Box.net
+        [[BoxUser savedUser] logOut];
+        [NSUserDefaults standardUserDefaults].shouldLogOutOfBox = NO;
         
         PSAlertView *alertView = [PSAlertView alertWithTitle:[BoxUser savedUser].userName
-                                                     message:@"Do you really want to logout?\nThis will delete all your saved data from this device."];
+                                                     message:@"You got logged out of box.net?\nDo you want to delete all locally stored data?"];
         
-        [alertView addButtonWithTitle:@"Log out" block:^(void) {
+        [alertView addButtonWithTitle:@"Delete" block:^(void) {
             RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
             
+            // delete CoreData and folder in Documents-Directory
             [persistenceManager deleteAllSavedData];
             
-            [[BoxUser savedUser] logOut];
-            [NSUserDefaults standardUserDefaults].shouldLogOutOfBox = NO;
+            // delete UserDefaults
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:kRBSettingsFormsUpdateDateKey];
             [[NSUserDefaults standardUserDefaults] deleteStoredObjectNames];
-            
+            // reflect new status on UI
             [self.homeViewController updateUI];
             [self.homeViewController syncBoxNet];
         }];
         
-        [alertView setCancelButtonWithTitle:@"Cancel" block:nil];
+        [alertView setCancelButtonWithTitle:@"Keep Data" block:nil];
         [alertView show];
     }
 }

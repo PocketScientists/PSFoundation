@@ -386,7 +386,7 @@
     
     else if (carousel == self.detailCarousel) {
         if (self.formsCarousel.currentItemIndex == RBFormStatusNew) {
-            return self.emptyForms.count;
+            return MAX(1,self.emptyForms.count);
         } else {
             return MAX(1,[self numberOfDocumentsToDisplay]);
         }
@@ -428,7 +428,11 @@
         view = [RBCarouselView carouselViewWithWidth:kRBDetailCarouselItemWidth];
         
         if (self.formsCarousel.currentItemIndex == RBFormStatusNew) {
-            [view setFromForm:[self.emptyForms objectAtIndex:index]];
+            if (self.emptyForms.count == 0) {
+                [view setText:@"No Templates yet."];
+            } else {
+                [view setFromForm:[self.emptyForms objectAtIndex:index]];
+            }
         } else {
             if ([self numberOfDocumentsToDisplay] == 0) {
                 [view setText:@"No Forms yet."];
@@ -558,7 +562,9 @@
     
     // create a new document if user has already been selected
     if (formStatus == RBFormStatusNew) {
-        [self presentFormIfPossible];
+        if (self.emptyForms.count > 0) {
+            [self presentFormIfPossible];
+        }
     } 
     
     // pre-signed documents can be viewed or edited
