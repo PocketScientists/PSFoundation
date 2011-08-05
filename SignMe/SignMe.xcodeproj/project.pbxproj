@@ -18,8 +18,8 @@
 		3900892B13D799530093E0B0 /* RBFormDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892A13D799530093E0B0 /* RBFormDetailView.m */; };
 		3900894A13D882760093E0B0 /* RBArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900894913D882760093E0B0 /* RBArrowView.m */; };
 		390396A413EA1CE6009465E7 /* AddButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 390396A313EA1CE6009465E7 /* AddButton.png */; };
-		390396A713EA1FF4009465E7 /* RBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 390396A613EA1FF4009465E7 /* RBDocument.m */; };
 		3905750413EB11D7002CE9ED /* RBDocuSignService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3905750313EB11D7002CE9ED /* RBDocuSignService.m */; };
+		3905750D13EB5B4E002CE9ED /* RBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 3905750C13EB5B4E002CE9ED /* RBDocument.m */; };
 		390BCFBB13E89FCF00568B25 /* RBDocument+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BCFBA13E89FCF00568B25 /* RBDocument+RBForm.m */; };
 		390DD51A13D9D21400EB1EFD /* SignMe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 390DD51813D9D21400EB1EFD /* SignMe.xcdatamodeld */; };
 		390DD52713D9E25300EB1EFD /* libPSFoundation_CoreData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A47C12B444A80025424F /* libPSFoundation_CoreData.a */; };
@@ -43,6 +43,9 @@
 		39134E9813E38D84000D45B6 /* SearchFieldInactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 39134E9513E38D84000D45B6 /* SearchFieldInactive.png */; };
 		39134E9913E38D84000D45B6 /* SearchFieldRightView.png in Resources */ = {isa = PBXBuildFile; fileRef = 39134E9613E38D84000D45B6 /* SearchFieldRightView.png */; };
 		39134E9B13E394CE000D45B6 /* SearchBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 39134E9A13E394CE000D45B6 /* SearchBackground.png */; };
+		391957F513EB6126000FF949 /* StatusGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 391957F213EB6126000FF949 /* StatusGreen.png */; };
+		391957F613EB6126000FF949 /* StatusRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 391957F313EB6126000FF949 /* StatusRed.png */; };
+		391957F713EB6126000FF949 /* StatusYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 391957F413EB6126000FF949 /* StatusYellow.png */; };
 		3925C7D413DDE72B008810AF /* RBUIGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D313DDE72B008810AF /* RBUIGenerator.m */; };
 		3925C7D713DDE75C008810AF /* RBFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D613DDE75C008810AF /* RBFormView.m */; };
 		3925C7E013DDE863008810AF /* RBFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7DF13DDE863008810AF /* RBFormViewController.m */; };
@@ -226,7 +229,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* DocuSign.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DocuSign.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* Sign Me.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sign Me.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AAE50D9B0CCF005BE974 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
@@ -242,10 +245,10 @@
 		3900894813D882760093E0B0 /* RBArrowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBArrowView.h; sourceTree = "<group>"; };
 		3900894913D882760093E0B0 /* RBArrowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBArrowView.m; sourceTree = "<group>"; };
 		390396A313EA1CE6009465E7 /* AddButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AddButton.png; path = Images/AddButton.png; sourceTree = "<group>"; };
-		390396A513EA1FF4009465E7 /* RBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDocument.h; sourceTree = "<group>"; };
-		390396A613EA1FF4009465E7 /* RBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDocument.m; sourceTree = "<group>"; };
 		3905750213EB11D7002CE9ED /* RBDocuSignService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDocuSignService.h; sourceTree = "<group>"; };
 		3905750313EB11D7002CE9ED /* RBDocuSignService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDocuSignService.m; sourceTree = "<group>"; };
+		3905750B13EB5B4E002CE9ED /* RBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDocument.h; sourceTree = "<group>"; };
+		3905750C13EB5B4E002CE9ED /* RBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDocument.m; sourceTree = "<group>"; };
 		390BCFB913E89FCF00568B25 /* RBDocument+RBForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RBDocument+RBForm.h"; sourceTree = "<group>"; };
 		390BCFBA13E89FCF00568B25 /* RBDocument+RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RBDocument+RBForm.m"; sourceTree = "<group>"; };
 		390DD51913D9D21400EB1EFD /* SignMe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SignMe.xcdatamodel; sourceTree = "<group>"; };
@@ -273,6 +276,9 @@
 		39134E9513E38D84000D45B6 /* SearchFieldInactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SearchFieldInactive.png; path = Images/SearchFieldInactive.png; sourceTree = "<group>"; };
 		39134E9613E38D84000D45B6 /* SearchFieldRightView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SearchFieldRightView.png; path = Images/SearchFieldRightView.png; sourceTree = "<group>"; };
 		39134E9A13E394CE000D45B6 /* SearchBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SearchBackground.png; path = Images/SearchBackground.png; sourceTree = "<group>"; };
+		391957F213EB6126000FF949 /* StatusGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = StatusGreen.png; path = Images/StatusGreen.png; sourceTree = "<group>"; };
+		391957F313EB6126000FF949 /* StatusRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = StatusRed.png; path = Images/StatusRed.png; sourceTree = "<group>"; };
+		391957F413EB6126000FF949 /* StatusYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = StatusYellow.png; path = Images/StatusYellow.png; sourceTree = "<group>"; };
 		3925C7D213DDE72B008810AF /* RBUIGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBUIGenerator.h; sourceTree = "<group>"; };
 		3925C7D313DDE72B008810AF /* RBUIGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBUIGenerator.m; sourceTree = "<group>"; };
 		3925C7D513DDE75C008810AF /* RBFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFormView.h; sourceTree = "<group>"; };
@@ -453,7 +459,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* DocuSign.app */,
+				1D6058910D05DD3D006BFB54 /* Sign Me.app */,
 				3981E11E13DF3A4F00B23A7D /* PlistCreator */,
 			);
 			name = Products;
@@ -670,6 +676,9 @@
 				39134E9A13E394CE000D45B6 /* SearchBackground.png */,
 				39F06FBC13E9CB5A008DAB60 /* EmptyContact.png */,
 				390396A313EA1CE6009465E7 /* AddButton.png */,
+				391957F213EB6126000FF949 /* StatusGreen.png */,
+				391957F313EB6126000FF949 /* StatusRed.png */,
+				391957F413EB6126000FF949 /* StatusYellow.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -761,8 +770,8 @@
 		39C917B91398367C0045489C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				390396A513EA1FF4009465E7 /* RBDocument.h */,
-				390396A613EA1FF4009465E7 /* RBDocument.m */,
+				3905750B13EB5B4E002CE9ED /* RBDocument.h */,
+				3905750C13EB5B4E002CE9ED /* RBDocument.m */,
 				39F06FB913E9C1E1008DAB60 /* RBRecipient.h */,
 				39F06FBA13E9C1E1008DAB60 /* RBRecipient.m */,
 				39F06FA713E99B2C008DAB60 /* RBClient.h */,
@@ -921,7 +930,7 @@
 			);
 			name = SignMe;
 			productName = PSAppTemplate;
-			productReference = 1D6058910D05DD3D006BFB54 /* DocuSign.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* Sign Me.app */;
 			productType = "com.apple.product-type.application";
 		};
 		3981E11D13DF3A4F00B23A7D /* PlistCreator */ = {
@@ -1086,6 +1095,9 @@
 				39F201A013E754E600DA9093 /* Default-Landscape~ipad.png in Resources */,
 				39F06FBD13E9CB5A008DAB60 /* EmptyContact.png in Resources */,
 				390396A413EA1CE6009465E7 /* AddButton.png in Resources */,
+				391957F513EB6126000FF949 /* StatusGreen.png in Resources */,
+				391957F613EB6126000FF949 /* StatusRed.png in Resources */,
+				391957F713EB6126000FF949 /* StatusYellow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1161,8 +1173,8 @@
 				39F06FA913E99B2C008DAB60 /* RBClient.m in Sources */,
 				39F06FAF13E9B5D0008DAB60 /* RBRecipient+RBDocuSign.m in Sources */,
 				39F06FBB13E9C1E1008DAB60 /* RBRecipient.m in Sources */,
-				390396A713EA1FF4009465E7 /* RBDocument.m in Sources */,
 				3905750413EB11D7002CE9ED /* RBDocuSignService.m in Sources */,
+				3905750D13EB5B4E002CE9ED /* RBDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1235,7 +1247,7 @@
 				);
 				INFOPLIST_FILE = "Build-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				PRODUCT_NAME = DocuSign;
+				PRODUCT_NAME = "Sign Me";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -1261,7 +1273,7 @@
 				);
 				INFOPLIST_FILE = "Build-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				PRODUCT_NAME = DocuSign;
+				PRODUCT_NAME = "Sign Me";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
@@ -1401,7 +1413,7 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				PRODUCT_NAME = DocuSign;
+				PRODUCT_NAME = "Sign Me";
 				STRIP_INSTALLED_PRODUCT = YES;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;

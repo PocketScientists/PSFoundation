@@ -91,6 +91,10 @@
     [[NSManagedObjectContext defaultContext] saveOnMainThread];
 }
 
+- (NSArray *)unfinishedDocumentsAlreadySentToDocuSign {
+    return [RBDocument findAllWithPredicate:[NSPredicate predicateWithFormat:@"docuSignEnvelopeID != nil AND status != %d", RBFormStatusSigned]];
+}
+
 - (RBClient *)clientWithName:(NSString *)name {
     RBClient *existingClient = [RBClient findFirstByAttribute:@"name" withValue:name];
     
@@ -122,6 +126,11 @@
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"status = %d",(NSInteger)formStatus];
     return [[RBDocument numberOfEntitiesWithPredicate:predicate] intValue];
+}
+
+- (void)deleteDocument:(RBDocument *)document {
+    [document deleteEntity];
+    [[NSManagedObjectContext defaultContext] save];
 }
 
 ////////////////////////////////////////////////////////////////////////

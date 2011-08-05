@@ -203,13 +203,12 @@
         [self.tableView insertRowsAtIndexPaths:XARRAY([NSIndexPath indexPathForRow:index inSection:0]) withRowAnimation:UITableViewRowAnimationMiddle];
     }
     
-    if (self.recipients.count < self.maxNumberOfRecipients) {
-        return YES;
-    } else {
+    if (self.recipients.count >= self.maxNumberOfRecipients) {
         self.addContactButton.enabled = NO;
         [self.viewControllerResponder dismissModalViewControllerAnimated:YES];
-        return NO;
     }
+    
+    return NO;
 }
 
 ////////////////////////////////////////////////////////////////////////

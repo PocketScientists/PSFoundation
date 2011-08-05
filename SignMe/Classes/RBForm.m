@@ -209,11 +209,15 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
 }
 
 - (NSArray *)tabs {
+    return [self tabsForNumberOfRecipients:self.numberOfRecipients];
+}
+
+- (NSArray *)tabsForNumberOfRecipients:(NSUInteger)numberOfRecipients {
     NSArray *tabs = [self.formData valueForKey:kRBFormKeyTabs];
     NSMutableArray *flattenedTabs = [NSMutableArray array];
     
     // tabs stores an array of recipients, which contains an array of tabs for this recipient
-    for (NSUInteger i = 0;i < tabs.count;i++) {
+    for (NSUInteger i = 0;i < MIN(numberOfRecipients,tabs.count);i++) {
         NSArray *tabsForRecipient = [tabs objectAtIndex:i];
         
         // add additional information to tabs
@@ -231,14 +235,6 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     }
     
     return flattenedTabs;
-}
-
-- (NSArray *)tabsForNumberOfRecipients:(NSUInteger)numberOfRecipients {
-    if (numberOfRecipients > 0 && numberOfRecipients < self.numberOfTabs) {
-        return [self.tabs subarrayWithRange:NSMakeRange(0, numberOfRecipients)];
-    }
-    
-    return nil;
 }
 
 - (NSDictionary *)PDFDictionary {

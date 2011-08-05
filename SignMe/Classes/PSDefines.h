@@ -59,6 +59,9 @@
 #define kRBRecipientPersonID        @"addressBookPersonID"
 #define kRBRecipientEmailID         @"emailPropertyID"
 
+#pragma message("Set interval to 30 minutes or so")
+#define kRBDocuSignUpdateTimeInterval MTTimeIntervalSeconds(30) //MTTimeIntervalMinutes(30)
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Box.net Folder Structure

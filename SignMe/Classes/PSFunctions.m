@@ -46,6 +46,16 @@ inline NSString *RBPathToPreSignatureFolderForClientWithName(NSString *clientNam
     return [[kRBFolderUser stringByAppendingPathComponent:[clientName lowercaseString]] stringByAppendingPathComponent:kRBFolderPreSignature];
 }
 
+inline NSString *RBPathToFolderForStatusAndClientWithName(RBFormStatus status, NSString *clientName) {
+    if (status == RBFormStatusPreSignature) {
+        return RBPathToPreSignatureFolderForClientWithName(clientName);
+    } else if (status == RBFormStatusSigned) {
+        return RBPathToSignedFolderForClientWithName(clientName);
+    }
+    
+    return nil;
+}
+
 inline NSString *RBPathToPlistWithName(NSString *name) {
     return [kRBFormSavedDirectoryPath stringByAppendingPathComponent:[name stringByAppendingString:kRBFormExtension]];
 }

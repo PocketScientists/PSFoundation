@@ -9,9 +9,12 @@
 #import "AppDelegate.h"
 #import "PSIncludes.h"
 #import "RBForm.h"
+#import "RBDocuSignService.h"
 
 
 @interface AppDelegate ()
+
+@property (nonatomic, retain) NSTimer *docuSignUpdateTimer;
 
 - (void)configureLogger;
 - (void)appplicationPrepareForBackgroundOrTermination:(UIApplication *)application;
@@ -25,6 +28,7 @@
 @synthesize window = window_;
 @synthesize navigationController = navigationController_;
 @synthesize homeViewController = homeViewController_;
+@synthesize docuSignUpdateTimer = docuSignUpdateTimer_;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -35,6 +39,9 @@
     MCRelease(window_);
     MCRelease(navigationController_);
     MCRelease(homeViewController_);
+    MCRelease(docuSignUpdateTimer_);
+    [docuSignUpdateTimer_ invalidate];
+    MCRelease(docuSignUpdateTimer_);
     
     [super dealloc];
 }
@@ -156,7 +163,11 @@
 
 // launched via post selector to speed up launch time
 - (void)postFinishLaunch {    
-    
+    // regularly update the status of all DocuSign Documents
+    self.docuSignUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:kRBDocuSignUpdateTimeInterval
+                                                                 block:^(void) {
+                                                                     [RBDocuSignService updateStatusOfDocuments];
+                                                                 } repeats:YES];
 }
 
 - (void)setupFileStructure {

@@ -9,6 +9,7 @@
 #import "RBCarouselView.h"
 #import "PSIncludes.h"
 #import "RBPersistenceManager.h"
+#import "DocuSignService.h"
 
 @interface RBCarouselView ()
 
@@ -21,9 +22,11 @@
 @property (nonatomic, retain) UILabel *label4;
 @property (nonatomic, retain) UIView *lineView;
 @property (nonatomic, retain) UIImageView *backgroundView;
+@property (nonatomic, retain) UIImageView *statusView;
 
 - (void)splitTextOnFirstTwoLabels:(NSString *)text;
 - (void)updateLabelFrames;
+- (void)updateStatusView;
 
 @end
 
@@ -38,6 +41,7 @@
 @synthesize label4 = label4_;
 @synthesize lineView = lineView_;
 @synthesize backgroundView = backgroundView_;
+@synthesize statusView = statusView_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -88,6 +92,9 @@
         backgroundView_.frame = self.bounds;
         backgroundView_.hidden = YES;
         
+        statusView_ = [[UIImageView alloc] initWithFrame:CGRectMake(self.bounds.size.width-20, self.bounds.size.height-30, 20, 20)];
+        statusView_.hidden = YES;
+        
         isAddClientView_ = NO;
         
         [self addCenteredSubview:backgroundView_];
@@ -96,6 +103,7 @@
         [self addSubview:label3_];
         [self addSubview:label4_];
         [self addSubview:lineView_];
+        [self addSubview:statusView_];
     }
     
     return self;
@@ -109,6 +117,7 @@
     MCRelease(attachedObject_);
     MCRelease(lineView_);
     MCRelease(backgroundView_);
+    MCRelease(statusView_);
     
     [super dealloc];
 }
@@ -182,6 +191,7 @@
     self.label4.font = [UIFont fontWithName:kRBFontName size:14.];
     
     [self updateLabelFrames];
+    [self updateStatusView];
 }
 
 - (void)setFromForm:(RBForm *)form {
@@ -203,6 +213,7 @@
     }
     
     [self updateLabelFrames];
+    [self updateStatusView];
 }
 
 - (void)setFromClient:(RBClient *)client {
@@ -231,6 +242,7 @@
     self.label4.font = [UIFont fontWithName:kRBFontName size:14.];
     
     [self updateLabelFrames];
+    [self updateStatusView];
 }
 
 - (void)setFromDocument:(RBDocument *)document {
@@ -251,6 +263,7 @@
     self.label4.font = [UIFont fontWithName:kRBFontName size:14.];
     
     [self updateLabelFrames];
+    [self updateStatusView];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -279,7 +292,7 @@
             // two words fit
             if (sizeNeeded.width < self.size.width) {
                 NSArray *restOfWords = [words subarrayWithRange:NSMakeRange(2, words.count-2)];
-
+                
                 twoWordsInFirstLine = YES;
                 
                 self.label1.text = firstLabelString;
@@ -295,32 +308,81 @@
         }
     }
 }
+
+- (void)updateLabelFrames {
+    [self.label1 sizeToFit];
+    self.label1.frameTop = self.topMargin;
+    self.label1.frameWidth = self.bounds.size.width;
     
-    - (void)updateLabelFrames {
-        [self.label1 sizeToFit];
-        self.label1.frameTop = self.topMargin;
-        self.label1.frameWidth = self.bounds.size.width;
-        
-        // sizeToFit doesn't work with numberOfLines != 0, Bug?
-        if (self.label2.numberOfLines != 0) { 
-            CGSize size = [self.label2.text sizeWithFont:self.label2.font
-                                       constrainedToSize:CGSizeMake(self.bounds.size.width, self.label2.numberOfLines*self.label2.font.lineHeight)
-                                           lineBreakMode:self.label2.lineBreakMode];
-            self.label2.frame = (CGRect){CGPointZero,size};
-        } else {
-            [self.label2 sizeToFit];
-            self.label2.frameWidth = self.bounds.size.width;
-        }
-        
-        [self.label2 positionUnderView:self.label1 padding:0 alignment:MTUIViewAlignmentLeftAligned];
-        
-        [self.label3 sizeToFit];
-        self.label3.frameWidth = self.bounds.size.width;
-        [self.label3 positionUnderView:self.label2 padding:5.f alignment:MTUIViewAlignmentLeftAligned];
-        
-        [self.label4 sizeToFit];
-        self.label4.frameWidth = self.bounds.size.width;
-        [self.label4 positionUnderView:self.label3 padding:0 alignment:MTUIViewAlignmentLeftAligned];
+    // sizeToFit doesn't work with numberOfLines != 0, Bug?
+    if (self.label2.numberOfLines != 0) { 
+        CGSize size = [self.label2.text sizeWithFont:self.label2.font
+                                   constrainedToSize:CGSizeMake(self.bounds.size.width, self.label2.numberOfLines*self.label2.font.lineHeight)
+                                       lineBreakMode:self.label2.lineBreakMode];
+        self.label2.frame = (CGRect){CGPointZero,size};
+    } else {
+        [self.label2 sizeToFit];
+        self.label2.frameWidth = self.bounds.size.width;
     }
     
-    @end
+    [self.label2 positionUnderView:self.label1 padding:0 alignment:MTUIViewAlignmentLeftAligned];
+    
+    [self.label3 sizeToFit];
+    self.label3.frameWidth = self.bounds.size.width;
+    [self.label3 positionUnderView:self.label2 padding:5.f alignment:MTUIViewAlignmentLeftAligned];
+    
+    [self.label4 sizeToFit];
+    self.label4.frameWidth = self.bounds.size.width;
+    [self.label4 positionUnderView:self.label3 padding:0 alignment:MTUIViewAlignmentLeftAligned];
+}
+
+- (void)updateStatusView {
+    if ([self.attachedObject isKindOfClass:[RBDocument class]]) {
+        RBDocument *document = (RBDocument *)self.attachedObject;
+        RBFormStatus formStatus = RBFormStatusForIndex([document.status intValue]);
+        
+        if (formStatus == RBFormStatusPreSignature && !IsEmpty(document.docuSignEnvelopeID)) {
+            DSAPIService_EnvelopeStatusCode docuSignStatus = [document.lastDocuSignStatus intValue];
+            
+            switch (docuSignStatus) {
+                    // Unknown branch
+                case DSAPIService_EnvelopeStatusCode_none:
+                case DSAPIService_EnvelopeStatusCode_Any:
+                    self.statusView.hidden = YES;
+                    break;
+                    
+                    // waiting branch
+                case DSAPIService_EnvelopeStatusCode_Processing:
+                case DSAPIService_EnvelopeStatusCode_Template:
+                case DSAPIService_EnvelopeStatusCode_Created:
+                case DSAPIService_EnvelopeStatusCode_Sent:
+                case DSAPIService_EnvelopeStatusCode_Delivered:
+                case DSAPIService_EnvelopeStatusCode_Signed:
+                    self.statusView.image = [UIImage imageNamed:@"StatusYellow"];
+                    self.statusView.hidden = NO;
+                    break;
+                    
+                    // finished branch
+                case DSAPIService_EnvelopeStatusCode_Completed:
+                    self.statusView.image = [UIImage imageNamed:@"StatusGreen"];
+                    self.statusView.hidden = NO;
+                    break;
+                    
+                    // Error branch
+                case DSAPIService_EnvelopeStatusCode_Voided:
+                case DSAPIService_EnvelopeStatusCode_Deleted:
+                case DSAPIService_EnvelopeStatusCode_Declined:
+                case DSAPIService_EnvelopeStatusCode_TimedOut:
+                    self.statusView.image = [UIImage imageNamed:@"StatusRed"];
+                    self.statusView.hidden = NO;
+                    break;
+            }
+        } else {
+            self.statusView.hidden = YES;
+        }
+    } else {
+        self.statusView.hidden = YES;
+    }
+}
+
+@end

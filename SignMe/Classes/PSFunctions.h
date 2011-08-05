@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RBForm.h"
 
 
 NSString *RBFormattedDateWithFormat(NSDate *date, NSString *format);
@@ -15,6 +16,7 @@ NSString *RBFormattedDateWithFormat(NSDate *date, NSString *format);
 NSString *RBPathToEmptyForms();
 NSString *RBPathToSignedFolderForClientWithName(NSString *clientName);
 NSString *RBPathToPreSignatureFolderForClientWithName(NSString *clientName);
+NSString *RBPathToFolderForStatusAndClientWithName(RBFormStatus status, NSString *clientName);
 
 // path to local plist file
 NSString *RBPathToPlistWithName(NSString *name);

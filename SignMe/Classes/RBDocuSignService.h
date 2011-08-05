@@ -12,5 +12,6 @@
 @interface RBDocuSignService : NSObject
 
 + (void)sendDocument:(RBDocument *)document;
++ (void)updateStatusOfDocuments;
 
 @end

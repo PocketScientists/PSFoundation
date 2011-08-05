@@ -348,11 +348,13 @@
 }
 
 - (void)updateUI {
-    [self.formsCarousel reloadData];
-    [self.clientsCarousel reloadData];
-    [self.detailCarousel reloadData];
-    
-    ((UIControl *)self.formsCarousel.currentView).selected = self.detailViewVisible;
+    if ([self isViewLoaded]) {
+        [self.formsCarousel reloadData];
+        [self.clientsCarousel reloadData];
+        [self.detailCarousel reloadData];
+        
+        ((UIControl *)self.formsCarousel.currentView).selected = self.detailViewVisible;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -569,8 +571,31 @@
             }];
             
             // send to DocuSign
-            [actionSheet setDestructiveButtonWithTitle:@"Finalize" block:^(void) {
-                [self finalizeDocument:document];
+            [actionSheet addButtonWithTitle:@"Finalize" block:^(void) {
+                PSAlertView *alertView = [PSAlertView alertWithTitle:document.name message:@"Do you want to finalize this document?"];
+                
+                [alertView addButtonWithTitle:@"Finalize" block:^(void) {
+                    [self finalizeDocument:document];
+                }];
+                
+                [alertView setCancelButtonWithTitle:@"Cancel" block:nil];
+                
+                [alertView show];
+            }];
+            
+            // delete document
+            [actionSheet setDestructiveButtonWithTitle:@"Delete" block:^(void) {
+                PSAlertView *alertView = [PSAlertView alertWithTitle:document.name message:@"Do you really want to delete this document?"];
+                
+                [alertView addButtonWithTitle:@"Delete" block:^(void) {
+                    RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+                    [persistenceManager deleteDocument:document];
+                    [self.formsCarousel reloadData];
+                }];
+                
+                [alertView setCancelButtonWithTitle:@"Cancel" block:nil];
+                 
+                [alertView show];
             }];
             
             [self performBlock:^(void) {
