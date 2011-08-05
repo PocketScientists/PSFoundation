@@ -58,6 +58,14 @@
 		39680E6613DF838A006B47C1 /* RBPersistenceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39680E6513DF838A006B47C1 /* RBPersistenceManager.m */; };
 		39680E6A13E06A8B006B47C1 /* RBClientEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39680E6913E06A8B006B47C1 /* RBClientEditViewController.m */; };
 		39782EF513EC49E7005CE8D6 /* NewContactButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 39782EF413EC49E7005CE8D6 /* NewContactButton.png */; };
+		39782FF413EC4F35005CE8D6 /* 11-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39782F8413EC4F34005CE8D6 /* 11-x.png */; };
+		39782FF513EC4F35005CE8D6 /* 19-check.png in Resources */ = {isa = PBXBuildFile; fileRef = 39782F8513EC4F34005CE8D6 /* 19-check.png */; };
+		39782FF713EC4F35005CE8D6 /* ATMHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782F8813EC4F34005CE8D6 /* ATMHud.m */; };
+		39782FF813EC4F35005CE8D6 /* ATMHudQueueItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782F8F13EC4F34005CE8D6 /* ATMHudQueueItem.m */; };
+		39782FF913EC4F35005CE8D6 /* ATMHudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782F9113EC4F34005CE8D6 /* ATMHudView.m */; };
+		39782FFA13EC4F35005CE8D6 /* ATMProgressLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782F9313EC4F34005CE8D6 /* ATMProgressLayer.m */; };
+		39782FFB13EC4F35005CE8D6 /* ATMSoundFX.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782F9513EC4F34005CE8D6 /* ATMSoundFX.m */; };
+		39782FFC13EC4F35005CE8D6 /* ATMTextLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39782F9713EC4F34005CE8D6 /* ATMTextLayer.m */; };
 		3981E12013DF3A4F00B23A7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		3981E12313DF3A4F00B23A7D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E12213DF3A4F00B23A7D /* main.m */; };
 		3981E12713DF3A4F00B23A7D /* PlistCreator.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3981E12613DF3A4F00B23A7D /* PlistCreator.1 */; };
@@ -304,6 +312,21 @@
 		39680E6813E06A8B006B47C1 /* RBClientEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBClientEditViewController.h; sourceTree = "<group>"; };
 		39680E6913E06A8B006B47C1 /* RBClientEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBClientEditViewController.m; sourceTree = "<group>"; };
 		39782EF413EC49E7005CE8D6 /* NewContactButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NewContactButton.png; path = Images/NewContactButton.png; sourceTree = "<group>"; };
+		39782F8413EC4F34005CE8D6 /* 11-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "11-x.png"; sourceTree = "<group>"; };
+		39782F8513EC4F34005CE8D6 /* 19-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-check.png"; sourceTree = "<group>"; };
+		39782F8713EC4F34005CE8D6 /* ATMHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMHud.h; sourceTree = "<group>"; };
+		39782F8813EC4F34005CE8D6 /* ATMHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMHud.m; sourceTree = "<group>"; };
+		39782F8D13EC4F34005CE8D6 /* ATMHudDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMHudDelegate.h; sourceTree = "<group>"; };
+		39782F8E13EC4F34005CE8D6 /* ATMHudQueueItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMHudQueueItem.h; sourceTree = "<group>"; };
+		39782F8F13EC4F34005CE8D6 /* ATMHudQueueItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMHudQueueItem.m; sourceTree = "<group>"; };
+		39782F9013EC4F34005CE8D6 /* ATMHudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMHudView.h; sourceTree = "<group>"; };
+		39782F9113EC4F34005CE8D6 /* ATMHudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMHudView.m; sourceTree = "<group>"; };
+		39782F9213EC4F34005CE8D6 /* ATMProgressLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMProgressLayer.h; sourceTree = "<group>"; };
+		39782F9313EC4F34005CE8D6 /* ATMProgressLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMProgressLayer.m; sourceTree = "<group>"; };
+		39782F9413EC4F34005CE8D6 /* ATMSoundFX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMSoundFX.h; sourceTree = "<group>"; };
+		39782F9513EC4F34005CE8D6 /* ATMSoundFX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMSoundFX.m; sourceTree = "<group>"; };
+		39782F9613EC4F34005CE8D6 /* ATMTextLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMTextLayer.h; sourceTree = "<group>"; };
+		39782F9713EC4F34005CE8D6 /* ATMTextLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMTextLayer.m; sourceTree = "<group>"; };
 		3981E11E13DF3A4F00B23A7D /* PlistCreator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PlistCreator; sourceTree = BUILT_PRODUCTS_DIR; };
 		3981E12213DF3A4F00B23A7D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3981E12513DF3A4F00B23A7D /* PlistCreator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PlistCreator-Prefix.pch"; sourceTree = "<group>"; };
@@ -510,6 +533,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				39782EF613EC4F34005CE8D6 /* ATMHud */,
 				3911A20B13E1DA9300CD4F6C /* iPhoneContacts.xcodeproj */,
 				394B915B13D64923007BFF2E /* DocuSign.xcodeproj */,
 				394B914E13D6491A007BFF2E /* box.xcodeproj */,
@@ -705,6 +729,28 @@
 				39680E6913E06A8B006B47C1 /* RBClientEditViewController.m */,
 			);
 			name = Client;
+			sourceTree = "<group>";
+		};
+		39782EF613EC4F34005CE8D6 /* ATMHud */ = {
+			isa = PBXGroup;
+			children = (
+				39782F8413EC4F34005CE8D6 /* 11-x.png */,
+				39782F8513EC4F34005CE8D6 /* 19-check.png */,
+				39782F8713EC4F34005CE8D6 /* ATMHud.h */,
+				39782F8813EC4F34005CE8D6 /* ATMHud.m */,
+				39782F8D13EC4F34005CE8D6 /* ATMHudDelegate.h */,
+				39782F8E13EC4F34005CE8D6 /* ATMHudQueueItem.h */,
+				39782F8F13EC4F34005CE8D6 /* ATMHudQueueItem.m */,
+				39782F9013EC4F34005CE8D6 /* ATMHudView.h */,
+				39782F9113EC4F34005CE8D6 /* ATMHudView.m */,
+				39782F9213EC4F34005CE8D6 /* ATMProgressLayer.h */,
+				39782F9313EC4F34005CE8D6 /* ATMProgressLayer.m */,
+				39782F9413EC4F34005CE8D6 /* ATMSoundFX.h */,
+				39782F9513EC4F34005CE8D6 /* ATMSoundFX.m */,
+				39782F9613EC4F34005CE8D6 /* ATMTextLayer.h */,
+				39782F9713EC4F34005CE8D6 /* ATMTextLayer.m */,
+			);
+			path = ATMHud;
 			sourceTree = "<group>";
 		};
 		3981E12113DF3A4F00B23A7D /* PlistCreator */ = {
@@ -1106,6 +1152,8 @@
 				391957F713EB6126000FF949 /* StatusYellow.png in Resources */,
 				39AA377213EB6E6B00338A3E /* Settings.bundle in Resources */,
 				39782EF513EC49E7005CE8D6 /* NewContactButton.png in Resources */,
+				39782FF413EC4F35005CE8D6 /* 11-x.png in Resources */,
+				39782FF513EC4F35005CE8D6 /* 19-check.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1183,6 +1231,12 @@
 				39F06FBB13E9C1E1008DAB60 /* RBRecipient.m in Sources */,
 				3905750413EB11D7002CE9ED /* RBDocuSignService.m in Sources */,
 				39AA379513EB781700338A3E /* RBDocument.m in Sources */,
+				39782FF713EC4F35005CE8D6 /* ATMHud.m in Sources */,
+				39782FF813EC4F35005CE8D6 /* ATMHudQueueItem.m in Sources */,
+				39782FF913EC4F35005CE8D6 /* ATMHudView.m in Sources */,
+				39782FFA13EC4F35005CE8D6 /* ATMProgressLayer.m in Sources */,
+				39782FFB13EC4F35005CE8D6 /* ATMSoundFX.m in Sources */,
+				39782FFC13EC4F35005CE8D6 /* ATMTextLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

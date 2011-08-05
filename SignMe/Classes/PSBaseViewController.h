@@ -16,15 +16,11 @@
 @property (nonatomic, retain) RBTimeView *timeView;
 
 @property (nonatomic, retain) UIImageView *fullLogoImageView;
-@property (nonatomic, retain) UIImageView *emptyLogoImageView;
-@property (nonatomic, retain) UIActivityIndicatorView *activityView;
 @property (nonatomic, retain) UIImageView *logoSignMe;
 
-- (void)beginLoadingShowingProgress:(BOOL)showingProgress;
-- (void)setLoadingProgress:(float)progress;
-- (void)finishLoading;
-
-- (void)showActivityViewAtPoint:(CGPoint)center;
-- (void)hideActivityView;
+- (void)showLoadingMessage:(NSString *)message;
+- (void)showSuccessMessage:(NSString *)message;
+- (void)showErrorMessage:(NSString *)message;
+- (void)hideMessage;
 
 @end

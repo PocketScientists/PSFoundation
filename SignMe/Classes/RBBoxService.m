@@ -34,7 +34,7 @@ static Box *box = nil;
     __block RBBoxLoginViewController *loginViewController = nil;
     
     // start indicating loading
-    [viewController beginLoadingShowingProgress:NO];
+    [viewController showLoadingMessage:@"Updating Data"];
     
     [box syncFolderWithId:[NSUserDefaults standardUserDefaults].folderID
                     loginBlock:^UIWebView *(void) {
@@ -62,16 +62,18 @@ static Box *box = nil;
                        MCReleaseNil(loginViewController);
                    }
                    
-                   [viewController finishLoading];
+                   [viewController hideMessage];
                    
                    if (response == BoxResponseSuccess) {
                        successBlock(boxObject);
+                       [viewController showSuccessMessage:@"Update successful"];
                    } else {
                        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
                        if (failureBlock != nil) {
                            failureBlock(response);
                        }
                        
+                       [viewController showErrorMessage:@"Error updating box.net"];
                        DDLogError(@"Error syncing box.net folder: %d, %@", response, boxObject);
                    }
                }];

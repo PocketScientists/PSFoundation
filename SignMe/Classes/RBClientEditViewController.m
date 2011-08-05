@@ -90,7 +90,6 @@
     [super viewDidLoad];
     
     self.timeView.hidden = YES;
-    self.emptyLogoImageView.hidden = YES;
     self.fullLogoImageView.hidden = YES;
     self.logoSignMe.hidden = YES;
     

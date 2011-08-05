@@ -31,3 +31,6 @@
 [submodule "DCRoundSwitch"]
 	path = DCRoundSwitch
 	url = https://github.com/domesticcatsoftware/DCRoundSwitch.git
+[submodule "ATMHud"]
+	path = ATMHud
+	url = https://github.com/atomton/ATMHud.git
