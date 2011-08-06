@@ -63,7 +63,7 @@ static DocuSignService *docuSign = nil;
                 // update document status after 10 seconds
                 [self performSelector:@selector(updateStatusOfDocuments) afterDelay:10.];
             } else {
-                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"DocuSign error: %@",DSAPIService_EnvelopeStatusCode_stringFromEnum(status.Status)]];
+                [MTApplicationDelegate showErrorMessage:@"Error sending to DocuSign"];
                 DDLogError(@"Wasn't able to send document: %d", status.Status);
             }
         } else {
@@ -88,6 +88,7 @@ static DocuSignService *docuSign = nil;
         if (docuSign.account != nil) {
             for (RBDocument *document in documents) {
                 DSAPIService_EnvelopeStatus *status = [docuSign statusForEnvelope:document.docuSignEnvelopeID];
+                DSAPIService_EnvelopeStatusCode previousStatus = [document.lastDocuSignStatus intValue];
                 
                 DDLogInfo(@"DocuSign: Document '%@' of Client '%@' has status '%@'.", document.name, document.client.name, DSAPIService_EnvelopeStatusCode_stringFromEnum(status.Status));
                 
@@ -98,6 +99,13 @@ static DocuSignService *docuSign = nil;
                 if (status.Status == DSAPIService_EnvelopeStatusCode_Completed) {
                     document.status = $I(RBFormStatusSigned);
                     documentGotSigned = YES;
+                    
+                    // if status has changed to completed, delete old files from box.net folder pre-signature
+                    if (previousStatus != DSAPIService_EnvelopeStatusCode_Completed) {
+                        DDLogInfo(@"Will delete old files from Pre-Signature folder for document %@", document.fileURL);
+                        [RBBoxService deleteDocument:document 
+                                    fromFolderAtPath:RBPathToPreSignatureFolderForClientWithName(document.client.name)];
+                    }
                 }
                 
                 // update saved PDF
@@ -111,7 +119,6 @@ static DocuSignService *docuSign = nil;
                     // Sent to Box.net
                     NSString *folderPath = RBPathToFolderForStatusAndClientWithName([document.status intValue], document.client.name);
                     [RBBoxService uploadDocument:document toFolderAtPath:folderPath];
-                    // TODO: Delete pre-signature PDF and PList from Box if status has changed from Pre-Signature to Signed
                 }
             }
             

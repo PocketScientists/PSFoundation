@@ -15,6 +15,8 @@
 
 + (Box *)box;
 
++ (BOOL)shouldSyncFolder;
+
 + (void)syncFolderWithID:(NSInteger)folderID 
              startedFrom:(PSBaseViewController *)viewController
             successBlock:(void (^)(id boxObject))successBlock
@@ -23,5 +25,7 @@
 
 + (void)uploadDocument:(RBDocument *)document toFolder:(BoxFolder *)folder;
 + (void)uploadDocument:(RBDocument *)document toFolderAtPath:(NSString *)path;
+
++ (void)deleteDocument:(RBDocument *)document fromFolderAtPath:(NSString *)path;
 
 @end

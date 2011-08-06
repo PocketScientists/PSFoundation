@@ -196,7 +196,7 @@
     }
     
     // upload files to box.net
-    if (self.document != nil && [[RBBoxService box] isLoggedIn]) {
+    if (self.document != nil) {
         [RBBoxService uploadDocument:self.document toFolderAtPath:RBPathToPreSignatureFolderForClientWithName(self.client.name)];
     }
     

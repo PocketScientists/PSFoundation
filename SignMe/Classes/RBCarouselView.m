@@ -92,7 +92,7 @@
         backgroundView_.frame = self.bounds;
         backgroundView_.hidden = YES;
         
-        statusView_ = [[UIImageView alloc] initWithFrame:CGRectMake(self.bounds.size.width-20, self.bounds.size.height-30, 20, 20)];
+        statusView_ = [[UIImageView alloc] initWithFrame:CGRectMake(self.bounds.size.width-14, self.bounds.size.height-30, 20, 20)];
         statusView_.hidden = YES;
         
         isAddClientView_ = NO;

@@ -226,7 +226,7 @@
 	}
     
     // TODO: remove
-    [self insertTempData];
+    // [self insertTempData];
     
     self.formsLabel = [self headerLabelForView:self.formsCarousel text:@"Forms"];
     self.clientsLabel = [self headerLabelForView:self.clientsCarousel text:@"Clients"];
@@ -317,9 +317,9 @@
     }
 }
 
-- (void)syncBoxNet {
+- (void)syncBoxNet {    
     // only update forms once a day
-    if (![[NSUserDefaults standardUserDefaults].formsUpdateDate isToday]) {
+    if ([RBBoxService shouldSyncFolder]) {
         [RBBoxService syncFolderWithID:[NSUserDefaults standardUserDefaults].folderID
                            startedFrom:self
                           successBlock:^(id boxObject) {
@@ -586,15 +586,19 @@
             
             // send to DocuSign
             [actionSheet addButtonWithTitle:@"Finalize" block:^(void) {
-                PSAlertView *alertView = [PSAlertView alertWithTitle:document.name message:[NSString stringWithFormat:@"Do you want to finalize this document for %@?",document.client.name]];
-                
-                [alertView addButtonWithTitle:@"Finalize" block:^(void) {
-                    [self finalizeDocument:document];
-                }];
-                
-                [alertView setCancelButtonWithTitle:@"Cancel" block:nil];
-                
-                [alertView show];
+                if (document.recipients.count > 0) {
+                    PSAlertView *alertView = [PSAlertView alertWithTitle:document.name message:[NSString stringWithFormat:@"Do you want to finalize this document for %@?",document.client.name]];
+                    
+                    [alertView addButtonWithTitle:@"Finalize" block:^(void) {
+                        [self finalizeDocument:document];
+                    }];
+                    
+                    [alertView setCancelButtonWithTitle:@"Cancel" block:nil];
+                    
+                    [alertView show];
+                } else {
+                    [self showErrorMessage:@"Document has no recipients, cannot send!"];
+                }
             }];
             
             // delete document
