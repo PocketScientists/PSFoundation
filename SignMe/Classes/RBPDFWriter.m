@@ -61,7 +61,7 @@
         CGPDFDictionaryRef pageDict = CGPDFPageGetDictionary(page);
         
         // retrieve the annotations dictionary
-        CGPDFArrayRef annots;
+        CGPDFArrayRef annots = NULL;
         CGPDFDictionaryGetArray(pageDict, "Annots", &annots);
         
         if (annots) {
