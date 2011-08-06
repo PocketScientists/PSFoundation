@@ -1316,7 +1316,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Red Bull North America Inc.";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)/**",
@@ -1334,7 +1334,7 @@
 				INFOPLIST_FILE = "Build-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = "Sign Me";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8BA8E96D-B549-48C1-9C53-4253673A3A80";
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1523,7 +1523,8 @@
 			baseConfigurationReference = 7876F550130D856A00A79E01 /* distribution.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Peter Steinberger";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Red Bull North America Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Red Bull North America Inc.";
 				FRAMEWORK_SEARCH_PATHS = ../.;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1552,7 +1553,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-all_load";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "772FFDBF-009F-497C-A043-0B354575D189";
+				PROVISIONING_PROFILE = "8BA8E96D-B549-48C1-9C53-4253673A3A80";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8BA8E96D-B549-48C1-9C53-4253673A3A80";
 				SDKROOT = iphoneos;
 			};
 			name = Distribution;
