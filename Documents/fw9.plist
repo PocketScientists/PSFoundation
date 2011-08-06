@@ -13,9 +13,9 @@
 				<key>id</key>
 				<string>f1_01_0_[0]</string>
 				<key>label</key>
-				<string>f1_01_0_[0]</string>
+				<string>Name</string>
 				<key>mapping</key>
-				<string></string>
+				<string>name</string>
 			</dict>
 			<dict>
 				<key>datatype</key>
@@ -23,7 +23,7 @@
 				<key>id</key>
 				<string>f1_02_0_[0]</string>
 				<key>label</key>
-				<string>f1_02_0_[0]</string>
+				<string>Business name</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -33,7 +33,7 @@
 				<key>id</key>
 				<string>c1_01[0]</string>
 				<key>label</key>
-				<string>c1_01[0]</string>
+				<string>individual/sole proprietor</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -43,7 +43,7 @@
 				<key>id</key>
 				<string>c1_01[1]</string>
 				<key>label</key>
-				<string>c1_01[1]</string>
+				<string>C Corporation</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -53,7 +53,7 @@
 				<key>id</key>
 				<string>c1_01[2]</string>
 				<key>label</key>
-				<string>c1_01[2]</string>
+				<string>S Corporation</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -63,7 +63,7 @@
 				<key>id</key>
 				<string>c1_01[3]</string>
 				<key>label</key>
-				<string>c1_01[3]</string>
+				<string>Partnership</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -73,7 +73,7 @@
 				<key>id</key>
 				<string>c1_01[4]</string>
 				<key>label</key>
-				<string>c1_01[4]</string>
+				<string>Trust/estate</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -83,7 +83,7 @@
 				<key>id</key>
 				<string>c1_01[5]</string>
 				<key>label</key>
-				<string>c1_01[5]</string>
+				<string>Limited liability company</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -93,7 +93,7 @@
 				<key>id</key>
 				<string>f1_18_0_[0]</string>
 				<key>label</key>
-				<string>f1_18_0_[0]</string>
+				<string>Tax Classification</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -103,7 +103,7 @@
 				<key>id</key>
 				<string>c1_01[6]</string>
 				<key>label</key>
-				<string>c1_01[6]</string>
+				<string>Other (see instructions)</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -113,7 +113,7 @@
 				<key>id</key>
 				<string>f1_50_0_[0]</string>
 				<key>label</key>
-				<string>f1_50_0_[0]</string>
+				<string>Other tax classification</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -123,7 +123,7 @@
 				<key>id</key>
 				<string>c1_01[7]</string>
 				<key>label</key>
-				<string>c1_01[7]</string>
+				<string>Exempt payee</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -133,9 +133,9 @@
 				<key>id</key>
 				<string>f1_04_0_[0]</string>
 				<key>label</key>
-				<string>f1_04_0_[0]</string>
+				<string>Address</string>
 				<key>mapping</key>
-				<string></string>
+				<string>address</string>
 			</dict>
 			<dict>
 				<key>datatype</key>
@@ -143,9 +143,9 @@
 				<key>id</key>
 				<string>f1_05_0_[0]</string>
 				<key>label</key>
-				<string>f1_05_0_[0]</string>
+				<string>City, state and ZIP</string>
 				<key>mapping</key>
-				<string></string>
+				<string>city</string>
 			</dict>
 			<dict>
 				<key>datatype</key>
@@ -153,7 +153,7 @@
 				<key>id</key>
 				<string>f1_06_0_[0]</string>
 				<key>label</key>
-				<string>f1_06_0_[0]</string>
+				<string>Requester's name and address</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -163,7 +163,7 @@
 				<key>id</key>
 				<string>f1_07_0_[0]</string>
 				<key>label</key>
-				<string>f1_07_0_[0]</string>
+				<string>Account number(s)</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -173,7 +173,7 @@
 				<key>id</key>
 				<string>TextField1[0]</string>
 				<key>label</key>
-				<string>TextField1[0]</string>
+				<string>SSN first 3 numbers</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -183,7 +183,7 @@
 				<key>id</key>
 				<string>TextField2[0]</string>
 				<key>label</key>
-				<string>TextField2[0]</string>
+				<string>SSN numbers 4 and 5</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -193,7 +193,7 @@
 				<key>id</key>
 				<string>TextField2[1]</string>
 				<key>label</key>
-				<string>TextField2[1]</string>
+				<string>SSN numbers 6-9</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -203,7 +203,7 @@
 				<key>id</key>
 				<string>TextField2[2]</string>
 				<key>label</key>
-				<string>TextField2[2]</string>
+				<string>Employer id first 2 numbers</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -213,643 +213,7 @@
 				<key>id</key>
 				<string>TextField2[3]</string>
 				<key>label</key>
-				<string>TextField2[3]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-		</array>
-		<array>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_01_0_[0]</string>
-				<key>label</key>
-				<string>f1_01_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_02_0_[0]</string>
-				<key>label</key>
-				<string>f1_02_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[0]</string>
-				<key>label</key>
-				<string>c1_01[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[1]</string>
-				<key>label</key>
-				<string>c1_01[1]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[2]</string>
-				<key>label</key>
-				<string>c1_01[2]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[3]</string>
-				<key>label</key>
-				<string>c1_01[3]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[4]</string>
-				<key>label</key>
-				<string>c1_01[4]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[5]</string>
-				<key>label</key>
-				<string>c1_01[5]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_18_0_[0]</string>
-				<key>label</key>
-				<string>f1_18_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[6]</string>
-				<key>label</key>
-				<string>c1_01[6]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_50_0_[0]</string>
-				<key>label</key>
-				<string>f1_50_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[7]</string>
-				<key>label</key>
-				<string>c1_01[7]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_04_0_[0]</string>
-				<key>label</key>
-				<string>f1_04_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_05_0_[0]</string>
-				<key>label</key>
-				<string>f1_05_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_06_0_[0]</string>
-				<key>label</key>
-				<string>f1_06_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_07_0_[0]</string>
-				<key>label</key>
-				<string>f1_07_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>TextField1[0]</string>
-				<key>label</key>
-				<string>TextField1[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>TextField2[0]</string>
-				<key>label</key>
-				<string>TextField2[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>TextField2[1]</string>
-				<key>label</key>
-				<string>TextField2[1]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>TextField2[2]</string>
-				<key>label</key>
-				<string>TextField2[2]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>TextField2[3]</string>
-				<key>label</key>
-				<string>TextField2[3]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-		</array>
-		<array>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_01_0_[0]</string>
-				<key>label</key>
-				<string>f1_01_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_02_0_[0]</string>
-				<key>label</key>
-				<string>f1_02_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[0]</string>
-				<key>label</key>
-				<string>c1_01[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[1]</string>
-				<key>label</key>
-				<string>c1_01[1]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[2]</string>
-				<key>label</key>
-				<string>c1_01[2]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[3]</string>
-				<key>label</key>
-				<string>c1_01[3]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[4]</string>
-				<key>label</key>
-				<string>c1_01[4]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[5]</string>
-				<key>label</key>
-				<string>c1_01[5]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_18_0_[0]</string>
-				<key>label</key>
-				<string>f1_18_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[6]</string>
-				<key>label</key>
-				<string>c1_01[6]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_50_0_[0]</string>
-				<key>label</key>
-				<string>f1_50_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[7]</string>
-				<key>label</key>
-				<string>c1_01[7]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_04_0_[0]</string>
-				<key>label</key>
-				<string>f1_04_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_05_0_[0]</string>
-				<key>label</key>
-				<string>f1_05_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_06_0_[0]</string>
-				<key>label</key>
-				<string>f1_06_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_07_0_[0]</string>
-				<key>label</key>
-				<string>f1_07_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>TextField1[0]</string>
-				<key>label</key>
-				<string>TextField1[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>TextField2[0]</string>
-				<key>label</key>
-				<string>TextField2[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>TextField2[1]</string>
-				<key>label</key>
-				<string>TextField2[1]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>TextField2[2]</string>
-				<key>label</key>
-				<string>TextField2[2]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>TextField2[3]</string>
-				<key>label</key>
-				<string>TextField2[3]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-		</array>
-		<array>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_01_0_[0]</string>
-				<key>label</key>
-				<string>f1_01_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_02_0_[0]</string>
-				<key>label</key>
-				<string>f1_02_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[0]</string>
-				<key>label</key>
-				<string>c1_01[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[1]</string>
-				<key>label</key>
-				<string>c1_01[1]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[2]</string>
-				<key>label</key>
-				<string>c1_01[2]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[3]</string>
-				<key>label</key>
-				<string>c1_01[3]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[4]</string>
-				<key>label</key>
-				<string>c1_01[4]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[5]</string>
-				<key>label</key>
-				<string>c1_01[5]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_18_0_[0]</string>
-				<key>label</key>
-				<string>f1_18_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[6]</string>
-				<key>label</key>
-				<string>c1_01[6]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_50_0_[0]</string>
-				<key>label</key>
-				<string>f1_50_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Btn</string>
-				<key>id</key>
-				<string>c1_01[7]</string>
-				<key>label</key>
-				<string>c1_01[7]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_04_0_[0]</string>
-				<key>label</key>
-				<string>f1_04_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_05_0_[0]</string>
-				<key>label</key>
-				<string>f1_05_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_06_0_[0]</string>
-				<key>label</key>
-				<string>f1_06_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>f1_07_0_[0]</string>
-				<key>label</key>
-				<string>f1_07_0_[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>TextField1[0]</string>
-				<key>label</key>
-				<string>TextField1[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>TextField2[0]</string>
-				<key>label</key>
-				<string>TextField2[0]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>TextField2[1]</string>
-				<key>label</key>
-				<string>TextField2[1]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>TextField2[2]</string>
-				<key>label</key>
-				<string>TextField2[2]</string>
-				<key>mapping</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>datatype</key>
-				<string>Tx</string>
-				<key>id</key>
-				<string>TextField2[3]</string>
-				<key>label</key>
-				<string>TextField2[3]</string>
+				<string>Employer id numbers 3-9</string>
 				<key>mapping</key>
 				<string></string>
 			</dict>
@@ -864,19 +228,19 @@
 				<key>type</key>
 				<string>SignHere</string>
 				<key>x</key>
-				<integer>100</integer>
+				<integer>200</integer>
 				<key>y</key>
-				<integer>120</integer>
+				<integer>485</integer>
 			</dict>
 			<dict>
 				<key>page</key>
-				<integer>2</integer>
+				<integer>1</integer>
 				<key>type</key>
 				<string>InitialHere</string>
 				<key>x</key>
-				<integer>200</integer>
+				<integer>150</integer>
 				<key>y</key>
-				<integer>140</integer>
+				<integer>485</integer>
 			</dict>
 		</array>
 	</array>

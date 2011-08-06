@@ -530,45 +530,45 @@
 		<array>
 			<dict>
 				<key>page</key>
-				<integer>1</integer>
-				<key>type</key>
-				<string>SignHere</string>
-				<key>x</key>
-				<integer>100</integer>
-				<key>y</key>
-				<integer>120</integer>
-			</dict>
-			<dict>
-				<key>page</key>
-				<integer>1</integer>
+				<integer>4</integer>
 				<key>type</key>
 				<string>InitialHere</string>
 				<key>x</key>
-				<integer>400</integer>
+				<integer>100</integer>
 				<key>y</key>
+				<integer>640</integer>
+			</dict>
+			<dict>
+				<key>page</key>
+				<integer>4</integer>
+				<key>type</key>
+				<string>SignHere</string>
+				<key>x</key>
 				<integer>140</integer>
+				<key>y</key>
+				<integer>640</integer>
 			</dict>
 		</array>
 		<array>
 			<dict>
 				<key>page</key>
-				<integer>2</integer>
-				<key>type</key>
-				<string>SignHere</string>
-				<key>x</key>
-				<integer>100</integer>
-				<key>y</key>
-				<integer>120</integer>
-			</dict>
-			<dict>
-				<key>page</key>
-				<integer>2</integer>
+				<integer>4</integer>
 				<key>type</key>
 				<string>InitialHere</string>
 				<key>x</key>
 				<integer>400</integer>
 				<key>y</key>
-				<integer>140</integer>
+				<integer>640</integer>
+			</dict>
+			<dict>
+				<key>page</key>
+				<integer>4</integer>
+				<key>type</key>
+				<string>SignHere</string>
+				<key>x</key>
+				<integer>440</integer>
+				<key>y</key>
+				<integer>640</integer>
 			</dict>
 		</array>
 	</array>
