@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RBTextField : UITextField
+@interface RBTextField : UITextField <UIPopoverControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
+@property (nonatomic, retain) NSString *subtype;
+@property (nonatomic, retain) NSArray *items;
 @property (nonatomic, readwrite, assign) IBOutlet UITextField *nextField;
+@property (nonatomic, retain) UIPopoverController *popoverController;
 
 @end

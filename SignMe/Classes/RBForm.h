@@ -14,6 +14,15 @@
 #define kRBFormKeyLabel             @"label"            // label of the field
 #define kRBFormKeyDatatype          @"datatype"         // datatype decides which UIControl is displayed
 #define kRBFormKeyValue             @"value"            // set value of the field
+#define kRBFormKeySectionInfos      @"sectionDisplayInfos"            // section display infos
+#define kRBFormKeySubsections       @"subsections"      // section display infos
+#define kRBFormKeyFields            @"fields"           // fields of subsection
+#define kRBFormKeySize              @"size"             // size of a field in percent of form width
+#define kRBFormKeyPosition          @"position"         // position of a field relative to the previous field
+#define kRBFormKeySubtype           @"subtype"          // subtype refines which UIControl is displayed
+#define kRBFormKeyListID            @"listid"           // refers to the items to display
+#define kRBFormKeyLists             @"lists"            // set of item lists
+#define kRBFormKeyItems             @"items"            // set of items
 
 #define kRBFormKeyTabs              @"tabs"             // tabs for signing in DocuSign
 #define kRBFormKeyTabPage           @"page"             // the page a tab should appear
@@ -75,6 +84,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus);
 /** Sections for input view */
 @property (nonatomic, readonly) NSUInteger numberOfSections;
 @property (nonatomic, readonly) NSArray *sections;
+@property (nonatomic, readonly) NSArray *sectionDisplayInfos;
 /** Tabs for DocuSign */
 @property (nonatomic, readonly) NSUInteger numberOfTabs;
 @property (nonatomic, readonly) NSUInteger numberOfRecipients;
@@ -86,6 +96,12 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus);
 
 /** all field IDs of a section */
 - (NSArray *)fieldIDsOfSection:(NSUInteger)section;
+- (NSArray *)fieldIDsOfSubsection:(NSUInteger)subsection inSection:(NSUInteger)section;
+
+- (NSUInteger)numberOfSubsectionsInSection:(NSUInteger)section;
+
+- (NSString *)displayNameOfSection:(NSUInteger)section;
+- (NSString *)displayNameOfSubsection:(NSUInteger)subsection inSection:(NSUInteger)section;
 
 - (NSUInteger)numberOfTabsWithType:(NSString *)tabType;
 - (NSArray *)tabsWithType:(NSString *)tabType;
@@ -97,6 +113,8 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus);
 
 /** check if a field matches a specified purpose (e.g. name, street, address, ... */
 - (BOOL)fieldWithID:(NSString *)fieldID inSection:(NSUInteger)section matches:(NSString *)match;
+
+- (NSArray *)listForID:(NSString *)listID;
 
 /** writes the data to a plist-file */
 - (BOOL)saveAsDocument;

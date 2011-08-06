@@ -178,12 +178,44 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     return [self.formData valueForKey:kRBFormKeyDisplayName];
 }
 
+- (NSString *)displayNameOfSection:(NSUInteger)section {
+    NSDictionary *sectionInfo = [self.sectionDisplayInfos objectAtIndex:section];
+    if (sectionInfo == nil) return nil;
+    
+    return [sectionInfo objectForKey:kRBFormKeyDisplayName];
+}
+
+- (NSString *)displayNameOfSubsection:(NSUInteger)subsection inSection:(NSUInteger)section {
+    NSDictionary *sectionInfo = [self.sectionDisplayInfos objectAtIndex:section];
+    if (sectionInfo == nil) return nil;
+
+    NSArray *subsections = [sectionInfo objectForKey:kRBFormKeySubsections];
+    if (subsections == nil) return nil;
+
+    NSDictionary *subsectionInfo = [subsections objectAtIndex:subsection];
+    if (subsectionInfo == nil) return nil;
+    
+    return [subsectionInfo objectForKey:kRBFormKeyDisplayName];
+}
+
 - (NSUInteger)numberOfSections {
     return self.sections.count;
 }
 
+- (NSUInteger)numberOfSubsectionsInSection:(NSUInteger)section {
+    NSDictionary *sectionInfo = [self.sectionDisplayInfos objectAtIndex:section];
+    if (sectionInfo == nil) return 1;
+    
+    NSArray *subsections = [sectionInfo objectForKey:kRBFormKeySubsections];
+    return MAX([subsections count], 1);
+}
+
 - (NSArray *)sections {
     return [self.formData valueForKey:kRBFormKeySection];
+}
+
+- (NSArray *)sectionDisplayInfos {
+    return [self.formData valueForKey:kRBFormKeySectionInfos];
 }
 
 - (NSUInteger)numberOfTabs {
@@ -267,6 +299,39 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     return fieldIDs;
 }
 
+- (NSArray *)fieldIDsOfSubsection:(NSUInteger)subsection inSection:(NSUInteger)section {
+    // index out of bounds
+    if (section >= self.numberOfSections) {
+        DDLogWarn(@"Index %d out of bounds", section);
+        return nil;
+    }
+    
+    NSArray *fieldIDs = [self fieldIDsOfSection:section];
+    NSDictionary *sectionInfo = [self.sectionDisplayInfos objectAtIndex:section];
+    if (sectionInfo == nil) return fieldIDs;
+    
+    NSArray *subsections = [sectionInfo objectForKey:kRBFormKeySubsections];
+    if (subsection >= [subsections count]) {
+        DDLogWarn(@"Subsection index %d out of bounds", subsection);
+        return nil;
+    }
+    
+    NSDictionary *subsectionInfo = [subsections objectAtIndex:subsection];
+    NSString *fields = [subsectionInfo objectForKey:kRBFormKeyFields];
+    
+    NSArray *fieldIndexes = [fields componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
+    NSMutableArray *subFieldIDs = [NSMutableArray array];
+    
+    for (NSString *fieldIndex in fieldIndexes) {
+        NSUInteger idx = [fieldIndex intValue];
+        if (idx >= [fieldIDs count]) {
+            continue;
+        }
+        [subFieldIDs addObject:[fieldIDs objectAtIndex:idx]];
+    }
+    return subFieldIDs;
+}
+
 - (id)valueForKey:(NSString *)key ofField:(NSString *)fieldID inSection:(NSUInteger)section {
     // index out of bounds
     if (section >= self.numberOfSections) {
@@ -319,6 +384,18 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     
     return NO;
 }
+
+- (NSArray *)listForID:(NSString *)listID {
+    NSArray *lists = [self.formData valueForKey:kRBFormKeyLists];
+    for (NSDictionary *list in lists) {
+        NSString *listid = [list objectForKey:kRBFormKeyListID];
+        if ([listid isEqualToString:listID]) {
+            return [list objectForKey:kRBFormKeyItems];
+        }
+    }
+    return nil;
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

@@ -14,8 +14,12 @@
 @property (nonatomic, retain) NSString *formID;
 @property (nonatomic, assign) NSInteger formSection;
 @property (nonatomic, readonly) NSString *formTextValue;
+@property (nonatomic, retain) NSString *formSubtype;
 
-+ (UIControl *)controlWithID:(NSString *)formID datatype:(NSString *)datatype size:(CGSize)size;
++ (UIControl *)controlWithID:(NSString *)formID datatype:(NSString *)datatype size:(CGSize)size subtype:(NSString *)subtype;
 
 - (void)configureControlUsingValue:(NSString *)value;
+
+- (void)btnClicked:(id)sender;
+
 @end

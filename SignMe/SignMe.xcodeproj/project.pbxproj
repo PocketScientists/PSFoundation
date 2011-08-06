@@ -120,6 +120,9 @@
 		78E9B23312B44DE400B32768 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B22912B44DE400B32768 /* ASIInputStream.m */; };
 		78E9B23412B44DE400B32768 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B22B12B44DE400B32768 /* ASINetworkQueue.m */; };
 		78E9B25212B4514200B32768 /* libicucore.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 78E9B25112B4514200B32768 /* libicucore.A.dylib */; };
+		A97FAC1B13ED7C590083EFC1 /* TextFieldBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = A97FAC1A13ED7C590083EFC1 /* TextFieldBackground.png */; };
+		A97FAC1E13ED816D0083EFC1 /* CheckButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A97FAC1C13ED816D0083EFC1 /* CheckButton.png */; };
+		A97FAC1F13ED816D0083EFC1 /* CheckButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = A97FAC1D13ED816D0083EFC1 /* CheckButtonSelected.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -422,6 +425,9 @@
 		78E9B22B12B44DE400B32768 /* ASINetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASINetworkQueue.m; path = "../asi-http-request/Classes/ASINetworkQueue.m"; sourceTree = SOURCE_ROOT; };
 		78E9B22C12B44DE400B32768 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIProgressDelegate.h; path = "../asi-http-request/Classes/ASIProgressDelegate.h"; sourceTree = SOURCE_ROOT; };
 		78E9B25112B4514200B32768 /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = usr/lib/libicucore.A.dylib; sourceTree = SDKROOT; };
+		A97FAC1A13ED7C590083EFC1 /* TextFieldBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TextFieldBackground.png; path = Images/TextFieldBackground.png; sourceTree = "<group>"; };
+		A97FAC1C13ED816D0083EFC1 /* CheckButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CheckButton.png; path = Images/CheckButton.png; sourceTree = "<group>"; };
+		A97FAC1D13ED816D0083EFC1 /* CheckButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CheckButtonSelected.png; path = Images/CheckButtonSelected.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -691,6 +697,9 @@
 		395EEF2613D72E3C003C4DA8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A97FAC1C13ED816D0083EFC1 /* CheckButton.png */,
+				A97FAC1D13ED816D0083EFC1 /* CheckButtonSelected.png */,
+				A97FAC1A13ED7C590083EFC1 /* TextFieldBackground.png */,
 				395EEF2413D72E39003C4DA8 /* Background.png */,
 				3911A22713E22AA600CD4F6C /* LogoEmpty.png */,
 				3911A22813E22AA600CD4F6C /* LogoFull.png */,
@@ -1151,6 +1160,9 @@
 				39782EF513EC49E7005CE8D6 /* NewContactButton.png in Resources */,
 				397B783C13ECC960009438F1 /* 11-x.png in Resources */,
 				397B783D13ECC960009438F1 /* 19-check.png in Resources */,
+				A97FAC1B13ED7C590083EFC1 /* TextFieldBackground.png in Resources */,
+				A97FAC1E13ED816D0083EFC1 /* CheckButton.png in Resources */,
+				A97FAC1F13ED816D0083EFC1 /* CheckButtonSelected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
