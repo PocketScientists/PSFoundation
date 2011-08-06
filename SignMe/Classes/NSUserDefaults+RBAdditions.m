@@ -14,7 +14,7 @@
 + (void)initialize {
     if (self == [NSUserDefaults class]) {
         // Setting Defaults for Settings
-        NSDictionary *appDefaults = XDICT($B(NO), kRBSettingsBoxLogoutKey, $I(77561782), kRBSettingsBoxFolderIDKey);
+        NSDictionary *appDefaults = XDICT($B(NO), kRBSettingsBoxLogoutKey, $I(102367131), kRBSettingsBoxFolderIDKey);
         [[self standardUserDefaults] registerDefaults:appDefaults];
         [[self standardUserDefaults] synchronize];
     }
