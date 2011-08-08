@@ -75,7 +75,7 @@ static Box *box = nil;
                    NSLog(@"Just to make sure view is loaded: %@", loginViewController.view);
                    
                    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:loginViewController] autorelease];
-                   navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+                   navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
                    navigationController.navigationBar.barStyle = UIBarStyleBlack;
                    
                    [viewController presentModalViewController:navigationController animated:YES];
