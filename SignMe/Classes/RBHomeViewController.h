@@ -12,6 +12,9 @@
 
 
 @interface RBHomeViewController : PSBaseViewController <iCarouselDataSource, iCarouselDelegate, NSFetchedResultsControllerDelegate, UIDocumentInteractionControllerDelegate>
+{
+    BOOL isMovedUp;
+}
 
 @property (nonatomic, retain) IBOutlet UIView *formsView;
 @property (nonatomic, retain) IBOutlet iCarousel *formsCarousel;

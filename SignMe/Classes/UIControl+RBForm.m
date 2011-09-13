@@ -19,6 +19,7 @@
 static char formMappingKey;
 static char formIDKey;
 static char formSectionKey;
+static char formSubsectionKey;
 static char formSubtypeKey;
 
 @implementation UIControl (UIControl_RBForm)
@@ -94,6 +95,14 @@ static char formSubtypeKey;
 
 - (NSInteger)formSection {
     return [[self associatedValueForKey:&formSectionKey] intValue];
+}
+
+- (void)setFormSubsection:(NSInteger)formSubsection {
+    [self associateValue:$I(formSubsection) withKey:&formSubsectionKey];
+}
+
+- (NSInteger)formSubsection {
+    return [[self associatedValueForKey:&formSubsectionKey] intValue];
 }
 
 - (NSString *)formTextValue {

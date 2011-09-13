@@ -96,8 +96,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.view.frame = CGRectMake(0, 0, 1024, 748);
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleSize;
     
     RBUIGenerator *generator = [[[RBUIGenerator alloc] init] autorelease];
     
@@ -105,6 +105,7 @@
                                         form:self.form
                                       client:self.client
                                     document:self.document];
+    self.formView.autoresizingMask = UIViewAutoresizingFlexibleSize;
     
     self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(30, 172, 580, 27)] autorelease];
     self.headerLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
@@ -114,11 +115,12 @@
     self.headerLabel.font = [UIFont fontWithName:kRBFontName size:24.];
     self.headerLabel.text = [self.form.displayName stringByAppendingFormat:@": %@", self.client.name];
     
-    self.topLine = [[[SSLineView alloc] initWithFrame:CGRectMake(30, 202, 690, 1)] autorelease];
+    self.topLine = [[[SSLineView alloc] initWithFrame:CGRectMake(30, 202, 964, 1)] autorelease];
     self.topLine.lineColor = [UIColor colorWithWhite:1.f alpha:0.3f];
     self.topLine.insetColor = nil;
     
-    self.bottomLine = [[[SSLineView alloc] initWithFrame:CGRectMake(30, 700, 690, 1)] autorelease];
+    self.bottomLine = [[[SSLineView alloc] initWithFrame:CGRectMake(30, 700, 964, 1)] autorelease];
+    self.bottomLine.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     self.bottomLine.lineColor = [UIColor colorWithWhite:1.f alpha:0.3f];
     self.bottomLine.insetColor = nil;
     
@@ -126,14 +128,14 @@
     self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.cancelButton setImage:cancelImage forState:UIControlStateNormal];
     self.cancelButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
-    self.cancelButton.frame = CGRectMake(571, 165, cancelImage.size.width, cancelImage.size.height);
+    self.cancelButton.frame = CGRectMake(847, 165, cancelImage.size.width, cancelImage.size.height);
     [self.cancelButton addTarget:self action:@selector(handleCancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     
     UIImage *doneImage = [UIImage imageNamed:@"SaveButton"];
     self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.doneButton setImage:doneImage forState:UIControlStateNormal];
     self.doneButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
-    self.doneButton.frame = CGRectMake(651, 165, doneImage.size.width, doneImage.size.height);
+    self.doneButton.frame = CGRectMake(927, 165, doneImage.size.width, doneImage.size.height);
     [self.doneButton addTarget:self action:@selector(handleDoneButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:self.headerLabel];
@@ -161,6 +163,11 @@
     
     [self.formView flashScrollIndicators];
 }
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [RBUIGenerator resizeFormView:self.formView withForm:self.form forOrientation:toInterfaceOrientation];
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

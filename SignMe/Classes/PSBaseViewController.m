@@ -78,6 +78,8 @@ inline void dispatch_sync_on_main_queue(dispatch_block_t block) {
     
     self.view.backgroundColor = [UIColor blackColor];
     self.backgroundImageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background"]] autorelease];
+    self.backgroundImageView.frame = self.view.bounds;
+    self.backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleSize;
     self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     [self.view insertSubview:self.backgroundImageView atIndex:0];
     
@@ -94,6 +96,7 @@ inline void dispatch_sync_on_main_queue(dispatch_block_t block) {
     [self.view insertSubview:self.logoSignMe aboveSubview:self.fullLogoImageView];
     
     self.timeView = [[[RBTimeView alloc] initWithFrame:CGRectMake(926, 30, 70, 82)] autorelease];
+    self.timeView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [self.view addSubview:self.timeView];
 }
 
@@ -113,7 +116,11 @@ inline void dispatch_sync_on_main_queue(dispatch_block_t block) {
 ////////////////////////////////////////////////////////////////////////
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+    return YES;//UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 ////////////////////////////////////////////////////////////////////////

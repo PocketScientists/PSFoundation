@@ -226,7 +226,7 @@
 	}
     
     // TODO: remove
-    // [self insertTempData];
+    [self insertTempData];
     
     self.formsLabel = [self headerLabelForView:self.formsCarousel text:@"Forms"];
     self.clientsLabel = [self headerLabelForView:self.clientsCarousel text:@"Clients"];
@@ -246,10 +246,12 @@
     self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX, 0);
     
     self.detailView = [[[RBFormDetailView alloc] initWithFrame:self.formsView.frame] autorelease];
+    self.detailView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.detailView.frameHeight = kDetailViewHeight;
     self.detailView.alpha = 0.f;
     
     self.detailCarousel = [[[iCarousel alloc] initWithFrame:CGRectInset(self.detailView.bounds,0.f,15.f)] autorelease];
+    self.detailCarousel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.detailCarousel.delegate = self;
     self.detailCarousel.dataSource = self;
     [self.detailView addSubview:self.detailCarousel];
@@ -303,6 +305,17 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
+        self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX, 0);
+    }
+    else {
+        self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX - 120.0, 0);
+    }
+    [self.clientsCarousel scrollToItemAtIndex:self.clientsCarousel.currentItemIndex animated:YES];
 }
 
 - (void)updateUI {
@@ -828,12 +841,15 @@
                          
                          // Move views up
                          self.formsView.alpha = 0.2;
-                         self.formsView.frameTop = self.formsViewDefaultY - diffY;
-                         self.clientsView.frameTop = newClientsY;
-                         // Make clients-carousel expand width to cover add button
-                         self.clientsCarousel.frame = CGRectMake(self.addNewClientButton.frameLeft, self.clientsCarousel.frameTop,
-                                                                 self.clientsView.frameWidth - self.clientsLabel.frameWidth, self.clientsCarousel.frameHeight);
-                         self.clientsCarousel.viewpointOffset = CGSizeMake(355.f, 0);
+                         if (PSIsLandscape()) {
+                             isMovedUp = YES;
+                             self.formsView.frameTop = self.formsViewDefaultY - diffY;
+                             self.clientsView.frameTop = newClientsY;
+                             // Make clients-carousel expand width to cover add button
+                             self.clientsCarousel.frame = CGRectMake(self.addNewClientButton.frameLeft, self.clientsCarousel.frameTop,
+                                                                     self.clientsView.frameWidth - self.clientsLabel.frameWidth, self.clientsCarousel.frameHeight);
+                             self.clientsCarousel.viewpointOffset = CGSizeMake(355.f, 0);
+                         }
                      } 
                      completion:nil];
 }
@@ -843,14 +859,17 @@
     
     [UIView animateWithDuration:duration animations:^(void) {
         self.formsView.alpha = 1.f;
-        self.formsView.frameTop = self.formsViewDefaultY;
-        self.clientsView.frameTop = self.clientsViewDefaultY;
-        // show add-button again
-        // Make clients-carousel expand width to cover add button
-        self.clientsCarousel.frame = CGRectMake(self.addNewClientButton.frameRight, self.clientsCarousel.frameTop,
-                                                self.clientsView.frameWidth - self.clientsLabel.frameWidth - self.addNewClientButton.frameWidth, self.clientsCarousel.frameHeight);
+        if (isMovedUp) {
+            isMovedUp = NO;
+            self.formsView.frameTop = self.formsViewDefaultY;
+            self.clientsView.frameTop = self.clientsViewDefaultY;
+            // show add-button again
+            // Make clients-carousel expand width to cover add button
+            self.clientsCarousel.frame = CGRectMake(self.addNewClientButton.frameRight, self.clientsCarousel.frameTop,
+                                                    self.clientsView.frameWidth - self.clientsLabel.frameWidth - self.addNewClientButton.frameWidth, self.clientsCarousel.frameHeight);
+            self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX, 0);
+        }
         self.addNewClientButton.alpha = 1.f;
-        self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX, 0);
     }];
 }
 

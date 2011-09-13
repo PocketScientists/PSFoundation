@@ -15,5 +15,6 @@
 @interface RBUIGenerator : NSObject
 
 - (RBFormView *)viewWithFrame:(CGRect)frame form:(RBForm *)form client:(RBClient *)client document:(RBDocument *)document;
++ (void)resizeFormView:(RBFormView *)formView withForm:(RBForm *)form forOrientation:(UIInterfaceOrientation)orientation;
 
 @end

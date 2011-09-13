@@ -120,6 +120,7 @@
 		78E9B23312B44DE400B32768 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B22912B44DE400B32768 /* ASIInputStream.m */; };
 		78E9B23412B44DE400B32768 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B22B12B44DE400B32768 /* ASINetworkQueue.m */; };
 		78E9B25212B4514200B32768 /* libicucore.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 78E9B25112B4514200B32768 /* libicucore.A.dylib */; };
+		A948733F141DFAFF00B0E038 /* UILabel+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = A948733E141DFAFF00B0E038 /* UILabel+RBForm.m */; };
 		A97FAC1B13ED7C590083EFC1 /* TextFieldBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = A97FAC1A13ED7C590083EFC1 /* TextFieldBackground.png */; };
 		A97FAC1E13ED816D0083EFC1 /* CheckButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A97FAC1C13ED816D0083EFC1 /* CheckButton.png */; };
 		A97FAC1F13ED816D0083EFC1 /* CheckButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = A97FAC1D13ED816D0083EFC1 /* CheckButtonSelected.png */; };
@@ -425,6 +426,8 @@
 		78E9B22B12B44DE400B32768 /* ASINetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASINetworkQueue.m; path = "../asi-http-request/Classes/ASINetworkQueue.m"; sourceTree = SOURCE_ROOT; };
 		78E9B22C12B44DE400B32768 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIProgressDelegate.h; path = "../asi-http-request/Classes/ASIProgressDelegate.h"; sourceTree = SOURCE_ROOT; };
 		78E9B25112B4514200B32768 /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = usr/lib/libicucore.A.dylib; sourceTree = SDKROOT; };
+		A948733D141DFAFF00B0E038 /* UILabel+RBForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+RBForm.h"; sourceTree = "<group>"; };
+		A948733E141DFAFF00B0E038 /* UILabel+RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+RBForm.m"; sourceTree = "<group>"; };
 		A97FAC1A13ED7C590083EFC1 /* TextFieldBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TextFieldBackground.png; path = Images/TextFieldBackground.png; sourceTree = "<group>"; };
 		A97FAC1C13ED816D0083EFC1 /* CheckButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CheckButton.png; path = Images/CheckButton.png; sourceTree = "<group>"; };
 		A97FAC1D13ED816D0083EFC1 /* CheckButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CheckButtonSelected.png; path = Images/CheckButtonSelected.png; sourceTree = "<group>"; };
@@ -794,6 +797,8 @@
 				3911A21E13E1E2AD00CD4F6C /* ABPerson+RBMail.m */,
 				3911A22013E226CA00CD4F6C /* NSUserDefaults+RBAdditions.h */,
 				3911A22113E226CA00CD4F6C /* NSUserDefaults+RBAdditions.m */,
+				A948733D141DFAFF00B0E038 /* UILabel+RBForm.h */,
+				A948733E141DFAFF00B0E038 /* UILabel+RBForm.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1247,6 +1252,7 @@
 				397B784213ECC960009438F1 /* ATMProgressLayer.m in Sources */,
 				397B784313ECC960009438F1 /* ATMSoundFX.m in Sources */,
 				397B784413ECC960009438F1 /* ATMTextLayer.m in Sources */,
+				A948733F141DFAFF00B0E038 /* UILabel+RBForm.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

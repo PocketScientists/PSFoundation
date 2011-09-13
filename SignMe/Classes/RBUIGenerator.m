@@ -14,6 +14,8 @@
 #import "RBClient+RBProperties.h"
 #import "DocuSignService.h"
 #import "RBTextField.h"
+#import "UILabel+RBForm.h"
+
 
 #define kRBLabelX                   30.f
 #define kRBInputFieldPadding        30.f
@@ -274,7 +276,9 @@
 
 @property (nonatomic, assign) RBTextField *previousTextField;
 
-- (UILabel *)labelWithText:(NSString *)text;
++ (UIView *)viewOfForm:(RBFormView *)formView formFieldID:(NSString *)fieldID section:(NSInteger)section subsection:(NSInteger)subsection type:(Class)type;
+
+- (UILabel *)labelWithText:(NSString *)text fieldID:(NSString *)fieldID;
 - (UILabel *)titleLabelWithText:(NSString *)text;
 - (UIControl *)inputFieldWithID:(NSString *)fieldID value:(NSString *)value datatype:(NSString *)datatype width:(CGFloat)width subtype:(NSString *)subtype;
 
@@ -314,6 +318,8 @@
         NSString *sectionTitleText = [form displayNameOfSection:section];
         if (sectionTitleText) {
             UILabel *sectionTitle = [self titleLabelWithText:sectionTitleText];
+            sectionTitle.formSection = section;
+            sectionTitle.formSubsection = -1;
             [sectionTitle positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
             [view.innerScrollView addSubview:sectionTitle];
             
@@ -330,6 +336,8 @@
             NSString *subSectionTitleText = [form displayNameOfSubsection:subsection inSection:section];
             if (subSectionTitleText) {
                 UILabel *subSectionTitle = [self titleLabelWithText:subSectionTitleText];
+                subSectionTitle.formSection = section;
+                subSectionTitle.formSubsection = subsection;
                 [subSectionTitle positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
                 [view.innerScrollView addSubview:subSectionTitle];
                 
@@ -362,8 +370,14 @@
                 }
                 
                 // create label and input field
-                UILabel *label = [self labelWithText:labelText];
+                UILabel *label = [self labelWithText:labelText fieldID:fieldID];
+                label.formSection = section;
+                label.formSubsection = subsection;
+                
                 UIControl *inputField = [self inputFieldWithID:fieldID value:value datatype:datatype width:kRBFormWidth * size - label.frameRight - kRBInputFieldPadding subtype:subtype];
+                inputField.formSection = section;
+                inputField.formSubsection = subsection;
+                
                 CGFloat heightDiff = kRBRowHeight - inputField.frameHeight; // Switch = 27 pt, TextField = 31 pt
                 
                 if ([inputField isKindOfClass:[RBTextField class]] && [subtype isEqualToString:@"list"]) {
@@ -378,8 +392,6 @@
                         ((RBTextField *)inputField).items = [form listForID:listID];
                     }
                 }
-                
-                inputField.formSection = section;
                 
                 // Setup chain to go from one textfield to the next
                 [self createNextResponderChainWithControl:inputField inView:view];
@@ -438,11 +450,124 @@
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
+#pragma mark Resizing
+////////////////////////////////////////////////////////////////////////
+
++ (void)resizeFormView:(RBFormView *)formView withForm:(RBForm *)form forOrientation:(UIInterfaceOrientation)orientation {
+    CGFloat realViewWidth = formView.bounds.size.width;
+    CGFloat realViewHeight = formView.bounds.size.height;
+    CGFloat maxHeight = realViewHeight;
+    NSInteger numberOfPages = form.numberOfSections + 1; // +1 for RecipientsView
+    UIView *topLabel = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
+    UIView *topInputField = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
+    UIView *label;
+    UIView *control;
+    
+    // iterate over all sections
+    for (NSUInteger section=0; section < form.numberOfSections; section++) {
+        // position top views on corresponding page of scrollView
+        topLabel.frameTop =  - kRBRowHeight - kRBRowPadding;
+        topLabel.frameLeft = kRBLabelX + section * realViewWidth;
+        topInputField.frameTop =  - kRBRowHeight - kRBRowPadding;
+        
+        label = [RBUIGenerator viewOfForm:formView formFieldID:nil section:section subsection:-1 type:[UILabel class]];
+        if (label) {
+            [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
+            // set new frames for anchor-views
+            topLabel.frame = label.frame;
+            topInputField.frame = label.frame;
+        }
+        
+        for (NSUInteger subsection=0; subsection < [form numberOfSubsectionsInSection:section]; subsection++) {
+            topLabel.frameLeft = kRBLabelX + section * realViewWidth;
+            
+            // add a section label to the page
+            label = [RBUIGenerator viewOfForm:formView formFieldID:nil section:section subsection:subsection type:[UILabel class]];
+            if (label) {
+                [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
+                // set new frames for anchor-views
+                topLabel.frame = label.frame;
+                topInputField.frame = label.frame;
+            }
+            
+            NSArray *fieldIDs = [form fieldIDsOfSubsection:subsection inSection:section];
+            
+            // iterate over all fields in the section
+            for (NSString *fieldID in fieldIDs) {
+                // get values
+                NSString *sizeString = [form valueForKey:kRBFormKeySize ofField:fieldID inSection:section];
+                NSString *position = [form valueForKey:kRBFormKeyPosition ofField:fieldID inSection:section];
+                float size = sizeString == nil ? 1.0 : [sizeString floatValue];
+                position = position == nil ? kRBFieldPositionBelow : position;
+                
+                // create label and input field
+                label = [RBUIGenerator viewOfForm:formView formFieldID:fieldID section:section subsection:subsection type:[UILabel class]];
+                control = [RBUIGenerator viewOfForm:formView formFieldID:fieldID section:section subsection:subsection type:[UIControl class]];
+                control.frameWidth = (realViewWidth - 2 * kRBInputFieldPadding) * size - label.frameWidth - kRBInputFieldPadding;
+                CGFloat heightDiff = kRBRowHeight - control.frameHeight; // Switch = 27 pt, TextField = 31 pt
+                
+                if ([position isEqualToString:kRBFieldPositionRight]) {
+                    // position in Grid depending on anchor-views
+                    label.frameTop = topLabel.frameTop;
+                    label.frameLeft = topInputField.frameRight + kRBInputFieldPadding;
+                    control.frameTop = topInputField.frameTop;
+                    control.frameLeft = label.frameRight + kRBInputFieldPadding;
+                    control.frameWidth -= kRBInputFieldPadding;
+                }
+                else {
+                    topLabel.frameLeft = kRBLabelX + section * realViewWidth;
+                    
+                    // position in Grid depending on anchor-views
+                    [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
+                    control.frameLeft = label.frameRight + kRBInputFieldPadding;
+                    [control positionUnderView:topInputField padding:(kRBRowPadding + heightDiff/2.f) alignment:MTUIViewAlignmentUnchanged];
+                }
+
+                // set new frames for anchor-views
+                topLabel.frame = label.frame;
+                topInputField.frame = control.frame;
+                topInputField.frameTop += heightDiff/2.f;
+                
+                maxHeight = MAX(maxHeight, topInputField.frameBottom);
+            }
+        }
+    }
+    
+    for (UIView *v in formView.innerScrollView.subviews) {
+        if ([v isKindOfClass:[RBRecipientsView class]]) {
+            v.frame = CGRectMake(form.numberOfSections*realViewWidth, 0.f, realViewWidth, realViewHeight);
+            break;
+        }
+    }
+    
+    // enable vertical scrolling
+    [formView setInnerScrollViewSize:CGSizeMake(realViewWidth*numberOfPages, maxHeight)];
+    formView.contentSize = CGSizeMake(realViewWidth, maxHeight + 10.f);
+    [formView.innerScrollView setContentOffset:CGPointMake(formView.pageControl.currentPage*formView.bounds.size.width,0) animated:YES];
+}
+
+
++ (UIView *)viewOfForm:(RBFormView *)formView formFieldID:(NSString *)fieldID section:(NSInteger)section subsection:(NSInteger)subsection type:(Class)type {
+    // retreive all subviews, that are meant to be controls
+    return [[formView.innerScrollView.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        if (![evaluatedObject respondsToSelector:@selector(formID)]) return NO;
+        if ([evaluatedObject isKindOfClass:type] && (!fieldID || [[evaluatedObject formID] isEqualToString:fieldID]) && [evaluatedObject formSection] == section && [evaluatedObject formSubsection] == subsection) {
+            return YES;
+        }
+        
+        return NO;
+    }]] firstObject];
+}
+
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
 #pragma mark Private
 ////////////////////////////////////////////////////////////////////////
 
-- (UILabel *)labelWithText:(NSString *)text {
+- (UILabel *)labelWithText:(NSString *)text fieldID:(NSString *)fieldID {
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1000.f, kRBRowHeight)] autorelease];
+    label.formID = fieldID;
     
     label.autoresizingMask = UIViewAutoresizingNone;
     label.backgroundColor = [UIColor clearColor];

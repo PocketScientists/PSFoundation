@@ -73,7 +73,9 @@
     CGRect responderFrame = firstResponder.frame;
     
     // switch frames because of landscape
-    keyboardFrame = CGRectMake(keyboardFrame.origin.y, keyboardFrame.origin.x, keyboardFrame.size.height, keyboardFrame.size.width);
+    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        keyboardFrame = CGRectMake(keyboardFrame.origin.y, keyboardFrame.origin.x, keyboardFrame.size.height, keyboardFrame.size.width);
+    }
     responderFrame.origin.y += self.frame.origin.y - self.contentOffset.y;
     
     CGPoint responderLeftBottom = CGPointMake(responderFrame.origin.x, responderFrame.origin.y + responderFrame.size.height);

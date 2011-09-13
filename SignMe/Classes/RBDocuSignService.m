@@ -60,6 +60,15 @@ static DocuSignService *docuSign = nil;
                     [MTApplicationDelegate.homeViewController updateUI];
                 });
                 
+                NSString *senderToken = [docuSign senderToken:document.docuSignEnvelopeID];
+                NSLog(@"sender token: %@", senderToken);
+                
+                NSString *authToken = [docuSign authenticationToken:document.docuSignEnvelopeID];
+                NSLog(@"auth token: %@", authToken);
+                
+//                NSString *recipientToken = [docuSign recipientToken:document.docuSignEnvelopeID recipient:[[document recipientsAsDictionary] firstObject] recipientId:0];
+//                NSLog(@"recipient token: %@", recipientToken);
+                
                 // update document status after 10 seconds
                 [self performSelector:@selector(updateStatusOfDocuments) afterDelay:10.];
             } else {

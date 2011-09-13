@@ -53,7 +53,7 @@
         UIImage *prevImage = [UIImage imageNamed:@"PrevButton"];
         prevButton_ = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
         [prevButton_ setImage:prevImage forState:UIControlStateNormal];
-        prevButton_.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+        prevButton_.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
         prevButton_.frame = CGRectMake(30, 702, prevImage.size.width, prevImage.size.height);
         [prevButton_ addTarget:self action:@selector(handlePrevButtonPress:) forControlEvents:UIControlEventTouchUpInside];
         prevButton_.alpha = 0.f;
@@ -61,12 +61,12 @@
         UIImage *nextImage = [UIImage imageNamed:@"NextButton"];
         nextButton_ = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
         [nextButton_ setImage:nextImage forState:UIControlStateNormal];
-        nextButton_.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-        nextButton_.frame = CGRectMake(651, 702, nextImage.size.width, nextImage.size.height);
+        nextButton_.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+        nextButton_.frame = CGRectMake( self.bounds.size.width - 97, 702, nextImage.size.width, nextImage.size.height);
         [nextButton_ addTarget:self action:@selector(handleNextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
         
         pageControl_ = [[UIPageControl alloc] initWithFrame:CGRectMake(self.bounds.size.width/2 - 250, 705, 500, 30)];
-        pageControl_.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        pageControl_.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
         pageControl_.hidesForSinglePage = YES;
         [pageControl_ addTarget:self action:@selector(handlePageChange:) forControlEvents:UIControlEventValueChanged];
         

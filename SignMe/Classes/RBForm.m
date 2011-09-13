@@ -396,7 +396,6 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     return nil;
 }
 
-
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Document

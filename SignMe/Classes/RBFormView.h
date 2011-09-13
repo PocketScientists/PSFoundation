@@ -21,5 +21,4 @@
 
 - (void)setInnerScrollViewSize:(CGSize)size;
 
-
 @end

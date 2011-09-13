@@ -51,7 +51,8 @@
         label.text = @"Subject";
         [self addSubview:label];
         
-        subjectTextField_ = [[UITextField alloc] initWithFrame:CGRectMake(130.f, 10.f, 360.f, 35.f)];
+        subjectTextField_ = [[UITextField alloc] initWithFrame:CGRectMake(30.f, 50.f, self.bounds.size.width/2.f - 60.0f, 35.f)];
+        subjectTextField_.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         subjectTextField_.borderStyle = UITextBorderStyleBezel;
         subjectTextField_.backgroundColor = [UIColor whiteColor];
         subjectTextField_.font = [UIFont fontWithName:kRBFontName size:18];
@@ -60,7 +61,7 @@
         subjectTextField_.placeholder = @"DocuSign Subject";
         [self addSubview:subjectTextField_];
         
-        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 80.f, 150, 35.f)] autorelease];
+        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 120.f, 150, 35.f)] autorelease];
         label.font = [UIFont fontWithName:kRBFontName size:18];
         label.textColor = kRBColorMain;
         label.backgroundColor = [UIColor clearColor];
@@ -73,7 +74,7 @@
         [addContactButton_ addTarget:self action:@selector(handleAddContactPress:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:addContactButton_];
         
-        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 125.f, 150, 35.f)] autorelease];
+        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 165.f, 150, 35.f)] autorelease];
         label.font = [UIFont fontWithName:kRBFontName size:18];
         label.textColor = kRBColorMain;
         label.backgroundColor = [UIColor clearColor];
@@ -88,6 +89,7 @@
         
         UIView *dividerView = [[[UIView alloc] initWithFrame:CGRectMake(self.bounds.size.width/2.f, 5.f, 1.f, self.bounds.size.height-10.f)] autorelease];
         dividerView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.3f];
+        dividerView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
         [self addSubview:dividerView];
         
         label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 35.f)] autorelease];
@@ -96,10 +98,10 @@
         label.backgroundColor = [UIColor clearColor];
         label.text = @"Recipients";
         
-        tableView_ = [[UITableView alloc] initWithFrame:CGRectMake(545.f, 5.f, 420.f, self.bounds.size.height-10.f) style:UITableViewStylePlain];
+        tableView_ = [[UITableView alloc] initWithFrame:CGRectMake(545.f, 5.f, 450.f, self.bounds.size.height-10.f) style:UITableViewStylePlain];
         tableView_.delegate = self;
         tableView_.dataSource = self;
-        tableView_.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        tableView_.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
         tableView_.backgroundColor = [UIColor clearColor];
         tableView_.backgroundView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
         tableView_.tableHeaderView = label; 
