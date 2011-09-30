@@ -12,6 +12,7 @@
 #import "RBDocument+RBForm.h"
 #import "AppDelegate.h"
 #import "RBPersistenceManager.h"
+#import "RBDocuSigningViewController.h"
 
 
 static DocuSignService *docuSign = nil;
@@ -60,20 +61,115 @@ static DocuSignService *docuSign = nil;
                     [MTApplicationDelegate.homeViewController updateUI];
                 });
                 
-                NSString *senderToken = [docuSign senderToken:document.docuSignEnvelopeID];
-                NSLog(@"sender token: %@", senderToken);
-                
-                NSString *authToken = [docuSign authenticationToken:document.docuSignEnvelopeID];
-                NSLog(@"auth token: %@", authToken);
-                
-//                NSString *recipientToken = [docuSign recipientToken:document.docuSignEnvelopeID recipient:[[document recipientsAsDictionary] firstObject] recipientId:0];
-//                NSLog(@"recipient token: %@", recipientToken);
-                
                 // update document status after 10 seconds
                 [self performSelector:@selector(updateStatusOfDocuments) afterDelay:10.];
             } else {
                 [MTApplicationDelegate showErrorMessage:@"Error sending to DocuSign"];
                 DDLogError(@"Wasn't able to send document: %d", status.Status);
+            }
+        } else {
+            [MTApplicationDelegate showErrorMessage:@"Error logging in to DocuSign"];
+            DDLogError(@"Error logging in to DocuSign Service!");
+        }
+    });
+}
+
+
++ (void)cancelDocument:(RBDocument *)document { 
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+    
+    dispatch_async(queue, ^(void) {
+        [docuSign login];
+        
+        if (docuSign.account != nil) {
+            [MTApplicationDelegate showLoadingMessage:@"Voiding Envelope @ DocuSign"];
+            
+            if ([docuSign cancelEnvelope:document.docuSignEnvelopeID reason:@"Voided by the sender"]) {
+                document.lastDocuSignStatus = $I(DSAPIService_EnvelopeStatusCode_Voided);
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+                    [MTApplicationDelegate showSuccessMessage:@"Envelope voided succesfully"];
+                    [MTApplicationDelegate.homeViewController updateUI];
+                });
+
+                [[NSManagedObjectContext defaultContext] save];
+                
+                // update document status after 10 seconds
+                [self performSelector:@selector(updateStatusOfDocuments) afterDelay:10.];
+            } else {
+                [MTApplicationDelegate showErrorMessage:@"Error voiding envelope @ DocuSign"];
+                DDLogError(@"Wasn't able to void document");
+            }
+        } else {
+            [MTApplicationDelegate showErrorMessage:@"Error logging in to DocuSign"];
+            DDLogError(@"Error logging in to DocuSign Service!");
+        }
+    });
+}
+
++ (void)previewDocument:(RBDocument *)document { 
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+    
+    dispatch_async(queue, ^(void) {
+        [docuSign login];
+        
+        if (docuSign.account != nil) {
+            //            [MTApplicationDelegate showLoadingMessage:@"Signing Envelope @ DocuSign"];
+            
+            NSString *token = [docuSign authenticationToken:document.docuSignEnvelopeID];
+            if (token) {
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+                    RBDocuSigningViewController *vc = [[RBDocuSigningViewController alloc] initWithNibName:nil bundle:nil];
+                    
+                    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:vc] autorelease];
+                    navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
+                    navigationController.navigationBar.barStyle = UIBarStyleBlack;
+                    
+                    [MTApplicationDelegate.homeViewController presentModalViewController:navigationController animated:YES];
+                    
+                    [vc loadURL:token];
+                    
+                    MCReleaseNil(vc);
+                });
+            } else {
+                [MTApplicationDelegate showErrorMessage:@"Error retrieving token from DocuSign for initiating viewing!"];
+                DDLogError(@"Wasn't able to void document");
+            }
+        } else {
+            [MTApplicationDelegate showErrorMessage:@"Error logging in to DocuSign"];
+            DDLogError(@"Error logging in to DocuSign Service!");
+        }
+    });
+}
+
++ (void)signDocument:(RBDocument *)document { 
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+    
+    dispatch_async(queue, ^(void) {
+        [docuSign login];
+        
+        if (docuSign.account != nil) {
+//            [MTApplicationDelegate showLoadingMessage:@"Signing Envelope @ DocuSign"];
+            
+//            NSString *token = [docuSign authenticationToken:document.docuSignEnvelopeID];
+//            NSString *token = [docuSign senderToken:document.docuSignEnvelopeID];
+            NSString *token = [docuSign recipientToken:document.docuSignEnvelopeID recipient:[[document recipientsAsDictionary] firstObject] recipientId:0];
+            if (token) {
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+                    RBDocuSigningViewController *vc = [[RBDocuSigningViewController alloc] initWithNibName:nil bundle:nil];
+                    
+                    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:vc] autorelease];
+                    navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
+                    navigationController.navigationBar.barStyle = UIBarStyleBlack;
+                    
+                    [MTApplicationDelegate.homeViewController presentModalViewController:navigationController animated:YES];
+                    
+                    [vc loadURL:token];
+                    
+                    MCReleaseNil(vc);
+                });
+            } else {
+                [MTApplicationDelegate showErrorMessage:@"Error retrieving token from DocuSign for initiating signing process!"];
+                DDLogError(@"Wasn't able to void document");
             }
         } else {
             [MTApplicationDelegate showErrorMessage:@"Error logging in to DocuSign"];

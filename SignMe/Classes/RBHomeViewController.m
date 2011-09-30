@@ -18,6 +18,8 @@
 #import "RBPersistenceManager.h"
 #import "RBClient+RBProperties.h"
 #import "RBDocuSignService.h"
+#import "DocuSignService.h"
+
 
 #define kMinNumberOfItemsToWrap   6
 
@@ -90,7 +92,10 @@
 - (NSUInteger)numberOfClients;
 
 - (void)previewDocument:(RBDocument *)document;
+- (void)previewDocumentOnDocuSign:(RBDocument *)document;
 - (void)finalizeDocument:(RBDocument *)document;
+- (void)cancelDocument:(RBDocument *)document;
+- (void)signDocument:(RBDocument *)document;
 
 @end
 
@@ -226,7 +231,7 @@
 	}
     
     // TODO: remove
-    [self insertTempData];
+    //    [self insertTempData];
     
     self.formsLabel = [self headerLabelForView:self.formsCarousel text:@"Forms"];
     self.clientsLabel = [self headerLabelForView:self.clientsCarousel text:@"Clients"];
@@ -589,46 +594,71 @@
             PSActionSheet *actionSheet = [PSActionSheet sheetWithTitle:[[NSString stringWithFormat:@"Document '%@'", document.name] uppercaseString]];
             NSTimeInterval delay = (index != self.detailCarousel.currentItemIndex) ? 0.4 : 0.0;
             
-            [actionSheet addButtonWithTitle:@"Edit" block:^(void) {
-                [self presentFormViewControllerForDocument:document];
-            }];
-            
             [actionSheet addButtonWithTitle:@"View" block:^(void) {
                 [self previewDocument:document];
             }];
             
-            // send to DocuSign
-            [actionSheet addButtonWithTitle:@"Finalize" block:^(void) {
-                if (document.recipients.count > 0) {
-                    PSAlertView *alertView = [PSAlertView alertWithTitle:document.name message:[NSString stringWithFormat:@"Do you want to finalize this document for %@?",document.client.name]];
+            if (!IsEmpty(document.docuSignEnvelopeID)) {
+                [actionSheet addButtonWithTitle:@"View on DocuSign" block:^(void) {
+                    [self previewDocumentOnDocuSign:document];
+                }];
+            }
+                
+            if (IsEmpty(document.docuSignEnvelopeID)) {
+                [actionSheet addButtonWithTitle:@"Edit" block:^(void) {
+                    [self presentFormViewControllerForDocument:document];
+                }];
+            }
+            
+            if (!IsEmpty(document.docuSignEnvelopeID) 
+                && [document.lastDocuSignStatus intValue] != DSAPIService_EnvelopeStatusCode_Completed
+                && [document.lastDocuSignStatus intValue] != DSAPIService_EnvelopeStatusCode_Voided
+                && [document.lastDocuSignStatus intValue] != DSAPIService_EnvelopeStatusCode_Deleted
+                && [document.lastDocuSignStatus intValue] != DSAPIService_EnvelopeStatusCode_Declined
+                && [document.lastDocuSignStatus intValue] != DSAPIService_EnvelopeStatusCode_TimedOut) {
+                [actionSheet addButtonWithTitle:@"Sign document" block:^(void) {
+                    [self signDocument:document];
+                }];
+                
+                [actionSheet setDestructiveButtonWithTitle:@"Cancel signing" block:^(void) {
+                    [self cancelDocument:document];
+                }];
+            }
+
+            if (IsEmpty(document.docuSignEnvelopeID)) {
+                // send to DocuSign
+                [actionSheet addButtonWithTitle:@"Finalize" block:^(void) {
+                    if (document.recipients.count > 0) {
+                        PSAlertView *alertView = [PSAlertView alertWithTitle:document.name message:[NSString stringWithFormat:@"Do you want to finalize this document for %@?",document.client.name]];
+                        
+                        [alertView addButtonWithTitle:@"Finalize" block:^(void) {
+                            [self finalizeDocument:document];
+                        }];
+                        
+                        [alertView setCancelButtonWithTitle:@"Cancel" block:nil];
+                        
+                        [alertView show];
+                    } else {
+                        [self showErrorMessage:@"Document has no recipients, cannot send!"];
+                    }
+                }];
+                
+                // delete document
+                [actionSheet setDestructiveButtonWithTitle:@"Delete" block:^(void) {
+                    PSAlertView *alertView = [PSAlertView alertWithTitle:document.name message:[NSString stringWithFormat:@"Do you really want to delete this document for %@?",document.client.name]];
                     
-                    [alertView addButtonWithTitle:@"Finalize" block:^(void) {
-                        [self finalizeDocument:document];
+                    [alertView addButtonWithTitle:@"Delete" block:^(void) {
+                        RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+                        [persistenceManager deleteDocument:document];
+                        [self.formsCarousel reloadData];
+                        [self performSelector:@selector(showSuccessMessage:) withObject:@"Document deleted" afterDelay:0.5f];
                     }];
                     
                     [alertView setCancelButtonWithTitle:@"Cancel" block:nil];
                     
                     [alertView show];
-                } else {
-                    [self showErrorMessage:@"Document has no recipients, cannot send!"];
-                }
-            }];
-            
-            // delete document
-            [actionSheet setDestructiveButtonWithTitle:@"Delete" block:^(void) {
-                PSAlertView *alertView = [PSAlertView alertWithTitle:document.name message:[NSString stringWithFormat:@"Do you really want to delete this document for %@?",document.client.name]];
-                
-                [alertView addButtonWithTitle:@"Delete" block:^(void) {
-                    RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
-                    [persistenceManager deleteDocument:document];
-                    [self.formsCarousel reloadData];
-                    [self performSelector:@selector(showSuccessMessage:) withObject:@"Document deleted" afterDelay:0.5f];
                 }];
-                
-                [alertView setCancelButtonWithTitle:@"Cancel" block:nil];
-                
-                [alertView show];
-            }];
+            }
             
             [self performBlock:^(void) {
                 [actionSheet showFromRect:[self.view convertRect:(CGRect){CGPointMake(item.frameLeft,item.frameTop-30),item.size} fromView:item] 
@@ -1147,8 +1177,20 @@
     }
 }
 
+- (void)previewDocumentOnDocuSign:(RBDocument *)document {
+    [RBDocuSignService previewDocument:document];
+}
+
 - (void)finalizeDocument:(RBDocument *)document {
     [RBDocuSignService sendDocument:document];
+}
+
+- (void)cancelDocument:(RBDocument *)document {
+    [RBDocuSignService cancelDocument:document];
+}
+
+- (void)signDocument:(RBDocument *)document {
+    [RBDocuSignService signDocument:document];
 }
 
 @end

@@ -2,8 +2,8 @@
 //  RBRecipient.h
 //  SignMe
 //
-//  Created by Tretter Matthias on 03.08.11.
-//  Copyright (c) 2011 NOUS Wissensmanagement GmbH. All rights reserved.
+//  Created by Jürgen Falb on 13.09.11.
+//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -11,11 +11,11 @@
 
 @class RBDocument;
 
-@interface RBRecipient : NSManagedObject {
-@private
-}
+@interface RBRecipient : NSManagedObject
+
 @property (nonatomic, retain) NSNumber * addressBookPersonID;
 @property (nonatomic, retain) NSNumber * emailPropertyID;
+@property (nonatomic, retain) NSNumber * type;
 @property (nonatomic, retain) RBDocument *document;
 
 @end

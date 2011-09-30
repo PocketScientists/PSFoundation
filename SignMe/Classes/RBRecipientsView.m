@@ -18,11 +18,13 @@
 
 @property (nonatomic, readonly) PSBaseViewController *viewControllerResponder;
 @property (nonatomic, retain) UIButton *addContactButton;
+@property (nonatomic, retain) UIButton *addInPersonContactButton;
 @property (nonatomic, retain) UITextField *subjectTextField;
 
 - (void)showPeoplePicker;
 - (void)showNewContactScreen;
 - (void)handleAddContactPress:(id)sender;
+- (void)handleAddInPersonContactPress:(id)sender;
 - (void)handleNewContactPress:(id)sender;
 
 @end
@@ -33,6 +35,7 @@
 @synthesize recipients = recipients_;
 @synthesize maxNumberOfRecipients = maxNumberOfRecipients_;
 @synthesize addContactButton = addContactButton_;
+@synthesize addInPersonContactButton = addInPersonContactButton_;
 @synthesize subjectTextField = subjectTextField_;
 
 ////////////////////////////////////////////////////////////////////////
@@ -75,6 +78,19 @@
         [self addSubview:addContactButton_];
         
         label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 165.f, 150, 35.f)] autorelease];
+        label.font = [UIFont fontWithName:kRBFontName size:18];
+        label.textColor = kRBColorMain;
+        label.backgroundColor = [UIColor clearColor];
+        label.text = @"Add In Person Signer";
+        [self addSubview:label];
+        
+        addInPersonContactButton_ = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+        [addInPersonContactButton_ setImage:[UIImage imageNamed:@"AddButton"] forState:UIControlStateNormal];
+        addInPersonContactButton_.frame = CGRectMake(190.f, label.frameTop, 35.f, 35.f);
+        [addInPersonContactButton_ addTarget:self action:@selector(handleAddInPersonContactPress:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:addInPersonContactButton_];
+        
+        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 210.f, 150, 35.f)] autorelease];
         label.font = [UIFont fontWithName:kRBFontName size:18];
         label.textColor = kRBColorMain;
         label.backgroundColor = [UIColor clearColor];
@@ -226,7 +242,7 @@
                               identifier:(ABMultiValueIdentifier)identifier {
     
     ABPerson *personWrapper = [[ABAddressBook sharedAddressBook] personWithRecordRef:person];
-    NSDictionary *personDict = XDICT($I(personWrapper.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID);
+    NSDictionary *personDict = XDICT($I(personWrapper.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, isInPerson ? $I(kRBRecipientTypeInPerson) : $I(kRBRecipientTypeRemote), kRBRecipientType);
     
     if ([self.recipients containsObject:personDict]) {
         NSInteger index = [self.recipients indexOfObject:personDict];
@@ -241,6 +257,7 @@
     
     if (self.recipients.count >= self.maxNumberOfRecipients) {
         self.addContactButton.enabled = NO;
+        self.addInPersonContactButton.enabled = NO;
         [self.viewControllerResponder dismissModalViewControllerAnimated:YES];
         [self.viewControllerResponder performSelector:@selector(showSuccessMessage:) withObject:@"All recipients added" afterDelay:0.5];
     }
@@ -268,6 +285,14 @@
 
 - (void)handleAddContactPress:(id)sender {
     if (self.recipients.count < self.maxNumberOfRecipients) {
+        isInPerson = NO;
+        [self showPeoplePicker];
+    }
+}
+
+- (void)handleAddInPersonContactPress:(id)sender {
+    if (self.recipients.count < self.maxNumberOfRecipients) {
+        isInPerson = YES;
         [self showPeoplePicker];
     }
 }

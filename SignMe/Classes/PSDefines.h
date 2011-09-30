@@ -58,6 +58,9 @@
 
 #define kRBRecipientPersonID        @"addressBookPersonID"
 #define kRBRecipientEmailID         @"emailPropertyID"
+#define kRBRecipientType            @"type"
+#define kRBRecipientTypeRemote      0
+#define kRBRecipientTypeInPerson    1
 
 #define kRBDocuSignUpdateTimeInterval MTTimeIntervalMinutes(10)
 

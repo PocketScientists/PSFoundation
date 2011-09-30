@@ -15,7 +15,7 @@
 - (NSDictionary *)dictionaryRepresentation {
     ABPerson *person = [[ABAddressBook sharedAddressBook] personWithRecordID:[self.addressBookPersonID intValue]];
     
-    return [NSDictionary dictionaryWithObjectsAndKeys:person.fullName, @"name", [person emailForID:self.emailPropertyID], @"email", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:person.fullName, @"name", [person emailForID:self.emailPropertyID], @"email", self.type, @"type", nil];
 }
 
 @end

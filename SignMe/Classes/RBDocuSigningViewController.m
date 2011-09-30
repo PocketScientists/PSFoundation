@@ -1,22 +1,25 @@
 //
-//  RBBoxLoginViewController.m
+//  RBDocuSigningViewController.m
 //  SignMe
 //
-//  Created by Tretter Matthias on 28.07.11.
-//  Copyright 2011 NOUS Wissensmanagement GmbH. All rights reserved.
+//  Created by Jürgen Falb on 13.09.11.
+//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "RBBoxLoginViewController.h"
+#import "RBDocuSigningViewController.h"
 #import "PSIncludes.h"
+#import "AppDelegate.h"
 
-@interface RBBoxLoginViewController ()
+
+@interface RBDocuSigningViewController ()
 
 - (void)handleDonePress:(id)sender;
-- (void)handleRefreshPress:(id)sender;
 
 @end
 
-@implementation RBBoxLoginViewController
+
+
+@implementation RBDocuSigningViewController
 
 @synthesize webView = webView_;
 
@@ -47,8 +50,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(handleDonePress:)] autorelease];
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(handleDonePress:)] autorelease];
     // self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(handleRefreshPress:)] autorelease];
+}
+
+- (void)loadURL:(NSString *)urlString {
+    [webView_ loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -66,10 +73,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)handleDonePress:(id)sender {
-    [self.navigationController dismissModalViewControllerAnimated:YES];
-}
-- (void)handleRefreshPress:(id)sender {
-    [self.webView reload];
+    [MTApplicationDelegate.homeViewController dismissModalViewControllerAnimated:YES];
 }
 
 @end
