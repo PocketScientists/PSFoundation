@@ -17,12 +17,9 @@
 
 
 static char formMappingKey;
-static char formIDKey;
-static char formSectionKey;
-static char formSubsectionKey;
 static char formSubtypeKey;
 
-@implementation UIControl (UIControl_RBForm)
+@implementation UIControl (RBForm)
 
 + (UIControl *)controlWithID:(NSString *)formID datatype:(NSString *)datatype size:(CGSize)size subtype:(NSString *)subtype {
     UIControl *control;
@@ -73,36 +70,12 @@ static char formSubtypeKey;
     return [self associatedValueForKey:&formMappingKey];
 }
 
-- (void)setFormID:(NSString *)formID {
-    [self associateValue:formID withKey:&formIDKey];
-}
-
-- (NSString *)formID {
-    return [self associatedValueForKey:&formIDKey];
-}
-
 - (void)setFormSubtype:(NSString *)formSubtype {
     [self associateValue:formSubtype withKey:&formSubtypeKey];
 }
 
 - (NSString *)formSubtype {
     return [self associatedValueForKey:&formSubtypeKey];
-}
-
-- (void)setFormSection:(NSInteger)formSection {
-    [self associateValue:$I(formSection) withKey:&formSectionKey];
-}
-
-- (NSInteger)formSection {
-    return [[self associatedValueForKey:&formSectionKey] intValue];
-}
-
-- (void)setFormSubsection:(NSInteger)formSubsection {
-    [self associateValue:$I(formSubsection) withKey:&formSubsectionKey];
-}
-
-- (NSInteger)formSubsection {
-    return [[self associatedValueForKey:&formSubsectionKey] intValue];
 }
 
 - (NSString *)formTextValue {

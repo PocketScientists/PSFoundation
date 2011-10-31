@@ -1,26 +1,25 @@
 //
-//  RBClientEditViewController.m
+//  RBMusketeerEditViewController.m
 //  SignMe
 //
 //  Created by Tretter Matthias on 27.07.11.
 //  Copyright 2011 NOUS Wissensmanagement GmbH. All rights reserved.
 //
 
-#import "RBClientEditViewController.h"
+#import "RBMusketeerEditViewController.h"
 #import "PSIncludes.h"
 #import "SSLineView.h"
-#import "RBClient+RBProperties.h"
+#import "RBMusketeer+RBProperties.h"
 #import "UIControl+RBForm.h"
 #import "RBKeyboardAvoidingScrollView.h"
 #import "RBUIGenerator.h"
 
-
 #define kRBRowHeight    30
 
-@interface RBClientEditViewController ()
+@interface RBMusketeerEditViewController ()
 
 @property (nonatomic, assign) CGFloat currentY;
-@property (nonatomic, assign) BOOL clientWasCreated;
+@property (nonatomic, assign) BOOL musketeerWasCreated;
 @property (nonatomic, retain) UILabel *headerLabel;
 @property (nonatomic, retain) UIButton *cancelButton;
 @property (nonatomic, retain) UIButton *doneButton;
@@ -32,25 +31,25 @@
 - (void)handleDoneButtonPress:(id)sender;
 
 - (void)addInputFieldWithLabel:(NSString *)label index:(int)index;
-- (void)saveEnteredValuesToClient;
+- (void)saveEnteredValuesToMusketeer;
 
 - (void)gotoPrevField:(id)sender;
 - (void)gotoNextField:(id)sender;
 
 @end
 
-
-@implementation RBClientEditViewController
+@implementation RBMusketeerEditViewController
 
 @synthesize currentY = currentY_;
-@synthesize client = client_;
-@synthesize clientWasCreated = clientWasCreated_;
+@synthesize musketeer = musketeer_;
+@synthesize musketeerWasCreated = musketeerWasCreated_;
 @synthesize headerLabel = headerLabel_;
 @synthesize doneButton = doneButton_;
 @synthesize cancelButton = cancelButton_;
 @synthesize mappingTextFields = mappingTextFields_;
 @synthesize navToolbar = navToolbar_;
 @synthesize states = states_;
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -68,7 +67,7 @@
 }
 
 - (void)dealloc {
-    MCRelease(client_);
+    MCRelease(musketeer_);
     MCRelease(headerLabel_);
     MCRelease(doneButton_);
     MCRelease(cancelButton_);
@@ -92,6 +91,8 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)loadView {
+    // TODO: This is a quick-fix solution because my custom RBKeyboardAvoidingScrollView doesn't work here
+    // this should be changed to RBKeyboardAvoidingScrollView when there's more time (and fixed of course)
     RBKeyboardAvoidingScrollView *scrollView = [[[RBKeyboardAvoidingScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds] autorelease];
     
     scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -121,7 +122,7 @@
     
     self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 28, 300, cancelImage.size.height)] autorelease];
     self.headerLabel.font = [UIFont fontWithName:kRBFontName size:20];
-    self.headerLabel.text = (self.client != nil && !self.client.clientCreatedForEditing) ? @"Edit Client" : @"New Client";
+    self.headerLabel.text = (self.musketeer != nil && !self.musketeer.musketeerCreatedForEditing) ? @"Edit Musketeer" : @"New Musketeer";
     self.headerLabel.backgroundColor = [UIColor clearColor];
     self.headerLabel.textColor = kRBColorMain;
     
@@ -129,20 +130,20 @@
     [self.view addSubview:self.cancelButton];
     [self.view addSubview:self.doneButton];
     
-    if (self.client == nil) {
-        self.clientWasCreated = YES;
-        self.client = [RBClient createEntity];
-    } else if (self.client.clientCreatedForEditing) {
-        self.clientWasCreated = YES;
+    if (self.musketeer == nil) {
+        self.musketeerWasCreated = YES;
+        self.musketeer = [RBMusketeer loadEntity];
+    } else if (self.musketeer.musketeerCreatedForEditing) {
+        self.musketeerWasCreated = YES;
     }
     
     // Add input fields
-    int index = 100;
+    int i = 100;
     first = 100;
-    last = [RBClient propertyNamesForMapping].count + 99;
-    for (NSString *property in [RBClient propertyNamesForMapping]) {
-        [self addInputFieldWithLabel:property index:index];
-        index++;
+    last = [RBMusketeer propertyNamesForMapping].count + 99;
+    for (NSString *property in [RBMusketeer propertyNamesForMapping]) {
+        [self addInputFieldWithLabel:property index:i];
+        i++;
     }
         
     self.navToolbar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 1024, 44)] autorelease];
@@ -161,8 +162,8 @@
     self.doneButton = nil;
     self.headerLabel = nil;
     self.navToolbar = nil;
-    if (self.clientWasCreated) {
-        self.client = nil;
+    if (self.musketeerWasCreated) {
+        self.musketeer = nil;
     }
 }
 
@@ -172,14 +173,10 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)handleCancelButtonPress:(id)sender {
-    PSAlertView *alertView = [PSAlertView alertWithTitle:(IsEmpty(self.client.name) ? @"Edit Client" : self.client.name) 
+    PSAlertView *alertView = [PSAlertView alertWithTitle:(IsEmpty(self.musketeer.firstname) ? @"Edit Musketeer" : self.musketeer.firstname) 
                                                  message:@"Do you want to discard your changes?"];
     
     [alertView addButtonWithTitle:@"Discard" block:^(void) {
-        if (self.clientWasCreated) {
-            [self.client deleteEntity];
-        }
-        
         [self dismissModalViewControllerAnimated:YES];
     }];
     
@@ -189,7 +186,7 @@
 }
 
 - (void)handleDoneButtonPress:(id)sender {
-    [self saveEnteredValuesToClient];
+    [self saveEnteredValuesToMusketeer];
     
     [self dismissModalViewControllerAnimated:YES];
 }
@@ -239,7 +236,7 @@
     textField.font = [UIFont fontWithName:kRBFontName size:18];
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    textField.text = [self.client.name isEqualToString:@"Unknown"] ? @"" : [[self.client valueForKey:label] description];
+    textField.text = [self.musketeer.firstname isEqualToString:@"Unknown"] ? @"" : [[self.musketeer valueForKey:label] description];
     textField.formMappingName = label;
     textField.tag = index;
     textField.delegate = self;
@@ -264,12 +261,12 @@
     self.currentY += kRBRowHeight + 35;
 }
 
-- (void)saveEnteredValuesToClient {
+- (void)saveEnteredValuesToMusketeer {
     for (UITextField *textField in self.mappingTextFields) {
         NSString *stringValue = textField.text;
         
-        [self.client setStringValue:stringValue forKey:textField.formMappingName];
-        [[NSManagedObjectContext defaultContext] save];
+        [self.musketeer setStringValue:stringValue forKey:textField.formMappingName];
+        [self.musketeer saveEntity];
     }
 }
 
@@ -297,7 +294,7 @@
         
         RBKeyboardAvoidingScrollView *sv = (RBKeyboardAvoidingScrollView *)self.view;
         [sv moveResponderIntoPlace:firstResponder];
-        
+
         return YES;
     }
     
@@ -316,6 +313,7 @@
     } afterDelay:0];
     return YES;
 }
+
 
 #pragma mark - picker datasource
 
@@ -342,6 +340,7 @@
         ((UITextField *)v).text = [self.states objectAtIndex:row];
     }
 }
+
 
 
 @end

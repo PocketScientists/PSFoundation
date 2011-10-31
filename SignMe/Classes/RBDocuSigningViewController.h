@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RBDocuSigningViewController : UIViewController
+@interface RBDocuSigningViewController : UIViewController <UIWebViewDelegate>
 
 @property (nonatomic, retain) UIWebView *webView;
 

@@ -11,12 +11,13 @@
 
 
 @implementation RBClient
-@dynamic city;
 @dynamic company;
 @dynamic name;
 @dynamic street;
-@dynamic visible;
+@dynamic city;
 @dynamic zip;
+@dynamic state;
+@dynamic visible;
 @dynamic documents;
 
 @end

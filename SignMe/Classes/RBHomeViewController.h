@@ -31,6 +31,7 @@
 
 - (IBAction)handleAddNewClientPress:(id)sender;
 - (IBAction)handleBackgroundPress:(id)sender;
+- (IBAction)handleMusketeerPress:(id)sender;
 
 - (void)updateUI;
 - (void)syncBoxNet;

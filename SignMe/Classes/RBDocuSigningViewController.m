@@ -43,6 +43,7 @@
     self.webView = [[[UIWebView alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.bounds] autorelease];
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.webView.scalesPageToFit = YES;
+    self.webView.delegate = self;
     
     self.view = self.webView;
 }
@@ -75,5 +76,37 @@
 - (void)handleDonePress:(id)sender {
     [MTApplicationDelegate.homeViewController dismissModalViewControllerAnimated:YES];
 }
+
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if ([request.URL.host isEqualToString:@"localhost"]) {
+        [self dismissModalViewControllerAnimated:YES];
+        NSString *p = request.URL.pathComponents.count > 1 ? [request.URL.pathComponents objectAtIndex:1] : nil;
+        if ([p isEqualToString:@"signing_complete"]) {
+            [MTApplicationDelegate showSuccessMessage:@"The document has been signed successfully."];
+        }
+        else if ([p isEqualToString:@"viewing_complete"]) {
+            [MTApplicationDelegate showSuccessMessage:@"The document has been viewed."];            
+        }
+        else if ([p isEqualToString:@"cancel"]) {
+            [MTApplicationDelegate showErrorMessage:@"Signing of the document has been canceled."];            
+        }
+        else if ([p isEqualToString:@"decline"]) {
+            [MTApplicationDelegate showErrorMessage:@"Signing of the document has been declined."];            
+        }
+        else if ([p isEqualToString:@"timeout"]) {
+            [MTApplicationDelegate showErrorMessage:@"Signing of the document has been timed out. Please sign within 5 minutes."];            
+        }
+        else if ([p isEqualToString:@"ttl-expired"]) {
+            [MTApplicationDelegate showErrorMessage:@"Signing of the document has been timed out."];            
+        }
+        else {
+            [MTApplicationDelegate showErrorMessage:@"An exception while signing the document has occured. Please contact your IT support."];            
+        }
+        return NO;
+    }
+    return YES;
+}
+
 
 @end

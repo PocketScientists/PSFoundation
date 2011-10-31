@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "RBKeyboardAvoidingScrollView.h"
+#import "RBForm.h"
 
-@interface RBFormView : RBKeyboardAvoidingScrollView <UIScrollViewDelegate, UITextFieldDelegate>
+@interface RBFormView : RBKeyboardAvoidingScrollView <UIScrollViewDelegate, UITextFieldDelegate> {
+    @private
+    CGSize lastFormSize;
+}
 
 @property (nonatomic, retain) UIScrollView *innerScrollView;
 @property (nonatomic, retain) UIPageControl *pageControl;
@@ -18,6 +22,11 @@
 @property (nonatomic, readonly) NSArray *formControls;
 @property (nonatomic, readonly) NSArray *recipients;
 @property (nonatomic, readonly) NSString *subject;
+@property (nonatomic, readonly) BOOL obeyRoutingOrder;
+@property (nonatomic, readonly) NSMutableDictionary *formLayoutData;
+@property (nonatomic, readonly) RBForm *form;
+
+- (id)initWithFrame:(CGRect)frame form:(RBForm *)form;
 
 - (void)setInnerScrollViewSize:(CGSize)size;
 

@@ -13,7 +13,10 @@
 #import "RBClient.h"
 #import "SSLineView.h"
 
-@interface RBFormViewController : PSBaseViewController
+@interface RBFormViewController : PSBaseViewController {
+    id observerShow;
+    id observerHide;
+}
 
 @property (nonatomic, retain) RBForm *form;
 @property (nonatomic, retain) RBClient *client;

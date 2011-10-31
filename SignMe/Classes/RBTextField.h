@@ -13,6 +13,7 @@
 @property (nonatomic, retain) NSString *subtype;
 @property (nonatomic, retain) NSArray *items;
 @property (nonatomic, readwrite, assign) IBOutlet UITextField *nextField;
+@property (nonatomic, readwrite, assign) IBOutlet UITextField *prevField;
 @property (nonatomic, retain) UIPopoverController *popoverController;
 
 @end

@@ -30,8 +30,6 @@
 		3911A1EE13E1CFD400CD4F6C /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A1EC13E1CFD400CD4F6C /* AddressBookUI.framework */; };
 		3911A21613E1DAAC00CD4F6C /* libAddressBookWrappers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21313E1DA9400CD4F6C /* libAddressBookWrappers.a */; };
 		3911A21713E1DAB400CD4F6C /* libBox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 394B915613D6491B007BFF2E /* libBox.a */; };
-		3911A21813E1DABC00CD4F6C /* libDocuSign.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 394B916313D64924007BFF2E /* libDocuSign.a */; };
-		3911A21A13E1DB7B00CD4F6C /* DocuSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21913E1DB7B00CD4F6C /* DocuSign.framework */; };
 		3911A21C13E1DCC000CD4F6C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21B13E1DCC000CD4F6C /* libxml2.dylib */; };
 		3911A21F13E1E2AD00CD4F6C /* ABPerson+RBMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A21E13E1E2AD00CD4F6C /* ABPerson+RBMail.m */; };
 		3911A22213E226CB00CD4F6C /* NSUserDefaults+RBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A22113E226CA00CD4F6C /* NSUserDefaults+RBAdditions.m */; };
@@ -60,7 +58,6 @@
 		39782EF513EC49E7005CE8D6 /* NewContactButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 39782EF413EC49E7005CE8D6 /* NewContactButton.png */; };
 		397B773713EC7694009438F1 /* RBTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B773613EC7694009438F1 /* RBTextField.m */; };
 		397B773A13ECA61A009438F1 /* RBKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B773913ECA619009438F1 /* RBKeyboardAvoidingScrollView.m */; };
-		397B773D13ECAD7E009438F1 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B773C13ECAD7E009438F1 /* TPKeyboardAvoidingScrollView.m */; };
 		397B783C13ECC960009438F1 /* 11-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 397B77CC13ECC960009438F1 /* 11-x.png */; };
 		397B783D13ECC960009438F1 /* 19-check.png in Resources */ = {isa = PBXBuildFile; fileRef = 397B77CD13ECC960009438F1 /* 19-check.png */; };
 		397B783F13ECC960009438F1 /* ATMHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B77D013ECC960009438F1 /* ATMHud.m */; };
@@ -120,11 +117,18 @@
 		78E9B23312B44DE400B32768 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B22912B44DE400B32768 /* ASIInputStream.m */; };
 		78E9B23412B44DE400B32768 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B22B12B44DE400B32768 /* ASINetworkQueue.m */; };
 		78E9B25212B4514200B32768 /* libicucore.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 78E9B25112B4514200B32768 /* libicucore.A.dylib */; };
-		A948733F141DFAFF00B0E038 /* UILabel+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = A948733E141DFAFF00B0E038 /* UILabel+RBForm.m */; };
+		A948733F141DFAFF00B0E038 /* UIView+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = A948733E141DFAFF00B0E038 /* UIView+RBForm.m */; };
 		A94873A4141F7CAA00B0E038 /* RBDocuSigningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A94873A3141F7CAA00B0E038 /* RBDocuSigningViewController.m */; };
+		A96DF31D144F030900E919E2 /* libDocuSign.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 394B916313D64924007BFF2E /* libDocuSign.a */; };
+		A96DF320144F0D0D00E919E2 /* DocuSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21913E1DB7B00CD4F6C /* DocuSign.framework */; };
+		A96DF4281452B65300E919E2 /* RBFormLayoutData.m in Sources */ = {isa = PBXBuildFile; fileRef = A96DF4271452B65200E919E2 /* RBFormLayoutData.m */; };
 		A97FAC1B13ED7C590083EFC1 /* TextFieldBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = A97FAC1A13ED7C590083EFC1 /* TextFieldBackground.png */; };
 		A97FAC1E13ED816D0083EFC1 /* CheckButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A97FAC1C13ED816D0083EFC1 /* CheckButton.png */; };
 		A97FAC1F13ED816D0083EFC1 /* CheckButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = A97FAC1D13ED816D0083EFC1 /* CheckButtonSelected.png */; };
+		A9B49261144CCE20002F1D02 /* VCTitleCase.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B49260144CCE20002F1D02 /* VCTitleCase.m */; };
+		A9B49265144CE6BB002F1D02 /* RBMusketeerEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B49264144CE6BB002F1D02 /* RBMusketeerEditViewController.m */; };
+		A9B49268144CE7FB002F1D02 /* RBMusketeer.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B49267144CE7FB002F1D02 /* RBMusketeer.m */; };
+		A9B4926B144CE976002F1D02 /* RBMusketeer+RBProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B4926A144CE975002F1D02 /* RBMusketeer+RBProperties.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -322,8 +326,6 @@
 		397B773613EC7694009438F1 /* RBTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTextField.m; sourceTree = "<group>"; };
 		397B773813ECA619009438F1 /* RBKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		397B773913ECA619009438F1 /* RBKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
-		397B773B13ECAD7E009438F1 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
-		397B773C13ECAD7E009438F1 /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		397B77CC13ECC960009438F1 /* 11-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "11-x.png"; sourceTree = "<group>"; };
 		397B77CD13ECC960009438F1 /* 19-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-check.png"; sourceTree = "<group>"; };
 		397B77CF13ECC960009438F1 /* ATMHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMHud.h; sourceTree = "<group>"; };
@@ -427,15 +429,25 @@
 		78E9B22B12B44DE400B32768 /* ASINetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASINetworkQueue.m; path = "../asi-http-request/Classes/ASINetworkQueue.m"; sourceTree = SOURCE_ROOT; };
 		78E9B22C12B44DE400B32768 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIProgressDelegate.h; path = "../asi-http-request/Classes/ASIProgressDelegate.h"; sourceTree = SOURCE_ROOT; };
 		78E9B25112B4514200B32768 /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = usr/lib/libicucore.A.dylib; sourceTree = SDKROOT; };
-		A948733D141DFAFF00B0E038 /* UILabel+RBForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+RBForm.h"; sourceTree = "<group>"; };
-		A948733E141DFAFF00B0E038 /* UILabel+RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+RBForm.m"; sourceTree = "<group>"; };
+		A948733D141DFAFF00B0E038 /* UIView+RBForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RBForm.h"; sourceTree = "<group>"; };
+		A948733E141DFAFF00B0E038 /* UIView+RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RBForm.m"; sourceTree = "<group>"; };
 		A94873A2141F7CAA00B0E038 /* RBDocuSigningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDocuSigningViewController.h; sourceTree = "<group>"; };
 		A94873A3141F7CAA00B0E038 /* RBDocuSigningViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDocuSigningViewController.m; sourceTree = "<group>"; };
 		A94873A5141F8B3A00B0E038 /* RBRecipient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBRecipient.h; path = Classes/RBRecipient.h; sourceTree = "<group>"; };
 		A94873A6141F8B3A00B0E038 /* RBRecipient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBRecipient.m; path = Classes/RBRecipient.m; sourceTree = "<group>"; };
+		A96DF4261452B65200E919E2 /* RBFormLayoutData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFormLayoutData.h; sourceTree = "<group>"; };
+		A96DF4271452B65200E919E2 /* RBFormLayoutData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFormLayoutData.m; sourceTree = "<group>"; };
 		A97FAC1A13ED7C590083EFC1 /* TextFieldBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TextFieldBackground.png; path = Images/TextFieldBackground.png; sourceTree = "<group>"; };
 		A97FAC1C13ED816D0083EFC1 /* CheckButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CheckButton.png; path = Images/CheckButton.png; sourceTree = "<group>"; };
 		A97FAC1D13ED816D0083EFC1 /* CheckButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CheckButtonSelected.png; path = Images/CheckButtonSelected.png; sourceTree = "<group>"; };
+		A9B4925F144CCE20002F1D02 /* VCTitleCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCTitleCase.h; sourceTree = "<group>"; };
+		A9B49260144CCE20002F1D02 /* VCTitleCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VCTitleCase.m; sourceTree = "<group>"; };
+		A9B49263144CE6BB002F1D02 /* RBMusketeerEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBMusketeerEditViewController.h; sourceTree = "<group>"; };
+		A9B49264144CE6BB002F1D02 /* RBMusketeerEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBMusketeerEditViewController.m; sourceTree = "<group>"; };
+		A9B49266144CE7FB002F1D02 /* RBMusketeer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBMusketeer.h; sourceTree = "<group>"; };
+		A9B49267144CE7FB002F1D02 /* RBMusketeer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBMusketeer.m; sourceTree = "<group>"; };
+		A9B49269144CE975002F1D02 /* RBMusketeer+RBProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RBMusketeer+RBProperties.h"; sourceTree = "<group>"; };
+		A9B4926A144CE975002F1D02 /* RBMusketeer+RBProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RBMusketeer+RBProperties.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -443,8 +455,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A96DF320144F0D0D00E919E2 /* DocuSign.framework in Frameworks */,
+				A96DF31D144F030900E919E2 /* libDocuSign.a in Frameworks */,
 				3911A21C13E1DCC000CD4F6C /* libxml2.dylib in Frameworks */,
-				3911A21813E1DABC00CD4F6C /* libDocuSign.a in Frameworks */,
 				3911A21713E1DAB400CD4F6C /* libBox.a in Frameworks */,
 				3911A21613E1DAAC00CD4F6C /* libAddressBookWrappers.a in Frameworks */,
 				3911A1ED13E1CFD400CD4F6C /* AddressBook.framework in Frameworks */,
@@ -464,7 +477,6 @@
 				7856A47F12B444AD0025424F /* libPSFoundation.a in Frameworks */,
 				78E9B1C312B44BB900B32768 /* QuartzCore.framework in Frameworks */,
 				78E9B25212B4514200B32768 /* libicucore.A.dylib in Frameworks */,
-				3911A21A13E1DB7B00CD4F6C /* DocuSign.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -550,6 +562,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A9B4925E144CCE20002F1D02 /* VCTitleCase */,
 				3911A20B13E1DA9300CD4F6C /* iPhoneContacts.xcodeproj */,
 				394B915B13D64923007BFF2E /* DocuSign.xcodeproj */,
 				394B914E13D6491A007BFF2E /* box.xcodeproj */,
@@ -653,6 +666,8 @@
 			children = (
 				3925C7D213DDE72B008810AF /* RBUIGenerator.h */,
 				3925C7D313DDE72B008810AF /* RBUIGenerator.m */,
+				A96DF4261452B65200E919E2 /* RBFormLayoutData.h */,
+				A96DF4271452B65200E919E2 /* RBFormLayoutData.m */,
 			);
 			name = "UI Generation";
 			sourceTree = "<group>";
@@ -804,8 +819,8 @@
 				3911A21E13E1E2AD00CD4F6C /* ABPerson+RBMail.m */,
 				3911A22013E226CA00CD4F6C /* NSUserDefaults+RBAdditions.h */,
 				3911A22113E226CA00CD4F6C /* NSUserDefaults+RBAdditions.m */,
-				A948733D141DFAFF00B0E038 /* UILabel+RBForm.h */,
-				A948733E141DFAFF00B0E038 /* UILabel+RBForm.m */,
+				A948733D141DFAFF00B0E038 /* UIView+RBForm.h */,
+				A948733E141DFAFF00B0E038 /* UIView+RBForm.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -834,6 +849,7 @@
 		39C917B8139836750045489C /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A9B49262144CE69C002F1D02 /* Musketeer */,
 				A94873A1141F7C6200B0E038 /* DocuSign */,
 				394B916B13D64C1C007BFF2E /* Base */,
 				39680E6713E06A60006B47C1 /* Client */,
@@ -847,6 +863,10 @@
 		39C917B91398367C0045489C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A9B49269144CE975002F1D02 /* RBMusketeer+RBProperties.h */,
+				A9B4926A144CE975002F1D02 /* RBMusketeer+RBProperties.m */,
+				A9B49266144CE7FB002F1D02 /* RBMusketeer.h */,
+				A9B49267144CE7FB002F1D02 /* RBMusketeer.m */,
 				39AA379313EB781700338A3E /* RBDocument.h */,
 				39AA379413EB781700338A3E /* RBDocument.m */,
 				39F06FB913E9C1E1008DAB60 /* RBRecipient.h */,
@@ -886,8 +906,6 @@
 				397B773613EC7694009438F1 /* RBTextField.m */,
 				397B773813ECA619009438F1 /* RBKeyboardAvoidingScrollView.h */,
 				397B773913ECA619009438F1 /* RBKeyboardAvoidingScrollView.m */,
-				397B773B13ECAD7E009438F1 /* TPKeyboardAvoidingScrollView.h */,
-				397B773C13ECAD7E009438F1 /* TPKeyboardAvoidingScrollView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -986,6 +1004,25 @@
 				A94873A3141F7CAA00B0E038 /* RBDocuSigningViewController.m */,
 			);
 			name = DocuSign;
+			sourceTree = "<group>";
+		};
+		A9B4925E144CCE20002F1D02 /* VCTitleCase */ = {
+			isa = PBXGroup;
+			children = (
+				A9B4925F144CCE20002F1D02 /* VCTitleCase.h */,
+				A9B49260144CCE20002F1D02 /* VCTitleCase.m */,
+			);
+			name = VCTitleCase;
+			path = ../VCTitleCase;
+			sourceTree = "<group>";
+		};
+		A9B49262144CE69C002F1D02 /* Musketeer */ = {
+			isa = PBXGroup;
+			children = (
+				A9B49263144CE6BB002F1D02 /* RBMusketeerEditViewController.h */,
+				A9B49264144CE6BB002F1D02 /* RBMusketeerEditViewController.m */,
+			);
+			name = Musketeer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1262,15 +1299,19 @@
 				39AA379513EB781700338A3E /* RBDocument.m in Sources */,
 				397B773713EC7694009438F1 /* RBTextField.m in Sources */,
 				397B773A13ECA61A009438F1 /* RBKeyboardAvoidingScrollView.m in Sources */,
-				397B773D13ECAD7E009438F1 /* TPKeyboardAvoidingScrollView.m in Sources */,
 				397B783F13ECC960009438F1 /* ATMHud.m in Sources */,
 				397B784013ECC960009438F1 /* ATMHudQueueItem.m in Sources */,
 				397B784113ECC960009438F1 /* ATMHudView.m in Sources */,
 				397B784213ECC960009438F1 /* ATMProgressLayer.m in Sources */,
 				397B784313ECC960009438F1 /* ATMSoundFX.m in Sources */,
 				397B784413ECC960009438F1 /* ATMTextLayer.m in Sources */,
-				A948733F141DFAFF00B0E038 /* UILabel+RBForm.m in Sources */,
+				A948733F141DFAFF00B0E038 /* UIView+RBForm.m in Sources */,
 				A94873A4141F7CAA00B0E038 /* RBDocuSigningViewController.m in Sources */,
+				A9B49261144CCE20002F1D02 /* VCTitleCase.m in Sources */,
+				A9B49265144CE6BB002F1D02 /* RBMusketeerEditViewController.m in Sources */,
+				A9B49268144CE7FB002F1D02 /* RBMusketeer.m in Sources */,
+				A9B4926B144CE976002F1D02 /* RBMusketeer+RBProperties.m in Sources */,
+				A96DF4281452B65300E919E2 /* RBFormLayoutData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1330,6 +1371,7 @@
 					"$(inherited)/**",
 					"\"$(SRCROOT)/..\"/**",
 					"\"$(SRCROOT)/../external/DocuSign/DocuSign\"/**",
+					"\"$(SRCROOT)/../external/DocuSign/DocuSign\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1359,6 +1401,7 @@
 					"$(inherited)/**",
 					"\"$(SRCROOT)/..\"/**",
 					"\"$(SRCROOT)/../external/DocuSign/DocuSign\"/**",
+					"\"$(SRCROOT)/../external/DocuSign/DocuSign\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.pch;
@@ -1382,7 +1425,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1397,8 +1440,8 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
@@ -1408,7 +1451,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1421,7 +1464,8 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
@@ -1431,7 +1475,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1444,7 +1488,8 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
@@ -1500,6 +1545,7 @@
 					"$(inherited)/**",
 					"\"$(SRCROOT)/..\"/**",
 					"\"$(SRCROOT)/../external/DocuSign/DocuSign\"/**",
+					"\"$(SRCROOT)/../external/DocuSign/DocuSign\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.pch;

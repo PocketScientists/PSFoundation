@@ -11,280 +11,44 @@
 #import "UIControl+RBForm.h"
 #import "RBRecipientsView.h"
 #import "RBRecipient.h"
-#import "RBClient+RBProperties.h"
 #import "DocuSignService.h"
 #import "RBTextField.h"
-#import "UILabel+RBForm.h"
+#import "RBMusketeer+RBProperties.h"
+#import "RBClient+RBProperties.h"
+#import "RBFormLayoutData.h"
 
-
-#define kRBLabelX                   30.f
+#define kRBColPadding               30.f
 #define kRBInputFieldPadding        30.f
 #define kRBRowHeight                35.f
 #define kRBRowPadding               11.f
-#define kRBFormWidth                965.f
-
-#define kRBFieldPositionBelow       @"below"
-#define kRBFieldPositionRight       @"right"
-
-
-#define stateList   [NSArray arrayWithObjects:@"Alabama", @"Alaska", @"Arizona", @"Arkansas", @"California", @"Colorado", @"Connecticut", @"Delaware", @"Florida", @"Georgia", @"Hawaii", @"Idaho", @"Illinois", @"Indiana", @"Iowa", @"Kansas", @"Kentucky", @"Louisiana", @"Maine", @"Maryland", @"Massachusetts", @"Michigan", @"Minnesota", @"Mississippi", @"Missouri", @"Montana", @"Nebraska", @"Nevada", @"New Hampshire", @"New Jersey", @"New Mexico", @"New York", @"North Carolina", @"North Dakota", @"Ohio", @"Oklahoma", @"Oregon", @"Pennsylvania", @"Rhode Island", @"South Carolina", @"South Dakota", @"Tennessee", @"Texas", @"Utah", @"Vermont", @"Virginia", @"Washington", @"West Virginia", @"Wisconsin", @"Wyoming", nil]
-
-#define countryList [NSArray arrayWithObjects:@"Afghanistan", \
-    @"Åland Islands", \
-    @"Albania", \
-    @"Algeria", \
-    @"American Samoa", \
-    @"Andorra", \
-    @"Angola", \
-    @"Anguilla", \
-    @"Antarctica", \
-    @"Antigua And Barbuda", \
-    @"Argentina", \
-    @"Armenia", \
-    @"Aruba", \
-    @"Australia", \
-    @"Austria", \
-    @"Azerbaijan", \
-    @"Bahamas", \
-    @"Bahrain", \
-    @"Bangladesh", \
-    @"Barbados", \
-    @"Belarus", \
-    @"Belgium", \
-    @"Belize", \
-    @"Benin", \
-    @"Bermuda", \
-    @"Bhutan", \
-    @"Bolivia", \
-    @"Bosnia And Herzegovina", \
-    @"Botswana", \
-    @"Bouvet Island", \
-    @"Brazil", \
-    @"British Indian Ocean Territory", \
-    @"Brunei Darussalam", \
-    @"Bulgaria", \
-    @"Burkina Faso", \
-    @"Burundi", \
-    @"Cambodia", \
-    @"Cameroon", \
-    @"Canada", \
-    @"Cape Verde", \
-    @"Cayman Islands", \
-    @"Central African Republic", \
-    @"Chad", \
-    @"Chile", \
-    @"China", \
-    @"Christmas Island", \
-    @"Cocos (keeling) Islands", \
-    @"Colombia", \
-    @"Comoros", \
-    @"Congo", \
-    @"Congo, The Democratic Republic Of The", \
-    @"Cook Islands", \
-    @"Costa Rica", \
-    @"CÔte D'ivoire", \
-    @"Croatia", \
-    @"Cuba", \
-    @"Cyprus", \
-    @"Czech Republic", \
-    @"Denmark", \
-    @"Djibouti", \
-    @"Dominica", \
-    @"Dominican Republic", \
-    @"Ecuador", \
-    @"Egypt", \
-    @"El Salvador", \
-    @"Equatorial Guinea", \
-    @"Eritrea", \
-    @"Estonia", \
-    @"Ethiopia", \
-    @"Falkland Islands (malvinas)", \
-    @"Faroe Islands", \
-    @"Fiji", \
-    @"Finland", \
-    @"France", \
-    @"French Guiana", \
-    @"French Polynesia", \
-    @"French Southern Territories", \
-    @"Gabon", \
-    @"Gambia", \
-    @"Georgia", \
-    @"Germany", \
-    @"Ghana", \
-    @"Gibraltar", \
-    @"Greece", \
-    @"Greenland", \
-    @"Grenada", \
-    @"Guam", \
-    @"Guatemala", \
-    @"Guernsey", \
-    @"Guinea", \
-    @"Guinea-bissau", \
-    @"Guyana", \
-    @"Haiti", \
-    @"Heard Island And Mcdonald Islands", \
-    @"Holy See (vatican City State)", \
-    @"Honduras", \
-    @"Hong Kong", \
-    @"Hungary", \
-    @"Iceland", \
-    @"India", \
-    @"Indonesia", \
-    @"Iran, Islamic Republic Of", \
-    @"Iraq", \
-    @"Ireland", \
-    @"Isle Of Man", \
-    @"Israel", \
-    @"Italy", \
-    @"Jamaica", \
-    @"Japan", \
-    @"Jersey", \
-    @"Jordan", \
-    @"Kazakhstan", \
-    @"Kenya", \
-    @"Kiribati", \
-    @"Korea, Democratic People's Republic Of", \
-    @"Korea, Republic Of", \
-    @"Kuwait", \
-    @"Kyrgyzstan", \
-    @"Lao People's Democratic Republic", \
-    @"Latvia", \
-    @"Lebanon", \
-    @"Lesotho", \
-    @"Liberia", \
-    @"Libyan Arab Jamahiriya", \
-    @"Liechtenstein", \
-    @"Lithuania", \
-    @"Luxembourg", \
-    @"Macao", \
-    @"Macedonia, The Former Yugoslav Republic Of", \
-    @"Madagascar", \
-    @"Malawi", \
-    @"Malaysia", \
-    @"Maldives", \
-    @"Mali", \
-    @"Malta", \
-    @"Marshall Islands", \
-    @"Martinique", \
-    @"Mauritania", \
-    @"Mauritius", \
-    @"Mayotte", \
-    @"Mexico", \
-    @"Micronesia, Federated States Of", \
-    @"Moldova", \
-    @"Monaco", \
-    @"Mongolia", \
-    @"Montserrat", \
-    @"Morocco", \
-    @"Mozambique", \
-    @"Myanmar", \
-    @"Namibia", \
-    @"Nauru", \
-    @"Nepal", \
-    @"Netherlands", \
-    @"Netherlands Antilles", \
-    @"New Caledonia", \
-    @"New Zealand", \
-    @"Nicaragua", \
-    @"Niger", \
-    @"Nigeria", \
-    @"Niue", \
-    @"Norfolk Island", \
-    @"Northern Mariana Islands", \
-    @"Norway", \
-    @"Oman", \
-    @"Pakistan", \
-    @"Palau", \
-    @"Palestinian Territory, Occupied", \
-    @"Panama", \
-    @"Papua New Guinea", \
-    @"Paraguay", \
-    @"Peru", \
-    @"Philippines", \
-    @"Pitcairn", \
-    @"Poland", \
-    @"Portugal", \
-    @"Puerto Rico", \
-    @"Qatar", \
-    @"RÉunion", \
-    @"Romania", \
-    @"Russian Federation", \
-    @"Rwanda", \
-    @"Saint Helena", \
-    @"Saint Kitts And Nevis", \
-    @"Saint Lucia", \
-    @"Saint Pierre And Miquelon", \
-    @"Saint Vincent And The Grenadines", \
-    @"Samoa", \
-    @"San Marino", \
-    @"Sao Tome And Principe", \
-    @"Saudi Arabia", \
-    @"Senegal", \
-    @"Seychelles", \
-    @"Sierra Leone", \
-    @"Singapore", \
-    @"Slovakia", \
-    @"Slovenia", \
-    @"Solomon Islands", \
-    @"Somalia", \
-    @"South Africa", \
-    @"South Georgia And The South Sandwich Islands", \
-    @"Spain", \
-    @"Sri Lanka", \
-    @"Sudan", \
-    @"Suriname", \
-    @"Svalbard And Jan Mayen", \
-    @"Swaziland", \
-    @"Sweden", \
-    @"Switzerland", \
-    @"Syrian Arab Republic", \
-    @"Taiwan, Province Of China", \
-    @"Tajikistan", \
-    @"Tanzania, United Republic Of", \
-    @"Thailand", \
-    @"Timor-leste", \
-    @"Togo", \
-    @"Tokelau", \
-    @"Tonga", \
-    @"Trinidad And Tobago", \
-    @"Tunisia", \
-    @"Turkey", \
-    @"Turkmenistan", \
-    @"Turks And Caicos Islands", \
-    @"Tuvalu", \
-    @"Uganda", \
-    @"Ukraine", \
-    @"United Arab Emirates", \
-    @"United Kingdom", \
-    @"United States", \
-    @"Uruguay", \
-    @"Uzbekistan", \
-    @"Vanuatu", \
-    @"Venezuela", \
-    @"Viet Nam", \
-    @"Virgin Islands, British", \
-    @"Virgin Islands, U.s.", \
-    @"Wallis And Futuna", \
-    @"Western Sahara", \
-    @"Yemen", \
-    @"Zambia", \
-    @"Zimbabwe", \
-    nil]
 
 
 @interface RBUIGenerator ()
 
 @property (nonatomic, assign) RBTextField *previousTextField;
 
-+ (UIView *)viewOfForm:(RBFormView *)formView formFieldID:(NSString *)fieldID section:(NSInteger)section subsection:(NSInteger)subsection type:(Class)type;
++ (UIView *)viewOfForm:(RBFormView *)formView 
+           formFieldID:(NSString *)fieldID 
+               section:(NSInteger)section 
+            subsection:(NSInteger)subsection 
+                  type:(Class)type;
 
-- (UILabel *)labelWithText:(NSString *)text fieldID:(NSString *)fieldID;
+- (UILabel *)labelWithText:(NSString *)text 
+                   fieldID:(NSString *)fieldID;
+
 - (UILabel *)titleLabelWithText:(NSString *)text;
-- (UIControl *)inputFieldWithID:(NSString *)fieldID value:(NSString *)value datatype:(NSString *)datatype width:(CGFloat)width subtype:(NSString *)subtype;
 
-- (void)createNextResponderChainWithControl:(UIControl *)control inView:(RBFormView *)view;
+- (UIControl *)inputFieldWithID:(NSString *)fieldID 
+                          value:(NSString *)value 
+                       datatype:(NSString *)datatype 
+                          width:(CGFloat)width 
+                        subtype:(NSString *)subtype;
+
+- (void)createNextResponderChainWithControl:(UIControl *)control 
+                                     inView:(RBFormView *)view;
 
 @end
+
 
 @implementation RBUIGenerator
 
@@ -296,89 +60,123 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (RBFormView *)viewWithFrame:(CGRect)frame form:(RBForm *)form client:(RBClient *)client document:(RBDocument *)document {
-    RBFormView *view = [[[RBFormView alloc] initWithFrame:frame] autorelease];
-    UIView *topLabel = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
-    UIView *topInputField = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
-    CGFloat realViewWidth = [[UIScreen mainScreen] applicationFrame].size.height; // Because of landscape we have to switch width/height
-    CGFloat realViewHeight = view.bounds.size.width;
-    CGFloat maxHeight = realViewHeight;
-    NSInteger numberOfPages = form.numberOfSections + 1; // +1 for RecipientsView
+    RBFormView *view = [[[RBFormView alloc] initWithFrame:frame form:form] autorelease];
     
-    // iterate over all sections
+    // ================ iterate over all sections ================
+    NSInteger numberOfPages = form.numberOfSections + 1; // +1 for RecipientsView
     for (NSUInteger section=0;section < form.numberOfSections; section++) {
-        // position top views on corresponding page of scrollView
-        topLabel.frameTop =  - kRBRowHeight - kRBRowPadding;
-        topLabel.frameLeft = kRBLabelX + section * realViewWidth;
-        topInputField.frameTop =  - kRBRowHeight - kRBRowPadding;
-        
+        RBFormLayoutData *layoutData = [[[RBFormLayoutData alloc] init] autorelease];
+        [view.formLayoutData setObject:layoutData forKey:$I(section*1000-1)];
+
         // a new section starts with a new "first" textfield
         self.previousTextField = nil;
         
-        // add a section label to the page
+        // ================ add a section label to the page ================
         NSString *sectionTitleText = [form displayNameOfSection:section];
-        if (sectionTitleText) {
+        if (sectionTitleText && sectionTitleText.length > 0) {
             UILabel *sectionTitle = [self titleLabelWithText:sectionTitleText];
             sectionTitle.formSection = section;
             sectionTitle.formSubsection = -1;
-            [sectionTitle positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
             [view.innerScrollView addSubview:sectionTitle];
-            
-            // set new frames for anchor-views
-            topLabel.frame = sectionTitle.frame;
-            topInputField.frame = sectionTitle.frame;
-            
+            layoutData.sectionHeader = sectionTitle;
         }
 
         for (NSUInteger subsection=0; subsection < [form numberOfSubsectionsInSection:section]; subsection++) {
-            topLabel.frameLeft = kRBLabelX + section * realViewWidth;
-
-            // add a section label to the page
+            layoutData = [[[RBFormLayoutData alloc] init] autorelease];
+            [view.formLayoutData setObject:layoutData forKey:$I(section*1000+subsection)];
+            
+            // ================ add a subsection label to the page ================
             NSString *subSectionTitleText = [form displayNameOfSubsection:subsection inSection:section];
-            if (subSectionTitleText) {
+            if (subSectionTitleText && subSectionTitleText.length > 0) {
                 UILabel *subSectionTitle = [self titleLabelWithText:subSectionTitleText];
                 subSectionTitle.formSection = section;
                 subSectionTitle.formSubsection = subsection;
-                [subSectionTitle positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
                 [view.innerScrollView addSubview:subSectionTitle];
-                
-                // set new frames for anchor-views
-                topLabel.frame = subSectionTitle.frame;
-                topInputField.frame = subSectionTitle.frame;
+                layoutData.sectionHeader = subSectionTitle;
             }
             
+            // ================ iterate over all fields in the section ================
             NSArray *fieldIDs = [form fieldIDsOfSubsection:subsection inSection:section];
-            
-            // iterate over all fields in the section
             for (NSString *fieldID in fieldIDs) {
-                // get values
+                // ================ load all values for creating form fields ================
                 NSString *labelText = [form valueForKey:kRBFormKeyLabel ofField:fieldID inSection:section];
                 NSString *value = [form valueForKey:kRBFormKeyValue ofField:fieldID inSection:section];
                 NSString *datatype = [form valueForKey:kRBFormKeyDatatype ofField:fieldID inSection:section];
-                NSString *sizeString = [form valueForKey:kRBFormKeySize ofField:fieldID inSection:section];
+                CGFloat size = [[form valueForKey:kRBFormKeySize ofField:fieldID inSection:section] floatValue];
                 NSString *position = [form valueForKey:kRBFormKeyPosition ofField:fieldID inSection:section];
                 NSString *subtype = [form valueForKey:kRBFormKeySubtype ofField:fieldID inSection:section];
-                float size = sizeString == nil ? 1.0 : [sizeString floatValue];
+                NSInteger col = [[form valueForKey:kRBFormKeyColumn ofField:fieldID inSection:section] intValue];
+                NSInteger row = [[form valueForKey:kRBFormKeyRow ofField:fieldID inSection:section] intValue];
+                NSInteger colspan = [[form valueForKey:kRBFormKeyColumnSpan ofField:fieldID inSection:section] intValue];
+                NSInteger rowspan = [[form valueForKey:kRBFormKeyRowSpan ofField:fieldID inSection:section] intValue];
                 position = position == nil ? kRBFieldPositionBelow : position;
                 
-                // match values for client if there is no value set
+                // ================ match values for client if there is no value set ================
                 if (IsEmpty(value)) {
-                    for (NSString *mapping in [RBClient propertyNamesForMapping]) {
-                        if ([form fieldWithID:fieldID inSection:section matches:mapping]) {
-                            value = [client valueForKey:mapping];
+                    NSArray *mappings = [form fieldWithID:fieldID inSection:section matches:[RBClient propertyNamesForMapping]];
+                    if (mappings) {
+                        NSMutableString *val = [NSMutableString string];
+                        for (int i = 0; i < mappings.count; i++) {
+                            [val appendString:[client valueForKey:[mappings objectAtIndex:i]]];
+                            if (i < mappings.count - 1) {
+                                [val appendString:@" "];
+                            }
                         }
+                        value = val;
                     }
                 }
                 
-                // create label and input field
+                // ================ match values for musketeer if there is no value set ================
+                if (IsEmpty(value)) {
+                    NSMutableArray *tmp = [NSMutableArray array];
+                    for (NSString *prop in [RBMusketeer propertyNamesForMapping]) {
+                        [tmp addObject:[NSString stringWithFormat:@"musketeer_%@", prop]];
+                    }
+                    
+                    NSArray *mappings = [form fieldWithID:fieldID inSection:section matches:tmp];
+                    if (mappings) {
+                        NSMutableString *val = [NSMutableString string];
+                        for (int i = 0; i < mappings.count; i++) {
+                            NSString *key = [[mappings objectAtIndex:i] substringFromIndex:[@"musketeer_" length]];
+                            NSString *mappingValue = [[RBMusketeer loadEntity] valueForKey:key];
+                            if (mappingValue) {
+                                [val appendString:mappingValue];
+                                if (i < mappings.count - 1) {
+                                    [val appendString:@" "];
+                                }
+                            }
+                        }
+                        value = val;
+                    }
+                }
+                
+                // ================ create label ================
                 UILabel *label = [self labelWithText:labelText fieldID:fieldID];
+                label.formDatatype = datatype;
                 label.formSection = section;
                 label.formSubsection = subsection;
+                label.formSize = size;
+                label.formPosition = position;
+                label.formColumn = col;
+                label.formRow = row;
+                label.formColumnSpan = colspan;
+                label.formRowSpan = rowspan;
+                if (!IsEmpty(labelText)) {
+                    [view.innerScrollView addSubview:label];
+                }
+                [layoutData.labels addObject:label];
                 
-                UIControl *inputField = [self inputFieldWithID:fieldID value:value datatype:datatype width:kRBFormWidth * size - label.frameRight - kRBInputFieldPadding subtype:subtype];
+                // ================ create field ================
+                UIControl *inputField = [self inputFieldWithID:fieldID value:value datatype:datatype width:100.0f subtype:subtype];
+                inputField.formDatatype = datatype;
                 inputField.formSection = section;
                 inputField.formSubsection = subsection;
-                
-                CGFloat heightDiff = kRBRowHeight - inputField.frameHeight; // Switch = 27 pt, TextField = 31 pt
+                inputField.formSize = size;
+                inputField.formPosition = position;
+                inputField.formColumn = col;
+                inputField.formRow = row;
+                inputField.formColumnSpan = colspan;
+                inputField.formRowSpan = rowspan;
                 
                 if ([inputField isKindOfClass:[RBTextField class]] && [subtype isEqualToString:@"list"]) {
                     NSString *listID = [form valueForKey:kRBFormKeyListID ofField:fieldID inSection:section];
@@ -393,40 +191,19 @@
                     }
                 }
                 
-                // Setup chain to go from one textfield to the next
-                [self createNextResponderChainWithControl:inputField inView:view];
-                
-                if ([position isEqualToString:kRBFieldPositionRight]) {
-                    // position in Grid depending on anchor-views
-                    label.frameTop = topLabel.frameTop;
-                    label.frameLeft = topInputField.frameRight + kRBInputFieldPadding;
-                    inputField.frameTop = topInputField.frameTop;
-                    inputField.frameLeft = label.frameRight + kRBInputFieldPadding;
-                    inputField.frameWidth -= kRBInputFieldPadding;
+                if (![datatype isEqualToString:kRBFormDataTypeLabel]) {
+                    [view.innerScrollView addSubview:inputField];
                 }
-                else {
-                    topLabel.frameLeft = kRBLabelX + section * realViewWidth;
+                [layoutData.fields addObject:inputField];
 
-                    // position in Grid depending on anchor-views
-                    [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
-                    inputField.frameLeft = label.frameRight + kRBInputFieldPadding;
-                    [inputField positionUnderView:topInputField padding:(kRBRowPadding + heightDiff/2.f) alignment:MTUIViewAlignmentUnchanged];
-                }
-                [view.innerScrollView addSubview:label];
-                [view.innerScrollView addSubview:inputField];
-                
-                // set new frames for anchor-views
-                topLabel.frame = label.frame;
-                topInputField.frame = inputField.frame;
-                topInputField.frameTop += heightDiff/2.f;
-                
-                maxHeight = MAX(maxHeight, topInputField.frameBottom);
+                // ================ Setup chain to go from one textfield to the next ================
+                [self createNextResponderChainWithControl:inputField inView:view];
             }
         }
     }
     
-    // Add RecipientsView
-    RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*realViewWidth, 0.f, 1024.f, 475.f)] autorelease];
+    // ================ Add RecipientsView ================
+    RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*PSAppWidth(), 0.f, 1024.f, 475.f)] autorelease];
     
     for (RBRecipient *recipient in [document.recipients allObjects]) {
         NSDictionary *dictionaryRepresentation = [recipient dictionaryWithValuesForKeys:XARRAY(kRBRecipientPersonID, kRBRecipientEmailID)];
@@ -435,15 +212,15 @@
     
     recipientsView.maxNumberOfRecipients = form.numberOfRecipients;
     recipientsView.subject = document.subject;
-    
+    recipientsView.useRoutingOrder = [document.obeyRoutingOrder boolValue];
     [view.innerScrollView addSubview:recipientsView];
     
-    // update pageControl on view (isn't displayed yet, because it is not a subview of the scrollView)
+    // ================ update pageControl on view (isn't displayed yet, because it is not a subview of the scrollView) ================
     view.pageControl.numberOfPages = numberOfPages;
     
-    // enable vertical scrolling
-    [view setInnerScrollViewSize:CGSizeMake(realViewWidth*numberOfPages, maxHeight)];
-    view.contentSize = CGSizeMake(realViewWidth, maxHeight + 10.f);
+    // ================ enable vertical scrolling ================
+    [view setInnerScrollViewSize:CGSizeMake(PSAppWidth()*numberOfPages, 1000)];
+    view.contentSize = CGSizeMake(PSAppWidth(), 1000 + 10.f);
     
     return view;
 }
@@ -453,83 +230,55 @@
 #pragma mark Resizing
 ////////////////////////////////////////////////////////////////////////
 
-+ (void)resizeFormView:(RBFormView *)formView withForm:(RBForm *)form forOrientation:(UIInterfaceOrientation)orientation {
++ (void)resizeFormView:(RBFormView *)formView withForm:(RBForm *)form {
     CGFloat realViewWidth = formView.bounds.size.width;
     CGFloat realViewHeight = formView.bounds.size.height;
     CGFloat maxHeight = realViewHeight;
     NSInteger numberOfPages = form.numberOfSections + 1; // +1 for RecipientsView
-    UIView *topLabel = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
-    UIView *topInputField = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, kRBRowHeight)] autorelease];
+
     UIView *label;
     UIView *control;
+    CGPoint origin = CGPointZero;
     
     // iterate over all sections
     for (NSUInteger section=0; section < form.numberOfSections; section++) {
-        // position top views on corresponding page of scrollView
-        topLabel.frameTop =  - kRBRowHeight - kRBRowPadding;
-        topLabel.frameLeft = kRBLabelX + section * realViewWidth;
-        topInputField.frameTop =  - kRBRowHeight - kRBRowPadding;
+        origin.x = kRBColPadding + section * realViewWidth;
+        origin.y = kRBRowPadding;
         
-        label = [RBUIGenerator viewOfForm:formView formFieldID:nil section:section subsection:-1 type:[UILabel class]];
+        RBFormLayoutData *layoutData = [formView.formLayoutData objectForKey:$I(section*1000-1)];
+        layoutData.formOrigin = origin;
+        layoutData.formWidth = realViewWidth - 2 * kRBColPadding;
+        [layoutData calculateLayout];
+        
+        label = layoutData.sectionHeader;
         if (label) {
-            [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
-            // set new frames for anchor-views
-            topLabel.frame = label.frame;
-            topInputField.frame = label.frame;
+            label.frame = [layoutData rectForSectionHeader];
+            origin.y += kRBRowHeight + kRBRowPadding;
         }
         
         for (NSUInteger subsection=0; subsection < [form numberOfSubsectionsInSection:section]; subsection++) {
-            topLabel.frameLeft = kRBLabelX + section * realViewWidth;
-            
-            // add a section label to the page
-            label = [RBUIGenerator viewOfForm:formView formFieldID:nil section:section subsection:subsection type:[UILabel class]];
-            if (label) {
-                [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
-                // set new frames for anchor-views
-                topLabel.frame = label.frame;
-                topInputField.frame = label.frame;
-            }
-            
-            NSArray *fieldIDs = [form fieldIDsOfSubsection:subsection inSection:section];
-            
-            // iterate over all fields in the section
-            for (NSString *fieldID in fieldIDs) {
-                // get values
-                NSString *sizeString = [form valueForKey:kRBFormKeySize ofField:fieldID inSection:section];
-                NSString *position = [form valueForKey:kRBFormKeyPosition ofField:fieldID inSection:section];
-                float size = sizeString == nil ? 1.0 : [sizeString floatValue];
-                position = position == nil ? kRBFieldPositionBelow : position;
-                
-                // create label and input field
-                label = [RBUIGenerator viewOfForm:formView formFieldID:fieldID section:section subsection:subsection type:[UILabel class]];
-                control = [RBUIGenerator viewOfForm:formView formFieldID:fieldID section:section subsection:subsection type:[UIControl class]];
-                control.frameWidth = (realViewWidth - 2 * kRBInputFieldPadding) * size - label.frameWidth - kRBInputFieldPadding;
-                CGFloat heightDiff = kRBRowHeight - control.frameHeight; // Switch = 27 pt, TextField = 31 pt
-                
-                if ([position isEqualToString:kRBFieldPositionRight]) {
-                    // position in Grid depending on anchor-views
-                    label.frameTop = topLabel.frameTop;
-                    label.frameLeft = topInputField.frameRight + kRBInputFieldPadding;
-                    control.frameTop = topInputField.frameTop;
-                    control.frameLeft = label.frameRight + kRBInputFieldPadding;
-                    control.frameWidth -= kRBInputFieldPadding;
-                }
-                else {
-                    topLabel.frameLeft = kRBLabelX + section * realViewWidth;
-                    
-                    // position in Grid depending on anchor-views
-                    [label positionUnderView:topLabel padding:kRBRowPadding alignment:MTUIViewAlignmentLeftAligned];
-                    control.frameLeft = label.frameRight + kRBInputFieldPadding;
-                    [control positionUnderView:topInputField padding:(kRBRowPadding + heightDiff/2.f) alignment:MTUIViewAlignmentUnchanged];
-                }
+            layoutData = [formView.formLayoutData objectForKey:$I(section*1000+subsection)];
+            layoutData.formWidth = realViewWidth - 2 * kRBColPadding;
+            layoutData.formOrigin = origin;
+            [layoutData calculateLayout];
 
-                // set new frames for anchor-views
-                topLabel.frame = label.frame;
-                topInputField.frame = control.frame;
-                topInputField.frameTop += heightDiff/2.f;
-                
-                maxHeight = MAX(maxHeight, topInputField.frameBottom);
+            // add a section label to the page
+            label = layoutData.sectionHeader;
+            if (label) {
+                label.frame = [layoutData rectForSectionHeader];
             }
+            
+            for (int i = 0; i < layoutData.labels.count; i++) {
+                label = [layoutData.labels objectAtIndex:i];
+                label.frame = [layoutData rectForLabelAtIndex:i];
+                
+                control = [layoutData.fields objectAtIndex:i];
+                control.frame = [layoutData rectForFieldAtIndex:i];
+
+                maxHeight = MAX(maxHeight, control.frameBottom);
+            }
+            
+            origin.y = control.frameBottom + kRBRowPadding;
         }
     }
     
@@ -576,6 +325,7 @@
     label.textAlignment = UITextAlignmentLeft;
     label.text = text;
     [label sizeToFit];
+    label.numberOfLines = 0;
     label.frameHeight = kRBRowHeight;
     
     return label;
@@ -591,6 +341,7 @@
     label.textAlignment = UITextAlignmentLeft;
     label.text = [text uppercaseString];
     [label sizeToFit];
+    label.numberOfLines = 0;
     label.frameHeight = kRBRowHeight + 10.0f;
     
     return label;
@@ -609,14 +360,10 @@
         RBTextField *textField = (RBTextField *)control;
         
         textField.delegate = view;
-        
-        if (![textField.subtype isEqualToString:@"list"] &&
-            ![textField.subtype isEqualToString:@"date"] &&
-            ![textField.subtype isEqualToString:@"datetime"] &&
-            ![textField.subtype isEqualToString:@"time"] ) {
-            self.previousTextField.nextField = (UITextField *)control;
-            self.previousTextField = textField;
-        }
+
+        self.previousTextField.nextField = (UITextField *)control;
+        textField.prevField = self.previousTextField;
+        self.previousTextField = textField;
     }
 }
 

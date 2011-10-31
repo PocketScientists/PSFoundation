@@ -16,12 +16,15 @@
 - (void)done:(id)sender;
 - (void)dateChanged:(id)sender;
 - (NSDateFormatter *)formatterForSubtype;
+- (void)keyboardWillShow:(NSNotification *)notification;
+- (void)keyboardWillHide:(NSNotification *)notification;
 @end
 
 
 @implementation RBTextField
 
 @synthesize nextField = nextField_;
+@synthesize prevField = prevField_;
 @synthesize popoverController = popoverController_;
 @synthesize subtype = subtype_;
 @synthesize items = items_;
@@ -37,6 +40,16 @@
     if (self) {
         UIImage *image = [UIImage imageNamed:@"TextFieldBackground.png"];
         self.background = [image stretchableImageWithLeftCapWidth:8 topCapHeight:15];
+
+//        UIToolbar *navToolbar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 1024, 44)] autorelease];
+//        navToolbar.barStyle = UIBarStyleBlack;
+//        UIBarButtonItem *prevItem = [[[UIBarButtonItem alloc] initWithTitle:@"Prev" style:UIBarButtonItemStyleBordered target:self action:@selector(gotoPrevField:)] autorelease];
+//        UIBarButtonItem *nextItem = [[[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(gotoNextField:)] autorelease];
+//        navToolbar.items = [NSArray arrayWithObjects:prevItem, nextItem, nil];
+//        [self setInputAccessoryView:navToolbar];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     }
     
     return self;
@@ -44,6 +57,9 @@
 
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+
     MCRelease(popoverController_);
     MCRelease(subtype_);
     
@@ -58,11 +74,30 @@
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showDatePicker:)];
         [self addGestureRecognizer:tap];
         [tap release];
+        
+//        UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 44, PSAppWidth(), 300)];
+//        [datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
+//        if ([self.subtype isEqualToString:@"date"]) {
+//            datePicker.datePickerMode = UIDatePickerModeDate;
+//        }
+//        else if ([self.subtype isEqualToString:@"datetime"]) {
+//            datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+//        }
+//        else if ([self.subtype isEqualToString:@"time"]) {
+//            datePicker.datePickerMode = UIDatePickerModeTime;
+//        }
     }
     else if ([subtype_ isEqualToString:@"list"]) {
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showItemPicker:)];
         [self addGestureRecognizer:tap];
         [tap release];
+        
+//        UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, PSAppWidth(), 300)];
+//        pickerView.dataSource = self;
+//        pickerView.delegate = self;
+//        pickerView.showsSelectionIndicator = YES;
+//        self.inputView = pickerView;
+//        [pickerView release];
     }
     else if ([subtype_ isEqualToString:@"number"]) {
         self.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
@@ -86,6 +121,42 @@
     if (nextField_ != nil) {
         self.returnKeyType = UIReturnKeyNext;
     }
+}
+
+//- (void)setText:(NSString *)text {
+//    [super setText:text];
+//    
+//    if ([subtype_ isEqualToString:@"date"] || [subtype_ isEqualToString:@"time"] || [subtype_ isEqualToString:@"datetime"]) {
+//        UIDatePicker *datePicker = (UIDatePicker *)self.inputView;
+//        NSDate *date = [[self formatterForSubtype] dateFromString:self.text];
+//        if (date) datePicker.date = date;
+//    }
+//    else if ([subtype_ isEqualToString:@"list"]) {
+//        UIPickerView *pickerView = (UIPickerView *)self.inputView;
+//        NSInteger i = [self.items indexOfObject:self.text];
+//        if (i != NSNotFound) {
+//            [pickerView selectRow:i inComponent:0 animated:NO];
+//        }
+//    }
+//}
+
+- (BOOL)becomeFirstResponder {
+    if (![self.subtype isEqualToString:@"list"] &&
+        ![self.subtype isEqualToString:@"date"] &&
+        ![self.subtype isEqualToString:@"datetime"] &&
+        ![self.subtype isEqualToString:@"time"] ) {
+        return [super becomeFirstResponder];
+    }
+    else {
+        if ([subtype_ isEqualToString:@"date"] || [subtype_ isEqualToString:@"time"] || [subtype_ isEqualToString:@"datetime"]) {
+            [self showDatePicker:self];
+        }
+        else if ([subtype_ isEqualToString:@"list"]) {
+            [self showItemPicker:self];
+        }
+    }
+    [self.prevField resignFirstResponder];
+    return NO;
 }
 
 
@@ -202,6 +273,7 @@
 }
 
 
+
 - (void)done:(id)sender {
     UIView *view = [self.popoverController.contentViewController.view viewWithTag:1];
     if (view && [view isKindOfClass:[UIDatePicker class]]) {
@@ -219,6 +291,25 @@
     UIDatePicker *datePicker = (UIDatePicker *)sender;
     
     self.text = [[self formatterForSubtype] stringFromDate:datePicker.date];
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIKeyboard Handling
+////////////////////////////////////////////////////////////////////////
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    if (self.popoverController) {
+        if ([subtype_ isEqualToString:@"date"] || [subtype_ isEqualToString:@"time"] || [subtype_ isEqualToString:@"datetime"]) {
+            [self performSelector:@selector(showDatePicker:) withObject:self afterDelay:0.5];
+        }
+        else if ([subtype_ isEqualToString:@"list"]) {
+            [self performSelector:@selector(showItemPicker:) withObject:self afterDelay:0.5];
+        }
+    }
 }
 
 

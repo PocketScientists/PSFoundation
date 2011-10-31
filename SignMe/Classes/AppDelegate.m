@@ -22,6 +22,7 @@
 - (void)postFinishLaunch;
 - (void)setupFileStructure;
 - (void)logoutUserIfSpecifiedInSettings;
+- (void)redirectNSLogToDocumentFolder;
 @end
 
 
@@ -62,7 +63,7 @@
     // log out of box.net? was set in Settings Application
     [self logoutUserIfSpecifiedInSettings];
     // setup CoreData
-	[ActiveRecordHelpers setupCoreDataStack];
+	[ActiveRecordHelpers setupAutoMigratingCoreDataStack];
     
     // check for NSZombie (memory leak if enabled, but very useful!)
     if(getenv("NSZombieEnabled") || getenv("NSAutoreleaseFreedObjectCheckEnabled")) {
@@ -133,22 +134,47 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)showLoadingMessage:(NSString *)message {
-    PSBaseViewController *visibleViewController = (PSBaseViewController *)self.navigationController.visibleViewController;
-    [visibleViewController showLoadingMessage:message];
+    if ([self.navigationController.visibleViewController isKindOfClass:[PSBaseViewController class]]) {
+        PSBaseViewController *visibleViewController = (PSBaseViewController *)self.navigationController.visibleViewController;
+        [visibleViewController showLoadingMessage:message];
+    }
+    else {
+        PSBaseViewController *vc = [((UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController).viewControllers firstObject];
+        [vc showLoadingMessage:message];
+    }
 }
 
 - (void)showSuccessMessage:(NSString *)message {
-    PSBaseViewController *visibleViewController = (PSBaseViewController *)self.navigationController.visibleViewController;
-    [visibleViewController showSuccessMessage:message];
+    if ([self.navigationController.visibleViewController isKindOfClass:[PSBaseViewController class]]) {
+        PSBaseViewController *visibleViewController = (PSBaseViewController *)self.navigationController.visibleViewController;
+        [visibleViewController showSuccessMessage:message];
+    } 
+    else {
+        PSBaseViewController *vc = [((UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController).viewControllers firstObject];
+        [vc showSuccessMessage:message];
+    }
 }
 
 - (void)showErrorMessage:(NSString *)message {
-    PSBaseViewController *visibleViewController = (PSBaseViewController *)self.navigationController.visibleViewController;
-    [visibleViewController showErrorMessage:message];
+    if ([self.navigationController.visibleViewController isKindOfClass:[PSBaseViewController class]]) {
+        PSBaseViewController *visibleViewController = (PSBaseViewController *)self.navigationController.visibleViewController;
+        [visibleViewController showErrorMessage:message];
+    }
+    else {
+        PSBaseViewController *vc = [((UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController).viewControllers firstObject];
+        [vc showErrorMessage:message];
+    }
 }
+
 - (void)hideMessage {
-    PSBaseViewController *visibleViewController = (PSBaseViewController *)self.navigationController.visibleViewController;
-    [visibleViewController hideMessage];
+    if ([self.navigationController.visibleViewController isKindOfClass:[PSBaseViewController class]]) {
+        PSBaseViewController *visibleViewController = (PSBaseViewController *)self.navigationController.visibleViewController;
+        [visibleViewController hideMessage];
+    }
+    else {
+        PSBaseViewController *vc = [((UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController).viewControllers firstObject];
+        [vc hideMessage];
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,8 +193,27 @@
     fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
     fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
     [DDLog addLogger:fileLogger];
+    
+    [self redirectNSLogToDocumentFolder];
 #endif
+    
+    
 }
+
+
+- (void)redirectNSLogToDocumentFolder {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    NSDateFormatter *fmt = [[[NSDateFormatter alloc] init] autorelease];
+    [fmt setDateFormat:@"MMddyyyy-HHmmss"];
+    NSString *fileName =[NSString stringWithFormat:@"Logs/SignMe-%@.log",[fmt stringFromDate:[NSDate date]]];
+    
+    NSString *logFilePath = [documentsDirectory stringByAppendingPathComponent:fileName];
+    
+    freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+}
+
 
 - (void)appplicationPrepareForBackgroundOrTermination:(UIApplication *)application {
     DDLogInfo(@"detected application termination.");
@@ -181,6 +226,7 @@
 // launched via post selector to speed up launch time
 - (void)postFinishLaunch {    
     // regularly update the status of all DocuSign Documents
+//    [RBDocuSignService updateStatusOfDocuments];
     self.docuSignUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:kRBDocuSignUpdateTimeInterval
                                                                  block:^(void) {
                                                                      [RBDocuSignService updateStatusOfDocuments];

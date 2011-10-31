@@ -20,6 +20,7 @@
 @dynamic status;
 @dynamic subject;
 @dynamic uploadedToBox;
+@dynamic obeyRoutingOrder;
 @dynamic client;
 @dynamic recipients;
 

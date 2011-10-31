@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="870" systemVersion="11B26" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="872" systemVersion="11C74" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="RBClient" representedClassName="RBClient">
         <attribute name="city" optional="YES" attributeType="String"/>
         <attribute name="company" optional="YES" attributeType="String"/>
         <attribute name="name" attributeType="String" defaultValueString="Unknown" indexed="YES"/>
+        <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="street" optional="YES" attributeType="String"/>
         <attribute name="visible" attributeType="Boolean" defaultValueString="YES" indexed="YES"/>
         <attribute name="zip" optional="YES" attributeType="String"/>
@@ -15,6 +16,7 @@
         <attribute name="fileURL" optional="YES" attributeType="String"/>
         <attribute name="lastDocuSignStatus" attributeType="Integer 16" defaultValueString="0"/>
         <attribute name="name" optional="YES" attributeType="String" indexed="YES"/>
+        <attribute name="obeyRoutingOrder" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="status" attributeType="Integer 16" defaultValueString="0" indexed="YES"/>
         <attribute name="subject" optional="YES" attributeType="String" defaultValueString="Sign this document"/>
         <attribute name="uploadedToBox" attributeType="Boolean" defaultValueString="NO"/>
@@ -28,8 +30,8 @@
         <relationship name="document" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBDocument" inverseName="recipients" inverseEntity="RBDocument"/>
     </entity>
     <elements>
-        <element name="RBClient" positionX="160" positionY="48" width="128" height="150"/>
-        <element name="RBDocument" positionX="340" positionY="-66" width="128" height="195"/>
+        <element name="RBClient" positionX="160" positionY="48" width="128" height="165"/>
+        <element name="RBDocument" positionX="340" positionY="-66" width="128" height="210"/>
         <element name="RBRecipient" positionX="594" positionY="60" width="128" height="105"/>
     </elements>
 </model>

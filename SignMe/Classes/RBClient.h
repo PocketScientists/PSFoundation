@@ -14,12 +14,13 @@
 @interface RBClient : NSManagedObject {
 @private
 }
-@property (nonatomic, retain) NSString * city;
 @property (nonatomic, retain) NSString * company;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * street;
-@property (nonatomic, retain) NSNumber * visible;
+@property (nonatomic, retain) NSString * city;
 @property (nonatomic, retain) NSString * zip;
+@property (nonatomic, retain) NSString * state;
+@property (nonatomic, retain) NSNumber * visible;
 @property (nonatomic, retain) NSSet *documents;
 @end
 

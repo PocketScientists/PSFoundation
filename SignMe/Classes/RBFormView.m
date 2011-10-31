@@ -12,6 +12,8 @@
 #import "UIControl+RBForm.h"
 #import "RBRecipientsView.h"
 #import "RBTextField.h"
+#import "VCTitleCase.h"
+#import "RBUIGenerator.h"
 
 @interface RBFormView ()
 
@@ -29,14 +31,19 @@
 @synthesize pageControl = pageControl_;
 @synthesize prevButton = prevButton_;
 @synthesize nextButton = nextButton_;
+@synthesize formLayoutData = formLayoutData_;
+@synthesize form = form_;
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Lifecycle
 ////////////////////////////////////////////////////////////////////////
 
-- (id)initWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)frame form:(RBForm *)form {
     if (self = [super initWithFrame:frame]) {
+        form_ = [form retain];
+        
         self.directionalLockEnabled = YES;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.showsHorizontalScrollIndicator = NO;
@@ -44,6 +51,8 @@
         self.indicatorStyle = UIScrollViewIndicatorStyleWhite;
         self.decelerationRate = UIScrollViewDecelerationRateFast;
         self.clipsToBounds = YES;
+        
+        formLayoutData_ = [[NSMutableDictionary alloc] initWithCapacity:20];
         
         innerScrollView_ = [[UIScrollView alloc] initWithFrame:CGRectZero];
         innerScrollView_.scrollEnabled = NO;
@@ -77,12 +86,22 @@
 }
 
 - (void)dealloc {
-    MCRelease(innerScrollView_);
-    MCRelease(pageControl_);
-    MCRelease(prevButton_);
-    MCRelease(nextButton_);
+    MCReleaseNil(innerScrollView_);
+    MCReleaseNil(pageControl_);
+    MCReleaseNil(prevButton_);
+    MCReleaseNil(nextButton_);
+    MCReleaseNil(formLayoutData_);
+    MCReleaseNil(form_);
     
     [super dealloc];
+}
+
+
+- (void)layoutSubviews {
+    if (CGSizeEqualToSize(lastFormSize, self.bounds.size)) return;
+    
+    lastFormSize = self.bounds.size;
+    [RBUIGenerator resizeFormView:self withForm:self.form];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -114,6 +133,11 @@
 - (NSString *)subject {
     RBRecipientsView *recipientsView = (RBRecipientsView *)[self.innerScrollView viewWithTag:kRBRecipientsViewTag];
     return recipientsView.subject;
+}
+
+- (BOOL)obeyRoutingOrder {
+    RBRecipientsView *recipientsView = (RBRecipientsView *)[self.innerScrollView viewWithTag:kRBRecipientsViewTag];
+    return recipientsView.useRoutingOrder;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -172,19 +196,32 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([textField isKindOfClass:[RBTextField class]]) {
+        if (((RBTextField *)textField).nextField) {
+            UIView *firstResponder = ((RBTextField *)textField).nextField;
+            [firstResponder becomeFirstResponder]; 
+            [self moveResponderIntoPlace:firstResponder];
+
+            return YES;
+        }
+    }
+    
     BOOL didResign = [textField resignFirstResponder];
     if (!didResign) {
         return NO;
     }
     
-    if ([textField isKindOfClass:[RBTextField class]]) {
-        dispatch_async(dispatch_get_current_queue(), ^(void) {
-            [((RBTextField *)textField).nextField becomeFirstResponder]; 
-        });
-    }
-    
     return YES;
 }
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+//    [self performBlock:^{
+//        textField.text = [textField.text capitalizedString];
+//    } afterDelay:0];
+    return YES;
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

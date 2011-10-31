@@ -32,6 +32,9 @@
 
 - (void)updateFormFromControls;
 
+- (void)addKeyboardObserver;
+- (void)removeKeyboardObserver;
+
 @end
 
 @implementation RBFormViewController
@@ -161,13 +164,52 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    [self addKeyboardObserver];
     [self.formView flashScrollIndicators];
 }
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [RBUIGenerator resizeFormView:self.formView withForm:self.form forOrientation:toInterfaceOrientation];
+- (void)viewWillDisappear:(BOOL)animated {
+    [self removeKeyboardObserver];
+    [super viewWillDisappear:animated];
 }
 
+//- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+//    [RBUIGenerator resizeFormView:self.formView withForm:self.form forOrientation:toInterfaceOrientation];
+//}
+
+- (void)addKeyboardObserver
+{
+    observerShow = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardDidShowNotification 
+                                                                     object:nil queue:[NSOperationQueue mainQueue]
+                                                                 usingBlock:^(NSNotification *note) {
+                                                                     [UIView animateWithDuration:0.3 animations:^{
+                                                                         for (UIView *v in self.view.subviews) {
+                                                                             v.frameTop -= 160;
+                                                                         }
+                                                                     }];
+                                                                 }];
+    observerHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardDidHideNotification 
+                                                                     object:nil queue:[NSOperationQueue mainQueue]
+                                                                 usingBlock:^(NSNotification *note) {
+                                                                     [UIView animateWithDuration:0.3 animations:^{
+                                                                         for (UIView *v in self.view.subviews) {
+                                                                             v.frameTop += 160;
+                                                                         }
+                                                                     }];
+                                                                 }];
+}
+
+- (void)removeKeyboardObserver
+{
+    if (observerShow) {
+        [[NSNotificationCenter defaultCenter] removeObserver:observerShow];
+        observerShow = nil;
+    }
+    if (observerHide) {
+        [[NSNotificationCenter defaultCenter] removeObserver:observerHide];
+        observerHide = nil;
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -196,10 +238,10 @@
     RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
     
     if (self.document != nil) {
-        [persistenceManager updateDocument:self.document usingForm:self.form recipients:self.formView.recipients subject:self.formView.subject];
+        [persistenceManager updateDocument:self.document usingForm:self.form recipients:self.formView.recipients subject:self.formView.subject obeyRoutingOrder:self.formView.obeyRoutingOrder];
     } else {
         // create a new document with the given form/client
-        self.document = [persistenceManager persistedDocumentUsingForm:self.form client:self.client recipients:self.formView.recipients subject:self.formView.subject];
+        self.document = [persistenceManager persistedDocumentUsingForm:self.form client:self.client recipients:self.formView.recipients subject:self.formView.subject obeyRoutingOrder:self.formView.obeyRoutingOrder];
     }
     
     // upload files to box.net

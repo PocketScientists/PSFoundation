@@ -10,4 +10,6 @@
 
 @interface RBKeyboardAvoidingScrollView : UIScrollView
 
+- (void)moveResponderIntoPlace:(UIView *)firstResponder;
+
 @end

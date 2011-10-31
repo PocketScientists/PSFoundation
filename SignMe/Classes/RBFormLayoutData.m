@@ -7,7 +7,211 @@
 //
 
 #import "RBFormLayoutData.h"
+#import "RBForm.h"
+#import "UIControl+RBForm.h"
+
+#define kRBColPadding               30.f
+#define kRBInputFieldPadding        10.f
+#define kRBRowHeight                35.f
+#define kRBRowPadding               11.f
+
 
 @implementation RBFormLayoutData
+
+@synthesize formOrigin;
+@synthesize formWidth;
+@synthesize minFieldWidth;
+@synthesize numberOfColumns;
+@synthesize numberOfRows;
+@synthesize columnWidths;
+@synthesize columnLabelWidths;
+@synthesize labels;
+@synthesize fields;
+@synthesize sectionHeader;
+
+
+- (id)init 
+{
+    if ((self = [super init])) {
+        self.columnWidths = [NSMutableArray arrayWithCapacity:20];
+        self.columnLabelWidths = [NSMutableArray arrayWithCapacity:20];
+        self.labels = [NSMutableArray arrayWithCapacity:20];
+        self.fields = [NSMutableArray arrayWithCapacity:20];
+        self.minFieldWidth = 80;
+    }
+    return self;
+}
+
+
+- (void)calculateLayout
+{
+    // calculate the numbers of rows and cols
+    numberOfRows = 0;
+    numberOfColumns = 0;
+    
+    for (UIView *label in labels) {
+        if (label.formColumn > numberOfColumns) {
+            numberOfColumns = label.formColumn;
+        }
+        if (label.formRow > numberOfRows) {
+            numberOfRows = label.formRow;
+        }
+    }
+    numberOfColumns++;
+    numberOfRows++;
+    
+    [columnLabelWidths removeAllObjects];
+    [columnWidths removeAllObjects];
+    
+    CGFloat totalWidth = 0;
+    for (int i = 0; i < numberOfColumns; i++) {
+        // iterate over all fields in the section and figure out the max length
+        CGFloat maxLabelWidth = 0.0f;
+        for (UILabel *label in labels) {
+            if ([label.formDatatype isEqualToString:kRBFormDataTypeLabel] || label.text == nil || label.text.length == 0) continue;
+            if (label.formColumn == i && label.formColumnSpan == 1) {
+                CGFloat lWidth = [label.text sizeWithFont:label.font].width;
+                maxLabelWidth = MAX(maxLabelWidth, lWidth);
+            }
+        }
+        [columnLabelWidths addObject:[NSNumber numberWithFloat:maxLabelWidth]];
+        totalWidth += maxLabelWidth;
+    }
+    
+    CGFloat remainingWidth = formWidth - totalWidth - (numberOfColumns - 1) * kRBColPadding;
+    if (remainingWidth < numberOfColumns * minFieldWidth) {
+        CGFloat sumDiff = numberOfColumns * minFieldWidth - remainingWidth;
+        CGFloat diff = sumDiff / numberOfColumns;
+        
+        int j = numberOfColumns;
+        while (sumDiff > 0 && j > 0) {
+            for (int i = 0; i < numberOfColumns; i++) {
+                if ([[columnLabelWidths objectAtIndex:i] floatValue] > minFieldWidth) {
+                    CGFloat newWidth = [[columnLabelWidths objectAtIndex:i] floatValue] - diff;
+                    if (newWidth < minFieldWidth) {
+                        sumDiff -= diff - (minFieldWidth - newWidth);
+                        newWidth = minFieldWidth;
+                    }
+                    else {
+                        sumDiff -= diff;
+                    }
+                    [columnLabelWidths replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:newWidth]];
+                }
+            }
+            j--;
+        }
+        
+        remainingWidth = MAX(remainingWidth, (numberOfColumns * minFieldWidth));
+    }
+    
+    CGFloat fieldWidth = remainingWidth / numberOfColumns;
+    for (int i = 0; i < numberOfColumns; i++) {
+        CGFloat newWidth = [[columnLabelWidths objectAtIndex:i] floatValue] + fieldWidth;
+        [columnWidths addObject:[NSNumber numberWithFloat:newWidth]];
+    }
+}
+
+
+- (CGRect)rectForSectionHeader
+{
+    if (sectionHeader) {
+        return CGRectMake(formOrigin.x, formOrigin.y, formWidth, kRBRowHeight);
+    }
+    
+    return CGRectZero;
+}
+
+
+- (CGRect)rectForLabelAtIndex:(NSInteger)index
+{
+    CGRect r = CGRectZero;
+
+    UIView *label = [self.labels objectAtIndex:index];
+    if (label) {
+        if ([label.formDatatype isEqualToString:kRBFormDataTypeLabel]) {
+            // x
+            r.origin.x = formOrigin.x;
+            for (int i = 0; i < label.formColumn; i++) {
+                r.origin.x += [[columnWidths objectAtIndex:i] floatValue] + kRBColPadding;
+            }
+            r.origin.x += [[columnLabelWidths objectAtIndex:label.formColumn] floatValue] + kRBInputFieldPadding;
+            r.origin.x = floorf(r.origin.x);
+            
+            // width
+            r.size.width = floorf([[columnWidths objectAtIndex:label.formColumn] floatValue] - [[columnLabelWidths objectAtIndex:label.formColumn] floatValue] - kRBInputFieldPadding);
+        }
+        else {
+            // x
+            r.origin.x = formOrigin.x;
+            for (int i = 0; i < label.formColumn; i++) {
+                r.origin.x += [[columnWidths objectAtIndex:i] floatValue] + kRBColPadding;
+            }
+            r.origin.x = floorf(r.origin.x);
+            
+            // width
+            for (int i = 0; i < label.formColumnSpan-1; i++) {
+                r.size.width += [[columnWidths objectAtIndex:label.formColumn+i] floatValue] + kRBColPadding;
+            }
+            r.size.width += [[columnLabelWidths objectAtIndex:label.formColumn+label.formColumnSpan-1] floatValue];
+            r.size.width = floorf(r.size.width);
+        }
+        
+        // y
+        r.origin.y = formOrigin.y + label.formRow * (kRBRowHeight + kRBRowPadding);
+        if (self.sectionHeader) {
+            r.origin.y += kRBRowHeight + kRBRowPadding;
+        }
+        r.origin.y = floorf(r.origin.y);
+        
+        // height
+        r.size.height = floorf(kRBRowHeight + (kRBRowHeight + kRBRowPadding) * (label.formRowSpan - 1));
+    }
+    
+    return r;
+}
+
+
+- (CGRect)rectForFieldAtIndex:(NSInteger)index
+{
+    CGRect r = CGRectZero;
+    
+    UIView *field = [self.fields objectAtIndex:index];
+    if (field && ![field.formDatatype isEqualToString:kRBFormDataTypeLabel]) {
+        // x
+        r.origin.x = formOrigin.x;
+        for (int i = 0; i < field.formColumn; i++) {
+            r.origin.x += [[columnWidths objectAtIndex:i] floatValue] + kRBColPadding;
+        }
+        r.origin.x += [[columnLabelWidths objectAtIndex:field.formColumn] floatValue] + kRBInputFieldPadding;
+        r.origin.x = floorf(r.origin.x);
+        
+        // width
+        r.size.width = floorf(([[columnWidths objectAtIndex:field.formColumn] floatValue] - [[columnLabelWidths objectAtIndex:field.formColumn] floatValue])*field.formSize - kRBInputFieldPadding);
+        
+        // y
+        r.origin.y = formOrigin.y + field.formRow * (kRBRowHeight + kRBRowPadding);
+        if (self.sectionHeader) {
+            r.origin.y += kRBRowHeight + kRBRowPadding;
+        }
+        r.origin.y = floorf(r.origin.y);
+
+        // height
+        r.size.height = floorf(kRBRowHeight + (kRBRowHeight + kRBRowPadding) * (field.formRowSpan - 1));
+    }
+    
+    return r;
+}
+
+
+- (void)dealloc 
+{
+    [columnWidths release], columnWidths = nil;
+    [columnLabelWidths release], columnLabelWidths = nil;
+    [labels release], labels = nil;
+    [fields release], fields = nil;
+    [sectionHeader release], sectionHeader = nil;
+    
+    [super dealloc];
+}
 
 @end

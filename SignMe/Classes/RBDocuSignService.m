@@ -33,7 +33,7 @@ static DocuSignService *docuSign = nil;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     
     dispatch_async(queue, ^(void) {
-        [docuSign login];
+        NSString *result = [docuSign login];
         
         if (docuSign.account != nil) {
             // dictionary holding the PDF data and name
@@ -46,10 +46,12 @@ static DocuSignService *docuSign = nil;
             DDLogInfo(@"DocuSign: Will send document '%@' of client '%@' with Subject '%@': %d Recipients, %d Tabs", document.name, document.client.name, subject, recipients.count, tabs.count);
             [MTApplicationDelegate showLoadingMessage:@"Sending to DocuSign"];
             
+            NSError *error;
             DSAPIService_EnvelopeStatus *status = [docuSign createAndSendEnvelopeWithDocuments:[NSArray arrayWithObject:documentDictionary] 
                                                                                     recipients:recipients
                                                                                           tabs:tabs
-                                                                                       subject:subject];
+                                                                                       subject:subject
+                                                                                         error:&error];
             
             document.lastDocuSignStatus = $I(status.Status);
             
@@ -64,12 +66,11 @@ static DocuSignService *docuSign = nil;
                 // update document status after 10 seconds
                 [self performSelector:@selector(updateStatusOfDocuments) afterDelay:10.];
             } else {
-                [MTApplicationDelegate showErrorMessage:@"Error sending to DocuSign"];
+                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error finalizing document: %@", [error localizedDescription]]];
                 DDLogError(@"Wasn't able to send document: %d", status.Status);
             }
         } else {
-            [MTApplicationDelegate showErrorMessage:@"Error logging in to DocuSign"];
-            DDLogError(@"Error logging in to DocuSign Service!");
+            [MTApplicationDelegate showErrorMessage:result];
         }
     });
 }
@@ -79,12 +80,13 @@ static DocuSignService *docuSign = nil;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     
     dispatch_async(queue, ^(void) {
-        [docuSign login];
+        NSString *result = [docuSign login];
         
         if (docuSign.account != nil) {
             [MTApplicationDelegate showLoadingMessage:@"Voiding Envelope @ DocuSign"];
             
-            if ([docuSign cancelEnvelope:document.docuSignEnvelopeID reason:@"Voided by the sender"]) {
+            NSError *error;
+            if ([docuSign cancelEnvelope:document.docuSignEnvelopeID reason:@"Voided by the sender" error:&error]) {
                 document.lastDocuSignStatus = $I(DSAPIService_EnvelopeStatusCode_Voided);
                 dispatch_async(dispatch_get_main_queue(), ^(void) {
                     [MTApplicationDelegate showSuccessMessage:@"Envelope voided succesfully"];
@@ -96,12 +98,11 @@ static DocuSignService *docuSign = nil;
                 // update document status after 10 seconds
                 [self performSelector:@selector(updateStatusOfDocuments) afterDelay:10.];
             } else {
-                [MTApplicationDelegate showErrorMessage:@"Error voiding envelope @ DocuSign"];
-                DDLogError(@"Wasn't able to void document");
+                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error voiding envelope @ DocuSign: %@", [error localizedDescription]]];
+                DDLogError(@"Wasn't able to void document: %@", [error localizedDescription]);
             }
         } else {
-            [MTApplicationDelegate showErrorMessage:@"Error logging in to DocuSign"];
-            DDLogError(@"Error logging in to DocuSign Service!");
+            [MTApplicationDelegate showErrorMessage:result];
         }
     });
 }
@@ -110,12 +111,13 @@ static DocuSignService *docuSign = nil;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     
     dispatch_async(queue, ^(void) {
-        [docuSign login];
+        NSString *result = [docuSign login];
         
         if (docuSign.account != nil) {
             //            [MTApplicationDelegate showLoadingMessage:@"Signing Envelope @ DocuSign"];
             
-            NSString *token = [docuSign authenticationToken:document.docuSignEnvelopeID];
+            NSError *error;
+            NSString *token = [docuSign authenticationToken:document.docuSignEnvelopeID error:&error];
             if (token) {
                 dispatch_async(dispatch_get_main_queue(), ^(void) {
                     RBDocuSigningViewController *vc = [[RBDocuSigningViewController alloc] initWithNibName:nil bundle:nil];
@@ -131,12 +133,11 @@ static DocuSignService *docuSign = nil;
                     MCReleaseNil(vc);
                 });
             } else {
-                [MTApplicationDelegate showErrorMessage:@"Error retrieving token from DocuSign for initiating viewing!"];
-                DDLogError(@"Wasn't able to void document");
+                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error retrieving token from DocuSign for initiating viewing: %@", [error localizedDescription]]];
+                DDLogError(@"Error retrieving token from DocuSign for initiating viewing: %@", [error localizedDescription]);
             }
         } else {
-            [MTApplicationDelegate showErrorMessage:@"Error logging in to DocuSign"];
-            DDLogError(@"Error logging in to DocuSign Service!");
+            [MTApplicationDelegate showErrorMessage:result];
         }
     });
 }
@@ -145,14 +146,15 @@ static DocuSignService *docuSign = nil;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     
     dispatch_async(queue, ^(void) {
-        [docuSign login];
+        NSString *result = [docuSign login];
         
         if (docuSign.account != nil) {
 //            [MTApplicationDelegate showLoadingMessage:@"Signing Envelope @ DocuSign"];
             
 //            NSString *token = [docuSign authenticationToken:document.docuSignEnvelopeID];
 //            NSString *token = [docuSign senderToken:document.docuSignEnvelopeID];
-            NSString *token = [docuSign recipientToken:document.docuSignEnvelopeID recipient:[[document recipientsAsDictionary] firstObject] recipientId:0];
+            NSError *error;
+            NSString *token = [docuSign recipientToken:document.docuSignEnvelopeID recipient:[[document recipientsAsDictionary] firstObject] recipientId:0 error:&error];
             if (token) {
                 dispatch_async(dispatch_get_main_queue(), ^(void) {
                     RBDocuSigningViewController *vc = [[RBDocuSigningViewController alloc] initWithNibName:nil bundle:nil];
@@ -168,12 +170,11 @@ static DocuSignService *docuSign = nil;
                     MCReleaseNil(vc);
                 });
             } else {
-                [MTApplicationDelegate showErrorMessage:@"Error retrieving token from DocuSign for initiating signing process!"];
-                DDLogError(@"Wasn't able to void document");
+                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error retrieving token from DocuSign for initiating signing process: %@", [error localizedDescription]]];
+                DDLogError(@"Error retrieving token from DocuSign for initiating signing process: %@", [error localizedDescription]);
             }
         } else {
-            [MTApplicationDelegate showErrorMessage:@"Error logging in to DocuSign"];
-            DDLogError(@"Error logging in to DocuSign Service!");
+            [MTApplicationDelegate showErrorMessage:result];
         }
     });
 }
@@ -188,11 +189,16 @@ static DocuSignService *docuSign = nil;
     dispatch_async(queue, ^(void) {
         BOOL documentGotSigned = NO;
         
-        [docuSign login];
+        NSString *result = [docuSign login];
         
         if (docuSign.account != nil) {
             for (RBDocument *document in documents) {
-                DSAPIService_EnvelopeStatus *status = [docuSign statusForEnvelope:document.docuSignEnvelopeID];
+                NSError *error;
+                DSAPIService_EnvelopeStatus *status = [docuSign statusForEnvelope:document.docuSignEnvelopeID error:&error];
+                if (status == nil) {
+                    DDLogError(@"Error updating document status: %@", [error localizedDescription]);
+                    continue;
+                }
                 DSAPIService_EnvelopeStatusCode previousStatus = [document.lastDocuSignStatus intValue];
                 
                 DDLogInfo(@"DocuSign: Document '%@' of Client '%@' has status '%@'.", document.name, document.client.name, DSAPIService_EnvelopeStatusCode_stringFromEnum(status.Status));
@@ -216,14 +222,20 @@ static DocuSignService *docuSign = nil;
                 // update saved PDF
                 if (status.Status == DSAPIService_EnvelopeStatusCode_Signed || 
                     status.Status == DSAPIService_EnvelopeStatusCode_Completed) {
-                    NSData *signedPDFData = [docuSign requestPDF:document.docuSignEnvelopeID];
-                    NSURL *pdfFileURL = document.filledPDFURL;
-                    
-                    // write to disk (overwrite previous PDF)
-                    [signedPDFData writeToURL:pdfFileURL atomically:YES];
-                    // Sent to Box.net
-                    NSString *folderPath = RBPathToFolderForStatusAndClientWithName([document.status intValue], document.client.name);
-                    [RBBoxService uploadDocument:document toFolderAtPath:folderPath];
+                    NSData *signedPDFData = [docuSign requestPDF:document.docuSignEnvelopeID error:&error];
+                    if (signedPDFData) {
+                        NSURL *pdfFileURL = document.filledPDFURL;
+                        
+                        // write to disk (overwrite previous PDF)
+                        [signedPDFData writeToURL:pdfFileURL atomically:YES];
+                        // Sent to Box.net
+                        NSString *folderPath = RBPathToFolderForStatusAndClientWithName([document.status intValue], document.client.name);
+                        [RBBoxService uploadDocument:document toFolderAtPath:folderPath];
+                    }
+                    else {
+                        DDLogError(@"Cannot download signed PDF. Please download it manually: %@", [error localizedDescription]);
+                        [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Cannot download signed PDF. Please download it manually: %@", [error localizedDescription]]];
+                    }
                 }
             }
             
@@ -237,7 +249,7 @@ static DocuSignService *docuSign = nil;
                 [MTApplicationDelegate.homeViewController updateUI];
             });
         } else {
-            DDLogError(@"Error logging in to DocuSign Service!");
+            [MTApplicationDelegate showErrorMessage:result];
         }
     });
 }

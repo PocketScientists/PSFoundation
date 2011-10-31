@@ -18,7 +18,11 @@
 #define kRBFormKeySubsections       @"subsections"      // section display infos
 #define kRBFormKeyFields            @"fields"           // fields of subsection
 #define kRBFormKeySize              @"size"             // size of a field in percent of form width
-#define kRBFormKeyPosition          @"position"         // position of a field relative to the previous field
+#define kRBFormKeyPosition          @"position"         // position of a field relative to its label
+#define kRBFormKeyColumn            @"col"              // column of a field 
+#define kRBFormKeyRow               @"row"              // row of a field 
+#define kRBFormKeyColumnSpan        @"colspan"          // column span of a field 
+#define kRBFormKeyRowSpan           @"rowspan"          // row span of a field 
 #define kRBFormKeySubtype           @"subtype"          // subtype refines which UIControl is displayed
 #define kRBFormKeyListID            @"listid"           // refers to the items to display
 #define kRBFormKeyLists             @"lists"            // set of item lists
@@ -40,10 +44,16 @@
 #define kRBFormKeyMappingCity       @"city"
 #define kRBFormKeyMappingZip        @"zip"
 
-
 // datatypes for form creation
 #define kRBFormDataTypeCheckbox     @"Btn"
 #define kRBFormDataTypeTextField    @"Tx"
+#define kRBFormDataTypeLabel        @"Lb"
+#define kRBFormDataTypeChoice       @"Ch"
+#define kRBFormDataTypeSignature    @"Sig"
+
+// position types
+#define kRBFieldPositionBelow       @"below"
+#define kRBFieldPositionRight       @"right"
 
 // tag that determines that this control is a form control
 #define kRBFormControlTag           45321
@@ -112,7 +122,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus);
 - (void)setValue:(id)value forField:(NSString *)fieldID inSection:(NSUInteger)section;
 
 /** check if a field matches a specified purpose (e.g. name, street, address, ... */
-- (BOOL)fieldWithID:(NSString *)fieldID inSection:(NSUInteger)section matches:(NSString *)match;
+- (NSArray *)fieldWithID:(NSString *)fieldID inSection:(NSUInteger)section matches:(NSArray *)match;
 
 - (NSArray *)listForID:(NSString *)listID;
 

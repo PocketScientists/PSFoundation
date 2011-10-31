@@ -13,7 +13,7 @@
 #define kRBLogoCenter                   CGPointMake(100,75)
 #define kRBLogoSignMeTopLeft            CGPointMake(180,82)
 #define kRBLoadingAnimationDuration     0.4f
-#define kRBHUDDuration                  1.5f
+#define kRBHUDDuration                  2.5f
 
 void dispatch_sync_on_main_queue(dispatch_block_t block);
 
@@ -57,6 +57,7 @@ inline void dispatch_sync_on_main_queue(dispatch_block_t block) {
 }
 
 - (void)dealloc {
+    if (hud_) hud_.delegate = nil;
     MCRelease(backgroundImageView_);
     MCRelease(timeView_);
     MCRelease(fullLogoImageView_);
@@ -104,7 +105,7 @@ inline void dispatch_sync_on_main_queue(dispatch_block_t block) {
     [super viewDidUnload];
     
     [[PSReachability sharedPSReachability] shutdownReachabilityFor:self];
-    
+    if (self.hud) self.hud.delegate = nil;
     self.backgroundImageView = nil;
     self.fullLogoImageView = nil;
     self.logoSignMe = nil;
@@ -142,7 +143,7 @@ inline void dispatch_sync_on_main_queue(dispatch_block_t block) {
 
 - (void)showErrorMessage:(NSString *)message {
     dispatch_sync_on_main_queue(^(void) {
-        [self showHUDWithCaption:message image:[UIImage imageNamed:@"11-x"] hideAfterDuration:kRBHUDDuration];
+        [self showHUDWithCaption:message image:[UIImage imageNamed:@"11-x"] interactionEnabled:YES];
     });
 }
 
@@ -163,9 +164,10 @@ inline void dispatch_sync_on_main_queue(dispatch_block_t block) {
     [self.hud hide];
     self.hud = [[[ATMHud alloc] init] autorelease];
     self.hud.view.center = CGPointMake(506.f,350.f);
-    self.hud.allowSuperviewInteraction = interactionEnabled;
+    self.hud.allowSuperviewInteraction = NO;//interactionEnabled;
     self.hud.blockTouches = !interactionEnabled;
     self.hud.accessoryPosition = ATMHudAccessoryPositionTop;
+    self.hud.delegate = self;
     [self.hud setCaption:caption];
     [self.hud setFixedSize:hudSize]; 
     
@@ -186,8 +188,30 @@ inline void dispatch_sync_on_main_queue(dispatch_block_t block) {
 }
 
 - (void)hideHUD {
+    self.hud.delegate = nil;
     [self.hud hide];
     self.hud = nil;
 }
+
+- (void)userDidTapHud:(ATMHud *)_hud {
+    [self hideHUD];
+}
+
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark responder handling
+////////////////////////////////////////////////////////////////////////
+
+- (UIView*)findFirstResponderBeneathView:(UIView*)view {
+    // Search recursively for first responder
+    for ( UIView *childView in view.subviews ) {
+        if ( [childView respondsToSelector:@selector(isFirstResponder)] && [childView isFirstResponder] ) return childView;
+        UIView *result = [self findFirstResponderBeneathView:childView];
+        if ( result ) return result;
+    }
+    return nil;
+}
+
 
 @end

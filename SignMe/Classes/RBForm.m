@@ -319,16 +319,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     NSDictionary *subsectionInfo = [subsections objectAtIndex:subsection];
     NSString *fields = [subsectionInfo objectForKey:kRBFormKeyFields];
     
-    NSArray *fieldIndexes = [fields componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
-    NSMutableArray *subFieldIDs = [NSMutableArray array];
-    
-    for (NSString *fieldIndex in fieldIndexes) {
-        NSUInteger idx = [fieldIndex intValue];
-        if (idx >= [fieldIDs count]) {
-            continue;
-        }
-        [subFieldIDs addObject:[fieldIDs objectAtIndex:idx]];
-    }
+    NSArray *subFieldIDs = [fields componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@";"]];
     return subFieldIDs;
 }
 
@@ -368,21 +359,29 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     }
 }
 
-- (BOOL)fieldWithID:(NSString *)fieldID inSection:(NSUInteger)section matches:(NSString *)match {
+- (NSArray *)fieldWithID:(NSString *)fieldID inSection:(NSUInteger)section matches:(NSArray *)match {
     // index out of bounds
     if (section >= self.numberOfSections) {
         DDLogWarn(@"Index %d out of bounds", section);
-        return NO;
+        return nil;
     }
     
     NSArray *sectionData = [self.sections objectAtIndex:section];
     NSInteger index = [self indexOfObjectWithFieldID:fieldID inArray:sectionData];
     
     if (index != NSNotFound) {
-        return [[[sectionData objectAtIndex:index] valueForKey:kRBFormKeyMapping] isEqualToString:match];
+        NSString *mapString = [[sectionData objectAtIndex:index] valueForKey:kRBFormKeyMapping];
+        NSArray *maps = [mapString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSMutableArray *matches = [NSMutableArray array];
+        for (NSString *map in maps) {
+            if ([match containsObject:map]) {
+                [matches addObject:map];
+            }
+        }
+        return [matches count] > 0 ? matches : nil;
     }
     
-    return NO;
+    return nil;
 }
 
 - (NSArray *)listForID:(NSString *)listID {

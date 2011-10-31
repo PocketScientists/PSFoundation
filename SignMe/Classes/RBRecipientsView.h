@@ -19,6 +19,7 @@ ABPeoplePickerNavigationControllerDelegate, ABNewPersonViewControllerDelegate> {
 @property (nonatomic, assign) NSUInteger maxNumberOfRecipients;
 @property (nonatomic, retain) NSMutableArray *recipients;
 @property (nonatomic, copy) NSString *subject;
+@property (nonatomic, assign) BOOL useRoutingOrder;
 
 @property (nonatomic, retain) UITableView *tableView;
 

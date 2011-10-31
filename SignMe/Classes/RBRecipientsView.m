@@ -19,6 +19,7 @@
 @property (nonatomic, readonly) PSBaseViewController *viewControllerResponder;
 @property (nonatomic, retain) UIButton *addContactButton;
 @property (nonatomic, retain) UIButton *addInPersonContactButton;
+@property (nonatomic, retain) UIButton *routingOrderButton;
 @property (nonatomic, retain) UITextField *subjectTextField;
 
 - (void)showPeoplePicker;
@@ -26,6 +27,7 @@
 - (void)handleAddContactPress:(id)sender;
 - (void)handleAddInPersonContactPress:(id)sender;
 - (void)handleNewContactPress:(id)sender;
+- (void)handleRoutingOrderPress:(id)sender;
 
 @end
 
@@ -36,7 +38,10 @@
 @synthesize maxNumberOfRecipients = maxNumberOfRecipients_;
 @synthesize addContactButton = addContactButton_;
 @synthesize addInPersonContactButton = addInPersonContactButton_;
+@synthesize routingOrderButton = routingOrderButton_;
 @synthesize subjectTextField = subjectTextField_;
+@synthesize useRoutingOrder = useRoutingOrder_;
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -77,16 +82,17 @@
         [addContactButton_ addTarget:self action:@selector(handleAddContactPress:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:addContactButton_];
         
-        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 165.f, 150, 35.f)] autorelease];
+        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 155.f, 150, 55.f)] autorelease];
         label.font = [UIFont fontWithName:kRBFontName size:18];
         label.textColor = kRBColorMain;
         label.backgroundColor = [UIColor clearColor];
-        label.text = @"Add In Person Signer";
+        label.text = @"Add Captive Recipient";
+        label.numberOfLines = 2;
         [self addSubview:label];
         
         addInPersonContactButton_ = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
         [addInPersonContactButton_ setImage:[UIImage imageNamed:@"AddButton"] forState:UIControlStateNormal];
-        addInPersonContactButton_.frame = CGRectMake(190.f, label.frameTop, 35.f, 35.f);
+        addInPersonContactButton_.frame = CGRectMake(190.f, label.frameTop+10, 35.f, 35.f);
         [addInPersonContactButton_ addTarget:self action:@selector(handleAddInPersonContactPress:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:addInPersonContactButton_];
         
@@ -102,6 +108,21 @@
         newContactButton.frame = CGRectMake(190.f, label.frameTop, 35.f, 35.f);
         [newContactButton addTarget:self action:@selector(handleNewContactPress:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:newContactButton];
+        
+        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 245.f, 150, 55.f)] autorelease];
+        label.font = [UIFont fontWithName:kRBFontName size:18];
+        label.textColor = kRBColorMain;
+        label.backgroundColor = [UIColor clearColor];
+        label.text = @"Obey Routing Order";
+        label.numberOfLines = 2;
+//        [self addSubview:label];
+        
+        self.routingOrderButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [routingOrderButton_ setImage:[UIImage imageNamed:@"StatusRed"] forState:UIControlStateNormal];
+        [routingOrderButton_ setImage:[UIImage imageNamed:@"StatusGreen"] forState:UIControlStateSelected];
+        routingOrderButton_.frame = CGRectMake(190.f, label.frameTop+10, 35.f, 35.f);
+        [routingOrderButton_ addTarget:self action:@selector(handleRoutingOrderPress:) forControlEvents:UIControlEventTouchUpInside];
+//        [self addSubview:routingOrderButton_];
         
         UIView *dividerView = [[[UIView alloc] initWithFrame:CGRectMake(self.bounds.size.width/2.f, 5.f, 1.f, self.bounds.size.height-10.f)] autorelease];
         dividerView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.3f];
@@ -136,6 +157,7 @@
     MCRelease(tableView_);
     MCRelease(recipients_);
     MCRelease(addContactButton_);
+    MCRelease(routingOrderButton_);
     MCRelease(subjectTextField_);
     
     [super dealloc];
@@ -164,6 +186,11 @@
 
 - (NSString *)subject {
     return self.subjectTextField.text;
+}
+
+- (void)setUseRoutingOrder:(BOOL)useRoutingOrder {
+    useRoutingOrder_ = useRoutingOrder;
+    self.routingOrderButton.selected = useRoutingOrder;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -259,9 +286,10 @@
         self.addContactButton.enabled = NO;
         self.addInPersonContactButton.enabled = NO;
         [self.viewControllerResponder dismissModalViewControllerAnimated:YES];
-        [self.viewControllerResponder performSelector:@selector(showSuccessMessage:) withObject:@"All recipients added" afterDelay:0.5];
+        [self.viewControllerResponder performSelector:@selector(showSuccessMessage:) withObject:@"Maximum number of recipients for this form added." afterDelay:1.5];
     }
     
+    [self.viewControllerResponder dismissModalViewControllerAnimated:YES];
     return NO;
 }
 
@@ -274,7 +302,7 @@
     [self.viewControllerResponder dismissModalViewControllerAnimated:YES];
     
     if (person) {
-        [self.viewControllerResponder performSelector:@selector(showSuccessMessage:) withObject:@"Contact added" afterDelay:0.5f];
+        [self.viewControllerResponder performSelector:@selector(showSuccessMessage:) withObject:@"Contact added" afterDelay:1.5f];
     }
 }
 
@@ -299,6 +327,11 @@
 
 - (void)handleNewContactPress:(id)sender {
     [self showNewContactScreen];
+}
+
+- (void)handleRoutingOrderPress:(id)sender {
+    self.useRoutingOrder = !self.useRoutingOrder;
+    self.routingOrderButton.selected = self.useRoutingOrder;
 }
 
 ////////////////////////////////////////////////////////////////////////

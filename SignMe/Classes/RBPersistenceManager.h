@@ -14,8 +14,8 @@
 @interface RBPersistenceManager : NSObject
 
 // saves a plist for the from and creates a document in CoreData
-- (RBDocument *)persistedDocumentUsingForm:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients subject:(NSString *)subject;
-- (void)updateDocument:(RBDocument *)document usingForm:(RBForm *)form recipients:(NSArray *)recipients subject:(NSString *)subject;
+- (RBDocument *)persistedDocumentUsingForm:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients subject:(NSString *)subject obeyRoutingOrder:(BOOL)obeyRoutingOrder;
+- (void)updateDocument:(RBDocument *)document usingForm:(RBForm *)form recipients:(NSArray *)recipients subject:(NSString *)subject obeyRoutingOrder:(BOOL)obeyRoutingOrder;
 - (NSArray *)unfinishedDocumentsAlreadySentToDocuSign;
 
 // returns either a given client with the name or a new client with the given name

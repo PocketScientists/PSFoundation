@@ -12,16 +12,22 @@
 @interface RBKeyboardAvoidingScrollView ()
 
 @property (nonatomic, assign) CGRect priorFrame;
+@property (nonatomic, assign) CGRect coveredFrame;
+@property (nonatomic, assign) CGRect keyboardFrame;
 
 - (UIView *)findFirstResponderBeneathView:(UIView *)view;
 
 - (void)keyboardWillShow:(NSNotification*)notification;
 - (void)keyboardWillHide:(NSNotification*)notification;
+
 @end
+
 
 @implementation RBKeyboardAvoidingScrollView
 
 @synthesize priorFrame;
+@synthesize coveredFrame;
+@synthesize keyboardFrame;
 
 - (void)setup {
     if ( CGSizeEqualToSize(self.contentSize, CGSizeZero) ) {
@@ -49,7 +55,7 @@
 - (void)keyboardWillShow:(NSNotification*)notification {
     if ( !CGRectEqualToRect(priorFrame, CGRectZero) ) return;
     
-    UIView *firstResponder = [self findFirstResponderBeneathView:[self.subviews objectAtIndex:0]];
+    UIView *firstResponder = [self findFirstResponderBeneathView:self];//[self.subviews objectAtIndex:0]];
     if ( !firstResponder ) {
         // No child view is the first responder - nothing to do here
         return;
@@ -59,25 +65,12 @@
     
     // keyboard frame is in window coordinates
 	NSDictionary *userInfo = [notification userInfo];
-	CGRect keyboardFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    
-	// convert own frame to window coordinates, frame is in superview's coordinates
-	CGRect ownFrame = [self.window convertRect:self.frame fromView:self.superview];
+	self.keyboardFrame = [self.superview convertRect:[[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue] fromView:nil];
     
 	// calculate the area of own frame that is covered by keyboard
-	CGRect coveredFrame = CGRectIntersection(ownFrame, keyboardFrame);
+	self.coveredFrame = CGRectIntersection(self.frame, self.keyboardFrame);
     
-	// now this might be rotated, so convert it back
-	coveredFrame = [self.window convertRect:coveredFrame toView:self.superview];
-    
-    CGRect responderFrame = firstResponder.frame;
-    
-    // switch frames because of landscape
-    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-        keyboardFrame = CGRectMake(keyboardFrame.origin.y, keyboardFrame.origin.x, keyboardFrame.size.height, keyboardFrame.size.width);
-    }
-    responderFrame.origin.y += self.frame.origin.y - self.contentOffset.y;
-    
+    CGRect responderFrame = [firstResponder convertRect:firstResponder.bounds toView:self.superview];
     CGPoint responderLeftBottom = CGPointMake(responderFrame.origin.x, responderFrame.origin.y + responderFrame.size.height);
     
 	// set inset to make up for covered array at bottom
@@ -89,7 +82,7 @@
         self.contentInset = UIEdgeInsetsMake(0, 0, coveredFrame.size.height, 0);
         self.scrollIndicatorInsets = self.contentInset;
         // If active text field is hidden by keyboard, scroll it so it's visible
-        if (responderLeftBottom.y >= keyboardFrame.origin.y && responderLeftBottom.y <= keyboardFrame.origin.y + keyboardFrame.size.height) {
+        if (responderLeftBottom.y >= keyboardFrame.origin.y /*&& responderLeftBottom.y <= keyboardFrame.origin.y + keyboardFrame.size.height*/) {
             CGFloat diff = fabs(responderLeftBottom.y - coveredFrame.origin.y) + 5.f;
             [self setContentOffset:CGPointMake(self.contentOffset.x, self.contentOffset.y+diff) animated:YES];
         }
@@ -122,6 +115,30 @@
         if ( result ) return result;
     }
     return nil;
+}
+
+
+- (void)moveResponderIntoPlace:(UIView *)firstResponder {
+    CGRect responderFrame = [firstResponder convertRect:firstResponder.bounds toView:self.superview];
+    CGPoint responderLeftBottom = CGPointMake(responderFrame.origin.x, responderFrame.origin.y + responderFrame.size.height);
+    
+    // set inset to make up for covered array at bottom
+    [UIView beginAnimations:nil context:NULL];
+    {{
+        self.contentInset = UIEdgeInsetsMake(0, 0, self.coveredFrame.size.height, 0);
+        self.scrollIndicatorInsets = self.contentInset;
+        // If active text field is hidden by keyboard, scroll it so it's visible
+        if (responderLeftBottom.y >= self.keyboardFrame.origin.y /*&& responderLeftBottom.y <= keyboardFrame.origin.y + keyboardFrame.size.height*/) {
+            CGFloat diff = fabs(responderLeftBottom.y - self.coveredFrame.origin.y) + 5.f;
+            [self setContentOffset:CGPointMake(self.contentOffset.x, self.contentOffset.y+diff) animated:YES];
+        }
+        else {
+            CGFloat newY = MAX(0, (self.contentOffset.y + responderLeftBottom.y - self.coveredFrame.origin.y + 5.f));
+            [self setContentOffset:CGPointMake(self.contentOffset.x, newY) animated:YES];            
+        }
+    }}
+    
+    [UIView commitAnimations];
 }
 
 @end

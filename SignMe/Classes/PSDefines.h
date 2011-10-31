@@ -62,7 +62,7 @@
 #define kRBRecipientTypeRemote      0
 #define kRBRecipientTypeInPerson    1
 
-#define kRBDocuSignUpdateTimeInterval MTTimeIntervalMinutes(10)
+#define kRBDocuSignUpdateTimeInterval MTTimeIntervalMinutes(30)
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

@@ -15,6 +15,7 @@
 #import "RBClient.h"
 #import "RBDocument.h"
 #import "RBClientEditViewController.h"
+#import "RBMusketeerEditViewController.h"
 #import "RBPersistenceManager.h"
 #import "RBClient+RBProperties.h"
 #import "RBDocuSignService.h"
@@ -96,6 +97,8 @@
 - (void)finalizeDocument:(RBDocument *)document;
 - (void)cancelDocument:(RBDocument *)document;
 - (void)signDocument:(RBDocument *)document;
+
+- (void)startUpdate:(id)sender;
 
 @end
 
@@ -268,6 +271,10 @@
     // center 2nd item of formsCarousel
     [self.formsCarousel reloadData];
     [self.formsCarousel scrollToItemAtIndex:RBFormStatusPreSignature animated:NO];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(startUpdate:)];
+    [self.formsLabel addGestureRecognizer:tap];
+    [tap release];
 }
 
 - (void) viewDidUnload {
@@ -322,6 +329,12 @@
     }
     [self.clientsCarousel scrollToItemAtIndex:self.clientsCarousel.currentItemIndex animated:YES];
 }
+
+
+- (void)startUpdate:(id)sender {
+    [self syncBoxNet];
+}
+
 
 - (void)updateUI {
     self.emptyForms = [RBForm allEmptyForms];
@@ -722,6 +735,16 @@
     [self updateCarouselSelectionState:self.formsCarousel selectedItem:nil];
 }
 
+- (IBAction)handleMusketeerPress:(id)sender {
+    RBMusketeerEditViewController *editViewController = [[[RBMusketeerEditViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    
+    editViewController.musketeer = [RBMusketeer loadEntity];
+    editViewController.modalPresentationStyle = UIModalPresentationFormSheet; //UIModalPresentationPageSheet;
+    editViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
+    [self presentModalViewController:editViewController animated:YES];
+}
+
 - (void)handleClientLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         id attachedObject = ((RBCarouselView *)gestureRecognizer.view).attachedObject;
@@ -985,6 +1008,7 @@
     label.font = [UIFont fontWithName:kRBFontName size:22.f];
     label.frameLeft = 0;
     label.frameBottom = view.frameBottom;
+    label.userInteractionEnabled = YES;
     
     return label;
 }

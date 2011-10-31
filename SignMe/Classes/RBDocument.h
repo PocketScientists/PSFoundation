@@ -22,6 +22,7 @@
 @property (nonatomic, retain) NSNumber * status;
 @property (nonatomic, retain) NSString * subject;
 @property (nonatomic, retain) NSNumber * uploadedToBox;
+@property (nonatomic, retain) NSNumber * obeyRoutingOrder;
 @property (nonatomic, retain) RBClient *client;
 @property (nonatomic, retain) NSSet *recipients;
 @end

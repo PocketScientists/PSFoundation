@@ -7,13 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIView+RBForm.h"
 
-@interface UIControl (UIControl_RBForm)
+@interface UIControl (RBForm)
 
 @property (nonatomic, retain) NSString *formMappingName;
-@property (nonatomic, retain) NSString *formID;
-@property (nonatomic, assign) NSInteger formSection;
-@property (nonatomic, assign) NSInteger formSubsection;
 @property (nonatomic, readonly) NSString *formTextValue;
 @property (nonatomic, retain) NSString *formSubtype;
 

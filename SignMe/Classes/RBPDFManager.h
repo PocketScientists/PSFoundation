@@ -10,7 +10,9 @@
 #import <QuartzCore/QuartzCore.h>
 
 
-@interface RBPDFManager : NSObject 
+@interface RBPDFManager : NSObject {
+     NSString *password;
+}
 
 @property(nonatomic, retain) NSString *password;
 

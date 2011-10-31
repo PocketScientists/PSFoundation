@@ -20,7 +20,7 @@
 
 @implementation RBPersistenceManager
 
-- (RBDocument *)persistedDocumentUsingForm:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients subject:(NSString *)subject {
+- (RBDocument *)persistedDocumentUsingForm:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients subject:(NSString *)subject obeyRoutingOrder:(BOOL)obeyRoutingOrder {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     RBDocument *document = [RBDocument createEntity];
     
@@ -34,6 +34,7 @@
         document.subject = subject;
         // set client
         document.client = client;
+        document.obeyRoutingOrder = [NSNumber numberWithBool:obeyRoutingOrder];
         
         // add recipients of document
         for (NSDictionary *recipientDict in recipients) {
@@ -59,12 +60,12 @@
     }
 }
 
-- (void)updateDocument:(RBDocument *)document usingForm:(RBForm *)form recipients:(NSArray *)recipients subject:(NSString *)subject {
+- (void)updateDocument:(RBDocument *)document usingForm:(RBForm *)form recipients:(NSArray *)recipients subject:(NSString *)subject obeyRoutingOrder:(BOOL)obeyRoutingOrder {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
     document.date = [NSDate date];
     document.subject = subject;
-    
+    document.obeyRoutingOrder = [NSNumber numberWithBool:obeyRoutingOrder];
     
     dispatch_async(queue, ^(void) {
         // update Form Plist

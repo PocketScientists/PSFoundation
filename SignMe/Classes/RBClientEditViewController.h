@@ -9,7 +9,10 @@
 #import "PSBaseViewController.h"
 #import "RBClient.h"
 
-@interface RBClientEditViewController : PSBaseViewController
+@interface RBClientEditViewController : PSBaseViewController <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate> {
+    NSInteger first;
+    NSInteger last;
+}
 
 @property (nonatomic, retain) RBClient *client;
 
