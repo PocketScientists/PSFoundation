@@ -54,11 +54,15 @@
 
 #define kRBFontName                 @"Heiti TC"
 #define kRBDateFormat               @"MM-dd-yyyy"
-#define kRBDateTimeFormat           @"yyyy-MM-dd_hh-mm-ss"
+#define kRBDateTimeFormat           @"yyyy-MM-dd_HH-mm-ss"
+#define kRBDateTime2Format          @"MM-dd-yyyy hh:mm a"
 
 #define kRBRecipientPersonID        @"addressBookPersonID"
 #define kRBRecipientEmailID         @"emailPropertyID"
 #define kRBRecipientType            @"type"
+#define kRBRecipientCode            @"code"
+#define kRBRecipientIDCheck         @"idcheck"
+#define kRBRecipientOrder           @"order"
 #define kRBRecipientTypeRemote      0
 #define kRBRecipientTypeInPerson    1
 

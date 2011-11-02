@@ -225,12 +225,15 @@
 
 // launched via post selector to speed up launch time
 - (void)postFinishLaunch {    
+    [self performBlock:^{
+        [RBDocuSignService updateStatusOfDocuments];
+    } afterDelay:60];
+    
     // regularly update the status of all DocuSign Documents
-//    [RBDocuSignService updateStatusOfDocuments];
     self.docuSignUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:kRBDocuSignUpdateTimeInterval
                                                                  block:^(void) {
                                                                      [RBDocuSignService updateStatusOfDocuments];
-                                                                 } repeats:YES];
+                                                                } repeats:YES];
 }
 
 - (void)setupFileStructure {

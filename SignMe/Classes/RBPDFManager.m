@@ -70,7 +70,8 @@
     NSDictionary *sampleTab1 = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], kRBFormKeyTabPage,
                                 [NSNumber numberWithInt:100], kRBFormKeyTabX,
                                 [NSNumber numberWithInt:120], kRBFormKeyTabY,
-                                @"SignHere", kRBFormKeyTabType, nil];
+                                @"SignHere", kRBFormKeyTabType, 
+                                @"Signer", kRBFormKeyTabLabel, nil];
     NSDictionary *sampleTab2 = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:2], kRBFormKeyTabPage,
                                 [NSNumber numberWithInt:200], kRBFormKeyTabX,
                                 [NSNumber numberWithInt:140], kRBFormKeyTabY,

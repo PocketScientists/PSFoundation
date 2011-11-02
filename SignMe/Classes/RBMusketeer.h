@@ -15,8 +15,8 @@
 @property (nonatomic, retain) NSString * lastname;
 @property (nonatomic, retain) NSString * street;
 @property (nonatomic, retain) NSString * city;
-@property (nonatomic, retain) NSString * zip;
 @property (nonatomic, retain) NSString * state;
+@property (nonatomic, retain) NSString * zip;
 
 + (RBMusketeer *)loadEntity;
 - (void)saveEntity;

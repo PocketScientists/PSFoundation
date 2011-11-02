@@ -13,6 +13,7 @@
 #import "UIControl+RBForm.h"
 #import "RBKeyboardAvoidingScrollView.h"
 #import "RBUIGenerator.h"
+#import "VCTitleCase.h"
 
 #define kRBRowHeight    30
 
@@ -228,7 +229,7 @@
     
     fieldLabel.backgroundColor = [UIColor clearColor];
     fieldLabel.textColor = kRBColorMain;
-    fieldLabel.text = [label capitalizedString];
+    fieldLabel.text = [label titlecaseString];
     fieldLabel.font = [UIFont fontWithName:kRBFontName size:17];
     
     textField.borderStyle = UITextBorderStyleBezel;
@@ -309,7 +310,7 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     [self performBlock:^{
-        textField.text = [textField.text capitalizedString];
+        textField.text = [textField.text titlecaseString];
     } afterDelay:0];
     return YES;
 }

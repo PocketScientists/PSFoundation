@@ -37,6 +37,7 @@
         document.obeyRoutingOrder = [NSNumber numberWithBool:obeyRoutingOrder];
         
         // add recipients of document
+        int order = 1;
         for (NSDictionary *recipientDict in recipients) {
             RBRecipient *recipient = [RBRecipient createEntity];
             
@@ -44,7 +45,9 @@
                 [recipient setValue:[recipientDict valueForKey:key] forKey:key];
             }
             
+            recipient.order = [NSNumber numberWithInt:order];
             recipient.document = document;
+            order++;
         }
         
         dispatch_async(queue, ^(void) {
@@ -79,6 +82,7 @@
     document.recipients = nil;
     [RBRecipient truncateAllMatchingPredicate:[NSPredicate predicateWithFormat:@"document = %@", document]];
     // add new ones
+    int order = 1;
     for (NSDictionary *recipientDict in recipients) {
         RBRecipient *recipient = [RBRecipient createEntity];
         
@@ -86,7 +90,9 @@
             [recipient setValue:[recipientDict valueForKey:key] forKey:key];
         }
         
+        recipient.order = [NSNumber numberWithInt:order];
         recipient.document = document;
+        order++;
     }
     
     [[NSManagedObjectContext defaultContext] saveOnMainThread];
@@ -134,6 +140,11 @@
     [[NSManagedObjectContext defaultContext] save];
 }
 
+- (void)deleteClient:(RBClient *)client{
+    [client deleteEntity];
+    [[NSManagedObjectContext defaultContext] save];
+}
+
 - (void)deleteAllSavedData {
     // delete CoreData entities
     [RBDocument truncateAll];
@@ -167,11 +178,17 @@
     RBPDFWriter *pdfWriter = [[[RBPDFWriter alloc] init] autorelease];
     NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForPDFWithName(document.name)]];
     CGPDFDocumentRef pdfRef = [pdfWriter newOpenDocument:urlToEmptyPDF];
-    NSString *pdfFileURL = RBPathToPDFWithName(document.fileURL);
-    
-    [pdfWriter writePDFDocument:pdfRef
-                   withFormData:form.PDFDictionary 
-                         toFile:pdfFileURL];
+    if (pdfRef) {
+        NSString *pdfFileURL = RBPathToPDFWithName(document.fileURL);
+        
+        [pdfWriter writePDFDocument:pdfRef
+                       withFormData:form.PDFDictionary 
+                             toFile:pdfFileURL];
+        
+    }
+    else {
+        DDLogInfo(@"Error creating PDF file %@", [urlToEmptyPDF absoluteString]);
+    }
     
     CFRelease(pdfRef);
 }

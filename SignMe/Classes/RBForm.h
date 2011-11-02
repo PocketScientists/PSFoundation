@@ -33,6 +33,7 @@
 #define kRBFormKeyTabX              @"x"                // the x-position the tab should appear
 #define kRBFormKeyTabY              @"y"                // the y-position the tab should appear
 #define kRBFormKeyTabType           @"type"             // the type of the tab (Initial/Sign)
+#define kRBFormKeyTabLabel          @"label"            // the label of the tab 
 #define kRBFormKeyTabDocumentIndex  @"documentIndex"    // is always 0 in our case
 #define kRBFormKeyTabRecipientIndex @"recipientIndex"   // increasing number that matches current recipient
 

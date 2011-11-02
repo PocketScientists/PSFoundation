@@ -206,11 +206,12 @@
     RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*PSAppWidth(), 0.f, 1024.f, 475.f)] autorelease];
     
     for (RBRecipient *recipient in [document.recipients allObjects]) {
-        NSDictionary *dictionaryRepresentation = [recipient dictionaryWithValuesForKeys:XARRAY(kRBRecipientPersonID, kRBRecipientEmailID)];
+        NSMutableDictionary *dictionaryRepresentation = [[[recipient dictionaryWithValuesForKeys:XARRAY(kRBRecipientPersonID, kRBRecipientEmailID, kRBRecipientCode, kRBRecipientIDCheck, kRBRecipientType, kRBRecipientOrder)] mutableCopy] autorelease];
         [recipientsView.recipients addObject:dictionaryRepresentation];
     }
     
     recipientsView.maxNumberOfRecipients = form.numberOfRecipients;
+    recipientsView.tabs = form.tabs;
     recipientsView.subject = document.subject;
     recipientsView.useRoutingOrder = [document.obeyRoutingOrder boolValue];
     [view.innerScrollView addSubview:recipientsView];

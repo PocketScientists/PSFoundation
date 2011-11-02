@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "ABTableViewCell.h"
 
+@protocol RBRecipientTableViewCellDelegate;
+
 @interface RBRecipientTableViewCell : ABTableViewCell
 
 + (NSString *)cellIdentifier;
@@ -17,5 +19,16 @@
 @property (nonatomic, retain) UIImage *image;
 @property (nonatomic, copy) NSString *mainText;
 @property (nonatomic, copy) NSString *detailText;
+@property (nonatomic, copy) NSString *placeholderText;
+@property (nonatomic, assign) int code;
+@property (nonatomic, assign) BOOL idcheck;
+@property (nonatomic, assign) id<RBRecipientTableViewCellDelegate> delegate;
 
+- (void)enableAuth;
+- (void)disableAuth;
+
+@end
+
+@protocol RBRecipientTableViewCellDelegate <NSObject>
+- (void)cell:(RBRecipientTableViewCell *)cell changedCode:(int)code idCheck:(BOOL)idCheck;
 @end

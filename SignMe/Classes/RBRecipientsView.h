@@ -8,16 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import <AddressBookUI/AddressBookUI.h>
+#import "RBRecipientTableViewCell.h"
 
 #define kRBRecipientsViewTag    540492
 
-@interface RBRecipientsView : UIView <UITableViewDataSource, UITableViewDelegate, 
-ABPeoplePickerNavigationControllerDelegate, ABNewPersonViewControllerDelegate> {
+@interface RBRecipientsView : UIView <UITableViewDataSource, UITableViewDelegate, RBRecipientTableViewCellDelegate, 
+ABPeoplePickerNavigationControllerDelegate, ABNewPersonViewControllerDelegate, UITextFieldDelegate> {
     BOOL isInPerson;
 }
 
 @property (nonatomic, assign) NSUInteger maxNumberOfRecipients;
 @property (nonatomic, retain) NSMutableArray *recipients;
+@property (nonatomic, retain) NSArray *tabs;
 @property (nonatomic, copy) NSString *subject;
 @property (nonatomic, assign) BOOL useRoutingOrder;
 

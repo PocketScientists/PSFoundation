@@ -92,7 +92,7 @@
         backgroundView_.frame = self.bounds;
         backgroundView_.hidden = YES;
         
-        statusView_ = [[UIImageView alloc] initWithFrame:CGRectMake(self.bounds.size.width-14, self.bounds.size.height-30, 20, 20)];
+        statusView_ = [[UIImageView alloc] initWithFrame:CGRectMake(self.bounds.size.width-28, self.bounds.size.height-44, 34, 34)];
         statusView_.hidden = YES;
         
         isAddClientView_ = NO;
@@ -253,7 +253,7 @@
     
     [self splitTextOnFirstTwoLabels:[document.client.name uppercaseString]];
     self.label3.text = [document.name uppercaseString];
-    self.label4.text = RBFormattedDateWithFormat(document.date, kRBDateFormat);
+    self.label4.text = RBFormattedDateWithFormat(document.date, kRBDateTime2Format);
     
     self.label2.numberOfLines = 2;
     

@@ -117,6 +117,13 @@
 		78E9B23312B44DE400B32768 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B22912B44DE400B32768 /* ASIInputStream.m */; };
 		78E9B23412B44DE400B32768 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B22B12B44DE400B32768 /* ASINetworkQueue.m */; };
 		78E9B25212B4514200B32768 /* libicucore.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 78E9B25112B4514200B32768 /* libicucore.A.dylib */; };
+		A9082651145ED751006249DE /* CheckButton2.png in Resources */ = {isa = PBXBuildFile; fileRef = A908264E145ED74E006249DE /* CheckButton2.png */; };
+		A9082652145ED751006249DE /* CheckButton2Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A908264F145ED74F006249DE /* CheckButton2Selected.png */; };
+		A9082653145ED751006249DE /* DeleteButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A9082650145ED750006249DE /* DeleteButton.png */; };
+		A9082658145F9909006249DE /* Code.png in Resources */ = {isa = PBXBuildFile; fileRef = A9082654145F9903006249DE /* Code.png */; };
+		A9082659145F9909006249DE /* CodeSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = A9082655145F9904006249DE /* CodeSelected.png */; };
+		A908265A145F9909006249DE /* IDCard.png in Resources */ = {isa = PBXBuildFile; fileRef = A9082656145F9906006249DE /* IDCard.png */; };
+		A908265B145F9909006249DE /* IDCardSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = A9082657145F9908006249DE /* IDCardSelected.png */; };
 		A948733F141DFAFF00B0E038 /* UIView+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = A948733E141DFAFF00B0E038 /* UIView+RBForm.m */; };
 		A94873A4141F7CAA00B0E038 /* RBDocuSigningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A94873A3141F7CAA00B0E038 /* RBDocuSigningViewController.m */; };
 		A96DF31D144F030900E919E2 /* libDocuSign.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 394B916313D64924007BFF2E /* libDocuSign.a */; };
@@ -429,12 +436,17 @@
 		78E9B22B12B44DE400B32768 /* ASINetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASINetworkQueue.m; path = "../asi-http-request/Classes/ASINetworkQueue.m"; sourceTree = SOURCE_ROOT; };
 		78E9B22C12B44DE400B32768 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIProgressDelegate.h; path = "../asi-http-request/Classes/ASIProgressDelegate.h"; sourceTree = SOURCE_ROOT; };
 		78E9B25112B4514200B32768 /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = usr/lib/libicucore.A.dylib; sourceTree = SDKROOT; };
+		A908264E145ED74E006249DE /* CheckButton2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CheckButton2.png; path = Images/CheckButton2.png; sourceTree = "<group>"; };
+		A908264F145ED74F006249DE /* CheckButton2Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CheckButton2Selected.png; path = Images/CheckButton2Selected.png; sourceTree = "<group>"; };
+		A9082650145ED750006249DE /* DeleteButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DeleteButton.png; path = Images/DeleteButton.png; sourceTree = "<group>"; };
+		A9082654145F9903006249DE /* Code.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Code.png; path = Images/Code.png; sourceTree = "<group>"; };
+		A9082655145F9904006249DE /* CodeSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CodeSelected.png; path = Images/CodeSelected.png; sourceTree = "<group>"; };
+		A9082656145F9906006249DE /* IDCard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IDCard.png; path = Images/IDCard.png; sourceTree = "<group>"; };
+		A9082657145F9908006249DE /* IDCardSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IDCardSelected.png; path = Images/IDCardSelected.png; sourceTree = "<group>"; };
 		A948733D141DFAFF00B0E038 /* UIView+RBForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RBForm.h"; sourceTree = "<group>"; };
 		A948733E141DFAFF00B0E038 /* UIView+RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RBForm.m"; sourceTree = "<group>"; };
 		A94873A2141F7CAA00B0E038 /* RBDocuSigningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDocuSigningViewController.h; sourceTree = "<group>"; };
 		A94873A3141F7CAA00B0E038 /* RBDocuSigningViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDocuSigningViewController.m; sourceTree = "<group>"; };
-		A94873A5141F8B3A00B0E038 /* RBRecipient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBRecipient.h; path = Classes/RBRecipient.h; sourceTree = "<group>"; };
-		A94873A6141F8B3A00B0E038 /* RBRecipient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBRecipient.m; path = Classes/RBRecipient.m; sourceTree = "<group>"; };
 		A96DF4261452B65200E919E2 /* RBFormLayoutData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFormLayoutData.h; sourceTree = "<group>"; };
 		A96DF4271452B65200E919E2 /* RBFormLayoutData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFormLayoutData.m; sourceTree = "<group>"; };
 		A97FAC1A13ED7C590083EFC1 /* TextFieldBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TextFieldBackground.png; path = Images/TextFieldBackground.png; sourceTree = "<group>"; };
@@ -607,8 +619,6 @@
 			isa = PBXGroup;
 			children = (
 				390DD51813D9D21400EB1EFD /* SignMe.xcdatamodeld */,
-				A94873A5141F8B3A00B0E038 /* RBRecipient.h */,
-				A94873A6141F8B3A00B0E038 /* RBRecipient.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -722,6 +732,13 @@
 		395EEF2613D72E3C003C4DA8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A9082654145F9903006249DE /* Code.png */,
+				A9082655145F9904006249DE /* CodeSelected.png */,
+				A9082656145F9906006249DE /* IDCard.png */,
+				A9082657145F9908006249DE /* IDCardSelected.png */,
+				A908264E145ED74E006249DE /* CheckButton2.png */,
+				A908264F145ED74F006249DE /* CheckButton2Selected.png */,
+				A9082650145ED750006249DE /* DeleteButton.png */,
 				A97FAC1C13ED816D0083EFC1 /* CheckButton.png */,
 				A97FAC1D13ED816D0083EFC1 /* CheckButtonSelected.png */,
 				A97FAC1A13ED7C590083EFC1 /* TextFieldBackground.png */,
@@ -1222,6 +1239,13 @@
 				A97FAC1B13ED7C590083EFC1 /* TextFieldBackground.png in Resources */,
 				A97FAC1E13ED816D0083EFC1 /* CheckButton.png in Resources */,
 				A97FAC1F13ED816D0083EFC1 /* CheckButtonSelected.png in Resources */,
+				A9082651145ED751006249DE /* CheckButton2.png in Resources */,
+				A9082652145ED751006249DE /* CheckButton2Selected.png in Resources */,
+				A9082653145ED751006249DE /* DeleteButton.png in Resources */,
+				A9082658145F9909006249DE /* Code.png in Resources */,
+				A9082659145F9909006249DE /* CodeSelected.png in Resources */,
+				A908265A145F9909006249DE /* IDCard.png in Resources */,
+				A908265B145F9909006249DE /* IDCardSelected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

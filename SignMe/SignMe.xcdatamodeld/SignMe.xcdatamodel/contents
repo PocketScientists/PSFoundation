@@ -8,7 +8,7 @@
         <attribute name="street" optional="YES" attributeType="String"/>
         <attribute name="visible" attributeType="Boolean" defaultValueString="YES" indexed="YES"/>
         <attribute name="zip" optional="YES" attributeType="String"/>
-        <relationship name="documents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RBDocument" inverseName="client" inverseEntity="RBDocument"/>
+        <relationship name="documents" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RBDocument" inverseName="client" inverseEntity="RBDocument"/>
     </entity>
     <entity name="RBDocument" representedClassName="RBDocument">
         <attribute name="date" optional="YES" attributeType="Date"/>
@@ -21,17 +21,20 @@
         <attribute name="subject" optional="YES" attributeType="String" defaultValueString="Sign this document"/>
         <attribute name="uploadedToBox" attributeType="Boolean" defaultValueString="NO"/>
         <relationship name="client" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBClient" inverseName="documents" inverseEntity="RBClient"/>
-        <relationship name="recipients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RBRecipient" inverseName="document" inverseEntity="RBRecipient"/>
+        <relationship name="recipients" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RBRecipient" inverseName="document" inverseEntity="RBRecipient"/>
     </entity>
     <entity name="RBRecipient" representedClassName="RBRecipient">
         <attribute name="addressBookPersonID" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="code" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="emailPropertyID" optional="YES" attributeType="Integer 32" defaultValueString="-1"/>
+        <attribute name="idcheck" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="document" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBDocument" inverseName="recipients" inverseEntity="RBDocument"/>
     </entity>
     <elements>
         <element name="RBClient" positionX="160" positionY="48" width="128" height="165"/>
         <element name="RBDocument" positionX="340" positionY="-66" width="128" height="210"/>
-        <element name="RBRecipient" positionX="594" positionY="60" width="128" height="105"/>
+        <element name="RBRecipient" positionX="594" positionY="60" width="128" height="150"/>
     </elements>
 </model>

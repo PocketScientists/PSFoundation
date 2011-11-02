@@ -13,6 +13,9 @@
 #import "ABAddressBook.h"
 #import "ABPerson.h"
 #import "ABPerson+RBMail.h"
+#import "VCTitleCase.h"
+#import "AppDelegate.h"
+
 
 @interface RBRecipientsView ()
 
@@ -28,6 +31,7 @@
 - (void)handleAddInPersonContactPress:(id)sender;
 - (void)handleNewContactPress:(id)sender;
 - (void)handleRoutingOrderPress:(id)sender;
+- (void)redrawTableData;
 
 @end
 
@@ -35,6 +39,7 @@
 
 @synthesize tableView = tableView_;
 @synthesize recipients = recipients_;
+@synthesize tabs = tabs_;
 @synthesize maxNumberOfRecipients = maxNumberOfRecipients_;
 @synthesize addContactButton = addContactButton_;
 @synthesize addInPersonContactButton = addInPersonContactButton_;
@@ -67,6 +72,7 @@
         subjectTextField_.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         subjectTextField_.clearButtonMode = UITextFieldViewModeWhileEditing;
         subjectTextField_.placeholder = @"DocuSign Subject";
+        subjectTextField_.delegate = self;
         [self addSubview:subjectTextField_];
         
         label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 120.f, 150, 35.f)] autorelease];
@@ -115,14 +121,14 @@
         label.backgroundColor = [UIColor clearColor];
         label.text = @"Obey Routing Order";
         label.numberOfLines = 2;
-//        [self addSubview:label];
+        [self addSubview:label];
         
         self.routingOrderButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [routingOrderButton_ setImage:[UIImage imageNamed:@"StatusRed"] forState:UIControlStateNormal];
-        [routingOrderButton_ setImage:[UIImage imageNamed:@"StatusGreen"] forState:UIControlStateSelected];
+        [routingOrderButton_ setImage:[UIImage imageNamed:@"CheckButton2"] forState:UIControlStateNormal];
+        [routingOrderButton_ setImage:[UIImage imageNamed:@"CheckButton2Selected"] forState:UIControlStateSelected];
         routingOrderButton_.frame = CGRectMake(190.f, label.frameTop+10, 35.f, 35.f);
         [routingOrderButton_ addTarget:self action:@selector(handleRoutingOrderPress:) forControlEvents:UIControlEventTouchUpInside];
-//        [self addSubview:routingOrderButton_];
+        [self addSubview:routingOrderButton_];
         
         UIView *dividerView = [[[UIView alloc] initWithFrame:CGRectMake(self.bounds.size.width/2.f, 5.f, 1.f, self.bounds.size.height-10.f)] autorelease];
         dividerView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.3f];
@@ -159,6 +165,7 @@
     MCRelease(addContactButton_);
     MCRelease(routingOrderButton_);
     MCRelease(subjectTextField_);
+    MCRelease(tabs_);
     
     [super dealloc];
 }
@@ -171,6 +178,7 @@
 - (void)willMoveToSuperview:(UIView *)newSuperview {
     if (newSuperview != nil) {
         self.addContactButton.enabled = self.recipients.count < self.maxNumberOfRecipients;
+        self.addInPersonContactButton.enabled = self.addContactButton.enabled;
         [self.tableView reloadData];
     }
 }
@@ -199,19 +207,45 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.recipients.count;
+    return self.tabs.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	RBRecipientTableViewCell *cell = [RBRecipientTableViewCell cellForTableView:tableView style:UITableViewCellStyleDefault];
-    NSDictionary *personDict = [self.recipients objectAtIndex:indexPath.row];
-    ABPerson *person = [[ABAddressBook sharedAddressBook] personWithRecordID:[[personDict valueForKey:kRBRecipientPersonID] intValue]];
+    cell.delegate = self;
     
-    if (person.imageData != nil) {
-        cell.image = [UIImage imageWithData:person.imageData];
+    if (indexPath.row < self.recipients.count) {
+        NSDictionary *personDict = [self.recipients objectAtIndex:indexPath.row];
+        ABPerson *person = [[ABAddressBook sharedAddressBook] personWithRecordID:[[personDict valueForKey:kRBRecipientPersonID] intValue]];
+        
+        if (person.imageData != nil) {
+            cell.image = [UIImage imageWithData:person.imageData];
+        }
+        else {
+            cell.image = [UIImage imageNamed:@"EmptyContact"];
+        }
+        if ([[personDict valueForKey:kRBRecipientType] boolValue] == kRBRecipientTypeInPerson) {
+            cell.mainText = [NSString stringWithFormat:@"%@ (C)", person.fullName];
+            [cell disableAuth];
+        }
+        else {
+            cell.mainText = person.fullName;
+            [cell enableAuth];
+        }
+        cell.code = [personDict valueForKey:kRBRecipientCode] ? [[personDict valueForKey:kRBRecipientCode] intValue] : 0;
+        cell.idcheck = [personDict valueForKey:kRBRecipientIDCheck] && [[personDict valueForKey:kRBRecipientIDCheck] intValue] > 0 ? YES : NO;
+        cell.detailText = [person emailForID:[personDict valueForKey:kRBRecipientEmailID]];
+        cell.placeholderText = nil;
     }
-    cell.mainText = person.fullName;
-    cell.detailText = [person emailForID:[personDict valueForKey:kRBRecipientEmailID]];
+    else {
+        cell.image = nil;
+        cell.mainText = nil;
+        cell.detailText = nil;
+        cell.code = 0;
+        cell.idcheck = NO;
+        [cell disableAuth];
+        cell.placeholderText = [[self.tabs objectAtIndex:indexPath.row] objectForKey:kRBFormKeyTabLabel];
+    }
     
     return cell;
 }
@@ -221,20 +255,48 @@
     return nil;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    if (cell.mainText) {
+        return YES;
+    }
+    return NO;
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self.recipients removeObjectAtIndex:indexPath.row];
-        [self.tableView deleteRowsAtIndexPaths:XARRAY(indexPath) withRowAnimation:UITableViewRowAnimationMiddle];
+
+        [self redrawTableData];
+        
         self.addContactButton.enabled = YES;
+        self.addInPersonContactButton.enabled = YES;
     }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+    RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    if (cell.mainText) {
+        return YES;
+    }
+    return NO;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
+    RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[self.tableView cellForRowAtIndexPath:proposedDestinationIndexPath];
+    if (cell.mainText) {
+        return proposedDestinationIndexPath;
+    }
+    return sourceIndexPath;
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    [self.recipients exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
+    if (destinationIndexPath.row < self.recipients.count) {
+        [self.recipients exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
+    }
+    else {
+        [self redrawTableData];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -244,6 +306,55 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+}
+
+- (void)redrawTableData {
+    for (int i = 0; i < self.tabs.count; i++) {
+        RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        if (i < self.recipients.count) {
+            NSDictionary *personDict = [self.recipients objectAtIndex:i];
+            ABPerson *person = [[ABAddressBook sharedAddressBook] personWithRecordID:[[personDict valueForKey:kRBRecipientPersonID] intValue]];
+            
+            if (person.imageData != nil) {
+                cell.image = [UIImage imageWithData:person.imageData];
+            }
+            else {
+                cell.image = [UIImage imageNamed:@"EmptyContact"];
+            }
+            if ([[personDict valueForKey:kRBRecipientType] boolValue] == kRBRecipientTypeInPerson) {
+                cell.mainText = [NSString stringWithFormat:@"%@ (C)", person.fullName];
+                [cell disableAuth];
+            }
+            else {
+                cell.mainText = person.fullName;
+                [cell enableAuth];
+            }
+            cell.code = [personDict valueForKey:kRBRecipientCode] ? [[personDict valueForKey:kRBRecipientCode] intValue] : 0;
+            cell.idcheck = [personDict valueForKey:kRBRecipientIDCheck] && [[personDict valueForKey:kRBRecipientIDCheck] intValue] > 0 ? YES : NO;
+            cell.detailText = [person emailForID:[personDict valueForKey:kRBRecipientEmailID]];
+            cell.placeholderText = nil;
+        }
+        else {
+            cell.image = nil;
+            cell.mainText = nil;
+            cell.code = 0;
+            cell.idcheck = NO;
+            cell.detailText = nil;
+            cell.placeholderText = [[self.tabs objectAtIndex:i] objectForKey:kRBFormKeyTabLabel];
+            [cell disableAuth];
+        }
+    }
+    self.tableView.editing = NO;
+    self.tableView.editing = YES;
+}
+
+- (void)cell:(RBRecipientTableViewCell *)cell changedCode:(int)code idCheck:(BOOL)idCheck {
+    int index = [self.tableView indexPathForCell:cell].row;
+    
+    if (index < self.recipients.count) {
+        [[self.recipients objectAtIndex:index] setObject:[NSNumber numberWithInt:code] forKey:kRBRecipientCode];
+        [[self.recipients objectAtIndex:index] setObject:[NSNumber numberWithBool:idCheck] forKey:kRBRecipientIDCheck];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -269,17 +380,13 @@
                               identifier:(ABMultiValueIdentifier)identifier {
     
     ABPerson *personWrapper = [[ABAddressBook sharedAddressBook] personWithRecordRef:person];
-    NSDictionary *personDict = XDICT($I(personWrapper.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, isInPerson ? $I(kRBRecipientTypeInPerson) : $I(kRBRecipientTypeRemote), kRBRecipientType);
+    NSMutableDictionary *personDict = XMDICT($I(personWrapper.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, isInPerson ? $I(kRBRecipientTypeInPerson) : $I(kRBRecipientTypeRemote), kRBRecipientType);
     
     if ([self.recipients containsObject:personDict]) {
-        NSInteger index = [self.recipients indexOfObject:personDict];
-        
-        [self.recipients removeObject:personDict];
-        [self.tableView deleteRowsAtIndexPaths:XARRAY([NSIndexPath indexPathForRow:index inSection:0]) withRowAnimation:UITableViewRowAnimationMiddle];
+        [MTApplicationDelegate showErrorMessage:@"Recipient has been added already."];
     } else {
         [self.recipients addObject:personDict];
-        NSInteger index = [self.recipients indexOfObject:personDict];
-        [self.tableView insertRowsAtIndexPaths:XARRAY([NSIndexPath indexPathForRow:index inSection:0]) withRowAnimation:UITableViewRowAnimationMiddle];
+        [self redrawTableData];
     }
     
     if (self.recipients.count >= self.maxNumberOfRecipients) {
@@ -370,6 +477,16 @@
     
     [self.viewControllerResponder presentModalViewController:navigationController animated:YES];
     
+}
+
+#pragma mark - textfield delegate
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    [self performBlock:^{
+        textField.text = [textField.text titlecaseString];
+    } afterDelay:0];
+    return YES;
 }
 
 @end

@@ -15,6 +15,9 @@
 @dynamic addressBookPersonID;
 @dynamic emailPropertyID;
 @dynamic type;
+@dynamic order;
+@dynamic idcheck;
+@dynamic code;
 @dynamic document;
 
 @end

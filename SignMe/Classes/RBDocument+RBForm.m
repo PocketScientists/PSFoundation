@@ -24,6 +24,9 @@
         [recipientsArray addObject:[recipient dictionaryRepresentation]];
     }
     
+    [recipientsArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [[obj1 objectForKey:@"order"] compare:[obj2 objectForKey:@"order"]];
+    }];
     return [[recipientsArray copy] autorelease];
 }
 

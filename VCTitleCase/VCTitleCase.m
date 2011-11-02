@@ -32,19 +32,21 @@
         shortWords = [[NSArray alloc] initWithObjects:
             @"a", @"an", @"and", @"as", @"at", @"but", @"by", @"en", @"for",
             @"if", @"in", @"of", @"on", @"or", @"the", @"to", @"v", @"via",
-            @"vs", nil];
+            @"vs", @"etc", @"btw", nil];
     }
     
     // Initialize the set of characters allowed at the start of words.
     if (!wordStartCharacterSet) {
         wordStartCharacterSet = [[NSCharacterSet uppercaseLetterCharacterSet] mutableCopy];
         [wordStartCharacterSet formUnionWithCharacterSet:[NSCharacterSet lowercaseLetterCharacterSet]];
+        [wordStartCharacterSet formUnionWithCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
     }
     
     // Initialize the set of characters allowed in the middle of words.
     if (!wordMiddleCharacterSet) {
         wordMiddleCharacterSet = [[NSCharacterSet uppercaseLetterCharacterSet] mutableCopy];
         [wordMiddleCharacterSet formUnionWithCharacterSet:[NSCharacterSet lowercaseLetterCharacterSet]];
+        [wordMiddleCharacterSet formUnionWithCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
         [wordMiddleCharacterSet addCharactersInString:@".&'’"];
     }
     
@@ -55,6 +57,7 @@
     // when they appear in the middle.
     if (!wordIgnoreCharacterSet) {
         wordIgnoreCharacterSet = [[NSCharacterSet uppercaseLetterCharacterSet] mutableCopy];
+        [wordIgnoreCharacterSet formUnionWithCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
         [wordIgnoreCharacterSet addCharactersInString:@"."];
     }
 
@@ -75,7 +78,8 @@
     NSRange ignoreTriggerRange;  // Range of character causing word to be ignored
     BOOL isFirstWord = YES;      // To determine whether to capitalize small word
     while (![scanner isAtEnd]) {
-    
+        lowercaseWord = nil;
+        
         // Locate the beginning of the next word.
         [scanner scanUpToCharactersFromSet:wordStartCharacterSet
                                 intoString:NULL];
@@ -92,7 +96,7 @@
         // Advance to the next character in the word.
         [scanner scanString:[self substringWithRange:currentRange]
                  intoString:NULL];
-        if ([scanner isAtEnd]) break;  // No more words
+        if ([scanner scanLocation] >= [self length]) continue;  // No more words
                  
         // See if the next character is a valid word character, and if so,
         // scan through the end of the word.
@@ -115,13 +119,17 @@
         lowercaseWord = [word lowercaseString];
 
         // Check to see if the word needs to be capitalized.
-        // Words that have dots in the middle or that already contain
-        // capitalized letters in the middle (e.g. "iTunes") are ignored.
-        ignoreTriggerRange = [self
-            rangeOfCharacterFromSet:wordIgnoreCharacterSet
-                            options:NSLiteralSearch
-                              range:NSMakeRange(currentRange.location + 1, currentRange.length - 1)
-        ];
+        // Words that have dots or numbers in the middle or that already contain
+        // capitalized letters in the middle (e.g. "iTunes") or at the beginning are ignored.
+        ignoreTriggerRange = [self rangeOfCharacterFromSet:wordIgnoreCharacterSet
+                                                   options:NSLiteralSearch
+                                                     range:NSMakeRange(currentRange.location + 1, currentRange.length - 1)];
+        if (ignoreTriggerRange.location == NSNotFound) {
+            ignoreTriggerRange = [self rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]
+                                                       options:NSLiteralSearch
+                                                         range:NSMakeRange(currentRange.location, 1)];
+        }
+        
         if (ignoreTriggerRange.location == NSNotFound) {
             if ([word rangeOfString:@"&"].location != NSNotFound) {
                 // Uppercase words that contain ampersands.

@@ -14,6 +14,8 @@
 #import "RBCarouselView.h"
 #import "RBClient.h"
 #import "RBDocument.h"
+#import "RBRecipient.h"
+#import "RBRecipient+RBDocuSign.h"
 #import "RBClientEditViewController.h"
 #import "RBMusketeerEditViewController.h"
 #import "RBPersistenceManager.h"
@@ -96,7 +98,7 @@
 - (void)previewDocumentOnDocuSign:(RBDocument *)document;
 - (void)finalizeDocument:(RBDocument *)document;
 - (void)cancelDocument:(RBDocument *)document;
-- (void)signDocument:(RBDocument *)document;
+- (void)signDocument:(RBDocument *)document recipient:(RBRecipient *)recipient;
 
 - (void)startUpdate:(id)sender;
 
@@ -629,9 +631,14 @@
                 && [document.lastDocuSignStatus intValue] != DSAPIService_EnvelopeStatusCode_Deleted
                 && [document.lastDocuSignStatus intValue] != DSAPIService_EnvelopeStatusCode_Declined
                 && [document.lastDocuSignStatus intValue] != DSAPIService_EnvelopeStatusCode_TimedOut) {
-                [actionSheet addButtonWithTitle:@"Sign document" block:^(void) {
-                    [self signDocument:document];
-                }];
+                for (RBRecipient *recipient in document.recipients) {
+                    if ([recipient.type intValue] == kRBRecipientTypeInPerson) {
+                        NSDictionary *person = [recipient dictionaryRepresentation];
+                        [actionSheet addButtonWithTitle:[NSString stringWithFormat:@"Sign by %@", [person objectForKey:@"name"]] block:^(void) {
+                            [self signDocument:document recipient:recipient];
+                        }];
+                    }
+                }
                 
                 [actionSheet setDestructiveButtonWithTitle:@"Cancel signing" block:^(void) {
                     [self cancelDocument:document];
@@ -750,7 +757,34 @@
         id attachedObject = ((RBCarouselView *)gestureRecognizer.view).attachedObject;
         
         if ([attachedObject isKindOfClass:[RBClient class]]) {
-            [self editClient:(RBClient *)attachedObject];
+            PSActionSheet *actionSheet = [PSActionSheet sheetWithTitle:[[NSString stringWithFormat:@"Client '%@'", ((RBClient *)attachedObject).name] uppercaseString]];
+            
+            [actionSheet addButtonWithTitle:@"Edit" block:^(void) {
+                [self editClient:(RBClient *)attachedObject];
+            }];
+
+            // delete document
+            [actionSheet setDestructiveButtonWithTitle:@"Delete" block:^(void) {
+                PSAlertView *alertView = [PSAlertView alertWithTitle:[((RBClient *)attachedObject).name uppercaseString] message:[NSString stringWithFormat:@"Do you really want to delete client %@?", [((RBClient *)attachedObject).name uppercaseString]]];
+                
+                [alertView addButtonWithTitle:@"Delete" block:^(void) {
+                    RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+                    [persistenceManager deleteClient:(RBClient *)attachedObject];
+                    [self.clientsCarousel reloadData];
+                    [self.formsCarousel reloadData];
+                    [self performSelector:@selector(showSuccessMessage:) withObject:@"Client deleted" afterDelay:0.5f];
+                }];
+                
+                [alertView setCancelButtonWithTitle:@"Cancel" block:nil];
+                
+                [alertView show];
+            }];
+            
+            [self performBlock:^(void) {
+                [actionSheet showFromRect:[self.view convertRect:(CGRect){CGPointMake(gestureRecognizer.view.frameLeft,gestureRecognizer.view.frameTop),gestureRecognizer.view.size} fromView:gestureRecognizer.view] 
+                                   inView:self.view 
+                                 animated:YES];
+            } afterDelay:0];
         }
     }
 }
@@ -1213,8 +1247,8 @@
     [RBDocuSignService cancelDocument:document];
 }
 
-- (void)signDocument:(RBDocument *)document {
-    [RBDocuSignService signDocument:document];
+- (void)signDocument:(RBDocument *)document recipient:(RBRecipient *)recipient {
+    [RBDocuSignService signDocument:document recipient:[recipient dictionaryRepresentation]];
 }
 
 @end

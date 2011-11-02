@@ -14,7 +14,7 @@
 + (void)previewDocument:(RBDocument *)document;
 + (void)sendDocument:(RBDocument *)document;
 + (void)cancelDocument:(RBDocument *)document;
-+ (void)signDocument:(RBDocument *)document;
++ (void)signDocument:(RBDocument *)document recipient:(NSDictionary *)recipient;
 + (void)updateStatusOfDocuments;
 
 @end

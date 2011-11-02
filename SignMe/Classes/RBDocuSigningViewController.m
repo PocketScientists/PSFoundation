@@ -9,6 +9,7 @@
 #import "RBDocuSigningViewController.h"
 #import "PSIncludes.h"
 #import "AppDelegate.h"
+#import "RBDocuSignService.h"
 
 
 @interface RBDocuSigningViewController ()
@@ -84,6 +85,7 @@
         NSString *p = request.URL.pathComponents.count > 1 ? [request.URL.pathComponents objectAtIndex:1] : nil;
         if ([p isEqualToString:@"signing_complete"]) {
             [MTApplicationDelegate showSuccessMessage:@"The document has been signed successfully."];
+            [RBDocuSignService updateStatusOfDocuments];
         }
         else if ([p isEqualToString:@"viewing_complete"]) {
             [MTApplicationDelegate showSuccessMessage:@"The document has been viewed."];            
@@ -93,6 +95,7 @@
         }
         else if ([p isEqualToString:@"decline"]) {
             [MTApplicationDelegate showErrorMessage:@"Signing of the document has been declined."];            
+            [RBDocuSignService updateStatusOfDocuments];
         }
         else if ([p isEqualToString:@"timeout"]) {
             [MTApplicationDelegate showErrorMessage:@"Signing of the document has been timed out. Please sign within 5 minutes."];            

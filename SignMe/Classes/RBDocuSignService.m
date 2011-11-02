@@ -42,6 +42,7 @@ static DocuSignService *docuSign = nil;
             NSArray *recipients = [document recipientsAsDictionary];
             NSArray *tabs = [document.form tabsForNumberOfRecipients:recipients.count];
             NSString *subject = !IsEmpty(document.subject) ? document.subject : @"Sign this Red Bull Document";
+            BOOL routingOrder = document.obeyRoutingOrder ? [document.obeyRoutingOrder boolValue] : NO;
             
             DDLogInfo(@"DocuSign: Will send document '%@' of client '%@' with Subject '%@': %d Recipients, %d Tabs", document.name, document.client.name, subject, recipients.count, tabs.count);
             [MTApplicationDelegate showLoadingMessage:@"Sending to DocuSign"];
@@ -51,6 +52,7 @@ static DocuSignService *docuSign = nil;
                                                                                     recipients:recipients
                                                                                           tabs:tabs
                                                                                        subject:subject
+                                                                                  routingOrder:routingOrder 
                                                                                          error:&error];
             
             document.lastDocuSignStatus = $I(status.Status);
@@ -66,7 +68,7 @@ static DocuSignService *docuSign = nil;
                 // update document status after 10 seconds
                 [self performSelector:@selector(updateStatusOfDocuments) afterDelay:10.];
             } else {
-                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error finalizing document: %@", [error localizedDescription]]];
+                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error finalizing document: %@. Please try again, otherwise contact your IT-support team.", [error localizedDescription]]];
                 DDLogError(@"Wasn't able to send document: %d", status.Status);
             }
         } else {
@@ -98,7 +100,7 @@ static DocuSignService *docuSign = nil;
                 // update document status after 10 seconds
                 [self performSelector:@selector(updateStatusOfDocuments) afterDelay:10.];
             } else {
-                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error voiding envelope @ DocuSign: %@", [error localizedDescription]]];
+                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error voiding envelope: %@. Please contact your IT-support team.", [error localizedDescription]]];
                 DDLogError(@"Wasn't able to void document: %@", [error localizedDescription]);
             }
         } else {
@@ -133,7 +135,7 @@ static DocuSignService *docuSign = nil;
                     MCReleaseNil(vc);
                 });
             } else {
-                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error retrieving token from DocuSign for initiating viewing: %@", [error localizedDescription]]];
+                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Eror initiating document viewing: %@. Please contact your IT-support team if the error persists.", [error localizedDescription]]];
                 DDLogError(@"Error retrieving token from DocuSign for initiating viewing: %@", [error localizedDescription]);
             }
         } else {
@@ -142,7 +144,7 @@ static DocuSignService *docuSign = nil;
     });
 }
 
-+ (void)signDocument:(RBDocument *)document { 
++ (void)signDocument:(RBDocument *)document recipient:(NSDictionary *)recipient { 
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     
     dispatch_async(queue, ^(void) {
@@ -154,7 +156,7 @@ static DocuSignService *docuSign = nil;
 //            NSString *token = [docuSign authenticationToken:document.docuSignEnvelopeID];
 //            NSString *token = [docuSign senderToken:document.docuSignEnvelopeID];
             NSError *error;
-            NSString *token = [docuSign recipientToken:document.docuSignEnvelopeID recipient:[[document recipientsAsDictionary] firstObject] recipientId:0 error:&error];
+            NSString *token = [docuSign recipientToken:document.docuSignEnvelopeID recipient:recipient error:&error];
             if (token) {
                 dispatch_async(dispatch_get_main_queue(), ^(void) {
                     RBDocuSigningViewController *vc = [[RBDocuSigningViewController alloc] initWithNibName:nil bundle:nil];
@@ -170,8 +172,13 @@ static DocuSignService *docuSign = nil;
                     MCReleaseNil(vc);
                 });
             } else {
-                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error retrieving token from DocuSign for initiating signing process: %@", [error localizedDescription]]];
-                DDLogError(@"Error retrieving token from DocuSign for initiating signing process: %@", [error localizedDescription]);
+                if ([[error localizedDescription] containsString:@"out of sequence"]) {
+                    [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Signing by %@ is not allowed yet, since it is out of sequence as required by the document.", [recipient objectForKey:@"name"]]];
+                }
+                else {
+                    [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error initiating signing process: %@. Please contact your IT-support team if the error persists.", [error localizedDescription]]];
+                }
+                DDLogError(@"Error initiating signing process: %@. Please contact IT-Support.", [error localizedDescription]);
             }
         } else {
             [MTApplicationDelegate showErrorMessage:result];
@@ -234,7 +241,7 @@ static DocuSignService *docuSign = nil;
                     }
                     else {
                         DDLogError(@"Cannot download signed PDF. Please download it manually: %@", [error localizedDescription]);
-                        [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Cannot download signed PDF. Please download it manually: %@", [error localizedDescription]]];
+                        [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Cannot download signed PDF: %@. Please download it manually or contact your IT-support team.", [error localizedDescription]]];
                     }
                 }
             }
