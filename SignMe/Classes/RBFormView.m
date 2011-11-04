@@ -14,6 +14,8 @@
 #import "RBTextField.h"
 #import "VCTitleCase.h"
 #import "RBUIGenerator.h"
+#import "RegexKitLite.h"
+
 
 @interface RBFormView ()
 
@@ -212,6 +214,32 @@
     }
     
     return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField.formValidationRegEx) {
+        NSRange matchedRange = [textField.text rangeOfRegex:textField.formValidationRegEx];
+        if (matchedRange.location == NSNotFound) {
+            NSString *msg = textField.formValidationMsg ? textField.formValidationMsg : @"Error";
+            UILabel *errorMsg = [[[UILabel alloc] initWithFrame:textField.bounds] autorelease];
+            errorMsg.tag = 8989;
+            errorMsg.backgroundColor = kRBColorError;
+            errorMsg.textColor = [UIColor whiteColor];
+            errorMsg.font = [UIFont boldSystemFontOfSize:12];
+            errorMsg.textAlignment = UITextAlignmentCenter;
+            errorMsg.text = msg; 
+            errorMsg.frameLeft = 5;
+            errorMsg.frameWidth = [msg sizeWithFont:errorMsg.font].width + 10;
+            errorMsg.frameHeight = 20;
+            errorMsg.frameBottom = 5;
+            textField.clipsToBounds = NO;
+            [textField addSubview:errorMsg];
+        }
+        else {
+            [[textField viewWithTag:8989] removeFromSuperview];
+        }
+    }
+    
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string

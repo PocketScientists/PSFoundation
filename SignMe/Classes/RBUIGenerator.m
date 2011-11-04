@@ -105,6 +105,8 @@
                 CGFloat size = [[form valueForKey:kRBFormKeySize ofField:fieldID inSection:section] floatValue];
                 NSString *position = [form valueForKey:kRBFormKeyPosition ofField:fieldID inSection:section];
                 NSString *subtype = [form valueForKey:kRBFormKeySubtype ofField:fieldID inSection:section];
+                NSString *validationRegEx = [form valueForKey:kRBFormKeyValidationRegEx ofField:fieldID inSection:section];
+                NSString *validationMsg = [form valueForKey:kRBFormKeyValidationMsg ofField:fieldID inSection:section];
                 NSInteger col = [[form valueForKey:kRBFormKeyColumn ofField:fieldID inSection:section] intValue];
                 NSInteger row = [[form valueForKey:kRBFormKeyRow ofField:fieldID inSection:section] intValue];
                 NSInteger colspan = [[form valueForKey:kRBFormKeyColumnSpan ofField:fieldID inSection:section] intValue];
@@ -177,6 +179,8 @@
                 inputField.formRow = row;
                 inputField.formColumnSpan = colspan;
                 inputField.formRowSpan = rowspan;
+                inputField.formValidationRegEx = validationRegEx;
+                inputField.formValidationMsg = validationMsg;
                 
                 if ([inputField isKindOfClass:[RBTextField class]] && [subtype isEqualToString:@"list"]) {
                     NSString *listID = [form valueForKey:kRBFormKeyListID ofField:fieldID inSection:section];

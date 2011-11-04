@@ -27,6 +27,8 @@
 #define kRBFormKeyListID            @"listid"           // refers to the items to display
 #define kRBFormKeyLists             @"lists"            // set of item lists
 #define kRBFormKeyItems             @"items"            // set of items
+#define kRBFormKeyValidationRegEx   @"validationRegEx"  // set an regex for validation purpose
+#define kRBFormKeyValidationMsg     @"validationMessage"// set an regex for validation purpose
 
 #define kRBFormKeyTabs              @"tabs"             // tabs for signing in DocuSign
 #define kRBFormKeyTabPage           @"page"             // the page a tab should appear

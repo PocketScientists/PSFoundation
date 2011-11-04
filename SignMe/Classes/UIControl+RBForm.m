@@ -18,6 +18,8 @@
 
 static char formMappingKey;
 static char formSubtypeKey;
+static char formValidationRegExKey;
+static char formValidationMsgKey;
 
 @implementation UIControl (RBForm)
 
@@ -76,6 +78,22 @@ static char formSubtypeKey;
 
 - (NSString *)formSubtype {
     return [self associatedValueForKey:&formSubtypeKey];
+}
+
+- (void)setFormValidationRegEx:(NSString *)formValidationRegEx {
+    [self associateValue:formValidationRegEx withKey:&formValidationRegExKey];
+}
+
+- (NSString *)formValidationRegEx {
+    return [self associatedValueForKey:&formValidationRegExKey];
+}
+
+- (void)setFormValidationMsg:(NSString *)formValidationMsg {
+    [self associateValue:formValidationMsg withKey:&formValidationMsgKey];
+}
+
+- (NSString *)formValidationMsg {
+    return [self associatedValueForKey:&formValidationMsgKey];
 }
 
 - (NSString *)formTextValue {

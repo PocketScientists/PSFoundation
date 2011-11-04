@@ -136,6 +136,7 @@
 		A9B49265144CE6BB002F1D02 /* RBMusketeerEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B49264144CE6BB002F1D02 /* RBMusketeerEditViewController.m */; };
 		A9B49268144CE7FB002F1D02 /* RBMusketeer.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B49267144CE7FB002F1D02 /* RBMusketeer.m */; };
 		A9B4926B144CE976002F1D02 /* RBMusketeer+RBProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B4926A144CE975002F1D02 /* RBMusketeer+RBProperties.m */; };
+		A9D7A63114636F460004C38A /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D7A62D14636F460004C38A /* RegexKitLite.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -460,6 +461,8 @@
 		A9B49267144CE7FB002F1D02 /* RBMusketeer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBMusketeer.m; sourceTree = "<group>"; };
 		A9B49269144CE975002F1D02 /* RBMusketeer+RBProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RBMusketeer+RBProperties.h"; sourceTree = "<group>"; };
 		A9B4926A144CE975002F1D02 /* RBMusketeer+RBProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RBMusketeer+RBProperties.m"; sourceTree = "<group>"; };
+		A9D7A62B14636F460004C38A /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		A9D7A62D14636F460004C38A /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -574,6 +577,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A9D7A62814636F460004C38A /* regexkitlite */,
 				A9B4925E144CCE20002F1D02 /* VCTitleCase */,
 				3911A20B13E1DA9300CD4F6C /* iPhoneContacts.xcodeproj */,
 				394B915B13D64923007BFF2E /* DocuSign.xcodeproj */,
@@ -1042,6 +1046,16 @@
 			name = Musketeer;
 			sourceTree = "<group>";
 		};
+		A9D7A62814636F460004C38A /* regexkitlite */ = {
+			isa = PBXGroup;
+			children = (
+				A9D7A62B14636F460004C38A /* RegexKitLite.h */,
+				A9D7A62D14636F460004C38A /* RegexKitLite.m */,
+			);
+			name = regexkitlite;
+			path = ../regexkitlite;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1336,6 +1350,7 @@
 				A9B49268144CE7FB002F1D02 /* RBMusketeer.m in Sources */,
 				A9B4926B144CE976002F1D02 /* RBMusketeer+RBProperties.m in Sources */,
 				A96DF4281452B65300E919E2 /* RBFormLayoutData.m in Sources */,
+				A9D7A63114636F460004C38A /* RegexKitLite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
