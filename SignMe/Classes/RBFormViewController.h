@@ -16,6 +16,7 @@
 @interface RBFormViewController : PSBaseViewController {
     id observerShow;
     id observerHide;
+    BOOL keyboardVisible;
 }
 
 @property (nonatomic, retain) RBForm *form;

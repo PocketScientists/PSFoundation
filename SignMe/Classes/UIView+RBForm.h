@@ -20,5 +20,6 @@
 @property (nonatomic, assign) NSInteger formColumnSpan;
 @property (nonatomic, assign) NSInteger formRowSpan;
 @property (nonatomic, assign) CGFloat formSize;
+@property (nonatomic, retain) NSString *formAlignment;
 
 @end

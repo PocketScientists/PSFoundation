@@ -24,11 +24,16 @@
 #define kRBFormKeyColumnSpan        @"colspan"          // column span of a field 
 #define kRBFormKeyRowSpan           @"rowspan"          // row span of a field 
 #define kRBFormKeySubtype           @"subtype"          // subtype refines which UIControl is displayed
+#define kRBFormKeyButtonGroup       @"buttongroup"      // group for radio buttons
 #define kRBFormKeyListID            @"listid"           // refers to the items to display
 #define kRBFormKeyLists             @"lists"            // set of item lists
 #define kRBFormKeyItems             @"items"            // set of items
 #define kRBFormKeyValidationRegEx   @"validationRegEx"  // set an regex for validation purpose
 #define kRBFormKeyValidationMsg     @"validationMessage"// set an regex for validation purpose
+#define kRBFormKeyAlignment         @"alignment"
+#define kRBFormKeyTextAlignment     @"textAlignment"
+#define kRBFormKeyTextFormat        @"format"
+#define kRBFormKeyCalculate         @"calculate"
 
 #define kRBFormKeyTabs              @"tabs"             // tabs for signing in DocuSign
 #define kRBFormKeyTabPage           @"page"             // the page a tab should appear
@@ -38,6 +43,7 @@
 #define kRBFormKeyTabLabel          @"label"            // the label of the tab 
 #define kRBFormKeyTabDocumentIndex  @"documentIndex"    // is always 0 in our case
 #define kRBFormKeyTabRecipientIndex @"recipientIndex"   // increasing number that matches current recipient
+#define kRBFormKeyTabKind           @"kind"
 
 #define kRBFormKeyMapping           @"mapping"          // the mapping of the field to the client (name, address, ...)
 #define kRBFormKeyMappingNone       @""
@@ -46,9 +52,10 @@
 #define kRBFormKeyMappingStreet     @"street"
 #define kRBFormKeyMappingCity       @"city"
 #define kRBFormKeyMappingZip        @"zip"
+#define kRBFormKeyMappingState      @"state"
 
 // datatypes for form creation
-#define kRBFormDataTypeCheckbox     @"Btn"
+#define kRBFormDataTypeButton       @"Btn"
 #define kRBFormDataTypeTextField    @"Tx"
 #define kRBFormDataTypeLabel        @"Lb"
 #define kRBFormDataTypeChoice       @"Ch"

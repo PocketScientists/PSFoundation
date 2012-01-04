@@ -14,6 +14,7 @@
 #import "RBDocument.h"
 #import "RBDocument+RBForm.h"
 #import "AppDelegate.h"
+#import "RBDocuSignService.h"
 
 
 #define kRBOffsetTop               212.f
@@ -26,9 +27,11 @@
 @property (nonatomic, retain) SSLineView *bottomLine;
 @property (nonatomic, retain) UIButton *cancelButton;
 @property (nonatomic, retain) UIButton *doneButton;
+@property (nonatomic, retain) UIButton *finalizeButton;
 
 - (void)handleCancelButtonPress:(id)sender;
 - (void)handleDoneButtonPress:(id)sender;
+- (void)handleFinalizeButtonPress:(id)sender;
 
 - (void)updateFormFromControls;
 
@@ -48,6 +51,8 @@
 @synthesize formView = formView_;
 @synthesize cancelButton = cancelButton_;
 @synthesize doneButton = doneButton_;
+@synthesize finalizeButton = finalizeButton_;
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -83,6 +88,7 @@
     MCRelease(client_);
     MCRelease(cancelButton_);
     MCRelease(doneButton_);
+    MCRelease(finalizeButton_);
     
     [super dealloc];
 }
@@ -131,21 +137,29 @@
     self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.cancelButton setImage:cancelImage forState:UIControlStateNormal];
     self.cancelButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
-    self.cancelButton.frame = CGRectMake(847, 165, cancelImage.size.width, cancelImage.size.height);
+    self.cancelButton.frame = CGRectMake(767, 165, cancelImage.size.width, cancelImage.size.height);
     [self.cancelButton addTarget:self action:@selector(handleCancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     
     UIImage *doneImage = [UIImage imageNamed:@"SaveButton"];
     self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.doneButton setImage:doneImage forState:UIControlStateNormal];
     self.doneButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
-    self.doneButton.frame = CGRectMake(927, 165, doneImage.size.width, doneImage.size.height);
+    self.doneButton.frame = CGRectMake(847, 165, doneImage.size.width, doneImage.size.height);
     [self.doneButton addTarget:self action:@selector(handleDoneButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIImage *finalizeImage = [UIImage imageNamed:@"FinalizeButton"];
+    self.finalizeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.finalizeButton setImage:finalizeImage forState:UIControlStateNormal];
+    self.finalizeButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
+    self.finalizeButton.frame = CGRectMake(927, 165, doneImage.size.width, doneImage.size.height);
+    [self.finalizeButton addTarget:self action:@selector(handleFinalizeButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:self.headerLabel];
     [self.view addSubview:self.topLine];
     [self.view addSubview:self.bottomLine];
     [self.view addSubview:self.cancelButton];
     [self.view addSubview:self.doneButton];
+    [self.view addSubview:self.finalizeButton];
     [self.view addSubview:self.formView];
     [self.view addSubview:self.formView.pageControl];
     [self.view addSubview:self.formView.prevButton];
@@ -159,12 +173,15 @@
     self.headerLabel = nil;
     self.cancelButton = nil;
     self.doneButton = nil;
+    self.finalizeButton = nil;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
     [self addKeyboardObserver];
+    [self.formView validate];
+    [self.formView updateRecipientsView];
     [self.formView flashScrollIndicators];
 }
 
@@ -179,9 +196,15 @@
 
 - (void)addKeyboardObserver
 {
+    keyboardVisible = NO;
+    
     observerShow = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardDidShowNotification 
                                                                      object:nil queue:[NSOperationQueue mainQueue]
                                                                  usingBlock:^(NSNotification *note) {
+                                                                     if (keyboardVisible) {
+                                                                         return;
+                                                                     }
+                                                                     keyboardVisible = YES;
                                                                      [UIView animateWithDuration:0.3 animations:^{
                                                                          for (UIView *v in self.view.subviews) {
                                                                              v.frameTop -= 160;
@@ -191,6 +214,10 @@
     observerHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardDidHideNotification 
                                                                      object:nil queue:[NSOperationQueue mainQueue]
                                                                  usingBlock:^(NSNotification *note) {
+                                                                     if (!keyboardVisible) {
+                                                                         return;
+                                                                     }
+                                                                     keyboardVisible = NO;
                                                                      [UIView animateWithDuration:0.3 animations:^{
                                                                          for (UIView *v in self.view.subviews) {
                                                                              v.frameTop += 160;
@@ -250,6 +277,43 @@
     }
     
     [MTApplicationDelegate.homeViewController updateUI];
+}
+
+- (void)handleFinalizeButtonPress:(id)sender {
+    // update form-property with new values entered into controls
+    [self updateFormFromControls];
+    
+    if (self.formView.recipients.count > 0) {
+        PSAlertView *alertView = [PSAlertView alertWithTitle:self.form.displayName message:[NSString stringWithFormat:@"Do you want to finalize this document for %@?",self.client.name]];
+        
+        [alertView addButtonWithTitle:@"Finalize" block:^(void) {
+            // go back to HomeViewController
+            [self dismissModalViewControllerAnimated:YES];
+            
+            RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+            
+            if (self.document != nil) {
+                [persistenceManager updateDocument:self.document usingForm:self.form recipients:self.formView.recipients subject:self.formView.subject obeyRoutingOrder:self.formView.obeyRoutingOrder];
+            } else {
+                // create a new document with the given form/client
+                self.document = [persistenceManager persistedDocumentUsingForm:self.form client:self.client recipients:self.formView.recipients subject:self.formView.subject obeyRoutingOrder:self.formView.obeyRoutingOrder];
+            }
+            
+            // upload files to box.net
+            if (self.document != nil) {
+                [RBBoxService uploadDocument:self.document toFolderAtPath:RBPathToPreSignatureFolderForClientWithName(self.client.name)];
+                [RBDocuSignService sendDocument:self.document];
+            }
+            
+            [MTApplicationDelegate.homeViewController updateUI];
+        }];
+        
+        [alertView setCancelButtonWithTitle:@"Cancel" block:nil];
+        
+        [alertView show];
+    } else {
+        [self showErrorMessage:@"Document has no recipients, I cannot process it for signing!"];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////

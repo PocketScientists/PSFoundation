@@ -28,6 +28,7 @@
         <attribute name="code" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="emailPropertyID" optional="YES" attributeType="Integer 32" defaultValueString="-1"/>
         <attribute name="idcheck" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="kind" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="document" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBDocument" inverseName="recipients" inverseEntity="RBDocument"/>
@@ -35,6 +36,6 @@
     <elements>
         <element name="RBClient" positionX="160" positionY="48" width="128" height="165"/>
         <element name="RBDocument" positionX="340" positionY="-66" width="128" height="210"/>
-        <element name="RBRecipient" positionX="594" positionY="60" width="128" height="150"/>
+        <element name="RBRecipient" positionX="594" positionY="60" width="128" height="165"/>
     </elements>
 </model>

@@ -11,7 +11,7 @@
 #import "RBForm.h"
 #import "RBDocuSignService.h"
 #import "RBPersistenceManager.h"
-
+#import "DDMathParser.h"
 
 @interface AppDelegate ()
 
@@ -194,7 +194,7 @@
     fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
     [DDLog addLogger:fileLogger];
     
-    [self redirectNSLogToDocumentFolder];
+    //[self redirectNSLogToDocumentFolder];
 #endif
     
     
@@ -225,15 +225,35 @@
 
 // launched via post selector to speed up launch time
 - (void)postFinishLaunch {    
+    float delay = 60;
+    NSDate *lastDocuSignCheck = [NSUserDefaults standardUserDefaults].docuSignUpdateDate;
+    if ([lastDocuSignCheck timeIntervalSinceNow] > -kRBDocuSignUpdateTimeInterval) {
+        delay = kRBDocuSignUpdateTimeInterval + [lastDocuSignCheck timeIntervalSinceNow];
+    }
     [self performBlock:^{
         [RBDocuSignService updateStatusOfDocuments];
-    } afterDelay:60];
+        // regularly update the status of all DocuSign Documents
+        self.docuSignUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:kRBDocuSignUpdateTimeInterval
+                                                                     block:^(void) {
+                                                                         [RBDocuSignService updateStatusOfDocuments];
+                                                                     } repeats:YES];
+    } afterDelay:delay];
     
-    // regularly update the status of all DocuSign Documents
-    self.docuSignUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:kRBDocuSignUpdateTimeInterval
-                                                                 block:^(void) {
-                                                                     [RBDocuSignService updateStatusOfDocuments];
-                                                                } repeats:YES];
+    // register rounding function
+    DDMathFunction function = ^ DDExpression* (NSArray *args, NSDictionary *variables, DDMathEvaluator *evaluator, NSError **error) {
+        if ([args count] != 2) {
+            //fill in *error and return nil
+            if (error) {
+                *error = [NSError errorWithDomain:@"rounding error" code:1000 description:@"Invalid number of arguments for rounding"];
+            }
+            return nil;
+        }
+        NSNumber * n = [[args objectAtIndex:0] evaluateWithSubstitutions:variables evaluator:evaluator error:error];
+        double p = pow(10, [[[args objectAtIndex:1] evaluateWithSubstitutions:variables evaluator:evaluator error:error] doubleValue]);
+        NSNumber * result = [NSNumber numberWithDouble:round([n doubleValue] * p) / p];
+        return [DDExpression numberExpressionWithNumber:result];
+    };
+    [[DDMathEvaluator sharedMathEvaluator] registerFunction:function forName:@"round"];
 }
 
 - (void)setupFileStructure {

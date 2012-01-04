@@ -134,6 +134,7 @@
         }
         else {
             CGFloat newY = MAX(0, (self.contentOffset.y + responderLeftBottom.y - self.coveredFrame.origin.y + 5.f));
+            NSLog(@"new offset: %f", newY);
             [self setContentOffset:CGPointMake(self.contentOffset.x, newY) animated:YES];            
         }
     }}

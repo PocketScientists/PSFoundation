@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "RBPersistenceManager.h"
 #import "RBDocuSigningViewController.h"
+#import "NSUserDefaults+RBAdditions.h"
 
 
 static DocuSignService *docuSign = nil;
@@ -33,7 +34,10 @@ static DocuSignService *docuSign = nil;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     
     dispatch_async(queue, ^(void) {
-        NSString *result = [docuSign login];
+        NSString *result = nil;
+        if (docuSign.account == nil) {
+            result = [docuSign login];
+        }
         
         if (docuSign.account != nil) {
             // dictionary holding the PDF data and name
@@ -196,54 +200,71 @@ static DocuSignService *docuSign = nil;
     dispatch_async(queue, ^(void) {
         BOOL documentGotSigned = NO;
         
-        NSString *result = [docuSign login];
+        NSString *result = nil;
+        if (docuSign.account == nil) {
+            result = [docuSign login];
+        }
         
         if (docuSign.account != nil) {
-            for (RBDocument *document in documents) {
-                NSError *error;
-                DSAPIService_EnvelopeStatus *status = [docuSign statusForEnvelope:document.docuSignEnvelopeID error:&error];
-                if (status == nil) {
-                    DDLogError(@"Error updating document status: %@", [error localizedDescription]);
-                    continue;
-                }
-                DSAPIService_EnvelopeStatusCode previousStatus = [document.lastDocuSignStatus intValue];
-                
-                DDLogInfo(@"DocuSign: Document '%@' of Client '%@' has status '%@'.", document.name, document.client.name, DSAPIService_EnvelopeStatusCode_stringFromEnum(status.Status));
-                
-                // update new docuSign-status
-                document.lastDocuSignStatus = $I(status.Status);
-                
-                // Is document finished? -> update status
-                if (status.Status == DSAPIService_EnvelopeStatusCode_Completed) {
-                    document.status = $I(RBFormStatusSigned);
-                    documentGotSigned = YES;
-                    
-                    // if status has changed to completed, delete old files from box.net folder pre-signature
-                    if (previousStatus != DSAPIService_EnvelopeStatusCode_Completed) {
-                        DDLogInfo(@"Will delete old files from Pre-Signature folder for document %@", document.fileURL);
-                        [RBBoxService deleteDocument:document 
-                                    fromFolderAtPath:RBPathToPreSignatureFolderForClientWithName(document.client.name)];
-                    }
-                }
-                
-                // update saved PDF
-                if (status.Status == DSAPIService_EnvelopeStatusCode_Signed || 
-                    status.Status == DSAPIService_EnvelopeStatusCode_Completed) {
-                    NSData *signedPDFData = [docuSign requestPDF:document.docuSignEnvelopeID error:&error];
-                    if (signedPDFData) {
-                        NSURL *pdfFileURL = document.filledPDFURL;
+            
+            NSError *error;
+            NSDate *lastUpdateDate = [NSUserDefaults standardUserDefaults].docuSignUpdateDate;
+            lastUpdateDate = [lastUpdateDate earlierDate:[NSDate dateYesterday]];
+            DSAPIService_FilteredEnvelopeStatusChanges *statusChanges = [docuSign requestStatusChangesSince:lastUpdateDate error:&error];
+            
+            if (statusChanges == nil) {
+                DDLogError(@"Error updating document status: %@", [error localizedDescription]);
+                return;
+            }
+
+            [NSUserDefaults standardUserDefaults].docuSignUpdateDate = [NSDate date];
+
+            NSArray *envelopeStatusChanges = statusChanges.EnvelopeStatusChanges.EnvelopeStatusChange;
+            for (DSAPIService_EnvelopeStatusChange *change in envelopeStatusChanges) {
+                for (RBDocument *document in documents) {
+                    if ([document.docuSignEnvelopeID isEqualToString:change.EnvelopeID]) {
+                        DSAPIService_EnvelopeStatusCode status = change.Status;
+                        DSAPIService_EnvelopeStatusCode previousStatus = [document.lastDocuSignStatus intValue];
                         
-                        // write to disk (overwrite previous PDF)
-                        [signedPDFData writeToURL:pdfFileURL atomically:YES];
-                        // Sent to Box.net
-                        NSString *folderPath = RBPathToFolderForStatusAndClientWithName([document.status intValue], document.client.name);
-                        [RBBoxService uploadDocument:document toFolderAtPath:folderPath];
+                        DDLogInfo(@"DocuSign: Document '%@' of Client '%@' has status '%@'.", document.name, document.client.name, DSAPIService_EnvelopeStatusCode_stringFromEnum(status));
+                        
+                        // update new docuSign-status
+                        document.lastDocuSignStatus = $I(status);
+                        
+                        // Is document finished? -> update status
+                        if (status == DSAPIService_EnvelopeStatusCode_Completed) {
+                            document.status = $I(RBFormStatusSigned);
+                            documentGotSigned = YES;
+                            
+                            // if status has changed to completed, delete old files from box.net folder pre-signature
+                            if (previousStatus != DSAPIService_EnvelopeStatusCode_Completed) {
+                                DDLogInfo(@"Will delete old files from Pre-Signature folder for document %@", document.fileURL);
+                                [RBBoxService deleteDocument:document 
+                                            fromFolderAtPath:RBPathToPreSignatureFolderForClientWithName(document.client.name)];
+                            }
+                        }
+                        
+                        // update saved PDF
+                        if (status == DSAPIService_EnvelopeStatusCode_Signed || 
+                            status == DSAPIService_EnvelopeStatusCode_Completed) {
+                            NSData *signedPDFData = [docuSign requestPDF:document.docuSignEnvelopeID error:&error];
+                            if (signedPDFData) {
+                                NSURL *pdfFileURL = document.filledPDFURL;
+                                
+                                // write to disk (overwrite previous PDF)
+                                [signedPDFData writeToURL:pdfFileURL atomically:YES];
+                                // Sent to Box.net
+                                NSString *folderPath = RBPathToFolderForStatusAndClientWithName([document.status intValue], document.client.name);
+                                [RBBoxService uploadDocument:document toFolderAtPath:folderPath];
+                            }
+                            else {
+                                DDLogError(@"Cannot download signed PDF. Please download it manually: %@", [error localizedDescription]);
+                                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Cannot download signed PDF: %@. Please download it manually or contact your IT-support team.", [error localizedDescription]]];
+                            }
+                        }
+                        break;
                     }
-                    else {
-                        DDLogError(@"Cannot download signed PDF. Please download it manually: %@", [error localizedDescription]);
-                        [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Cannot download signed PDF: %@. Please download it manually or contact your IT-support team.", [error localizedDescription]]];
-                    }
-                }
+                }                
             }
             
             // call main thread to update UI and CoreData

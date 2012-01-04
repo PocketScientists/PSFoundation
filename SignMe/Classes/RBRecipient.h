@@ -19,6 +19,7 @@
 @property (nonatomic, retain) NSNumber * order;
 @property (nonatomic, retain) NSNumber * idcheck;
 @property (nonatomic, retain) NSNumber * code;
+@property (nonatomic, retain) NSString * kind;
 @property (nonatomic, retain) RBDocument *document;
 
 @end

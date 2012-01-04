@@ -15,6 +15,9 @@
 @property (nonatomic, retain) NSDate *formsUpdateDate;
 @property (nonatomic, retain) NSString *docuSignUserName;
 @property (nonatomic, retain) NSString *docuSignPassword;
+@property (nonatomic, retain) NSDate *docuSignUpdateDate;
+@property (nonatomic, retain) NSString *boxUserName;
+@property (nonatomic, retain) NSString *boxPassword;
 
 - (NSArray *)allStoredObjectNames;
 - (void)deleteStoredObjectNames;

@@ -8,6 +8,11 @@
 
 #import "RBTextField.h"
 #import "PSIncludes.h"
+#import "RBKeyboardAvoidingScrollView.h"
+#import "UIView+RBForm.h"
+#import "UIControl+RBForm.h"
+#import "DDMathParser.h"
+#import "RegexKitLite.h"
 
 
 @interface RBTextField()
@@ -18,6 +23,9 @@
 - (NSDateFormatter *)formatterForSubtype;
 - (void)keyboardWillShow:(NSNotification *)notification;
 - (void)keyboardWillHide:(NSNotification *)notification;
+- (void)gotoPrevField:(id)sender;
+- (void)gotoNextField:(id)sender;
+- (void)closeField:(id)sender;
 @end
 
 
@@ -28,6 +36,8 @@
 @synthesize popoverController = popoverController_;
 @synthesize subtype = subtype_;
 @synthesize items = items_;
+@synthesize usePopover = usePopover_;
+@synthesize calcVarFields = calcVarFields_;
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -41,15 +51,16 @@
         UIImage *image = [UIImage imageNamed:@"TextFieldBackground.png"];
         self.background = [image stretchableImageWithLeftCapWidth:8 topCapHeight:15];
 
-//        UIToolbar *navToolbar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 1024, 44)] autorelease];
-//        navToolbar.barStyle = UIBarStyleBlack;
-//        UIBarButtonItem *prevItem = [[[UIBarButtonItem alloc] initWithTitle:@"Prev" style:UIBarButtonItemStyleBordered target:self action:@selector(gotoPrevField:)] autorelease];
-//        UIBarButtonItem *nextItem = [[[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(gotoNextField:)] autorelease];
-//        navToolbar.items = [NSArray arrayWithObjects:prevItem, nextItem, nil];
-//        [self setInputAccessoryView:navToolbar];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+        UIToolbar *navToolbar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 1024, 44)] autorelease];
+        navToolbar.barStyle = UIBarStyleBlack;
+        UIBarButtonItem *prevItem = [[[UIBarButtonItem alloc] initWithTitle:@"Prev" style:UIBarButtonItemStyleBordered target:self action:@selector(gotoPrevField:)] autorelease];
+        prevItem.enabled = NO;
+        UIBarButtonItem *nextItem = [[[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(gotoNextField:)] autorelease];
+        nextItem.enabled = NO;
+        UIBarButtonItem *spaceItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+        UIBarButtonItem *closeItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeField:)] autorelease];
+        navToolbar.items = [NSArray arrayWithObjects:prevItem, nextItem, spaceItem, closeItem, nil];
+        [self setInputAccessoryView:navToolbar];
     }
     
     return self;
@@ -57,13 +68,44 @@
 
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    if (usePopover_) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    }
 
     MCRelease(popoverController_);
     MCRelease(subtype_);
+    MCRelease(calcVarFields_);
     
     [super dealloc];
+}
+
+
+- (void)setEnabled:(BOOL)enabled {
+    [super setEnabled:enabled];
+    if (enabled) {
+        UIImage *image = [UIImage imageNamed:@"TextFieldBackground.png"];
+        self.background = [image stretchableImageWithLeftCapWidth:8 topCapHeight:15];
+    }
+    else {
+        UIImage *image = [UIImage imageNamed:@"TextFieldBackgroundDisabled.png"];
+        self.background = [image stretchableImageWithLeftCapWidth:8 topCapHeight:15];
+    }
+}
+
+
+- (void)setUsePopover:(BOOL)usePopover {
+    if (usePopover_ == usePopover) return;
+    
+    usePopover_ = usePopover;
+    if (usePopover_) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    }
+    else {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    }
 }
 
 
@@ -71,33 +113,41 @@
     NSString *oldSubtype = subtype_;
     subtype_ = [newSubtype retain];
     if ([subtype_ isEqualToString:@"date"] || [subtype_ isEqualToString:@"time"] || [subtype_ isEqualToString:@"datetime"]) {
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showDatePicker:)];
-        [self addGestureRecognizer:tap];
-        [tap release];
-        
-//        UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 44, PSAppWidth(), 300)];
-//        [datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
-//        if ([self.subtype isEqualToString:@"date"]) {
-//            datePicker.datePickerMode = UIDatePickerModeDate;
-//        }
-//        else if ([self.subtype isEqualToString:@"datetime"]) {
-//            datePicker.datePickerMode = UIDatePickerModeDateAndTime;
-//        }
-//        else if ([self.subtype isEqualToString:@"time"]) {
-//            datePicker.datePickerMode = UIDatePickerModeTime;
-//        }
+        if (usePopover_) {
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showDatePicker:)];
+            [self addGestureRecognizer:tap];
+            [tap release];
+        }
+        else {
+            UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 44, PSAppWidth(), 300)];
+            [datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
+            if ([self.subtype isEqualToString:@"date"]) {
+                datePicker.datePickerMode = UIDatePickerModeDate;
+            }
+            else if ([self.subtype isEqualToString:@"datetime"]) {
+                datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+            }
+            else if ([self.subtype isEqualToString:@"time"]) {
+                datePicker.datePickerMode = UIDatePickerModeTime;
+            }
+            self.inputView = datePicker;
+            [datePicker release];
+        }
     }
     else if ([subtype_ isEqualToString:@"list"]) {
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showItemPicker:)];
-        [self addGestureRecognizer:tap];
-        [tap release];
-        
-//        UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, PSAppWidth(), 300)];
-//        pickerView.dataSource = self;
-//        pickerView.delegate = self;
-//        pickerView.showsSelectionIndicator = YES;
-//        self.inputView = pickerView;
-//        [pickerView release];
+        if (usePopover_) {
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showItemPicker:)];
+            [self addGestureRecognizer:tap];
+            [tap release];
+        }
+        else {
+            UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, PSAppWidth(), 300)];
+            pickerView.dataSource = self;
+            pickerView.delegate = self;
+            pickerView.showsSelectionIndicator = YES;
+            self.inputView = pickerView;
+            [pickerView release];
+        }
     }
     else if ([subtype_ isEqualToString:@"number"]) {
         self.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
@@ -115,13 +165,115 @@
 }
 
 
+- (void)setPrevField:(UITextField *)prevField {
+    prevField_ = prevField;
+    
+    if (prevField_ != nil) {
+        ((UIBarButtonItem *)[((UIToolbar *)self.inputAccessoryView).items objectAtIndex:0]).enabled = YES;
+    }
+    else {
+        ((UIBarButtonItem *)[((UIToolbar *)self.inputAccessoryView).items objectAtIndex:0]).enabled = NO;
+    }
+}
+
+
 - (void)setNextField:(UITextField *)nextField {
     nextField_ = nextField;
     
     if (nextField_ != nil) {
+        ((UIBarButtonItem *)[((UIToolbar *)self.inputAccessoryView).items objectAtIndex:1]).enabled = YES;
         self.returnKeyType = UIReturnKeyNext;
     }
+    else {
+        ((UIBarButtonItem *)[((UIToolbar *)self.inputAccessoryView).items objectAtIndex:1]).enabled = NO;
+        self.returnKeyType = UIReturnKeyDone;
+    }
 }
+
+- (void)gotoPrevField:(id)sender {
+    UIView *firstResponder = self.prevField;
+    if (firstResponder) {
+        [firstResponder becomeFirstResponder];
+        
+        UIView *sv = self;
+        while (sv && ![sv isKindOfClass:[RBKeyboardAvoidingScrollView class]]) {
+            sv = sv.superview;
+        }
+        if ([sv isKindOfClass:[RBKeyboardAvoidingScrollView class]]) {
+            [(RBKeyboardAvoidingScrollView *)sv moveResponderIntoPlace:firstResponder];
+        }
+        return;
+    }
+    
+    [self resignFirstResponder];
+}
+
+- (void)gotoNextField:(id)sender {
+    UIView *firstResponder = self.nextField;
+    if (firstResponder) {
+        [firstResponder becomeFirstResponder];
+        
+        UIView *sv = self;
+        while (sv && ![sv isKindOfClass:[RBKeyboardAvoidingScrollView class]]) {
+            sv = sv.superview;
+        }
+        if ([sv isKindOfClass:[RBKeyboardAvoidingScrollView class]]) {
+            [(RBKeyboardAvoidingScrollView *)sv moveResponderIntoPlace:firstResponder];
+        }
+        return;
+    }
+    
+    [self resignFirstResponder];
+}
+
+
+- (void)closeField:(id)sender {
+    [self resignFirstResponder];
+}
+
+
+- (void)calculate 
+{
+    NSMutableDictionary *s = [NSMutableDictionary dictionaryWithCapacity:self.calcVarFields.count];
+    for (NSString *varName in [self.calcVarFields allKeys]) {
+        UIControl *ctrl = [self.calcVarFields objectForKey:varName];
+        if ([ctrl isKindOfClass:[RBTextField class]]) {
+            RBTextField *textField = [self.calcVarFields objectForKey:varName];
+            NSString *text = textField.text;
+            if (textField.formTextFormat) {
+                NSRange r = [textField.formTextFormat rangeOfString:@"%@"];
+                if (r.location != NSNotFound) {
+                    NSString *prefix = [textField.formTextFormat substringToIndex:r.location];
+                    NSString *suffix = [textField.formTextFormat substringFromIndex:r.location + r.length];
+                    if (([prefix length] == 0 || [text hasPrefix:prefix]) && ([suffix length] == 0 || [text hasSuffix:suffix])) {
+                        int length = [text length] - [prefix length] - [suffix length];
+                        text = [text substringWithRange:NSMakeRange(r.location, length)];
+                    }
+                }
+            }
+            NSNumber *num = [NSNumber numberWithFloat:[text floatValue]];
+            [s setValue:num forKey:varName];
+        }
+        else {
+            NSNumber *num = [NSNumber numberWithBool:[ctrl.formTextValue boolValue]];
+            [s setValue:num forKey:varName];
+        }
+    }
+    NSError *error = nil;
+    NSNumber *result = [self.formCalculate numberByEvaluatingStringWithSubstitutions:s error:&error];
+    if (error) {
+        NSLog(@"error calculating field %@ by eval of expr %@: %@", self.formID, self.formCalculate, [error localizedDescription]);
+    }
+    else {
+        if (self.formTextFormat) {
+            self.text = [NSString stringWithFormat:self.formTextFormat, [result stringValue]];
+        }
+        else {
+            self.text = [result stringValue];
+        }
+    }
+}
+
 
 //- (void)setText:(NSString *)text {
 //    [super setText:text];
@@ -141,22 +293,33 @@
 //}
 
 - (BOOL)becomeFirstResponder {
-    if (![self.subtype isEqualToString:@"list"] &&
-        ![self.subtype isEqualToString:@"date"] &&
-        ![self.subtype isEqualToString:@"datetime"] &&
-        ![self.subtype isEqualToString:@"time"] ) {
-        return [super becomeFirstResponder];
+    if (usePopover_) {
+        if (![self.subtype isEqualToString:@"list"] &&
+            ![self.subtype isEqualToString:@"date"] &&
+            ![self.subtype isEqualToString:@"datetime"] &&
+            ![self.subtype isEqualToString:@"time"] ) {
+            return [super becomeFirstResponder];
+        }
+        else {
+            if ([subtype_ isEqualToString:@"date"] || [subtype_ isEqualToString:@"time"] || [subtype_ isEqualToString:@"datetime"]) {
+                [self showDatePicker:self];
+            }
+            else if ([subtype_ isEqualToString:@"list"]) {
+                [self showItemPicker:self];
+            }
+        }
+        [self.prevField resignFirstResponder];
+        return NO;
     }
     else {
-        if ([subtype_ isEqualToString:@"date"] || [subtype_ isEqualToString:@"time"] || [subtype_ isEqualToString:@"datetime"]) {
-            [self showDatePicker:self];
+        BOOL resp = [super becomeFirstResponder];
+        if (resp) {
+            if ([self.text length] == 0 && [self.inputView isKindOfClass:[UIPickerView class]] && [self.items count] > 0) {
+                self.text = [self.items objectAtIndex:0];
+            }
         }
-        else if ([subtype_ isEqualToString:@"list"]) {
-            [self showItemPicker:self];
-        }
+        return resp;
     }
-    [self.prevField resignFirstResponder];
-    return NO;
 }
 
 
@@ -361,5 +524,21 @@
     
     return formatter;
 }
+
+#pragma mark - calculation observer
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if ([keyPath isEqual:@"text"] && context == @"calculate") {
+        [self calculate];
+    }
+    else if ([keyPath isEqual:@"selected"] && context == @"calculate") {
+        [self calculate];
+    }
+}
+
 
 @end

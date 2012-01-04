@@ -23,6 +23,7 @@
 - (void)handleNextButtonPress:(id)sender;
 - (void)handlePageChange:(id)sender;
 
+- (void)validateTextField:(UITextField *)textField;
 - (void)updateUI;
 
 @end
@@ -142,6 +143,22 @@
     return recipientsView.useRoutingOrder;
 }
 
+- (void)validate {
+    for (id control in [self formControls]) {
+        if ([control isKindOfClass:[UITextField class]]) {
+            [self validateTextField:(UITextField *)control];
+        }
+    }
+}
+
+- (void)updateRecipientsView {
+    RBRecipientsView *recipientsView = (RBRecipientsView *)[self.innerScrollView viewWithTag:kRBRecipientsViewTag];
+    for (UITableView *tableView in recipientsView.tableViews) {
+        tableView.editing = NO;
+        tableView.editing = YES;
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Target/Action
@@ -216,8 +233,56 @@
     return YES;
 }
 
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (textField.formTextFormat) {
+        NSRange r = [textField.formTextFormat rangeOfString:@"%@"];
+        if (r.location != NSNotFound) {
+            NSString *prefix = [textField.formTextFormat substringToIndex:r.location];
+            NSString *suffix = [textField.formTextFormat substringFromIndex:r.location + r.length];
+            if (([prefix length] == 0 || [textField.text hasPrefix:prefix]) && ([suffix length] == 0 || [textField.text hasSuffix:suffix])) {
+                int length = [textField.text length] - [prefix length] - [suffix length];
+                textField.text = [textField.text substringWithRange:NSMakeRange(r.location, length)];
+            }
+        }
+    }
+}
+
+
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    if (textField.formValidationRegEx) {
+    [self validateTextField:textField];
+    if (textField.formTextFormat && [textField.text length] > 0) {
+        textField.text = [NSString stringWithFormat:textField.formTextFormat, [textField.text titlecaseString]];
+    }
+    else {
+        textField.text = [textField.text titlecaseString];
+    }
+}
+
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    [self performBlock:^{
+        textField.text = [textField.text titlecaseString];
+        
+        UITextPosition *pos = [textField positionFromPosition:[textField beginningOfDocument] offset:range.location + 1 - range.length];
+        if (pos) {
+            UITextRange *selectedRange = [textField textRangeFromPosition:pos toPosition:pos];
+            textField.selectedTextRange = selectedRange;
+        }
+    } afterDelay:0];
+
+    return YES;
+}
+
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Private
+////////////////////////////////////////////////////////////////////////
+
+- (void)validateTextField:(UITextField *)textField {
+    if (textField.formValidationRegEx && [textField.text length] > 0) {
         NSRange matchedRange = [textField.text rangeOfRegex:textField.formValidationRegEx];
         if (matchedRange.location == NSNotFound) {
             NSString *msg = textField.formValidationMsg ? textField.formValidationMsg : @"Error";
@@ -239,22 +304,11 @@
             [[textField viewWithTag:8989] removeFromSuperview];
         }
     }
-    
+    else {
+        [[textField viewWithTag:8989] removeFromSuperview];
+    }
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-//    [self performBlock:^{
-//        textField.text = [textField.text capitalizedString];
-//    } afterDelay:0];
-    return YES;
-}
-
-
-////////////////////////////////////////////////////////////////////////
-#pragma mark -
-#pragma mark Private
-////////////////////////////////////////////////////////////////////////
 
 - (void)updateUI {
     if (self.pageControl.currentPage == 0) {

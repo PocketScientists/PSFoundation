@@ -16,6 +16,7 @@ static RBMusketeer *musketeer;
 
 @synthesize firstname = firstname_;
 @synthesize lastname = lastname_;
+@synthesize email = email_;
 @synthesize street = street_;
 @synthesize city = city_;
 @synthesize zip = zip_;
@@ -44,6 +45,7 @@ static RBMusketeer *musketeer;
 - (void)dealloc {
     MCReleaseNil(firstname_);
     MCReleaseNil(lastname_);
+    MCReleaseNil(email_);
     MCReleaseNil(street_);
     MCReleaseNil(city_);
     MCReleaseNil(zip_);

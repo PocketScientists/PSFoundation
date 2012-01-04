@@ -30,4 +30,7 @@
 
 - (void)setInnerScrollViewSize:(CGSize)size;
 
+- (void)validate;
+- (void)updateRecipientsView;
+
 @end

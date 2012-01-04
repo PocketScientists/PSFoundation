@@ -108,7 +108,9 @@ static Box *box = nil;
                   [viewController showErrorMessage:@"Error updating box.net"];
                   DDLogError(@"Error syncing box.net folder: %d, %@", response, boxObject);
               }
-          }];
+          }
+                 username:[NSUserDefaults standardUserDefaults].boxUserName 
+                 password:[NSUserDefaults standardUserDefaults].boxPassword];
 }
 
 + (void)uploadDocument:(RBDocument *)document toFolder:(BoxFolder *)folder {
@@ -159,7 +161,7 @@ static Box *box = nil;
                   [RBBoxService uploadDocument:document toFolder:(BoxFolder *)boxObject];
               } else {
                   DDLogError(@"Error creating folder at path: %@, %d", path, resultType);
-                  [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error creating folder %@ on box.net", folder.objectName]];
+                  [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error creating folder %@ on box.net", path]];
               }
           }];
     } 

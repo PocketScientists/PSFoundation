@@ -7,6 +7,8 @@
 
 #import "PSIncludes.h"
 #import "BoxUser.h"
+#import "RBMusketeer.h"
+#import "VCTitleCase.h"
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -64,17 +66,20 @@
 #define kRBRecipientCode            @"code"
 #define kRBRecipientIDCheck         @"idcheck"
 #define kRBRecipientOrder           @"order"
+#define kRBRecipientKind            @"kind"
 #define kRBRecipientTypeRemote      0
 #define kRBRecipientTypeInPerson    1
 
-#define kRBDocuSignUpdateTimeInterval MTTimeIntervalMinutes(30)
+#define kRBDocuSignUpdateTimeInterval MTTimeIntervalMinutes(15)
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Box.net Folder Structure
 ////////////////////////////////////////////////////////////////////////
 
-#define kRBFolderUser               [[[BoxUser savedUser] userName] lowercaseString]
+//#define kRBFolderUser               [[[BoxUser savedUser] userName] lowercaseString]
+#define kRBFolderUser               [[NSString stringWithFormat:@"%@ %@", [[RBMusketeer loadEntity] firstname], \
+                                        [[RBMusketeer loadEntity] lastname]] titlecaseString]
 #define kRBFolderEmptyForms         @"forms"
 #define kRBFolderPreSignature       @"pre-signature"
 #define kRBFolderSigned             @"signed"
@@ -86,9 +91,12 @@
 
 #define kRBSettingsBoxFolderIDKey           @"kRBSettingsBoxFolderIDKey"
 #define kRBSettingsBoxLogoutKey             @"kRBSettingsBoxLogoutKey"
+#define kRBSettingsBoxUsernameKey           @"kRBSettingsBoxUsernameKey"
+#define kRBSettingsBoxPasswordKey           @"kRBSettingsBoxPasswordKey"
 #define kRBSettingsFormsUpdateDateKey       @"kRBSettingsFormsUpdateDateKey"
 #define kRBSettingsDocuSignUserNameKey      @"kRBSettingsDocuSignUserNameKey"
 #define kRBSettingsDocuSignPasswordKey      @"kRBSettingsDocuSignPasswordKey"
+#define kRBSettingsDocuSignUpdateDateKey    @"kRBSettingsDocuSignUpdateDateKey"
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

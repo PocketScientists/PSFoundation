@@ -253,7 +253,7 @@
     self.formsCarousel.centerItemWhenSelected = NO;
     // we inset the viewpoint s.t. items in both carousel have same x-pos (clientsCarousel has other frame than formsCarousel)
     // we also add another item width, s.t. the first item (that is ususally centered) appears on first position
-    self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX, 0);
+    self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX + (UIInterfaceOrientationIsPortrait(PSAppStatusBarOrientation) ? -120 : 0), 0);
     
     self.detailView = [[[RBFormDetailView alloc] initWithFrame:self.formsView.frame] autorelease];
     self.detailView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -718,11 +718,11 @@
 }
 
 - (IBAction)textFieldDidEndOnExit:(UITextField *)textField {
-    if (self.clientCarouselShowsAddItem) {
-        RBClient *client = [self clientWithName:textField.text];
-        // add new client
-        [self editClient:client];
-    }
+//    if (self.clientCarouselShowsAddItem) {
+//        RBClient *client = [self clientWithName:textField.text];
+//        // add new client
+//        [self editClient:client];
+//    }
     
     [textField resignFirstResponder];
 }
@@ -954,7 +954,7 @@
             // Make clients-carousel expand width to cover add button
             self.clientsCarousel.frame = CGRectMake(self.addNewClientButton.frameRight, self.clientsCarousel.frameTop,
                                                     self.clientsView.frameWidth - self.clientsLabel.frameWidth - self.addNewClientButton.frameWidth, self.clientsCarousel.frameHeight);
-            self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX, 0);
+            self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX + (UIInterfaceOrientationIsPortrait(PSAppStatusBarOrientation) ? -120 : 0), 0);
         }
         self.addNewClientButton.alpha = 1.f;
     }];

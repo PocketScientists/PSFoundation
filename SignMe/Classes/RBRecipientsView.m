@@ -13,6 +13,7 @@
 #import "ABAddressBook.h"
 #import "ABPerson.h"
 #import "ABPerson+RBMail.h"
+#import "ABMultiValue.h"
 #import "VCTitleCase.h"
 #import "AppDelegate.h"
 
@@ -20,29 +21,31 @@
 @interface RBRecipientsView ()
 
 @property (nonatomic, readonly) PSBaseViewController *viewControllerResponder;
-@property (nonatomic, retain) UIButton *addContactButton;
-@property (nonatomic, retain) UIButton *addInPersonContactButton;
 @property (nonatomic, retain) UIButton *routingOrderButton;
 @property (nonatomic, retain) UITextField *subjectTextField;
+@property (nonatomic, retain) NSArray *addContactButtons;
+@property (nonatomic, retain) NSArray *recipientsForTypes;
 
 - (void)showPeoplePicker;
 - (void)showNewContactScreen;
 - (void)handleAddContactPress:(id)sender;
-- (void)handleAddInPersonContactPress:(id)sender;
 - (void)handleNewContactPress:(id)sender;
 - (void)handleRoutingOrderPress:(id)sender;
-- (void)redrawTableData;
+- (void)redrawTableData:(UITableView *)tableView;
+- (NSArray *)recipientTypes;
+- (NSArray *)recipientsForType:(NSString *)type;
+- (int)maxNumberOfRecipientsForType:(NSString *)type;
+- (NSArray *)tabsForType:(NSString *)type;
 
 @end
 
 @implementation RBRecipientsView
 
-@synthesize tableView = tableView_;
-@synthesize recipients = recipients_;
+@synthesize tableViews = tableViews_;
+@synthesize addContactButtons = addContactButtons_;
+@synthesize recipientsForTypes = recipientsForTypes_;
 @synthesize tabs = tabs_;
 @synthesize maxNumberOfRecipients = maxNumberOfRecipients_;
-@synthesize addContactButton = addContactButton_;
-@synthesize addInPersonContactButton = addInPersonContactButton_;
 @synthesize routingOrderButton = routingOrderButton_;
 @synthesize subjectTextField = subjectTextField_;
 @synthesize useRoutingOrder = useRoutingOrder_;
@@ -74,33 +77,6 @@
         subjectTextField_.placeholder = @"DocuSign Subject";
         subjectTextField_.delegate = self;
         [self addSubview:subjectTextField_];
-        
-        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 120.f, 150, 35.f)] autorelease];
-        label.font = [UIFont fontWithName:kRBFontName size:18];
-        label.textColor = kRBColorMain;
-        label.backgroundColor = [UIColor clearColor];
-        label.text = @"Add Recipient";
-        [self addSubview:label];
-        
-        addContactButton_ = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-        [addContactButton_ setImage:[UIImage imageNamed:@"AddButton"] forState:UIControlStateNormal];
-        addContactButton_.frame = CGRectMake(190.f, label.frameTop, 35.f, 35.f);
-        [addContactButton_ addTarget:self action:@selector(handleAddContactPress:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:addContactButton_];
-        
-        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 155.f, 150, 55.f)] autorelease];
-        label.font = [UIFont fontWithName:kRBFontName size:18];
-        label.textColor = kRBColorMain;
-        label.backgroundColor = [UIColor clearColor];
-        label.text = @"Add Captive Recipient";
-        label.numberOfLines = 2;
-        [self addSubview:label];
-        
-        addInPersonContactButton_ = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-        [addInPersonContactButton_ setImage:[UIImage imageNamed:@"AddButton"] forState:UIControlStateNormal];
-        addInPersonContactButton_.frame = CGRectMake(190.f, label.frameTop+10, 35.f, 35.f);
-        [addInPersonContactButton_ addTarget:self action:@selector(handleAddInPersonContactPress:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:addInPersonContactButton_];
         
         label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 210.f, 150, 35.f)] autorelease];
         label.font = [UIFont fontWithName:kRBFontName size:18];
@@ -134,41 +110,64 @@
         dividerView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.3f];
         dividerView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
         [self addSubview:dividerView];
-        
-        label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 35.f)] autorelease];
-        label.font = [UIFont fontWithName:kRBFontName size:19];
-        label.textColor = kRBColorMain;
-        label.backgroundColor = [UIColor clearColor];
-        label.text = @"Recipients";
-        
-        tableView_ = [[UITableView alloc] initWithFrame:CGRectMake(545.f, 5.f, 450.f, self.bounds.size.height-10.f) style:UITableViewStylePlain];
-        tableView_.delegate = self;
-        tableView_.dataSource = self;
-        tableView_.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
-        tableView_.backgroundColor = [UIColor clearColor];
-        tableView_.backgroundView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-        tableView_.tableHeaderView = label; 
-        // tableView_.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-        tableView_.editing = YES;
-        
-        [self addSubview:tableView_];
-        
-        recipients_ = [[NSMutableArray alloc] init];
     }
     
     return self;
 }
 
 - (void)dealloc {
-    MCRelease(tableView_);
-    MCRelease(recipients_);
-    MCRelease(addContactButton_);
+    MCRelease(tableViews_);
+    MCRelease(recipientsForTypes_);
     MCRelease(routingOrderButton_);
     MCRelease(subjectTextField_);
     MCRelease(tabs_);
+    MCRelease(addContactButtons_);
     
     [super dealloc];
 }
+
+- (NSArray *)recipientTypes {
+    NSMutableArray *types = [[[NSMutableArray alloc] initWithCapacity:2] autorelease];
+    for (NSDictionary *tab in self.tabs) {
+        NSString *rType = [tab objectForKey:kRBFormKeyTabKind];
+        if (!rType) {
+            rType = @"default";
+        }
+        if (![types containsObject:rType]) {
+            [types addObject:rType];
+        }
+    }
+    return types;
+}
+
+- (NSArray *)recipientsForType:(NSString *)type {
+    int index = [self.recipientTypes indexOfObject:type];
+    if (index != NSNotFound) {
+        return [self.recipientsForTypes objectAtIndex:index];
+    }
+    return nil;
+}
+
+- (int)maxNumberOfRecipientsForType:(NSString *)type {
+    int num = 0;
+    for (NSDictionary *tab in self.tabs) {
+        NSString *tabKind = [tab objectForKey:kRBFormKeyTabKind];
+        if ((tabKind == nil && [type isEqualToString:@"default"]) || [type isEqualToString:tabKind]) num++;
+    }
+    return num;
+}
+
+- (NSArray *)tabsForType:(NSString *)type {
+    NSMutableArray *tabs = [[[NSMutableArray alloc] initWithCapacity:2] autorelease];
+    for (NSDictionary *tab in self.tabs) {
+        NSString *tabKind = [tab objectForKey:kRBFormKeyTabKind];
+        if ((tabKind == nil && [type isEqualToString:@"default"]) || [type isEqualToString:tabKind]) {
+            [tabs addObject:tab];
+        }
+    }
+    return tabs;
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -177,9 +176,13 @@
 
 - (void)willMoveToSuperview:(UIView *)newSuperview {
     if (newSuperview != nil) {
-        self.addContactButton.enabled = self.recipients.count < self.maxNumberOfRecipients;
-        self.addInPersonContactButton.enabled = self.addContactButton.enabled;
-        [self.tableView reloadData];
+        int i = 0;
+        for (UIButton *addContactButton in self.addContactButtons) {
+            NSString *type = [self.recipientTypes objectAtIndex:i];
+            addContactButton.enabled = [self recipientsForType:type].count < [self maxNumberOfRecipientsForType:type];
+            i++;
+        }
+        [self.tableViews makeObjectsPerformSelector:@selector(reloadData)];
     }
 }
 
@@ -187,6 +190,97 @@
 #pragma mark -
 #pragma mark Setter/Getter
 ////////////////////////////////////////////////////////////////////////
+
+- (void)setRecipients:(NSArray *)recipients {
+    NSMutableArray *r = [NSMutableArray array];
+    for (NSString *type in self.recipientTypes) {
+        NSMutableArray *recips = [NSMutableArray array];
+        for (NSDictionary *recipient in recipients) {
+            if ([[recipient objectForKey:kRBRecipientKind] isEqualToString:type]) {
+                [recips addObject:recipient];
+            }
+        }
+        [r addObject:recips];
+    }
+    self.recipientsForTypes = r;
+}
+
+- (NSArray *)recipients {
+    NSMutableArray *r = [NSMutableArray array];
+    for (NSArray *recips in self.recipientsForTypes) {
+        [r addObjectsFromArray:recips];
+    }
+    return r;
+}
+
+- (void)setTabs:(NSArray *)tabs {
+    if (tabs_ == tabs) return;
+    
+    NSArray *oldTabs = tabs_;
+    tabs_ = [tabs retain];
+    [tableViews_ makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    self.tableViews = nil;
+    self.addContactButtons = nil;
+    if (tabs_) {
+        NSMutableArray *tableViews = [NSMutableArray array];
+        NSMutableArray *addContactButtons = [NSMutableArray array];
+        
+        int typeIndex = 0;
+        CGFloat height = floorf((self.bounds.size.height - 10.f) / self.recipientTypes.count);
+        for (NSString *recipientType in self.recipientTypes) {
+            UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 90.f)] autorelease];
+            
+            UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 450, 35.f)] autorelease];
+            label.font = [UIFont fontWithName:kRBFontName size:19];
+            label.textColor = kRBColorMain;
+            label.backgroundColor = [UIColor clearColor];
+            label.text = [NSString stringWithFormat:@"%@ Signers", [recipientType isEqualToString:@"default"] ? @"" : [recipientType titlecaseString]];
+            [headerView addSubview:label];
+            
+            label = [[[UILabel alloc] initWithFrame:CGRectMake(45.f, 40.f, 400.f, 35.f)] autorelease];
+            label.font = [UIFont fontWithName:kRBFontName size:18];
+            label.textColor = kRBColorMain;
+            label.backgroundColor = [UIColor clearColor];
+            label.text = [NSString stringWithFormat:@"Add %@ Signer", [recipientType isEqualToString:@"default"] ? @"" : [recipientType titlecaseString]];
+            [headerView addSubview:label];
+            
+            UIButton *addContactButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+            [addContactButton setImage:[UIImage imageNamed:@"AddButton"] forState:UIControlStateNormal];
+            addContactButton.frame = CGRectMake(0.f, label.frameTop, 35.f, 35.f);
+            addContactButton.tag = typeIndex;
+            [addContactButton addTarget:self action:@selector(handleAddContactPress:) forControlEvents:UIControlEventTouchUpInside];
+            [headerView addSubview:addContactButton];
+            [addContactButtons addObject:addContactButton];
+            
+            UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(545.f, 5.f + typeIndex * height, 450.f, height) style:UITableViewStylePlain];
+            tableView.delegate = self;
+            tableView.dataSource = self;
+            if (typeIndex == 0) {
+                tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
+            }
+            else if (typeIndex == self.recipientTypes.count - 1) {
+                tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+            }
+            else {
+                tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+            }
+            tableView.backgroundColor = [UIColor clearColor];
+            tableView.backgroundView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+            tableView.tableHeaderView = headerView; 
+            tableView.tag = typeIndex;
+            // tableView_.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+            tableView.editing = YES;
+            
+            [self addSubview:tableView];
+            [tableViews addObject:tableView];
+            typeIndex++;
+        }
+        self.tableViews = tableViews;
+        self.addContactButtons = addContactButtons;
+    }        
+    
+    [oldTabs release];
+}
 
 - (void)setSubject:(NSString *)subject {
     self.subjectTextField.text = subject;
@@ -207,15 +301,15 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.tabs.count;
+    return [self maxNumberOfRecipientsForType:[self.recipientTypes objectAtIndex:tableView.tag]];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	RBRecipientTableViewCell *cell = [RBRecipientTableViewCell cellForTableView:tableView style:UITableViewCellStyleDefault];
     cell.delegate = self;
     
-    if (indexPath.row < self.recipients.count) {
-        NSDictionary *personDict = [self.recipients objectAtIndex:indexPath.row];
+    if (indexPath.row < [[self.recipientsForTypes objectAtIndex:tableView.tag] count]) {
+        NSDictionary *personDict = [[self.recipientsForTypes objectAtIndex:tableView.tag] objectAtIndex:indexPath.row];
         ABPerson *person = [[ABAddressBook sharedAddressBook] personWithRecordID:[[personDict valueForKey:kRBRecipientPersonID] intValue]];
         
         if (person.imageData != nil) {
@@ -224,15 +318,10 @@
         else {
             cell.image = [UIImage imageNamed:@"EmptyContact"];
         }
-        if ([[personDict valueForKey:kRBRecipientType] boolValue] == kRBRecipientTypeInPerson) {
-            cell.mainText = [NSString stringWithFormat:@"%@ (C)", person.fullName];
-            [cell disableAuth];
-        }
-        else {
-            cell.mainText = person.fullName;
-            [cell enableAuth];
-        }
+        [cell enableTypeSelection];
+        cell.mainText = person.fullName;
         cell.code = [personDict valueForKey:kRBRecipientCode] ? [[personDict valueForKey:kRBRecipientCode] intValue] : 0;
+        cell.signerType = [personDict valueForKey:kRBRecipientType] ? [[personDict valueForKey:kRBRecipientType] intValue] : 0;
         cell.idcheck = [personDict valueForKey:kRBRecipientIDCheck] && [[personDict valueForKey:kRBRecipientIDCheck] intValue] > 0 ? YES : NO;
         cell.detailText = [person emailForID:[personDict valueForKey:kRBRecipientEmailID]];
         cell.placeholderText = nil;
@@ -242,9 +331,12 @@
         cell.mainText = nil;
         cell.detailText = nil;
         cell.code = 0;
+        cell.signerType = 0;
         cell.idcheck = NO;
         [cell disableAuth];
-        cell.placeholderText = [[self.tabs objectAtIndex:indexPath.row] objectForKey:kRBFormKeyTabLabel];
+        [cell disableTypeSelection];
+        NSString *type = [self.recipientTypes objectAtIndex:tableView.tag];
+        cell.placeholderText = [[[self tabsForType:type] objectAtIndex:indexPath.row] objectForKey:kRBFormKeyTabLabel];
     }
     
     return cell;
@@ -256,7 +348,7 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     if (cell.mainText) {
         return YES;
     }
@@ -265,17 +357,15 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.recipients removeObjectAtIndex:indexPath.row];
+        [(NSMutableArray *)[self.recipientsForTypes objectAtIndex:tableView.tag] removeObjectAtIndex:indexPath.row];
 
-        [self redrawTableData];
-        
-        self.addContactButton.enabled = YES;
-        self.addInPersonContactButton.enabled = YES;
+        [self redrawTableData:tableView];
+        ((UIButton *)[self.addContactButtons objectAtIndex:[self.tableViews indexOfObject:tableView]]).enabled = YES;
     }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     if (cell.mainText) {
         return YES;
     }
@@ -283,7 +373,7 @@
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
-    RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[self.tableView cellForRowAtIndexPath:proposedDestinationIndexPath];
+    RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[tableView cellForRowAtIndexPath:proposedDestinationIndexPath];
     if (cell.mainText) {
         return proposedDestinationIndexPath;
     }
@@ -291,11 +381,11 @@
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    if (destinationIndexPath.row < self.recipients.count) {
-        [self.recipients exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
+    if (destinationIndexPath.row < [[self.recipientsForTypes objectAtIndex:tableView.tag] count]) {
+        [(NSMutableArray *)[self.recipientsForTypes objectAtIndex:tableView.tag] exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
     }
     else {
-        [self redrawTableData];
+        [self redrawTableData:tableView];
     }
 }
 
@@ -308,11 +398,12 @@
     
 }
 
-- (void)redrawTableData {
-    for (int i = 0; i < self.tabs.count; i++) {
-        RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        if (i < self.recipients.count) {
-            NSDictionary *personDict = [self.recipients objectAtIndex:i];
+- (void)redrawTableData:(UITableView *)tableView {
+    NSString *type = [self.recipientTypes objectAtIndex:tableView.tag];
+    for (int i = 0; i < [[self tabsForType:type] count]; i++) {
+        RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        if (i < [[self.recipientsForTypes objectAtIndex:tableView.tag] count]) {
+            NSDictionary *personDict = [[self.recipientsForTypes objectAtIndex:tableView.tag] objectAtIndex:i];
             ABPerson *person = [[ABAddressBook sharedAddressBook] personWithRecordID:[[personDict valueForKey:kRBRecipientPersonID] intValue]];
             
             if (person.imageData != nil) {
@@ -321,15 +412,10 @@
             else {
                 cell.image = [UIImage imageNamed:@"EmptyContact"];
             }
-            if ([[personDict valueForKey:kRBRecipientType] boolValue] == kRBRecipientTypeInPerson) {
-                cell.mainText = [NSString stringWithFormat:@"%@ (C)", person.fullName];
-                [cell disableAuth];
-            }
-            else {
-                cell.mainText = person.fullName;
-                [cell enableAuth];
-            }
+            [cell enableTypeSelection];
+            cell.mainText = person.fullName;
             cell.code = [personDict valueForKey:kRBRecipientCode] ? [[personDict valueForKey:kRBRecipientCode] intValue] : 0;
+            cell.signerType = [personDict valueForKey:kRBRecipientType] ? [[personDict valueForKey:kRBRecipientType] intValue] : 0;
             cell.idcheck = [personDict valueForKey:kRBRecipientIDCheck] && [[personDict valueForKey:kRBRecipientIDCheck] intValue] > 0 ? YES : NO;
             cell.detailText = [person emailForID:[personDict valueForKey:kRBRecipientEmailID]];
             cell.placeholderText = nil;
@@ -338,22 +424,52 @@
             cell.image = nil;
             cell.mainText = nil;
             cell.code = 0;
+            cell.signerType = 0;
             cell.idcheck = NO;
             cell.detailText = nil;
-            cell.placeholderText = [[self.tabs objectAtIndex:i] objectForKey:kRBFormKeyTabLabel];
+            cell.placeholderText = [[[self tabsForType:type] objectAtIndex:i] objectForKey:kRBFormKeyTabLabel];
             [cell disableAuth];
+            [cell disableTypeSelection];
         }
     }
-    self.tableView.editing = NO;
-    self.tableView.editing = YES;
+    tableView.editing = NO;
+    tableView.editing = YES;
 }
 
 - (void)cell:(RBRecipientTableViewCell *)cell changedCode:(int)code idCheck:(BOOL)idCheck {
-    int index = [self.tableView indexPathForCell:cell].row;
+    NSIndexPath *indexPath;
+    UITableView *tableView;
+    for (UITableView *tv in self.tableViews) {
+        indexPath = [tv indexPathForCell:cell];
+        if (indexPath) {
+            tableView = tv;
+            break;
+        }
+    }
+    int index = indexPath.row;
     
-    if (index < self.recipients.count) {
-        [[self.recipients objectAtIndex:index] setObject:[NSNumber numberWithInt:code] forKey:kRBRecipientCode];
-        [[self.recipients objectAtIndex:index] setObject:[NSNumber numberWithBool:idCheck] forKey:kRBRecipientIDCheck];
+    NSArray *r = [self.recipientsForTypes objectAtIndex:tableView.tag];
+    if (index < [r count]) {
+        [[r objectAtIndex:index] setObject:[NSNumber numberWithInt:code] forKey:kRBRecipientCode];
+        [[r objectAtIndex:index] setObject:[NSNumber numberWithBool:idCheck] forKey:kRBRecipientIDCheck];
+    }
+}
+
+- (void)cell:(RBRecipientTableViewCell *)cell changedSignerType:(int)type {
+    NSIndexPath *indexPath;
+    UITableView *tableView;
+    for (UITableView *tv in self.tableViews) {
+        indexPath = [tv indexPathForCell:cell];
+        if (indexPath) {
+            tableView = tv;
+            break;
+        }
+    }
+    int index = indexPath.row;
+    
+    NSArray *r = [self.recipientsForTypes objectAtIndex:tableView.tag];
+    if (index < [r count]) {
+        [[r objectAtIndex:index] setObject:[NSNumber numberWithInt:type] forKey:kRBRecipientType];
     }
 }
 
@@ -378,22 +494,45 @@
       shouldContinueAfterSelectingPerson:(ABRecordRef)person 
                                 property:(ABPropertyID)property
                               identifier:(ABMultiValueIdentifier)identifier {
+    NSString *type = [self.recipientTypes objectAtIndex:lastButtonPressed.tag];
     
     ABPerson *personWrapper = [[ABAddressBook sharedAddressBook] personWithRecordRef:person];
-    NSMutableDictionary *personDict = XMDICT($I(personWrapper.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, isInPerson ? $I(kRBRecipientTypeInPerson) : $I(kRBRecipientTypeRemote), kRBRecipientType);
+    NSMutableDictionary *personDict = XMDICT($I(personWrapper.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, $I(kRBRecipientTypeRemote), kRBRecipientType, type, kRBRecipientKind);
     
-    if ([self.recipients containsObject:personDict]) {
+    if ([self.recipients indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        if ([obj isKindOfClass:[NSDictionary class]]) {
+            if ([[obj objectForKey:kRBRecipientPersonID] intValue] == personWrapper.recordID) {
+                *stop = YES;
+                return YES;
+            }
+            ABPerson *p = [[ABAddressBook sharedAddressBook] personWithRecordID:[[obj valueForKey:kRBRecipientPersonID] intValue]];
+            if ([[p getFirstName] isEqualToString:[personWrapper getFirstName]] &&
+                [[p getLastName] isEqualToString:[personWrapper getLastName]]) {
+                *stop = YES;
+                return YES;
+            }
+            ABMultiValue *emails = [p valueForProperty:kABPersonEmailProperty];
+            for (int i = 0; i < [emails count]; i++) {
+                if ([[emails valueAtIndex:i] isEqualToStringIgnoringCase:[personWrapper emailForID:[personDict valueForKey:kRBRecipientEmailID]]]) {
+                    *stop = YES;
+                    return YES;
+                }
+            }
+        }
+        return NO;
+    }] != NSNotFound) {
         [MTApplicationDelegate showErrorMessage:@"Recipient has been added already."];
     } else {
-        [self.recipients addObject:personDict];
-        [self redrawTableData];
+        [(NSMutableArray *)[self.recipientsForTypes objectAtIndex:lastButtonPressed.tag] addObject:personDict];
+        [self redrawTableData:[self.tableViews objectAtIndex:lastButtonPressed.tag]];
     }
     
-    if (self.recipients.count >= self.maxNumberOfRecipients) {
-        self.addContactButton.enabled = NO;
-        self.addInPersonContactButton.enabled = NO;
+    if ([self recipientsForType:type].count >= [self maxNumberOfRecipientsForType:type]) {
+        lastButtonPressed.enabled = NO;
         [self.viewControllerResponder dismissModalViewControllerAnimated:YES];
-        [self.viewControllerResponder performSelector:@selector(showSuccessMessage:) withObject:@"Maximum number of recipients for this form added." afterDelay:1.5];
+        [self.viewControllerResponder performSelector:@selector(showSuccessMessage:) 
+                                           withObject:[NSString stringWithFormat:@"Maximum number of %@ signers for this form added.", [type isEqualToString:@"default"] ? @"" : type] 
+                                           afterDelay:1.5];
     }
     
     [self.viewControllerResponder dismissModalViewControllerAnimated:YES];
@@ -419,15 +558,9 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)handleAddContactPress:(id)sender {
-    if (self.recipients.count < self.maxNumberOfRecipients) {
-        isInPerson = NO;
-        [self showPeoplePicker];
-    }
-}
-
-- (void)handleAddInPersonContactPress:(id)sender {
-    if (self.recipients.count < self.maxNumberOfRecipients) {
-        isInPerson = YES;
+    lastButtonPressed = (UIButton *)sender;
+    NSString *type = [self.recipientTypes objectAtIndex:lastButtonPressed.tag];
+    if ([self recipientsForType:type].count < [self maxNumberOfRecipientsForType:type]) {
         [self showPeoplePicker];
     }
 }

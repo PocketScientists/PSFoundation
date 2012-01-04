@@ -371,7 +371,10 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     
     if (index != NSNotFound) {
         NSString *mapString = [[sectionData objectAtIndex:index] valueForKey:kRBFormKeyMapping];
-        NSArray *maps = [mapString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSMutableCharacterSet *set = [[[NSCharacterSet whitespaceAndNewlineCharacterSet] mutableCopy] autorelease];
+        [set formUnionWithCharacterSet:[NSCharacterSet punctuationCharacterSet]];
+        [set formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
+        NSArray *maps = [mapString componentsSeparatedByCharactersInSet:set];
         NSMutableArray *matches = [NSMutableArray array];
         for (NSString *map in maps) {
             if ([match containsObject:map]) {

@@ -12,21 +12,25 @@
 #import "DCRoundSwitch.h"
 #import "RBTextField.h"
 
-#define kRBSwitchOnTextValue        @"X"
+#define kRBSwitchOnTextValue        @"Y"
 #define kRBSwitchOffTextValue       @""
 
 
 static char formMappingKey;
 static char formSubtypeKey;
+static char formButtonGroupKey;
 static char formValidationRegExKey;
 static char formValidationMsgKey;
+static char formTextFormatKey;
+static char formCalculateKey;
+
 
 @implementation UIControl (RBForm)
 
 + (UIControl *)controlWithID:(NSString *)formID datatype:(NSString *)datatype size:(CGSize)size subtype:(NSString *)subtype {
     UIControl *control;
     
-    if ([datatype isEqualToString:kRBFormDataTypeCheckbox]) {
+    if ([datatype isEqualToString:kRBFormDataTypeButton]) {
 //        control = [[[DCRoundSwitch alloc] initWithFrame:(CGRect){CGPointZero, CGSizeMake(95.f,30.f)}] autorelease];
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = (CGRect){CGPointZero, CGSizeMake(36.f,36.f)};
@@ -49,7 +53,7 @@ static char formValidationMsgKey;
 - (void)configureControlUsingValue:(NSString *)value {
     if ([self isKindOfClass:[UIButton class]]) {
         UIButton *btn = (UIButton *)self;
-        btn.selected = [value isEqualToString:kRBSwitchOnTextValue];
+        btn.selected = [value boolValue];
     } else if ([self isKindOfClass:[UITextField class]]) {
         UITextField *textFieldSelf = (UITextField *)self;
         
@@ -58,7 +62,12 @@ static char formValidationMsgKey;
         textFieldSelf.font = [UIFont fontWithName:kRBFontName size:18];
         textFieldSelf.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         textFieldSelf.clearButtonMode = UITextFieldViewModeWhileEditing;
-        textFieldSelf.text = value;
+        if (textFieldSelf.formTextFormat) {
+            textFieldSelf.text = [NSString stringWithFormat:textFieldSelf.formTextFormat, value];
+        }
+        else {
+            textFieldSelf.text = value;
+        }
     }
     
     self.autoresizingMask = UIViewAutoresizingNone;
@@ -80,6 +89,14 @@ static char formValidationMsgKey;
     return [self associatedValueForKey:&formSubtypeKey];
 }
 
+- (void)setFormButtonGroup:(NSArray *)formButtonGroup {
+    [self associateValue:formButtonGroup withKey:&formButtonGroupKey];
+}
+
+- (NSArray *)formButtonGroup {
+    return [self associatedValueForKey:&formButtonGroupKey];
+}
+
 - (void)setFormValidationRegEx:(NSString *)formValidationRegEx {
     [self associateValue:formValidationRegEx withKey:&formValidationRegExKey];
 }
@@ -94,6 +111,22 @@ static char formValidationMsgKey;
 
 - (NSString *)formValidationMsg {
     return [self associatedValueForKey:&formValidationMsgKey];
+}
+
+- (void)setFormTextFormat:(NSString *)formTextFormat {
+    [self associateValue:formTextFormat withKey:&formTextFormatKey];
+}
+
+- (NSString *)formTextFormat {
+    return [self associatedValueForKey:&formTextFormatKey];
+}
+
+- (void)setFormCalculate:(NSString *)formCalculate {
+    [self associateValue:formCalculate withKey:&formCalculateKey];
+}
+
+- (NSString *)formCalculate {
+    return [self associatedValueForKey:&formCalculateKey];
 }
 
 - (NSString *)formTextValue {
@@ -113,10 +146,28 @@ static char formValidationMsgKey;
     return @"";
 }
 
+- (NSString *)formButtonGroupValue {
+    if ([self isKindOfClass:[UIButton class]] && [self.formSubtype isEqualToString:@"radio"]) {
+        for (UIControl *control in self.formButtonGroup) {
+            if (control.selected) {
+                return control.formTextValue;
+            }
+        }
+    }
+    return @"";
+}
+
 - (void)btnClicked:(id)sender 
 {
-    UIButton *btn = (UIButton *)self;
-    btn.selected = !btn.selected;
+    if ([self.formSubtype isEqualToString:@"radio"]) {
+        for (UIControl *control in self.formButtonGroup) {
+            control.selected = NO;
+        }
+        self.selected = YES;
+    }
+    else {
+        self.selected = !self.selected;
+    }
 }
 
 @end

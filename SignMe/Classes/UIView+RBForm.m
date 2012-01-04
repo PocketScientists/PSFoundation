@@ -19,6 +19,7 @@ static char formRowKey;
 static char formColumnSpanKey;
 static char formRowSpanKey;
 static char formSizeKey;
+static char formAlignmentKey;
 
 
 @implementation UIView (RBForm)
@@ -101,6 +102,14 @@ static char formSizeKey;
 
 - (CGFloat)formSize {
     return [[self associatedValueForKey:&formSizeKey] floatValue];
+}
+
+- (void)setFormAlignment:(NSString *)formAlignment {
+    [self associateValue:formAlignment withKey:&formAlignmentKey];
+}
+
+- (NSString *)formAlignment {
+    return [self associatedValueForKey:&formAlignmentKey];
 }
 
 @end

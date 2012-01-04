@@ -19,13 +19,16 @@ static UIFont *placeholderTextFont = nil;
 @interface RBRecipientTableViewCell()
 @property (nonatomic, retain) UIButton *codeBtn;
 @property (nonatomic, retain) UIButton *idBtn;
+@property (nonatomic, retain) UIButton *signerTypeBtn;
 
 - (void)changeCode:(UIButton *)button;
 - (void)changeIDAuth:(UIButton *)button;
+- (void)changeSignerType:(UIButton *)button;
 @end
 
 @implementation RBRecipientTableViewCell
 
+@synthesize signerTypeBtn;
 @synthesize codeBtn;
 @synthesize idBtn;
 @synthesize image = image_;
@@ -34,6 +37,7 @@ static UIFont *placeholderTextFont = nil;
 @synthesize placeholderText = placeholderText_;
 @synthesize code = code_;
 @synthesize idcheck = idcheck_;
+@synthesize signerType = signerType_;
 @synthesize delegate;
 
 
@@ -73,7 +77,7 @@ static UIFont *placeholderTextFont = nil;
         [codeBtn setImage:[UIImage imageNamed:@"Code"] forState:UIControlStateNormal];
         [codeBtn setImage:[UIImage imageNamed:@"CodeSelected"] forState:UIControlStateSelected];
         [codeBtn addTarget:self action:@selector(changeCode:) forControlEvents:UIControlEventTouchUpInside];
-        codeBtn.frame = CGRectMake(self.frameWidth - size.width - 50, 7, size.width, size.height);
+        codeBtn.frame = CGRectMake(self.frameWidth - size.width - 95, 9, size.width, size.height);
         codeBtn.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         codeBtn.hidden = YES;
         [self addSubview:codeBtn];
@@ -83,10 +87,21 @@ static UIFont *placeholderTextFont = nil;
         [idBtn setImage:[UIImage imageNamed:@"IDCard"] forState:UIControlStateNormal];
         [idBtn setImage:[UIImage imageNamed:@"IDCardSelected"] forState:UIControlStateSelected];
         [idBtn addTarget:self action:@selector(changeIDAuth:) forControlEvents:UIControlEventTouchUpInside];
-        idBtn.frame = CGRectMake(self.frameWidth - size.width - 90, 12, size.width, size.height);
+        idBtn.frame = CGRectMake(self.frameWidth - size.width - 95, 12, size.width, size.height);
         idBtn.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         idBtn.hidden = YES;
         [self addSubview:idBtn];
+
+        self.signerTypeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        size = CGSizeMake(40.f, 34.f);
+        signerTypeBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [signerTypeBtn setImage:[UIImage imageNamed:@"RemoteSigner"] forState:UIControlStateNormal];
+        [signerTypeBtn setImage:[UIImage imageNamed:@"InPersonSigner"] forState:UIControlStateSelected];
+        [signerTypeBtn addTarget:self action:@selector(changeSignerType:) forControlEvents:UIControlEventTouchUpInside];
+        signerTypeBtn.frame = CGRectMake(self.frameWidth - size.width - 45, 5, size.width, size.height);
+        signerTypeBtn.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        signerTypeBtn.hidden = YES;
+        [self addSubview:signerTypeBtn];
     }
     
     return self;
@@ -99,6 +114,7 @@ static UIFont *placeholderTextFont = nil;
     MCRelease(placeholderText_);
     MCRelease(codeBtn);
     MCRelease(idBtn);
+    MCRelease(signerTypeBtn);
     
     [super dealloc];
 }
@@ -165,8 +181,20 @@ static UIFont *placeholderTextFont = nil;
     }
 }
 
+- (void)setSignerType:(int)signerType {
+    signerType_ = signerType;
+    if (signerType_ > 0) {
+        signerTypeBtn.selected = YES;
+        [self disableAuth];
+    }
+    else {
+        signerTypeBtn.selected = NO;
+        [self enableAuth];
+    }
+}
+
 - (void)enableAuth {
-    idBtn.hidden = NO;
+    //idBtn.hidden = NO;
     codeBtn.hidden = NO;
 }
 
@@ -177,11 +205,22 @@ static UIFont *placeholderTextFont = nil;
 }
 
 
+- (void)enableTypeSelection {
+    signerTypeBtn.hidden = NO;
+}
+
+
+- (void)disableTypeSelection {
+    signerTypeBtn.hidden = YES;
+    [self disableAuth];
+}
+
+
 - (void)changeCode:(UIButton *)button {
     button.selected = !button.selected;
     if (button.selected) {
         code_ = 1000 + arc4random_uniform(9000);
-        PSAlertView *alertView = [PSAlertView alertWithTitle:@"Access Code" message:[NSString stringWithFormat:@"Please tell %@ this access code:\n%d", self.mainText ? self.mainText : @"the signer", self.code]];
+        PSAlertView *alertView = [PSAlertView alertWithTitle:@"Access Code" message:[NSString stringWithFormat:@"%@ will retrieve access code\"%d\" via phone authentication.", self.mainText ? self.mainText : @"The signer", self.code]];
         [alertView addButtonWithTitle:@"Ok" block:nil];
         [alertView show];
     }
@@ -200,6 +239,17 @@ static UIFont *placeholderTextFont = nil;
     
     if (delegate && [delegate respondsToSelector:@selector(cell:changedCode:idCheck:)]) {
         [delegate cell:self changedCode:self.code idCheck:self.idcheck];
+    }
+}
+
+- (void)changeSignerType:(UIButton *)button {
+    button.selected = !button.selected;
+    self.signerType = button.selected ? kRBRecipientTypeInPerson : kRBRecipientTypeRemote;
+    if (self.signerType == kRBRecipientTypeInPerson) {
+        self.code = 0;
+    }
+    if (delegate && [delegate respondsToSelector:@selector(cell:changedSignerType:)]) {
+        [delegate cell:self changedSignerType:self.signerType];
     }
 }
 

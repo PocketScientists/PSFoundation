@@ -139,14 +139,19 @@
     }
     
     // Add input fields
-    int i = 100;
+//    int i = 100;
+//    first = 100;
+//    last = [RBMusketeer propertyNamesForMapping].count + 99;
+//    for (NSString *property in [RBMusketeer propertyNamesForMapping]) {
+//        [self addInputFieldWithLabel:property index:i];
+//        i++;
+//    }
     first = 100;
-    last = [RBMusketeer propertyNamesForMapping].count + 99;
-    for (NSString *property in [RBMusketeer propertyNamesForMapping]) {
-        [self addInputFieldWithLabel:property index:i];
-        i++;
-    }
-        
+    last = 102;
+    [self addInputFieldWithLabel:@"firstname" index:100];
+    [self addInputFieldWithLabel:@"lastname" index:101];
+    [self addInputFieldWithLabel:@"email" index:102];
+    
     self.navToolbar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 1024, 44)] autorelease];
     self.navToolbar.barStyle = UIBarStyleBlack;
     UIBarButtonItem *prevItem = [[[UIBarButtonItem alloc] initWithTitle:@"Prev" style:UIBarButtonItemStyleBordered target:self action:@selector(gotoPrevField:)] autorelease];
@@ -254,6 +259,9 @@
             [pickerView selectRow:i inComponent:0 animated:NO];
         }
     }
+    else if ([label isEqualToString:@"zip"]) {
+        textField.keyboardType = UIKeyboardTypeNumberPad;
+    }
     
     [self.view addSubview:fieldLabel];
     [self.view addSubview:textField];
@@ -286,6 +294,10 @@
         ((UIBarButtonItem *)[self.navToolbar.items objectAtIndex:1]).enabled = YES;
     }
     [textField setInputAccessoryView:self.navToolbar];
+
+    if ([textField.text length] == 0 && [textField.inputView isKindOfClass:[UIPickerView class]]) {
+        textField.text = [self.states objectAtIndex:0];
+    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -309,12 +321,17 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    [self performBlock:^{
-        textField.text = [textField.text titlecaseString];
-    } afterDelay:0];
+    if (textField.tag != 102) {
+        [self performBlock:^{
+            textField.text = [textField.text titlecaseString];
+        } afterDelay:0];
+    }
     return YES;
 }
 
+- (BOOL)disablesAutomaticKeyboardDismissal {
+    return NO;
+}
 
 #pragma mark - picker datasource
 

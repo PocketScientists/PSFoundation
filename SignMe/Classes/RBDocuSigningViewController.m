@@ -80,6 +80,9 @@
 
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if ([request.URL.query containsString:@"showdoc=true"]) {
+        return NO;
+    }
     if ([request.URL.host isEqualToString:@"localhost"]) {
         [self dismissModalViewControllerAnimated:YES];
         NSString *p = request.URL.pathComponents.count > 1 ? [request.URL.pathComponents objectAtIndex:1] : nil;

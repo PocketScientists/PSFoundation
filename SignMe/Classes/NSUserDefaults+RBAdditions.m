@@ -13,10 +13,46 @@
 
 + (void)initialize {
     if (self == [NSUserDefaults class]) {
-        // Setting Defaults for Settings
-        NSDictionary *appDefaults = XDICT($B(NO), kRBSettingsBoxLogoutKey, $I(102367131), kRBSettingsBoxFolderIDKey);
-        [[self standardUserDefaults] registerDefaults:appDefaults];
-        [[self standardUserDefaults] synchronize];
+//        // Setting Defaults for Settings
+//        NSDictionary *appDefaults = XDICT($B(NO), kRBSettingsBoxLogoutKey, $I(162865479), kRBSettingsBoxFolderIDKey, [NSDate date], kRBSettingsDocuSignUpdateDateKey);
+//        [[self standardUserDefaults] registerDefaults:appDefaults];
+//        [[self standardUserDefaults] synchronize];
+
+        NSUserDefaults *standardUserDefaults = [self standardUserDefaults];
+        NSString *val = nil;
+        
+        if (standardUserDefaults) 
+            val = [standardUserDefaults objectForKey:kRBSettingsBoxFolderIDKey];
+        
+        // TODO: / apparent Apple bug: if user hasn't opened Settings for this app yet (as if?!), then
+        // the defaults haven't been copied in yet.  So do so here.  Adds another null check
+        // for every retrieve, but should only trip the first time
+        if (val == nil) { 
+            NSLog(@"user defaults may not have been loaded from Settings.bundle ... doing that now ...");
+            //Get the bundle path
+            NSString *bPath = [[NSBundle mainBundle] bundlePath];
+            NSString *settingsPath = [bPath stringByAppendingPathComponent:@"Settings.bundle"];
+            NSString *plistFile = [settingsPath stringByAppendingPathComponent:@"Root.plist"];
+            
+            //Get the Preferences Array from the dictionary
+            NSDictionary *settingsDictionary = [NSDictionary dictionaryWithContentsOfFile:plistFile];
+            NSArray *preferencesArray = [settingsDictionary objectForKey:@"PreferenceSpecifiers"];
+            
+            //Loop through the array
+            NSDictionary *item;
+            for(item in preferencesArray) {
+                //Get the key of the item.
+                NSString *keyValue = [item objectForKey:@"Key"];
+                
+                //Get the default value specified in the plist file.
+                id defaultValue = [item objectForKey:@"DefaultValue"];
+                
+                if (keyValue && defaultValue) {				
+                    [standardUserDefaults setObject:defaultValue forKey:keyValue];
+                }
+            }
+            [standardUserDefaults synchronize];
+        }
     }
 }
 
@@ -69,6 +105,39 @@
 - (NSString *)docuSignPassword {
     return [self stringForKey:kRBSettingsDocuSignPasswordKey];
 }
+
+- (void)setDocuSignUpdateDate:(NSDate *)docuSignUpdateDate {
+    [self setObject:docuSignUpdateDate forKey:kRBSettingsDocuSignUpdateDateKey];
+    [self synchronize];
+}
+
+- (NSDate *)docuSignUpdateDate {
+    NSDate *updateDate = [self objectForKey:kRBSettingsDocuSignUpdateDateKey];
+    if (updateDate == nil) {
+        updateDate = [NSDate dateWithDaysBeforeNow:7];
+    }
+    return updateDate;
+}
+
+- (void)setBoxUserName:(NSString *)boxUserName {
+    [self setObject:boxUserName forKey:kRBSettingsBoxUsernameKey];
+    [self synchronize];
+}
+
+- (NSString *)boxUserName {
+    return [self stringForKey:kRBSettingsBoxUsernameKey];
+}
+
+- (void)setBoxPassword:(NSString *)boxPassword {
+    [self setObject:boxPassword forKey:kRBSettingsBoxPasswordKey];
+    [self synchronize];
+}
+
+- (NSString *)boxPassword {
+    return [self stringForKey:kRBSettingsBoxPasswordKey];
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

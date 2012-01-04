@@ -9,6 +9,7 @@
 #import "RBPDFWriter.h"
 #import <CoreText/CoreText.h>
 
+
 @implementation RBPDFWriter
 
 @synthesize font;
@@ -70,27 +71,99 @@
                 CGPDFDictionaryRef field;
                 CGPDFArrayGetDictionary(annots, i, &field);
                 
+                // Check if the annotation is a widget otherwise we ignore it
+                const char *subtype = NULL;
+                CGPDFDictionaryGetName(field, "Subtype", &subtype);
+                if (subtype == NULL || strcmp(subtype, "Widget") != 0) {
+                    continue;
+                }
+
+                // retrieve the data type
+                CGPDFArrayRef rectArr;
+                const char *datatype = NULL;
+                const char *btnType = NULL;
+                const char *btnValue = NULL;
+                CGPDFDictionaryGetName(field, "FT", &datatype);
+                if (datatype == NULL) {
+                    // this might be a radio button. Check for a parent object
+                    CGPDFObjectRef parent = NULL;
+                    CGPDFDictionaryRef parentType;
+                    
+                    if (!CGPDFDictionaryGetObject(field, "Parent", &parent)) continue;
+                    if (!CGPDFObjectGetValue(parent, kCGPDFObjectTypeDictionary, &parentType)) continue;
+                    if (!CGPDFDictionaryGetName(parentType, "FT", &datatype)) continue;
+                    
+                    if (strcmp(datatype, "Btn") == 0) {
+                        CGPDFInteger btnFlags;
+                        if (!CGPDFDictionaryGetInteger(parentType, "Ff", &btnFlags)) continue;
+                        if (btnFlags & kPDFRadioButton) {
+                            btnType = "radio";
+                            CGPDFDictionaryRef radioDict = NULL;
+                            CGPDFDictionaryGetDictionary(field, "AP", &radioDict);
+                            CGPDFDictionaryGetDictionary(radioDict, "N", &radioDict);
+                            CGPDFDictionaryApplyFunction(radioDict, GetButtonStateName, &btnValue);
+                        }
+                        else if (btnFlags & kPDFPushButton) {
+                            btnType = "push";
+                        }
+                        else {
+                            btnType = "unknown";
+                        }
+                        
+                        CGPDFDictionaryGetArray(field, "Rect", &rectArr);
+                        // change or field to the parent field for further processing
+                        field = parentType;
+                    }
+                    else {
+                        continue;
+                    }
+                }
+                else if (strcmp(datatype, "Btn") == 0) {
+                    CGPDFInteger btnFlags = 0;
+                    CGPDFDictionaryGetInteger(field, "Ff", &btnFlags);
+                    if (btnFlags == 0 || (!(btnFlags & kPDFRadioButton) && !(btnFlags & kPDFPushButton))) {
+                        btnType = "checkbox";
+                        CGPDFDictionaryRef radioDict = NULL;
+                        CGPDFDictionaryGetDictionary(field, "AP", &radioDict);
+                        CGPDFDictionaryGetDictionary(radioDict, "N", &radioDict);
+                        CGPDFDictionaryApplyFunction(radioDict, GetButtonStateName, &btnValue);
+                    }
+                    else {
+                        btnType = "unknown";
+                    }
+                    CGPDFDictionaryGetArray(field, "Rect", &rectArr);
+                }
+                else {
+                    CGPDFDictionaryGetArray(field, "Rect", &rectArr);
+                }
+
                 // retrieve the field name
                 CGPDFStringRef name;
-                CGPDFDictionaryGetString(field, "T", &name);
+                NSString *idString;
+                if (!CGPDFDictionaryGetString(field, "T", &name)) continue;
                 CFStringRef nameString = CGPDFStringCopyTextString(name);
-                
-                // retreive the data type
-                const char *datatype;
-                CGPDFDictionaryGetName(field, "FT", &datatype);
+                if (strcmp(datatype, "Btn") == 0 && strcmp(btnType, "radio") == 0) {
+                    idString = [NSString stringWithFormat:@"%@ %s", nameString, btnValue];
+                }
+                else {
+                    idString = (NSString *)nameString;
+                }
                 
                 // write the form data
-                NSString *text = [formData objectForKey:(NSString *)nameString];
+                NSString *text = [formData objectForKey:(NSString *)idString];
+                if (strcmp(datatype, "Btn") == 0) {
+                    text = [text boolValue] ? @"X" : @"";
+                }
                 
                 if (text) {
                     // retrieve the field's rectangle
-                    CGPDFArrayRef rectArr;
-                    CGPDFDictionaryGetArray(field, "Rect", &rectArr);
                     CGRect rect;
                     CGPDFArrayGetNumber(rectArr, 0, &rect.origin.x);
                     CGPDFArrayGetNumber(rectArr, 1, &rect.origin.y);
                     CGPDFArrayGetNumber(rectArr, 2, &rect.size.width);
                     CGPDFArrayGetNumber(rectArr, 3, &rect.size.height);
+                    rect.size.width -= rect.origin.x;
+                    rect.size.height -= rect.origin.y;
                     
                     CTFontRef ctFont = CTFontCreateWithName((CFStringRef)self.font.fontName, self.font.pointSize, NULL);
                     NSDictionary *attributesDict = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -99,7 +172,8 @@
                     
                     NSMutableAttributedString *aStr = [[NSMutableAttributedString alloc] initWithString:text attributes:attributesDict];
                     CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)aStr);
-                    CGContextSetTextPosition(pdfContext, rect.origin.x, rect.origin.y); 
+                    CGRect lineRect = CTLineGetImageBounds(line, pdfContext);
+                    CGContextSetTextPosition(pdfContext, rect.origin.x + 5, rect.origin.y + (rect.size.height - lineRect.size.height)/2); 
                     CTLineDraw(line, pdfContext);
                     CFRelease(line);
                     [aStr release];

@@ -14,6 +14,7 @@
 #import "RBKeyboardAvoidingScrollView.h"
 #import "RBUIGenerator.h"
 #import "VCTitleCase.h"
+#import "AppDelegate.h"
 
 
 #define kRBRowHeight    30
@@ -190,6 +191,12 @@
 }
 
 - (void)handleDoneButtonPress:(id)sender {
+    for (UITextField *textField in self.mappingTextFields) {
+        if ([textField.text length] == 0) {
+            [MTApplicationDelegate showErrorMessage:@"Please fill in all form fields!"];
+            return;
+        }
+    }
     [self saveEnteredValuesToClient];
     
     [self dismissModalViewControllerAnimated:YES];
@@ -257,6 +264,9 @@
             [pickerView selectRow:i inComponent:0 animated:NO];
         }
     }
+    else if ([label isEqualToString:@"zip"]) {
+        textField.keyboardType = UIKeyboardTypeNumberPad;
+    }
     
     [self.view addSubview:fieldLabel];
     [self.view addSubview:textField];
@@ -289,6 +299,10 @@
         ((UIBarButtonItem *)[self.navToolbar.items objectAtIndex:1]).enabled = YES;
     }
     [textField setInputAccessoryView:self.navToolbar];
+    
+    if ([textField.text length] == 0 && [textField.inputView isKindOfClass:[UIPickerView class]]) {
+        textField.text = [self.states objectAtIndex:0];
+    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -316,6 +330,10 @@
         textField.text = [textField.text titlecaseString];
     } afterDelay:0];
     return YES;
+}
+
+- (BOOL)disablesAutomaticKeyboardDismissal {
+    return NO;
 }
 
 #pragma mark - picker datasource

@@ -69,8 +69,8 @@
         CGFloat maxLabelWidth = 0.0f;
         for (UILabel *label in labels) {
             if ([label.formDatatype isEqualToString:kRBFormDataTypeLabel] || label.text == nil || label.text.length == 0) continue;
-            if (label.formColumn == i && label.formColumnSpan == 1) {
-                CGFloat lWidth = [label.text sizeWithFont:label.font].width;
+            if (label.formColumnSpan >= 1 && (label.formColumn <= i && i < label.formColumn + label.formColumnSpan)) {
+                CGFloat lWidth = [label.text sizeWithFont:label.font].width / label.formColumnSpan;
                 maxLabelWidth = MAX(maxLabelWidth, lWidth);
             }
         }
@@ -139,6 +139,11 @@
             
             // width
             r.size.width = floorf([[columnWidths objectAtIndex:label.formColumn] floatValue] - [[columnLabelWidths objectAtIndex:label.formColumn] floatValue] - kRBInputFieldPadding);
+            for (int i = 1; i < label.formColumnSpan; i++) {
+                if (label.formColumn + i < [columnWidths count]) {
+                    r.size.width += [[columnWidths objectAtIndex:label.formColumn+i] floatValue] + kRBColPadding;
+                }
+            }
         }
         else {
             // x
@@ -152,7 +157,10 @@
             for (int i = 0; i < label.formColumnSpan-1; i++) {
                 r.size.width += [[columnWidths objectAtIndex:label.formColumn+i] floatValue] + kRBColPadding;
             }
-            r.size.width += [[columnLabelWidths objectAtIndex:label.formColumn+label.formColumnSpan-1] floatValue];
+            int spanIndex = label.formColumn+label.formColumnSpan-1;
+            if (spanIndex >= 0 && spanIndex < [columnLabelWidths count]) {
+                r.size.width += [[columnLabelWidths objectAtIndex:spanIndex] floatValue];
+            }
             r.size.width = floorf(r.size.width);
         }
         
@@ -178,16 +186,21 @@
     UIView *field = [self.fields objectAtIndex:index];
     if (field && ![field.formDatatype isEqualToString:kRBFormDataTypeLabel]) {
         // x
+        int colIndex = field.formColumn + field.formColumnSpan - 1;
         r.origin.x = formOrigin.x;
-        for (int i = 0; i < field.formColumn; i++) {
+        for (int i = 0; i < colIndex; i++) {
             r.origin.x += [[columnWidths objectAtIndex:i] floatValue] + kRBColPadding;
         }
-        r.origin.x += [[columnLabelWidths objectAtIndex:field.formColumn] floatValue] + kRBInputFieldPadding;
+        r.origin.x += [[columnLabelWidths objectAtIndex:colIndex] floatValue] + kRBInputFieldPadding;
         r.origin.x = floorf(r.origin.x);
         
         // width
-        r.size.width = floorf(([[columnWidths objectAtIndex:field.formColumn] floatValue] - [[columnLabelWidths objectAtIndex:field.formColumn] floatValue])*field.formSize - kRBInputFieldPadding);
-        
+        if ([field.formDatatype isEqualToString:kRBFormDataTypeButton]) {
+            r.size.width = 36.0f;
+        }
+        else {
+            r.size.width = floorf(([[columnWidths objectAtIndex:colIndex] floatValue] - [[columnLabelWidths objectAtIndex:colIndex] floatValue])*field.formSize - kRBInputFieldPadding);
+        }
         // y
         r.origin.y = formOrigin.y + field.formRow * (kRBRowHeight + kRBRowPadding);
         if (self.sectionHeader) {

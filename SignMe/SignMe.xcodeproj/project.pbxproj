@@ -124,8 +124,32 @@
 		A9082659145F9909006249DE /* CodeSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = A9082655145F9904006249DE /* CodeSelected.png */; };
 		A908265A145F9909006249DE /* IDCard.png in Resources */ = {isa = PBXBuildFile; fileRef = A9082656145F9906006249DE /* IDCard.png */; };
 		A908265B145F9909006249DE /* IDCardSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = A9082657145F9908006249DE /* IDCardSelected.png */; };
+		A90913E314847630006CA234 /* _DDFunctionContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913B714847630006CA234 /* _DDFunctionContainer.m */; };
+		A90913E414847630006CA234 /* _DDFunctionExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913B914847630006CA234 /* _DDFunctionExpression.m */; };
+		A90913E514847630006CA234 /* _DDFunctionTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913BB14847630006CA234 /* _DDFunctionTerm.m */; };
+		A90913E614847630006CA234 /* _DDFunctionUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913BD14847630006CA234 /* _DDFunctionUtilities.m */; };
+		A90913E714847630006CA234 /* _DDGroupTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913BF14847630006CA234 /* _DDGroupTerm.m */; };
+		A90913E814847630006CA234 /* _DDNumberExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913C114847630006CA234 /* _DDNumberExpression.m */; };
+		A90913E914847630006CA234 /* _DDNumberTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913C314847630006CA234 /* _DDNumberTerm.m */; };
+		A90913EA14847630006CA234 /* _DDOperatorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913C514847630006CA234 /* _DDOperatorInfo.m */; };
+		A90913EB14847630006CA234 /* _DDOperatorTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913C714847630006CA234 /* _DDOperatorTerm.m */; };
+		A90913EC14847630006CA234 /* _DDParserTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913C914847630006CA234 /* _DDParserTerm.m */; };
+		A90913ED14847630006CA234 /* _DDRewriteRule.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913CB14847630006CA234 /* _DDRewriteRule.m */; };
+		A90913EE14847630006CA234 /* _DDVariableExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913CD14847630006CA234 /* _DDVariableExpression.m */; };
+		A90913EF14847630006CA234 /* _DDVariableTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913CF14847630006CA234 /* _DDVariableTerm.m */; };
+		A90913F014847630006CA234 /* DDExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913D114847630006CA234 /* DDExpression.m */; };
+		A90913F114847630006CA234 /* DDMathEvaluator.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913D414847630006CA234 /* DDMathEvaluator.m */; };
+		A90913F214847630006CA234 /* DDMathStringToken.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913D814847630006CA234 /* DDMathStringToken.m */; };
+		A90913F314847630006CA234 /* DDMathStringTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913DA14847630006CA234 /* DDMathStringTokenizer.m */; };
+		A90913F414847630006CA234 /* DDParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913DC14847630006CA234 /* DDParser.m */; };
+		A90913F514847630006CA234 /* DDParserTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913DE14847630006CA234 /* DDParserTypes.m */; };
+		A90913F614847630006CA234 /* DDTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913E014847630006CA234 /* DDTypes.m */; };
+		A90913F714847630006CA234 /* NSString+DDMathParsing.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913E214847630006CA234 /* NSString+DDMathParsing.m */; };
 		A948733F141DFAFF00B0E038 /* UIView+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = A948733E141DFAFF00B0E038 /* UIView+RBForm.m */; };
 		A94873A4141F7CAA00B0E038 /* RBDocuSigningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A94873A3141F7CAA00B0E038 /* RBDocuSigningViewController.m */; };
+		A94D227E1483F6650077723B /* InPersonSigner.png in Resources */ = {isa = PBXBuildFile; fileRef = A94D227C1483F6650077723B /* InPersonSigner.png */; };
+		A94D227F1483F6650077723B /* RemoteSigner.png in Resources */ = {isa = PBXBuildFile; fileRef = A94D227D1483F6650077723B /* RemoteSigner.png */; };
+		A94D22811483FF8C0077723B /* FinalizeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A94D22801483FF8C0077723B /* FinalizeButton.png */; };
 		A96DF31D144F030900E919E2 /* libDocuSign.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 394B916313D64924007BFF2E /* libDocuSign.a */; };
 		A96DF320144F0D0D00E919E2 /* DocuSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21913E1DB7B00CD4F6C /* DocuSign.framework */; };
 		A96DF4281452B65300E919E2 /* RBFormLayoutData.m in Sources */ = {isa = PBXBuildFile; fileRef = A96DF4271452B65200E919E2 /* RBFormLayoutData.m */; };
@@ -136,6 +160,7 @@
 		A9B49265144CE6BB002F1D02 /* RBMusketeerEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B49264144CE6BB002F1D02 /* RBMusketeerEditViewController.m */; };
 		A9B49268144CE7FB002F1D02 /* RBMusketeer.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B49267144CE7FB002F1D02 /* RBMusketeer.m */; };
 		A9B4926B144CE976002F1D02 /* RBMusketeer+RBProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B4926A144CE975002F1D02 /* RBMusketeer+RBProperties.m */; };
+		A9B9367614B3E1E100C9A51B /* TextFieldBackgroundDisabled.png in Resources */ = {isa = PBXBuildFile; fileRef = A9B9367514B3E1E100C9A51B /* TextFieldBackgroundDisabled.png */; };
 		A9D7A63114636F460004C38A /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D7A62D14636F460004C38A /* RegexKitLite.m */; };
 /* End PBXBuildFile section */
 
@@ -444,10 +469,58 @@
 		A9082655145F9904006249DE /* CodeSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CodeSelected.png; path = Images/CodeSelected.png; sourceTree = "<group>"; };
 		A9082656145F9906006249DE /* IDCard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IDCard.png; path = Images/IDCard.png; sourceTree = "<group>"; };
 		A9082657145F9908006249DE /* IDCardSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IDCardSelected.png; path = Images/IDCardSelected.png; sourceTree = "<group>"; };
+		A90913B614847630006CA234 /* _DDFunctionContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DDFunctionContainer.h; sourceTree = "<group>"; };
+		A90913B714847630006CA234 /* _DDFunctionContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DDFunctionContainer.m; sourceTree = "<group>"; };
+		A90913B814847630006CA234 /* _DDFunctionExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DDFunctionExpression.h; sourceTree = "<group>"; };
+		A90913B914847630006CA234 /* _DDFunctionExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DDFunctionExpression.m; sourceTree = "<group>"; };
+		A90913BA14847630006CA234 /* _DDFunctionTerm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DDFunctionTerm.h; sourceTree = "<group>"; };
+		A90913BB14847630006CA234 /* _DDFunctionTerm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DDFunctionTerm.m; sourceTree = "<group>"; };
+		A90913BC14847630006CA234 /* _DDFunctionUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DDFunctionUtilities.h; sourceTree = "<group>"; };
+		A90913BD14847630006CA234 /* _DDFunctionUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DDFunctionUtilities.m; sourceTree = "<group>"; };
+		A90913BE14847630006CA234 /* _DDGroupTerm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DDGroupTerm.h; sourceTree = "<group>"; };
+		A90913BF14847630006CA234 /* _DDGroupTerm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DDGroupTerm.m; sourceTree = "<group>"; };
+		A90913C014847630006CA234 /* _DDNumberExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DDNumberExpression.h; sourceTree = "<group>"; };
+		A90913C114847630006CA234 /* _DDNumberExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DDNumberExpression.m; sourceTree = "<group>"; };
+		A90913C214847630006CA234 /* _DDNumberTerm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DDNumberTerm.h; sourceTree = "<group>"; };
+		A90913C314847630006CA234 /* _DDNumberTerm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DDNumberTerm.m; sourceTree = "<group>"; };
+		A90913C414847630006CA234 /* _DDOperatorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DDOperatorInfo.h; sourceTree = "<group>"; };
+		A90913C514847630006CA234 /* _DDOperatorInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DDOperatorInfo.m; sourceTree = "<group>"; };
+		A90913C614847630006CA234 /* _DDOperatorTerm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DDOperatorTerm.h; sourceTree = "<group>"; };
+		A90913C714847630006CA234 /* _DDOperatorTerm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DDOperatorTerm.m; sourceTree = "<group>"; };
+		A90913C814847630006CA234 /* _DDParserTerm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DDParserTerm.h; sourceTree = "<group>"; };
+		A90913C914847630006CA234 /* _DDParserTerm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DDParserTerm.m; sourceTree = "<group>"; };
+		A90913CA14847630006CA234 /* _DDRewriteRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DDRewriteRule.h; sourceTree = "<group>"; };
+		A90913CB14847630006CA234 /* _DDRewriteRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DDRewriteRule.m; sourceTree = "<group>"; };
+		A90913CC14847630006CA234 /* _DDVariableExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DDVariableExpression.h; sourceTree = "<group>"; };
+		A90913CD14847630006CA234 /* _DDVariableExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DDVariableExpression.m; sourceTree = "<group>"; };
+		A90913CE14847630006CA234 /* _DDVariableTerm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DDVariableTerm.h; sourceTree = "<group>"; };
+		A90913CF14847630006CA234 /* _DDVariableTerm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DDVariableTerm.m; sourceTree = "<group>"; };
+		A90913D014847630006CA234 /* DDExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDExpression.h; sourceTree = "<group>"; };
+		A90913D114847630006CA234 /* DDExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDExpression.m; sourceTree = "<group>"; };
+		A90913D214847630006CA234 /* DDMathEvaluator+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DDMathEvaluator+Private.h"; sourceTree = "<group>"; };
+		A90913D314847630006CA234 /* DDMathEvaluator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDMathEvaluator.h; sourceTree = "<group>"; };
+		A90913D414847630006CA234 /* DDMathEvaluator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDMathEvaluator.m; sourceTree = "<group>"; };
+		A90913D514847630006CA234 /* DDMathParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDMathParser.h; sourceTree = "<group>"; };
+		A90913D614847630006CA234 /* DDMathParserMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDMathParserMacros.h; sourceTree = "<group>"; };
+		A90913D714847630006CA234 /* DDMathStringToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDMathStringToken.h; sourceTree = "<group>"; };
+		A90913D814847630006CA234 /* DDMathStringToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDMathStringToken.m; sourceTree = "<group>"; };
+		A90913D914847630006CA234 /* DDMathStringTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDMathStringTokenizer.h; sourceTree = "<group>"; };
+		A90913DA14847630006CA234 /* DDMathStringTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDMathStringTokenizer.m; sourceTree = "<group>"; };
+		A90913DB14847630006CA234 /* DDParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDParser.h; sourceTree = "<group>"; };
+		A90913DC14847630006CA234 /* DDParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDParser.m; sourceTree = "<group>"; };
+		A90913DD14847630006CA234 /* DDParserTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDParserTypes.h; sourceTree = "<group>"; };
+		A90913DE14847630006CA234 /* DDParserTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDParserTypes.m; sourceTree = "<group>"; };
+		A90913DF14847630006CA234 /* DDTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTypes.h; sourceTree = "<group>"; };
+		A90913E014847630006CA234 /* DDTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTypes.m; sourceTree = "<group>"; };
+		A90913E114847630006CA234 /* NSString+DDMathParsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DDMathParsing.h"; sourceTree = "<group>"; };
+		A90913E214847630006CA234 /* NSString+DDMathParsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+DDMathParsing.m"; sourceTree = "<group>"; };
 		A948733D141DFAFF00B0E038 /* UIView+RBForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RBForm.h"; sourceTree = "<group>"; };
 		A948733E141DFAFF00B0E038 /* UIView+RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RBForm.m"; sourceTree = "<group>"; };
 		A94873A2141F7CAA00B0E038 /* RBDocuSigningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDocuSigningViewController.h; sourceTree = "<group>"; };
 		A94873A3141F7CAA00B0E038 /* RBDocuSigningViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDocuSigningViewController.m; sourceTree = "<group>"; };
+		A94D227C1483F6650077723B /* InPersonSigner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InPersonSigner.png; path = Images/InPersonSigner.png; sourceTree = "<group>"; };
+		A94D227D1483F6650077723B /* RemoteSigner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RemoteSigner.png; path = Images/RemoteSigner.png; sourceTree = "<group>"; };
+		A94D22801483FF8C0077723B /* FinalizeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FinalizeButton.png; path = Images/FinalizeButton.png; sourceTree = "<group>"; };
 		A96DF4261452B65200E919E2 /* RBFormLayoutData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFormLayoutData.h; sourceTree = "<group>"; };
 		A96DF4271452B65200E919E2 /* RBFormLayoutData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFormLayoutData.m; sourceTree = "<group>"; };
 		A97FAC1A13ED7C590083EFC1 /* TextFieldBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TextFieldBackground.png; path = Images/TextFieldBackground.png; sourceTree = "<group>"; };
@@ -461,6 +534,7 @@
 		A9B49267144CE7FB002F1D02 /* RBMusketeer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBMusketeer.m; sourceTree = "<group>"; };
 		A9B49269144CE975002F1D02 /* RBMusketeer+RBProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RBMusketeer+RBProperties.h"; sourceTree = "<group>"; };
 		A9B4926A144CE975002F1D02 /* RBMusketeer+RBProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RBMusketeer+RBProperties.m"; sourceTree = "<group>"; };
+		A9B9367514B3E1E100C9A51B /* TextFieldBackgroundDisabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TextFieldBackgroundDisabled.png; path = Images/TextFieldBackgroundDisabled.png; sourceTree = "<group>"; };
 		A9D7A62B14636F460004C38A /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		A9D7A62D14636F460004C38A /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -577,6 +651,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A90913B514847630006CA234 /* DDMathParser */,
 				A9D7A62814636F460004C38A /* regexkitlite */,
 				A9B4925E144CCE20002F1D02 /* VCTitleCase */,
 				3911A20B13E1DA9300CD4F6C /* iPhoneContacts.xcodeproj */,
@@ -736,6 +811,10 @@
 		395EEF2613D72E3C003C4DA8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A9B9367514B3E1E100C9A51B /* TextFieldBackgroundDisabled.png */,
+				A94D22801483FF8C0077723B /* FinalizeButton.png */,
+				A94D227C1483F6650077723B /* InPersonSigner.png */,
+				A94D227D1483F6650077723B /* RemoteSigner.png */,
 				A9082654145F9903006249DE /* Code.png */,
 				A9082655145F9904006249DE /* CodeSelected.png */,
 				A9082656145F9906006249DE /* IDCard.png */,
@@ -1018,6 +1097,59 @@
 			name = "asi-http-request";
 			sourceTree = "<group>";
 		};
+		A90913B514847630006CA234 /* DDMathParser */ = {
+			isa = PBXGroup;
+			children = (
+				A90913B614847630006CA234 /* _DDFunctionContainer.h */,
+				A90913B714847630006CA234 /* _DDFunctionContainer.m */,
+				A90913B814847630006CA234 /* _DDFunctionExpression.h */,
+				A90913B914847630006CA234 /* _DDFunctionExpression.m */,
+				A90913BA14847630006CA234 /* _DDFunctionTerm.h */,
+				A90913BB14847630006CA234 /* _DDFunctionTerm.m */,
+				A90913BC14847630006CA234 /* _DDFunctionUtilities.h */,
+				A90913BD14847630006CA234 /* _DDFunctionUtilities.m */,
+				A90913BE14847630006CA234 /* _DDGroupTerm.h */,
+				A90913BF14847630006CA234 /* _DDGroupTerm.m */,
+				A90913C014847630006CA234 /* _DDNumberExpression.h */,
+				A90913C114847630006CA234 /* _DDNumberExpression.m */,
+				A90913C214847630006CA234 /* _DDNumberTerm.h */,
+				A90913C314847630006CA234 /* _DDNumberTerm.m */,
+				A90913C414847630006CA234 /* _DDOperatorInfo.h */,
+				A90913C514847630006CA234 /* _DDOperatorInfo.m */,
+				A90913C614847630006CA234 /* _DDOperatorTerm.h */,
+				A90913C714847630006CA234 /* _DDOperatorTerm.m */,
+				A90913C814847630006CA234 /* _DDParserTerm.h */,
+				A90913C914847630006CA234 /* _DDParserTerm.m */,
+				A90913CA14847630006CA234 /* _DDRewriteRule.h */,
+				A90913CB14847630006CA234 /* _DDRewriteRule.m */,
+				A90913CC14847630006CA234 /* _DDVariableExpression.h */,
+				A90913CD14847630006CA234 /* _DDVariableExpression.m */,
+				A90913CE14847630006CA234 /* _DDVariableTerm.h */,
+				A90913CF14847630006CA234 /* _DDVariableTerm.m */,
+				A90913D014847630006CA234 /* DDExpression.h */,
+				A90913D114847630006CA234 /* DDExpression.m */,
+				A90913D214847630006CA234 /* DDMathEvaluator+Private.h */,
+				A90913D314847630006CA234 /* DDMathEvaluator.h */,
+				A90913D414847630006CA234 /* DDMathEvaluator.m */,
+				A90913D514847630006CA234 /* DDMathParser.h */,
+				A90913D614847630006CA234 /* DDMathParserMacros.h */,
+				A90913D714847630006CA234 /* DDMathStringToken.h */,
+				A90913D814847630006CA234 /* DDMathStringToken.m */,
+				A90913D914847630006CA234 /* DDMathStringTokenizer.h */,
+				A90913DA14847630006CA234 /* DDMathStringTokenizer.m */,
+				A90913DB14847630006CA234 /* DDParser.h */,
+				A90913DC14847630006CA234 /* DDParser.m */,
+				A90913DD14847630006CA234 /* DDParserTypes.h */,
+				A90913DE14847630006CA234 /* DDParserTypes.m */,
+				A90913DF14847630006CA234 /* DDTypes.h */,
+				A90913E014847630006CA234 /* DDTypes.m */,
+				A90913E114847630006CA234 /* NSString+DDMathParsing.h */,
+				A90913E214847630006CA234 /* NSString+DDMathParsing.m */,
+			);
+			name = DDMathParser;
+			path = ../DDMathParser/DDMathParser;
+			sourceTree = "<group>";
+		};
 		A94873A1141F7C6200B0E038 /* DocuSign */ = {
 			isa = PBXGroup;
 			children = (
@@ -1260,6 +1392,10 @@
 				A9082659145F9909006249DE /* CodeSelected.png in Resources */,
 				A908265A145F9909006249DE /* IDCard.png in Resources */,
 				A908265B145F9909006249DE /* IDCardSelected.png in Resources */,
+				A94D227E1483F6650077723B /* InPersonSigner.png in Resources */,
+				A94D227F1483F6650077723B /* RemoteSigner.png in Resources */,
+				A94D22811483FF8C0077723B /* FinalizeButton.png in Resources */,
+				A9B9367614B3E1E100C9A51B /* TextFieldBackgroundDisabled.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1351,6 +1487,27 @@
 				A9B4926B144CE976002F1D02 /* RBMusketeer+RBProperties.m in Sources */,
 				A96DF4281452B65300E919E2 /* RBFormLayoutData.m in Sources */,
 				A9D7A63114636F460004C38A /* RegexKitLite.m in Sources */,
+				A90913E314847630006CA234 /* _DDFunctionContainer.m in Sources */,
+				A90913E414847630006CA234 /* _DDFunctionExpression.m in Sources */,
+				A90913E514847630006CA234 /* _DDFunctionTerm.m in Sources */,
+				A90913E614847630006CA234 /* _DDFunctionUtilities.m in Sources */,
+				A90913E714847630006CA234 /* _DDGroupTerm.m in Sources */,
+				A90913E814847630006CA234 /* _DDNumberExpression.m in Sources */,
+				A90913E914847630006CA234 /* _DDNumberTerm.m in Sources */,
+				A90913EA14847630006CA234 /* _DDOperatorInfo.m in Sources */,
+				A90913EB14847630006CA234 /* _DDOperatorTerm.m in Sources */,
+				A90913EC14847630006CA234 /* _DDParserTerm.m in Sources */,
+				A90913ED14847630006CA234 /* _DDRewriteRule.m in Sources */,
+				A90913EE14847630006CA234 /* _DDVariableExpression.m in Sources */,
+				A90913EF14847630006CA234 /* _DDVariableTerm.m in Sources */,
+				A90913F014847630006CA234 /* DDExpression.m in Sources */,
+				A90913F114847630006CA234 /* DDMathEvaluator.m in Sources */,
+				A90913F214847630006CA234 /* DDMathStringToken.m in Sources */,
+				A90913F314847630006CA234 /* DDMathStringTokenizer.m in Sources */,
+				A90913F414847630006CA234 /* DDParser.m in Sources */,
+				A90913F514847630006CA234 /* DDParserTypes.m in Sources */,
+				A90913F614847630006CA234 /* DDTypes.m in Sources */,
+				A90913F714847630006CA234 /* NSString+DDMathParsing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1423,7 +1580,7 @@
 					"../PSFoundation/**",
 				);
 				INFOPLIST_FILE = "Build-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "Sign Me";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -1451,7 +1608,7 @@
 					"../PSFoundation/**",
 				);
 				INFOPLIST_FILE = "Build-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "Sign Me";
 				PROVISIONING_PROFILE = "E598F6C5-AEB9-4A0D-AC82-0AF15CD81CF5";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E598F6C5-AEB9-4A0D-AC82-0AF15CD81CF5";
@@ -1565,7 +1722,7 @@
 					"../external/**",
 					"../PSFoundation/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-all_load";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -1595,7 +1752,7 @@
 					"../PSFoundation/**",
 				);
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "Sign Me";
 				STRIP_INSTALLED_PRODUCT = YES;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1634,7 +1791,7 @@
 					"../external/**",
 					"../PSFoundation/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-all_load";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = iphoneos;
@@ -1673,7 +1830,7 @@
 					"../external/**",
 					"../PSFoundation/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-all_load";
 				PROVISIONING_PROFILE = "E598F6C5-AEB9-4A0D-AC82-0AF15CD81CF5";

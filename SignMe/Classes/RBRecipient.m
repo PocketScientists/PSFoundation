@@ -18,6 +18,7 @@
 @dynamic order;
 @dynamic idcheck;
 @dynamic code;
+@dynamic kind;
 @dynamic document;
 
 @end

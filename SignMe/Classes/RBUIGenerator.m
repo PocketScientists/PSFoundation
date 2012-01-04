@@ -16,6 +16,13 @@
 #import "RBMusketeer+RBProperties.h"
 #import "RBClient+RBProperties.h"
 #import "RBFormLayoutData.h"
+#import <AddressBook/AddressBook.h>
+#import "ABAddressBook.h"
+#import "ABPerson.h"
+#import "ABMultiValue.h"
+#import "ABPerson+RBMail.h"
+#import "RegexKitLite.h"
+
 
 #define kRBColPadding               30.f
 #define kRBInputFieldPadding        30.f
@@ -33,8 +40,7 @@
             subsection:(NSInteger)subsection 
                   type:(Class)type;
 
-- (UILabel *)labelWithText:(NSString *)text 
-                   fieldID:(NSString *)fieldID;
+- (UILabel *)labelWithText:(NSString *)text fieldID:(NSString *)fieldID alignment:(NSString *)alignment;
 
 - (UILabel *)titleLabelWithText:(NSString *)text;
 
@@ -60,6 +66,8 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (RBFormView *)viewWithFrame:(CGRect)frame form:(RBForm *)form client:(RBClient *)client document:(RBDocument *)document {
+    NSMutableDictionary *buttonGroups = [NSMutableDictionary dictionaryWithCapacity:5];
+    
     RBFormView *view = [[[RBFormView alloc] initWithFrame:frame form:form] autorelease];
     
     // ================ iterate over all sections ================
@@ -101,16 +109,21 @@
                 // ================ load all values for creating form fields ================
                 NSString *labelText = [form valueForKey:kRBFormKeyLabel ofField:fieldID inSection:section];
                 NSString *value = [form valueForKey:kRBFormKeyValue ofField:fieldID inSection:section];
+                NSString *textFormat = [form valueForKey:kRBFormKeyTextFormat ofField:fieldID inSection:section];
                 NSString *datatype = [form valueForKey:kRBFormKeyDatatype ofField:fieldID inSection:section];
                 CGFloat size = [[form valueForKey:kRBFormKeySize ofField:fieldID inSection:section] floatValue];
                 NSString *position = [form valueForKey:kRBFormKeyPosition ofField:fieldID inSection:section];
                 NSString *subtype = [form valueForKey:kRBFormKeySubtype ofField:fieldID inSection:section];
+                NSString *buttonGroup = [form valueForKey:kRBFormKeyButtonGroup ofField:fieldID inSection:section];
                 NSString *validationRegEx = [form valueForKey:kRBFormKeyValidationRegEx ofField:fieldID inSection:section];
                 NSString *validationMsg = [form valueForKey:kRBFormKeyValidationMsg ofField:fieldID inSection:section];
                 NSInteger col = [[form valueForKey:kRBFormKeyColumn ofField:fieldID inSection:section] intValue];
                 NSInteger row = [[form valueForKey:kRBFormKeyRow ofField:fieldID inSection:section] intValue];
                 NSInteger colspan = [[form valueForKey:kRBFormKeyColumnSpan ofField:fieldID inSection:section] intValue];
                 NSInteger rowspan = [[form valueForKey:kRBFormKeyRowSpan ofField:fieldID inSection:section] intValue];
+                NSString *alignment = [form valueForKey:kRBFormKeyAlignment ofField:fieldID inSection:section];
+                NSString *textAlignment = [form valueForKey:kRBFormKeyTextAlignment ofField:fieldID inSection:section];
+                NSString *calculate = [form valueForKey:kRBFormKeyCalculate ofField:fieldID inSection:section];
                 position = position == nil ? kRBFieldPositionBelow : position;
                 
                 // ================ match values for client if there is no value set ================
@@ -119,9 +132,12 @@
                     if (mappings) {
                         NSMutableString *val = [NSMutableString string];
                         for (int i = 0; i < mappings.count; i++) {
-                            [val appendString:[client valueForKey:[mappings objectAtIndex:i]]];
-                            if (i < mappings.count - 1) {
-                                [val appendString:@" "];
+                            NSString *mappingValue = [client valueForKey:[mappings objectAtIndex:i]];
+                            if (mappingValue) {
+                                [val appendString:mappingValue];
+                                if (i < mappings.count - 1) {
+                                    [val appendString:@" "];
+                                }
                             }
                         }
                         value = val;
@@ -153,7 +169,7 @@
                 }
                 
                 // ================ create label ================
-                UILabel *label = [self labelWithText:labelText fieldID:fieldID];
+                UILabel *label = [self labelWithText:labelText fieldID:fieldID alignment:textAlignment];
                 label.formDatatype = datatype;
                 label.formSection = section;
                 label.formSubsection = subsection;
@@ -181,6 +197,9 @@
                 inputField.formRowSpan = rowspan;
                 inputField.formValidationRegEx = validationRegEx;
                 inputField.formValidationMsg = validationMsg;
+                inputField.formAlignment = alignment;
+                inputField.formTextFormat = textFormat;
+                inputField.formCalculate = calculate;
                 
                 if ([inputField isKindOfClass:[RBTextField class]] && [subtype isEqualToString:@"list"]) {
                     NSString *listID = [form valueForKey:kRBFormKeyListID ofField:fieldID inSection:section];
@@ -194,6 +213,15 @@
                         ((RBTextField *)inputField).items = [form listForID:listID];
                     }
                 }
+                else if ([inputField isKindOfClass:[UIControl class]] && [subtype isEqualToString:@"radio"] && buttonGroup) {
+                    NSMutableArray *btnGrp = [buttonGroups objectForKey:buttonGroup];
+                    if (!btnGrp) {
+                        btnGrp = [NSMutableArray arrayWithCapacity:2];
+                        [buttonGroups setObject:btnGrp forKey:buttonGroup];
+                    }
+                    [btnGrp addObject:inputField];
+                    inputField.formButtonGroup = btnGrp;
+                }
                 
                 if (![datatype isEqualToString:kRBFormDataTypeLabel]) {
                     [view.innerScrollView addSubview:inputField];
@@ -201,21 +229,101 @@
                 [layoutData.fields addObject:inputField];
 
                 // ================ Setup chain to go from one textfield to the next ================
-                [self createNextResponderChainWithControl:inputField inView:view];
+                if (!inputField.formCalculate || [inputField.formCalculate length] == 0) {
+                    [self createNextResponderChainWithControl:inputField inView:view];
+                }
             }
+        }
+    }
+    
+    // ================ Add Calculation Evaluators ================
+    NSArray *fields = view.formControls;
+    for (UIControl *ctrl in fields) {
+        if (ctrl.formCalculate && [ctrl.formCalculate length] > 0) {
+            NSMutableDictionary *calcVarFields = [NSMutableDictionary dictionary];
+            NSArray *comps = [ctrl.formCalculate arrayOfCaptureComponentsMatchedByRegex:@"\\$([a-zA-Z_0-9]+)"];
+            for (NSArray *capGroups in comps) {
+                NSString *varName = [capGroups objectAtIndex:1];
+                for (UIControl *varField in fields) {
+                    if (varField == ctrl) continue;
+                    
+                    if ([[varField.formID stringByReplacingOccurrencesOfRegex:@"[^a-zA-Z_0-9]" withString:@""] isEqualToString:varName]) {
+                        if ([varField isKindOfClass:[UITextField class]]) {
+                            [varField addObserver:ctrl forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:@"calculate"];
+                        }
+                        else {
+                            [varField addObserver:ctrl forKeyPath:@"selected" options:NSKeyValueObservingOptionNew context:@"calculate"];
+                        }
+                        [calcVarFields setObject:varField forKey:varName];
+                    }
+                }
+            }
+            ctrl.enabled = NO;
+            ((RBTextField *)ctrl).calcVarFields = calcVarFields;
         }
     }
     
     // ================ Add RecipientsView ================
     RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*PSAppWidth(), 0.f, 1024.f, 475.f)] autorelease];
     
+    NSMutableArray *recipients = [NSMutableArray array];
+    if (document.recipients == nil || [document.recipients count] == 0) {
+        RBMusketeer *musketeer = [RBMusketeer loadEntity];
+        NSArray *people = [[ABAddressBook sharedAddressBook] allPeople];
+        ABPerson *abMusketeer = nil;
+        for (ABPerson *person in people) {
+            if ([[person getFirstName] isEqualToStringIgnoringCase:musketeer.firstname] && [[person getLastName] isEqualToStringIgnoringCase:musketeer.lastname]) {
+                abMusketeer = person;
+                break;
+            }
+        }
+        if (abMusketeer == nil) {
+            NSError *error;
+            abMusketeer = [[ABPerson alloc] init];
+            if (musketeer.firstname) {
+                [abMusketeer setValue:musketeer.firstname forProperty:kABPersonFirstNameProperty error:nil];
+            }
+            if (musketeer.lastname) {
+                [abMusketeer setValue:musketeer.lastname forProperty:kABPersonLastNameProperty error:nil];
+            }
+            [[ABAddressBook sharedAddressBook] addRecord:abMusketeer error:&error];
+            [[ABAddressBook sharedAddressBook] save:&error];
+        }
+        
+        ABMultiValue *emails = [abMusketeer valueForProperty:kABPersonEmailProperty];
+        if (emails == nil || [emails indexOfValue:musketeer.email] == (NSUInteger)-1L) {
+            NSError *error;
+            if (emails == nil) {
+                emails = [[[ABMutableMultiValue alloc] initWithPropertyType:kABPersonEmailProperty] autorelease];
+            }
+            else {
+                emails = [emails mutableCopy];
+            }
+            [(ABMutableMultiValue *)emails addValue:musketeer.email withLabel:(NSString *)kABWorkLabel identifier:nil];
+            [abMusketeer setValue:emails forProperty:kABPersonEmailProperty error:nil];
+            [[ABAddressBook sharedAddressBook] save:&error];
+            
+            emails = [abMusketeer valueForProperty:kABPersonEmailProperty];
+        }
+        ABMultiValueIdentifier identifier;
+        for (int i = 0; i < [emails count]; i++) {
+            if ([[emails valueAtIndex:i] isEqualToStringIgnoringCase:musketeer.email]) {
+                identifier = [emails identifierAtIndex:i];
+                break;
+            }
+        }
+        NSMutableDictionary *personDict = XMDICT($I(abMusketeer.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, $I(kRBRecipientTypeInPerson), kRBRecipientType, @"RB", kRBRecipientKind);
+        [recipients addObject:personDict];
+    }
+ 
     for (RBRecipient *recipient in [document.recipients allObjects]) {
-        NSMutableDictionary *dictionaryRepresentation = [[[recipient dictionaryWithValuesForKeys:XARRAY(kRBRecipientPersonID, kRBRecipientEmailID, kRBRecipientCode, kRBRecipientIDCheck, kRBRecipientType, kRBRecipientOrder)] mutableCopy] autorelease];
-        [recipientsView.recipients addObject:dictionaryRepresentation];
+        NSMutableDictionary *dictionaryRepresentation = [[[recipient dictionaryWithValuesForKeys:XARRAY(kRBRecipientPersonID, kRBRecipientEmailID, kRBRecipientCode, kRBRecipientIDCheck, kRBRecipientType, kRBRecipientOrder, kRBRecipientKind)] mutableCopy] autorelease];
+        [recipients addObject:dictionaryRepresentation];
     }
     
-    recipientsView.maxNumberOfRecipients = form.numberOfRecipients;
-    recipientsView.tabs = form.tabs;
+    recipientsView.tabs = [form tabsWithType:@"SignHere"];
+    recipientsView.maxNumberOfRecipients = [form numberOfTabsWithType:@"SignHere"];
+    recipientsView.recipients = recipients;
     recipientsView.subject = document.subject;
     recipientsView.useRoutingOrder = [document.obeyRoutingOrder boolValue];
     [view.innerScrollView addSubview:recipientsView];
@@ -319,7 +427,7 @@
 #pragma mark Private
 ////////////////////////////////////////////////////////////////////////
 
-- (UILabel *)labelWithText:(NSString *)text fieldID:(NSString *)fieldID {
+- (UILabel *)labelWithText:(NSString *)text fieldID:(NSString *)fieldID alignment:(NSString *)alignment {
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1000.f, kRBRowHeight)] autorelease];
     label.formID = fieldID;
     
@@ -327,11 +435,20 @@
     label.backgroundColor = [UIColor clearColor];
     label.textColor = kRBColorMain;
     label.font = [UIFont fontWithName:kRBFontName size:16];
-    label.textAlignment = UITextAlignmentLeft;
+    if ([alignment isEqualToString:@"center"]) {
+        label.textAlignment = UITextAlignmentCenter;
+    }
+    if ([alignment isEqualToString:@"right"]) {
+        label.textAlignment = UITextAlignmentRight;
+    }
+    else {
+        label.textAlignment = UITextAlignmentLeft;
+    }
     label.text = text;
     [label sizeToFit];
     label.numberOfLines = 0;
     label.frameHeight = kRBRowHeight;
+    label.formAlignment = alignment;
     
     return label;
 }
@@ -361,7 +478,7 @@
 }
 
 - (void)createNextResponderChainWithControl:(UIControl *)control inView:(RBFormView *)view {
-    if ([control isKindOfClass:[RBTextField class]]) {
+    if ([control isKindOfClass:[RBTextField class]] && ![control.formDatatype isEqualToString:kRBFormDataTypeLabel]) {
         RBTextField *textField = (RBTextField *)control;
         
         textField.delegate = view;

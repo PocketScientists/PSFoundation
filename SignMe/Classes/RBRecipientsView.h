@@ -14,15 +14,15 @@
 
 @interface RBRecipientsView : UIView <UITableViewDataSource, UITableViewDelegate, RBRecipientTableViewCellDelegate, 
 ABPeoplePickerNavigationControllerDelegate, ABNewPersonViewControllerDelegate, UITextFieldDelegate> {
-    BOOL isInPerson;
+    UIButton *lastButtonPressed;
 }
 
 @property (nonatomic, assign) NSUInteger maxNumberOfRecipients;
-@property (nonatomic, retain) NSMutableArray *recipients;
+@property (nonatomic, copy) NSArray *recipients;
 @property (nonatomic, retain) NSArray *tabs;
 @property (nonatomic, copy) NSString *subject;
 @property (nonatomic, assign) BOOL useRoutingOrder;
 
-@property (nonatomic, retain) UITableView *tableView;
+@property (nonatomic, retain) NSArray *tableViews;
 
 @end

@@ -21,14 +21,18 @@
 @property (nonatomic, copy) NSString *detailText;
 @property (nonatomic, copy) NSString *placeholderText;
 @property (nonatomic, assign) int code;
+@property (nonatomic, assign) int signerType;
 @property (nonatomic, assign) BOOL idcheck;
 @property (nonatomic, assign) id<RBRecipientTableViewCellDelegate> delegate;
 
 - (void)enableAuth;
 - (void)disableAuth;
+- (void)enableTypeSelection;
+- (void)disableTypeSelection;
 
 @end
 
 @protocol RBRecipientTableViewCellDelegate <NSObject>
 - (void)cell:(RBRecipientTableViewCell *)cell changedCode:(int)code idCheck:(BOOL)idCheck;
+- (void)cell:(RBRecipientTableViewCell *)cell changedSignerType:(int)type;
 @end

@@ -10,6 +10,12 @@
 #import "RBForm.h"
 
 
+void GetButtonStateName(const char *key, CGPDFObjectRef object, void *info) {
+    if (strcmp(key, "Off") != 0) {
+        *(char **)info = (char *)key;
+    }
+}
+
 @implementation RBPDFManager
 
 @synthesize password;
@@ -121,23 +127,97 @@
                 CGPDFDictionaryRef field;
                 CGPDFArrayGetDictionary(annots, i, &field);
                 
+                // Check if the annotation is a widget otherwise we ignore it
+                const char *subtype = NULL;
+                CGPDFDictionaryGetName(field, "Subtype", &subtype);
+                if (subtype == NULL || strcmp(subtype, "Widget") != 0) {
+                    continue;
+                }
+                
+                // retrieve the data type
+                const char *datatype = NULL;
+                const char *btnType = NULL;
+                const char *btnValue = NULL;
+                CGPDFDictionaryGetName(field, "FT", &datatype);
+                if (datatype == NULL) {
+                    // this might be a radio button. Check for a parent object
+                    CGPDFObjectRef parent = NULL;
+                    CGPDFDictionaryRef parentType;
+
+                    if (!CGPDFDictionaryGetObject(field, "Parent", &parent)) continue;
+                    if (!CGPDFObjectGetValue(parent, kCGPDFObjectTypeDictionary, &parentType)) continue;
+                    if (!CGPDFDictionaryGetName(parentType, "FT", &datatype)) continue;
+                    
+                    if (strcmp(datatype, "Btn") == 0) {
+                        CGPDFInteger btnFlags;
+                        if (!CGPDFDictionaryGetInteger(parentType, "Ff", &btnFlags)) continue;
+                        if (btnFlags & kPDFRadioButton) {
+                            btnType = "radio";
+                            CGPDFDictionaryRef radioDict = NULL;
+                            CGPDFDictionaryGetDictionary(field, "AP", &radioDict);
+                            CGPDFDictionaryGetDictionary(radioDict, "N", &radioDict);
+                            CGPDFDictionaryApplyFunction(radioDict, GetButtonStateName, &btnValue);
+                        }
+                        else if (btnFlags & kPDFPushButton) {
+                            btnType = "push";
+                        }
+                        else {
+                            btnType = "unknown";
+                        }
+
+                        // change or field to the parent field for further processing
+                        field = parentType;
+                    }
+                    else {
+                        continue;
+                    }
+                }
+                else if (strcmp(datatype, "Btn") == 0) {
+                    CGPDFInteger btnFlags = 0;
+                    CGPDFDictionaryGetInteger(field, "Ff", &btnFlags);
+                    if (btnFlags == 0 || (!(btnFlags & kPDFRadioButton) && !(btnFlags & kPDFPushButton))) {
+                        btnType = "checkbox";
+                        CGPDFDictionaryRef radioDict = NULL;
+                        CGPDFDictionaryGetDictionary(field, "AP", &radioDict);
+                        CGPDFDictionaryGetDictionary(radioDict, "N", &radioDict);
+                        CGPDFDictionaryApplyFunction(radioDict, GetButtonStateName, &btnValue);
+                    }
+                    else {
+                        btnType = "unknown";
+                    }
+                }
+                
                 // retrieve the field name
                 CGPDFStringRef name;
-                CGPDFDictionaryGetString(field, "T", &name);
+                NSString *idString;
+                if (!CGPDFDictionaryGetString(field, "T", &name)) continue;
                 CFStringRef nameString = CGPDFStringCopyTextString(name);
-                [fields appendString:(NSString *)nameString];
+                if (strcmp(datatype, "Btn") == 0 && strcmp(btnType, "radio") == 0) {
+                    idString = [NSString stringWithFormat:@"%@ %s", nameString, btnValue];
+                }
+                else {
+                    idString = (NSString *)nameString;
+                }
+
+                [fields appendString:idString];
                 if (i < CGPDFArrayGetCount(annots) - 1) {
                     [fields appendString:@";"];
                 }
                 
-                // retreive the data type
-                const char *datatype;
-                CGPDFDictionaryGetName(field, "FT", &datatype);
-                
                 // set dictionary for field
-                [fieldDict setObject:(NSString*)nameString forKey:kRBFormKeyID];
-                [fieldDict setObject:(NSString*)nameString forKey:kRBFormKeyLabel];
+                [fieldDict setObject:(NSString*)idString forKey:kRBFormKeyID];
                 [fieldDict setObject:[NSString stringWithCString:datatype encoding:NSUTF8StringEncoding] forKey:kRBFormKeyDatatype];
+                if (strcmp(datatype, "Btn") == 0) {
+                    [fieldDict setObject:[NSString stringWithCString:btnValue encoding:NSUTF8StringEncoding] forKey:kRBFormKeyLabel];
+                    [fieldDict setObject:[NSString stringWithCString:btnType encoding:NSUTF8StringEncoding] forKey:kRBFormKeySubtype];
+                    [fieldDict setObject:(NSString*)nameString forKey:kRBFormKeyButtonGroup];
+                    if (btnValue) {
+                        [fieldDict setObject:[NSString stringWithCString:btnValue encoding:NSUTF8StringEncoding] forKey:kRBFormKeyValue];
+                    }
+                }
+                else {
+                    [fieldDict setObject:(NSString*)nameString forKey:kRBFormKeyLabel];
+                }
                 [fieldDict setObject:kRBFormKeyMappingNone forKey:kRBFormKeyMapping];
                 [fieldDict setObject:kRBFieldPositionRight forKey:kRBFormKeyPosition];
                 [fieldDict setObject:[NSNumber numberWithFloat:1.0f] forKey:kRBFormKeySize];

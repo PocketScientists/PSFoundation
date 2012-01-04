@@ -9,6 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
 
+#define kPDFNoOffRadioButton    (1 << 14)
+#define kPDFRadioButton         (1 << 15)
+#define kPDFPushButton          (1 << 16)
+
+void GetButtonStateName(const char *key, CGPDFObjectRef object, void *info);
+
 
 @interface RBPDFManager : NSObject {
      NSString *password;

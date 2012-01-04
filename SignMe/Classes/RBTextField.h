@@ -15,5 +15,7 @@
 @property (nonatomic, readwrite, assign) IBOutlet UITextField *nextField;
 @property (nonatomic, readwrite, assign) IBOutlet UITextField *prevField;
 @property (nonatomic, retain) UIPopoverController *popoverController;
+@property (nonatomic, assign) BOOL usePopover;
+@property (nonatomic, retain) NSDictionary *calcVarFields;
 
 @end
