@@ -30,6 +30,13 @@ static DocuSignService *docuSign = nil;
     }
 }
 
++ (void)reloadCredentials {
+    // set up credentials for DocuSign-Service
+    [docuSign logout];
+    docuSign.username = [NSUserDefaults standardUserDefaults].docuSignUserName;
+    docuSign.password = [NSUserDefaults standardUserDefaults].docuSignPassword;
+}
+
 + (void)sendDocument:(RBDocument *)document { 
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     
@@ -44,7 +51,7 @@ static DocuSignService *docuSign = nil;
             NSDictionary *documentDictionary = XDICT(document.name, @"name", document.filledPDFData, @"pdf");
             // all the recipients of the PDF
             NSArray *recipients = [document recipientsAsDictionary];
-            NSArray *tabs = [document.form tabsForNumberOfRecipients:recipients.count];
+            NSArray *tabs = [document.form tabsForRecipients:recipients];
             NSString *subject = !IsEmpty(document.subject) ? document.subject : @"Sign this Red Bull Document";
             BOOL routingOrder = document.obeyRoutingOrder ? [document.obeyRoutingOrder boolValue] : NO;
             

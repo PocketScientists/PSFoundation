@@ -45,10 +45,12 @@
 - (UILabel *)titleLabelWithText:(NSString *)text;
 
 - (UIControl *)inputFieldWithID:(NSString *)fieldID 
-                          value:(NSString *)value 
+                          value:(id)value 
                        datatype:(NSString *)datatype 
                           width:(CGFloat)width 
-                        subtype:(NSString *)subtype;
+                        subtype:(NSString *)subtype  
+                      trueValue:(NSString *)trueValue 
+                     falseValue:(NSString *)falseValue;
 
 - (void)createNextResponderChainWithControl:(UIControl *)control 
                                      inView:(RBFormView *)view;
@@ -88,6 +90,15 @@
             [view.innerScrollView addSubview:sectionTitle];
             layoutData.sectionHeader = sectionTitle;
         }
+        
+        if ([form isOptionalSection:section]) {
+            BOOL included = [form isIncludedSection:section];
+            UIButton *sectionBtn = (UIButton *)[self inputFieldWithID:@"sec" value:[NSNumber numberWithBool:included] 
+                                                             datatype:@"Btn" width:36.0f subtype:@"checkbox" trueValue:nil falseValue:nil];
+            sectionBtn.tag = 0;
+            [view.innerScrollView addSubview:sectionBtn];
+            layoutData.sectionHeaderButton = sectionBtn;
+        }
 
         for (NSUInteger subsection=0; subsection < [form numberOfSubsectionsInSection:section]; subsection++) {
             layoutData = [[[RBFormLayoutData alloc] init] autorelease];
@@ -101,6 +112,15 @@
                 subSectionTitle.formSubsection = subsection;
                 [view.innerScrollView addSubview:subSectionTitle];
                 layoutData.sectionHeader = subSectionTitle;
+            }
+            
+            if ([form isOptionalSubsection:subsection inSection:section]) {
+                BOOL included = [form isIncludedSubsection:subsection inSection:section];
+                UIButton *subSectionBtn = (UIButton *)[self inputFieldWithID:@"subsec" value:[NSNumber numberWithBool:included] 
+                                                                    datatype:@"Btn" width:36.0f subtype:@"checkbox" trueValue:nil falseValue:nil];
+                subSectionBtn.tag = 0;
+                [view.innerScrollView addSubview:subSectionBtn];
+                layoutData.sectionHeaderButton = subSectionBtn;
             }
             
             // ================ iterate over all fields in the section ================
@@ -124,6 +144,8 @@
                 NSString *alignment = [form valueForKey:kRBFormKeyAlignment ofField:fieldID inSection:section];
                 NSString *textAlignment = [form valueForKey:kRBFormKeyTextAlignment ofField:fieldID inSection:section];
                 NSString *calculate = [form valueForKey:kRBFormKeyCalculate ofField:fieldID inSection:section];
+                NSString *trueValue = [form valueForKey:kRBFormKeyTrueValue ofField:fieldID inSection:section];
+                NSString *falseValue = [form valueForKey:kRBFormKeyFalseValue ofField:fieldID inSection:section];
                 position = position == nil ? kRBFieldPositionBelow : position;
                 
                 // ================ match values for client if there is no value set ================
@@ -185,7 +207,7 @@
                 [layoutData.labels addObject:label];
                 
                 // ================ create field ================
-                UIControl *inputField = [self inputFieldWithID:fieldID value:value datatype:datatype width:100.0f subtype:subtype];
+                UIControl *inputField = [self inputFieldWithID:fieldID value:value datatype:datatype width:100.0f subtype:subtype trueValue:trueValue falseValue:falseValue];
                 inputField.formDatatype = datatype;
                 inputField.formSection = section;
                 inputField.formSubsection = subsection;
@@ -248,6 +270,12 @@
                     if (varField == ctrl) continue;
                     
                     if ([[varField.formID stringByReplacingOccurrencesOfRegex:@"[^a-zA-Z_0-9]" withString:@""] isEqualToString:varName]) {
+                        NSMutableArray *observers = varField.formFieldObservers;
+                        if (!observers) {
+                            observers = [NSMutableArray arrayWithCapacity:2];
+                            varField.formFieldObservers = observers;
+                        }
+                        [observers addObject:ctrl];
                         if ([varField isKindOfClass:[UITextField class]]) {
                             [varField addObserver:ctrl forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:@"calculate"];
                         }
@@ -366,6 +394,14 @@
         label = layoutData.sectionHeader;
         if (label) {
             label.frame = [layoutData rectForSectionHeader];
+        }
+        
+        control = layoutData.sectionHeaderButton;
+        if (control) {
+            control.frame = [layoutData rectForSectionHeaderButton];
+        }
+        
+        if (label || control) {
             origin.y += kRBRowHeight + kRBRowPadding;
         }
         
@@ -380,7 +416,12 @@
             if (label) {
                 label.frame = [layoutData rectForSectionHeader];
             }
-            
+
+            control = layoutData.sectionHeaderButton;
+            if (control) {
+                control.frame = [layoutData rectForSectionHeaderButton];
+            }
+
             for (int i = 0; i < layoutData.labels.count; i++) {
                 label = [layoutData.labels objectAtIndex:i];
                 label.frame = [layoutData rectForLabelAtIndex:i];
@@ -469,9 +510,12 @@
     return label;
 }
 
-- (UIControl *)inputFieldWithID:(NSString *)fieldID value:(NSString *)value datatype:(NSString *)datatype width:(CGFloat)width subtype:(NSString *)subtype {
+- (UIControl *)inputFieldWithID:(NSString *)fieldID value:(id)value datatype:(NSString *)datatype width:(CGFloat)width 
+                        subtype:(NSString *)subtype trueValue:(NSString *)trueValue falseValue:(NSString *)falseValue {
     UIControl *control = [UIControl controlWithID:fieldID datatype:datatype size:CGSizeMake(width, kRBRowHeight) subtype:subtype];
     
+    control.formTrueValue = trueValue;
+    control.formFalseValue = falseValue;
     [control configureControlUsingValue:value];
     
     return control;

@@ -15,6 +15,7 @@
 #import "RBDocument+RBForm.h"
 #import "AppDelegate.h"
 #import "RBDocuSignService.h"
+#import "RBFormLayoutData.h"
 
 
 #define kRBOffsetTop               212.f
@@ -247,6 +248,10 @@
     PSAlertView *alertView = [PSAlertView alertWithTitle:self.form.displayName message:@"Do you want to discard your changes?"];
     
     [alertView addButtonWithTitle:@"Discard" block:^(void) {
+        for (UIControl *control in self.formView.formControls) {
+            [control unregisterObservers];
+        }
+
         [self dismissModalViewControllerAnimated:YES];
     }];
     
@@ -259,6 +264,10 @@
     // update form-property with new values entered into controls
     [self updateFormFromControls];
     
+    for (UIControl *control in self.formView.formControls) {
+        [control unregisterObservers];
+    }
+
     // go back to HomeViewController
     [self dismissModalViewControllerAnimated:YES];
     
@@ -287,6 +296,10 @@
         PSAlertView *alertView = [PSAlertView alertWithTitle:self.form.displayName message:[NSString stringWithFormat:@"Do you want to finalize this document for %@?",self.client.name]];
         
         [alertView addButtonWithTitle:@"Finalize" block:^(void) {
+            for (UIControl *control in self.formView.formControls) {
+                [control unregisterObservers];
+            }
+            
             // go back to HomeViewController
             [self dismissModalViewControllerAnimated:YES];
             
@@ -325,6 +338,19 @@
     // update the value in the form for each control
     for (UIControl *control in self.formView.formControls) {
         [self.form setValue:control.formTextValue forField:control.formID inSection:control.formSection];
+    }
+    
+    for (NSUInteger section=0; section < self.form.numberOfSections; section++) {
+        RBFormLayoutData *layoutData = [self.formView.formLayoutData objectForKey:$I(section*1000-1)];
+        if (layoutData.sectionHeaderButton) {
+            [self.form setIncluded:layoutData.sectionHeaderButton.selected forSection:section];
+        }
+        for (NSUInteger subsection=0; subsection < [self.form numberOfSubsectionsInSection:section]; subsection++) {
+            layoutData = [self.formView.formLayoutData objectForKey:$I(section*1000+subsection)];
+            if (layoutData.sectionHeaderButton) {
+                [self.form setIncluded:layoutData.sectionHeaderButton.selected forSubsection:subsection inSection:section];
+            }
+        }
     }
 }
 

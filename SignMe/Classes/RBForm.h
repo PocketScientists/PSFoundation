@@ -34,6 +34,12 @@
 #define kRBFormKeyTextAlignment     @"textAlignment"
 #define kRBFormKeyTextFormat        @"format"
 #define kRBFormKeyCalculate         @"calculate"
+#define kRBFormKeyOptional          @"optional"
+#define kRBFormKeyIncluded          @"included"
+#define kRBFormKeyDiscriminator     @"discriminator"
+#define kRBFormKeyTrueValue         @"trueValue"
+#define kRBFormKeyFalseValue        @"falseValue"
+
 
 #define kRBFormKeyTabs              @"tabs"             // tabs for signing in DocuSign
 #define kRBFormKeyTabPage           @"page"             // the page a tab should appear
@@ -123,9 +129,23 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus);
 - (NSString *)displayNameOfSection:(NSUInteger)section;
 - (NSString *)displayNameOfSubsection:(NSUInteger)subsection inSection:(NSUInteger)section;
 
+- (BOOL)isOptionalSection:(NSUInteger)section;
+- (BOOL)isOptionalSubsection:(NSUInteger)subsection inSection:(NSUInteger)section;
+
+- (BOOL)isIncludedSection:(NSUInteger)section;
+- (BOOL)isIncludedSubsection:(NSUInteger)subsection inSection:(NSUInteger)section;
+
+- (void)setIncluded:(BOOL)included forSection:(NSUInteger)section;
+- (void)setIncluded:(BOOL)included forSubsection:(NSUInteger)subsection inSection:(NSUInteger)section;
+
+- (NSString *)discriminatorOfSection:(NSUInteger)section;
+- (NSString *)discriminatorOfSubsection:(NSUInteger)subsection inSection:(NSUInteger)section;
+- (NSString *)discriminator;
+
 - (NSUInteger)numberOfTabsWithType:(NSString *)tabType;
 - (NSArray *)tabsWithType:(NSString *)tabType;
 - (NSArray *)tabsForNumberOfRecipients:(NSUInteger)numberOfRecipients;
+- (NSArray *)tabsForRecipients:(NSArray *)recipients;
 
 /** Retreive/set values of the dictionary stored in a specific section */
 - (id)valueForKey:(NSString *)key ofField:(NSString *)fieldID inSection:(NSUInteger)section;

@@ -34,6 +34,6 @@
 - (IBAction)handleMusketeerPress:(id)sender;
 
 - (void)updateUI;
-- (void)syncBoxNet;
+- (void)syncBoxNet:(BOOL)forced; 
 
 @end

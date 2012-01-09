@@ -34,6 +34,13 @@ static RBMusketeer *musketeer;
     return musketeer;
 }
 
++ (RBMusketeer *)reloadEntity {
+    if (musketeer) {
+        [musketeer release], musketeer = nil;
+    }
+    return [RBMusketeer loadEntity];
+}
+
 - (void)saveEntity {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     for (NSString *propname in [RBMusketeer propertyNamesForMapping]) {

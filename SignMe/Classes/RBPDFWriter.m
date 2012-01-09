@@ -152,7 +152,7 @@
                 // write the form data
                 NSString *text = [formData objectForKey:(NSString *)idString];
                 if (strcmp(datatype, "Btn") == 0) {
-                    text = [text boolValue] ? @"X" : @"";
+                    text = [text boolValue] ? @"●" : @"";
                 }
                 
                 if (text) {

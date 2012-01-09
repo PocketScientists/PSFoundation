@@ -11,6 +11,7 @@
 #import "RBRecipient.h"
 #import "PSIncludes.h"
 #import "RBPDFWriter.h"
+#import "AppDelegate.h"
 
 @interface RBPersistenceManager ()
 
@@ -21,7 +22,7 @@
 @implementation RBPersistenceManager
 
 - (RBDocument *)persistedDocumentUsingForm:(RBForm *)form client:(RBClient *)client recipients:(NSArray *)recipients subject:(NSString *)subject obeyRoutingOrder:(BOOL)obeyRoutingOrder {
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     RBDocument *document = [RBDocument createEntity];
     
     // set form
@@ -50,9 +51,9 @@
             order++;
         }
         
-        dispatch_async(queue, ^(void) {
+//        dispatch_async(queue, ^(void) {
             [self createPDFForDocument:document form:form];
-        });
+//        });
         
         [[NSManagedObjectContext defaultContext] saveOnMainThread];
         
@@ -64,18 +65,18 @@
 }
 
 - (void)updateDocument:(RBDocument *)document usingForm:(RBForm *)form recipients:(NSArray *)recipients subject:(NSString *)subject obeyRoutingOrder:(BOOL)obeyRoutingOrder {
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
     document.date = [NSDate date];
     document.subject = subject;
     document.obeyRoutingOrder = [NSNumber numberWithBool:obeyRoutingOrder];
     
-    dispatch_async(queue, ^(void) {
+//    dispatch_async(queue, ^(void) {
         // update Form Plist
         [form saveAsDocumentWithName:document.fileURL];
         // update PDF Document
         [self createPDFForDocument:document form:form];
-    });
+//    });
     
     // update recipients
     // delete old ones 
@@ -176,7 +177,14 @@
 - (void)createPDFForDocument:(RBDocument *)document form:(RBForm *)form {
     // create PDF
     RBPDFWriter *pdfWriter = [[[RBPDFWriter alloc] init] autorelease];
-    NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForPDFWithName(document.name)]];
+    
+    NSString *emptyDocName = document.name;
+    NSString *discriminator = [form discriminator];
+    if (discriminator && [discriminator length] > 0) {
+        emptyDocName = [NSString stringWithFormat:@"%@_%@", document.name, discriminator];
+    }
+    NSLog(@"Name of PDF template used: %@", emptyDocName);
+    NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForPDFWithName(emptyDocName)]];
     CGPDFDocumentRef pdfRef = [pdfWriter newOpenDocument:urlToEmptyPDF];
     if (pdfRef) {
         NSString *pdfFileURL = RBPathToPDFWithName(document.fileURL);
@@ -185,12 +193,14 @@
                        withFormData:form.PDFDictionary 
                              toFile:pdfFileURL];
         
+        CFRelease(pdfRef);
     }
     else {
+        [self performBlock:^{
+            [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error creating PDF file. Cannot find template %@.pdf", emptyDocName]];
+        } afterDelay:1];
         DDLogInfo(@"Error creating PDF file %@", [urlToEmptyPDF absoluteString]);
     }
-    
-    CFRelease(pdfRef);
 }
 
 @end

@@ -268,7 +268,7 @@
     
     [self.view insertSubview:self.detailView belowSubview:self.formsView];
     
-    [self syncBoxNet];
+    //[self syncBoxNet:NO];
     
     // center 2nd item of formsCarousel
     [self.formsCarousel reloadData];
@@ -334,7 +334,7 @@
 
 
 - (void)startUpdate:(id)sender {
-    [self syncBoxNet];
+    [self syncBoxNet:YES];
 }
 
 
@@ -350,9 +350,9 @@
     }
 }
 
-- (void)syncBoxNet {    
+- (void)syncBoxNet:(BOOL)forced {    
     // only update forms once a day
-    if ([RBBoxService shouldSyncFolder]) {
+    if (forced || [RBBoxService shouldSyncFolder]) {
         [RBBoxService syncFolderWithID:[NSUserDefaults standardUserDefaults].folderID
                            startedFrom:self
                           successBlock:^(id boxObject) {
@@ -360,6 +360,7 @@
                               
                               // download empty forms and plists
                               if (formsFolder != nil) {
+                                  [[NSUserDefaults standardUserDefaults] deleteStoredObjectNames];
                                   for (BoxFile *file in [formsFolder filesWithExtensions:XARRAY(kRBFormDataType,kRBPDFDataType)]) {
                                       DDLogInfo(@"Downloading %@", file.objectName);
                                       [[RBBoxService box] downloadFile:file

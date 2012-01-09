@@ -497,7 +497,7 @@
     NSString *type = [self.recipientTypes objectAtIndex:lastButtonPressed.tag];
     
     ABPerson *personWrapper = [[ABAddressBook sharedAddressBook] personWithRecordRef:person];
-    NSMutableDictionary *personDict = XMDICT($I(personWrapper.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, $I(kRBRecipientTypeRemote), kRBRecipientType, type, kRBRecipientKind);
+    NSMutableDictionary *personDict = XMDICT($I(personWrapper.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, $I(kRBRecipientTypeInPerson), kRBRecipientType, type, kRBRecipientKind);
     
     if ([self.recipients indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         if ([obj isKindOfClass:[NSDictionary class]]) {

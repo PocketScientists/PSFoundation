@@ -23,6 +23,9 @@ static char formValidationRegExKey;
 static char formValidationMsgKey;
 static char formTextFormatKey;
 static char formCalculateKey;
+static char formFieldObserversKey;
+static char formTrueValueKey;
+static char formFalseValueKey;
 
 
 @implementation UIControl (RBForm)
@@ -50,10 +53,10 @@ static char formCalculateKey;
     return control;
 }
 
-- (void)configureControlUsingValue:(NSString *)value {
+- (void)configureControlUsingValue:(id)value {
     if ([self isKindOfClass:[UIButton class]]) {
         UIButton *btn = (UIButton *)self;
-        btn.selected = [value boolValue];
+        btn.selected = value != nil && ([value isEqual:self.formTrueValue] || [value boolValue]);
     } else if ([self isKindOfClass:[UITextField class]]) {
         UITextField *textFieldSelf = (UITextField *)self;
         
@@ -129,11 +132,40 @@ static char formCalculateKey;
     return [self associatedValueForKey:&formCalculateKey];
 }
 
+- (void)setFormFieldObservers:(NSMutableArray *)formFieldObservers {
+    [self associateValue:formFieldObservers withKey:&formFieldObserversKey];
+}
+
+- (NSMutableArray *)formFieldObservers {
+    return [self associatedValueForKey:&formFieldObserversKey];
+}
+
+- (void)setFormTrueValue:(NSString *)formTrueValue {
+    [self associateValue:formTrueValue withKey:&formTrueValueKey];
+}
+
+- (NSString *)formTrueValue {
+    return [self associatedValueForKey:&formTrueValueKey];
+}
+
+- (void)setFormFalseValue:(NSString *)formFalseValue {
+    [self associateValue:formFalseValue withKey:&formFalseValueKey];
+}
+
+- (NSString *)formFalseValue {
+    return [self associatedValueForKey:&formFalseValueKey];
+}
+
 - (NSString *)formTextValue {
     // Switches have value 'X' for checkbox
     if ([self isKindOfClass:[UIButton class]]) {
         UIButton *control = (UIButton *)self;
-        return control.selected ? kRBSwitchOnTextValue : kRBSwitchOffTextValue;
+        if (control.selected) {
+            return self.formTrueValue ? self.formTrueValue : kRBSwitchOnTextValue;
+        }
+        else {
+            return self.formFalseValue ? self.formFalseValue : kRBSwitchOffTextValue;
+        }
     }
     
     // other controls that can store a text
@@ -168,6 +200,18 @@ static char formCalculateKey;
     else {
         self.selected = !self.selected;
     }
+}
+
+- (void)unregisterObservers {
+    for (id observer in self.formFieldObservers) {
+        if ([self isKindOfClass:[UITextField class]]) {
+            [self removeObserver:observer forKeyPath:@"text"];
+        }
+        else {
+            [self removeObserver:observer forKeyPath:@"selected"];
+        }
+    }
+    self.formFieldObservers = nil;
 }
 
 @end

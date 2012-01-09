@@ -28,6 +28,7 @@
 @synthesize labels;
 @synthesize fields;
 @synthesize sectionHeader;
+@synthesize sectionHeaderButton;
 
 
 - (id)init 
@@ -69,8 +70,18 @@
         CGFloat maxLabelWidth = 0.0f;
         for (UILabel *label in labels) {
             if ([label.formDatatype isEqualToString:kRBFormDataTypeLabel] || label.text == nil || label.text.length == 0) continue;
-            if (label.formColumnSpan >= 1 && (label.formColumn <= i && i < label.formColumn + label.formColumnSpan)) {
-                CGFloat lWidth = [label.text sizeWithFont:label.font].width / label.formColumnSpan;
+//            if (label.formColumnSpan > 1 && (label.formColumn <= i && i < label.formColumn + label.formColumnSpan)) {
+//                CGFloat lWidth = [label sizeThatFits:CGSizeMake(formWidth, 400)].width;
+//                NSLog(@"lbl width: %f (%@)", lWidth, label.text);
+//                if (label.formColumnSpan > 1) {
+//                    lWidth -= (label.formColumnSpan - 1) * (minFieldWidth + kRBColPadding);
+//                }
+//                lWidth /= label.formColumnSpan;
+//                //CGFloat lWidth = [label.text sizeWithFont:label.font].width / label.formColumnSpan;
+//                maxLabelWidth = MAX(maxLabelWidth, lWidth);
+//            }
+            if (label.formColumnSpan == 1 && label.formColumn == i) {
+                CGFloat lWidth = [label.text sizeWithFont:label.font].width;
                 maxLabelWidth = MAX(maxLabelWidth, lWidth);
             }
         }
@@ -118,6 +129,22 @@
         return CGRectMake(formOrigin.x, formOrigin.y, formWidth, kRBRowHeight);
     }
     
+    return CGRectZero;
+}
+
+
+- (CGRect)rectForSectionHeaderButton
+{
+    if (sectionHeaderButton) {
+        if (sectionHeader) {
+            CGFloat lblWidth = [sectionHeader sizeThatFits:CGSizeMake(formWidth, kRBRowHeight)].width;
+            return CGRectMake(formOrigin.x + lblWidth + kRBInputFieldPadding, formOrigin.y, 39.0f, kRBRowHeight);
+        }
+        else {
+            return CGRectMake(formOrigin.x, formOrigin.y, 39.0f, kRBRowHeight);
+        }
+    }
+
     return CGRectZero;
 }
 
@@ -223,6 +250,7 @@
     [labels release], labels = nil;
     [fields release], fields = nil;
     [sectionHeader release], sectionHeader = nil;
+    [sectionHeaderButton release], sectionHeaderButton = nil;
     
     [super dealloc];
 }

@@ -31,14 +31,14 @@ static Box *box = nil;
 + (BOOL)shouldSyncFolder {
     // TODO:
     // somehow my intention didn't work, so as a quick-fix box.net gets synced everythime
-    return YES;
+//    return YES;
   
-    /*
     // download once per day
     if (![[NSUserDefaults standardUserDefaults].formsUpdateDate isToday]) {
         return YES;
     }
     
+    /*
     // download if not logged in -> to get login-view
     if (![[BoxUser savedUser] loggedIn]) {
         return YES;
@@ -53,9 +53,9 @@ static Box *box = nil;
     if (responseType != boxFolderDownloadResponseTypeFolderSuccessfullyRetrieved) {
         return YES;
     }
+    */
     
-    
-    return NO; */
+    return NO;
 }
 
 + (void)syncFolderWithID:(NSInteger)folderID 
@@ -94,18 +94,18 @@ static Box *box = nil;
                   MCReleaseNil(loginViewController);
               }
               
-              [viewController hideMessage];
+              //[viewController hideMessage];
               
               if (response == BoxResponseSuccess) {
                   successBlock(boxObject);
-                  [viewController showSuccessMessage:@"Update successful"];
+                  [viewController updateToSuccessMessage:@"Update successful"];
               } else {
                   [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
                   if (failureBlock != nil) {
                       failureBlock(response);
                   }
                   
-                  [viewController showErrorMessage:@"Error updating box.net"];
+                  [viewController updateToErrorMessage:@"Error updating box.net"];
                   DDLogError(@"Error syncing box.net folder: %d, %@", response, boxObject);
               }
           }

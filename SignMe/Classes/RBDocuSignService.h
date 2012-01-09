@@ -11,6 +11,7 @@
 
 @interface RBDocuSignService : NSObject
 
++ (void)reloadCredentials;
 + (void)previewDocument:(RBDocument *)document;
 + (void)sendDocument:(RBDocument *)document;
 + (void)cancelDocument:(RBDocument *)document;

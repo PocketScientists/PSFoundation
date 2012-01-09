@@ -188,14 +188,124 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
 - (NSString *)displayNameOfSubsection:(NSUInteger)subsection inSection:(NSUInteger)section {
     NSDictionary *sectionInfo = [self.sectionDisplayInfos objectAtIndex:section];
     if (sectionInfo == nil) return nil;
-
+    
     NSArray *subsections = [sectionInfo objectForKey:kRBFormKeySubsections];
     if (subsections == nil) return nil;
-
+    
     NSDictionary *subsectionInfo = [subsections objectAtIndex:subsection];
     if (subsectionInfo == nil) return nil;
     
     return [subsectionInfo objectForKey:kRBFormKeyDisplayName];
+}
+
+- (BOOL)isOptionalSection:(NSUInteger)section {
+    NSDictionary *sectionInfo = [self.sectionDisplayInfos objectAtIndex:section];
+    if (sectionInfo == nil) return NO;
+    
+    return [[sectionInfo objectForKey:kRBFormKeyOptional] boolValue];
+}
+
+- (BOOL)isOptionalSubsection:(NSUInteger)subsection inSection:(NSUInteger)section {
+    NSDictionary *sectionInfo = [self.sectionDisplayInfos objectAtIndex:section];
+    if (sectionInfo == nil) return NO;
+    
+    NSArray *subsections = [sectionInfo objectForKey:kRBFormKeySubsections];
+    if (subsections == nil) return NO;
+    
+    NSDictionary *subsectionInfo = [subsections objectAtIndex:subsection];
+    if (subsectionInfo == nil) return NO;
+    
+    return [[subsectionInfo objectForKey:kRBFormKeyOptional] boolValue];
+}
+
+- (BOOL)isIncludedSection:(NSUInteger)section {
+    NSDictionary *sectionInfo = [self.sectionDisplayInfos objectAtIndex:section];
+    if (sectionInfo == nil) return YES;
+    
+    NSString *value = [sectionInfo objectForKey:kRBFormKeyIncluded];
+    return value == nil ? YES : [value boolValue];
+}
+
+- (BOOL)isIncludedSubsection:(NSUInteger)subsection inSection:(NSUInteger)section {
+    NSDictionary *sectionInfo = [self.sectionDisplayInfos objectAtIndex:section];
+    if (sectionInfo == nil) return YES;
+    
+    NSArray *subsections = [sectionInfo objectForKey:kRBFormKeySubsections];
+    if (subsections == nil) return YES;
+    
+    NSDictionary *subsectionInfo = [subsections objectAtIndex:subsection];
+    if (subsectionInfo == nil) return YES;
+    
+    NSString *value = [subsectionInfo objectForKey:kRBFormKeyIncluded];
+    return value == nil ? YES : [value boolValue];
+}
+
+- (void)setIncluded:(BOOL)included forSection:(NSUInteger)section {
+    NSDictionary *sectionInfo = [self.sectionDisplayInfos objectAtIndex:section];
+    if (sectionInfo == nil) return;
+    
+    [sectionInfo setValue:[NSNumber numberWithBool:included] forKey:kRBFormKeyIncluded];
+}
+
+- (void)setIncluded:(BOOL)included forSubsection:(NSUInteger)subsection inSection:(NSUInteger)section {
+    NSDictionary *sectionInfo = [self.sectionDisplayInfos objectAtIndex:section];
+    if (sectionInfo == nil) return;
+    
+    NSArray *subsections = [sectionInfo objectForKey:kRBFormKeySubsections];
+    if (subsections == nil) return;
+    
+    NSDictionary *subsectionInfo = [subsections objectAtIndex:subsection];
+    if (subsectionInfo == nil) return;
+    
+    [subsectionInfo setValue:[NSNumber numberWithBool:included] forKey:kRBFormKeyIncluded];
+}
+
+- (NSString *)discriminatorOfSection:(NSUInteger)section {
+    NSDictionary *sectionInfo = [self.sectionDisplayInfos objectAtIndex:section];
+    if (sectionInfo == nil) return nil;
+    
+    return [sectionInfo objectForKey:kRBFormKeyDiscriminator];
+}
+
+- (NSString *)discriminatorOfSubsection:(NSUInteger)subsection inSection:(NSUInteger)section {
+    NSDictionary *sectionInfo = [self.sectionDisplayInfos objectAtIndex:section];
+    if (sectionInfo == nil) return nil;
+    
+    NSArray *subsections = [sectionInfo objectForKey:kRBFormKeySubsections];
+    if (subsections == nil) return nil;
+    
+    NSDictionary *subsectionInfo = [subsections objectAtIndex:subsection];
+    if (subsectionInfo == nil) return nil;
+    
+    return [subsectionInfo objectForKey:kRBFormKeyDiscriminator];
+}
+
+- (NSString *)discriminator {
+    NSMutableString *disc = [NSMutableString stringWithCapacity:5];
+    for (NSUInteger section=0;section < self.numberOfSections; section++) {
+        if ([self isOptionalSection:section]) {
+            NSString *d = [self discriminatorOfSection:section];
+            if (d && [self isIncludedSection:section]) {
+                [disc appendString:d];
+            }
+            else {
+                [disc appendString:@"-"];
+            }
+        }
+        for (NSUInteger subsection=0; subsection < [self numberOfSubsectionsInSection:section]; subsection++) {
+            if ([self isOptionalSubsection:subsection inSection:section]) {
+                NSString *d = [self discriminatorOfSubsection:subsection inSection:section];
+                if (d && [self isIncludedSubsection:subsection inSection:section]) {
+                    [disc appendString:d];
+                }
+                else {
+                    [disc appendString:@"-"];
+                }
+            }
+        }
+    }
+    
+    return disc;
 }
 
 - (NSUInteger)numberOfSections {
@@ -264,6 +374,55 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
             // add object to flattened tabs
             [flattenedTabs addObject:tabCopy];
         }
+    }
+    
+    return flattenedTabs;
+}
+
+- (NSArray *)tabsForRecipients:(NSArray *)recipients {
+    NSArray *tabs = [self.formData valueForKey:kRBFormKeyTabs];
+    NSMutableArray *flattenedTabs = [NSMutableArray array];
+    
+    NSMutableDictionary *rCount = [NSMutableDictionary dictionaryWithCapacity:2];
+    
+    // tabs stores an array of recipients, which contains an array of tabs for this recipient
+    for (NSUInteger i = 0; i < MIN(recipients.count, tabs.count); i++) {
+        NSDictionary *recipient = [recipients objectAtIndex:i];
+        
+        int c = [[rCount valueForKey:[recipient valueForKey:kRBFormKeyTabKind]] intValue];
+
+        int k = 0;
+        for (NSUInteger j = 0; j < tabs.count; j++) {
+            NSArray *tabsForRecipient = [tabs objectAtIndex:j];
+            
+            // add additional information to tabs
+            BOOL found = NO;
+            for (NSDictionary *tab in tabsForRecipient) {
+                if ([[recipient valueForKey:kRBFormKeyTabKind] isEqual:[tab valueForKey:kRBFormKeyTabKind]]) {
+                    k++;
+                    if (k <= c) {
+                        break;
+                    }
+                    found = YES;
+                    
+                    NSMutableDictionary *tabCopy = [[tab mutableCopy] autorelease];
+                    
+                    // we always have document index 0
+                    [tabCopy setValue:$I(0) forKey:kRBFormKeyTabDocumentIndex];
+                    // we set a default-value for the recipient-index (increasing)
+                    [tabCopy setValue:$I(i) forKey:kRBFormKeyTabRecipientIndex];
+                    
+                    // add object to flattened tabs
+                    [flattenedTabs addObject:tabCopy];
+                }
+            }
+            
+            if (found) {
+                break;
+            }
+        }
+        
+        [rCount setValue:[NSNumber numberWithInt:c+1] forKey:[recipient valueForKey:kRBFormKeyTabKind]];
     }
     
     return flattenedTabs;
@@ -374,6 +533,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
         NSMutableCharacterSet *set = [[[NSCharacterSet whitespaceAndNewlineCharacterSet] mutableCopy] autorelease];
         [set formUnionWithCharacterSet:[NSCharacterSet punctuationCharacterSet]];
         [set formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
+        [set removeCharactersInString:@"_"];
         NSArray *maps = [mapString componentsSeparatedByCharactersInSet:set];
         NSMutableArray *matches = [NSMutableArray array];
         for (NSString *map in maps) {

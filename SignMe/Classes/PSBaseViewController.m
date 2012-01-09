@@ -31,6 +31,8 @@ inline void dispatch_sync_on_main_queue(dispatch_block_t block) {
 
 - (void)showHUDWithCaption:(NSString *)caption image:(UIImage *)image interactionEnabled:(BOOL)interactionEnabled;
 - (void)showHUDWithCaption:(NSString *)caption image:(UIImage *)image hideAfterDuration:(NSTimeInterval)duration;
+- (void)updateHUDWithCaption:(NSString *)caption image:(UIImage *)image interactionEnabled:(BOOL)interactionEnabled;
+- (void)updateHUDWithCaption:(NSString *)caption image:(UIImage *)image hideAfterDuration:(NSTimeInterval)duration;
 - (void)hideHUD;
 
 @end
@@ -147,6 +149,18 @@ inline void dispatch_sync_on_main_queue(dispatch_block_t block) {
     });
 }
 
+- (void)updateToSuccessMessage:(NSString *)message {
+    dispatch_sync_on_main_queue(^(void) {
+        [self updateHUDWithCaption:message image:[UIImage imageNamed:@"19-check"] hideAfterDuration:kRBHUDDuration];
+    });
+}
+
+- (void)updateToErrorMessage:(NSString *)message {
+    dispatch_sync_on_main_queue(^(void) {
+        [self updateHUDWithCaption:message image:[UIImage imageNamed:@"11-x"] interactionEnabled:YES];
+    });
+}
+
 - (void)hideMessage {
     dispatch_sync_on_main_queue(^(void) {
         [self hideHUD];
@@ -184,6 +198,24 @@ inline void dispatch_sync_on_main_queue(dispatch_block_t block) {
 
 - (void)showHUDWithCaption:(NSString *)caption image:(UIImage *)image hideAfterDuration:(NSTimeInterval)duration {
     [self showHUDWithCaption:caption image:image interactionEnabled:YES];    
+    [self.hud hideAfter:duration];
+}
+
+- (void)updateHUDWithCaption:(NSString *)caption image:(UIImage *)image interactionEnabled:(BOOL)interactionEnabled {
+    self.hud.blockTouches = !interactionEnabled;
+    [self.hud setCaption:caption];
+    if (image) {
+        [self.hud setActivity:NO];
+        [self.hud setImage:image];
+    } else {
+        [self.hud setActivity:YES];
+        [self.hud setActivityStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    }
+    [self.hud update];
+}
+
+- (void)updateHUDWithCaption:(NSString *)caption image:(UIImage *)image hideAfterDuration:(NSTimeInterval)duration {
+    [self updateHUDWithCaption:caption image:image interactionEnabled:YES];    
     [self.hud hideAfter:duration];
 }
 

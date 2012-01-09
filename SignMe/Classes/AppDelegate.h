@@ -20,6 +20,8 @@
 - (void)showLoadingMessage:(NSString *)message;
 - (void)showSuccessMessage:(NSString *)message;
 - (void)showErrorMessage:(NSString *)message;
+- (void)updateToSuccessMessage:(NSString *)message;
+- (void)updateToErrorMessage:(NSString *)message;
 - (void)hideMessage;
 
 @end

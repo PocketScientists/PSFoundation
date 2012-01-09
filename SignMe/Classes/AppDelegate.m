@@ -109,6 +109,10 @@
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [RBMusketeer reloadEntity];
+    [RBDocuSignService reloadCredentials];
+    [self.homeViewController syncBoxNet:NO];
 }
 
 
@@ -166,6 +170,28 @@
     }
 }
 
+- (void)updateToSuccessMessage:(NSString *)message {
+    if ([self.navigationController.visibleViewController isKindOfClass:[PSBaseViewController class]]) {
+        PSBaseViewController *visibleViewController = (PSBaseViewController *)self.navigationController.visibleViewController;
+        [visibleViewController showSuccessMessage:message];
+    } 
+    else {
+        PSBaseViewController *vc = [((UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController).viewControllers firstObject];
+        [vc updateToSuccessMessage:message];
+    }
+}
+
+- (void)updateToErrorMessage:(NSString *)message {
+    if ([self.navigationController.visibleViewController isKindOfClass:[PSBaseViewController class]]) {
+        PSBaseViewController *visibleViewController = (PSBaseViewController *)self.navigationController.visibleViewController;
+        [visibleViewController showErrorMessage:message];
+    }
+    else {
+        PSBaseViewController *vc = [((UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController).viewControllers firstObject];
+        [vc updateToErrorMessage:message];
+    }
+}
+
 - (void)hideMessage {
     if ([self.navigationController.visibleViewController isKindOfClass:[PSBaseViewController class]]) {
         PSBaseViewController *visibleViewController = (PSBaseViewController *)self.navigationController.visibleViewController;
@@ -194,7 +220,7 @@
     fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
     [DDLog addLogger:fileLogger];
     
-    //[self redirectNSLogToDocumentFolder];
+    [self redirectNSLogToDocumentFolder];
 #endif
     
     
@@ -287,7 +313,7 @@
             [[NSUserDefaults standardUserDefaults] deleteStoredObjectNames];
             // reflect new status on UI
             [self.homeViewController updateUI];
-            [self.homeViewController syncBoxNet];
+            [self.homeViewController syncBoxNet:NO];
         }];
         
         [alertView setCancelButtonWithTitle:@"Keep Data" block:nil];

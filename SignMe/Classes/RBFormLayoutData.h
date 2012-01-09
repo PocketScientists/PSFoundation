@@ -20,10 +20,12 @@
 @property (nonatomic, retain) NSMutableArray *labels;
 @property (nonatomic, retain) NSMutableArray *fields;
 @property (nonatomic, retain) UIView *sectionHeader;
+@property (nonatomic, retain) UIButton *sectionHeaderButton;
 
 - (void)calculateLayout;
 
 - (CGRect)rectForSectionHeader;
+- (CGRect)rectForSectionHeaderButton;
 - (CGRect)rectForLabelAtIndex:(NSInteger)index;
 - (CGRect)rectForFieldAtIndex:(NSInteger)index;
 

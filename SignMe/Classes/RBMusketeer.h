@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSString * zip;
 
 + (RBMusketeer *)loadEntity;
++ (RBMusketeer *)reloadEntity;
 - (void)saveEntity;
 
 @end

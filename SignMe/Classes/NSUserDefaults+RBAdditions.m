@@ -159,7 +159,7 @@
 }
 
 - (void)deleteStoredObjectNames {
-    NSArray *keys = [[[self dictionaryRepresentation] allKeys] pathsMatchingExtensions:XARRAY(kRBFormDataType)];
+    NSArray *keys = [[[self dictionaryRepresentation] allKeys] pathsMatchingExtensions:XARRAY(kRBFormDataType, kRBPDFDataType)];
     
     for (NSString *key in keys) {
         [self removeObjectForKey:key];
