@@ -26,7 +26,7 @@ static char formCalculateKey;
 static char formFieldObserversKey;
 static char formTrueValueKey;
 static char formFalseValueKey;
-
+static char formShowZeroKey;
 
 @implementation UIControl (RBForm)
 
@@ -154,6 +154,14 @@ static char formFalseValueKey;
 
 - (NSString *)formFalseValue {
     return [self associatedValueForKey:&formFalseValueKey];
+}
+
+- (void)setFormShowZero:(BOOL)formShowZero {
+    [self associateValue:[NSNumber numberWithBool:formShowZero] withKey:&formShowZeroKey];
+}
+
+- (BOOL)formShowZero {
+    return [[self associatedValueForKey:&formShowZeroKey] boolValue];
 }
 
 - (NSString *)formTextValue {

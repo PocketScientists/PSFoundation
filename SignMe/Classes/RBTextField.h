@@ -18,4 +18,6 @@
 @property (nonatomic, assign) BOOL usePopover;
 @property (nonatomic, retain) NSDictionary *calcVarFields;
 
+- (void)calculate;
+
 @end

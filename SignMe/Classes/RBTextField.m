@@ -234,6 +234,10 @@
 
 - (void)calculate 
 {
+    if (!self.formCalculate) {
+        return;
+    }
+    
     NSMutableDictionary *s = [NSMutableDictionary dictionaryWithCapacity:self.calcVarFields.count];
     for (NSString *varName in [self.calcVarFields allKeys]) {
         UIControl *ctrl = [self.calcVarFields objectForKey:varName];
@@ -263,6 +267,10 @@
     NSNumber *result = [self.formCalculate numberByEvaluatingStringWithSubstitutions:s error:&error];
     if (error) {
         NSLog(@"error calculating field %@ by eval of expr %@: %@", self.formID, self.formCalculate, [error localizedDescription]);
+    }
+    else if (([result floatValue] == 0 && !self.formShowZero) || [[NSDecimalNumber notANumber] isEqualToNumber:result] || 
+             [result doubleValue] == INFINITY || [result doubleValue] == -INFINITY) {
+        self.text = @"";
     }
     else {
         if (self.formTextFormat) {

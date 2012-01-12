@@ -146,6 +146,7 @@
                 NSString *calculate = [form valueForKey:kRBFormKeyCalculate ofField:fieldID inSection:section];
                 NSString *trueValue = [form valueForKey:kRBFormKeyTrueValue ofField:fieldID inSection:section];
                 NSString *falseValue = [form valueForKey:kRBFormKeyFalseValue ofField:fieldID inSection:section];
+                BOOL showZero = [[form valueForKey:kRBFormKeyShowZero ofField:fieldID inSection:section] boolValue];
                 position = position == nil ? kRBFieldPositionBelow : position;
                 
                 // ================ match values for client if there is no value set ================
@@ -222,6 +223,7 @@
                 inputField.formAlignment = alignment;
                 inputField.formTextFormat = textFormat;
                 inputField.formCalculate = calculate;
+                inputField.formShowZero = showZero;
                 
                 if ([inputField isKindOfClass:[RBTextField class]] && [subtype isEqualToString:@"list"]) {
                     NSString *listID = [form valueForKey:kRBFormKeyListID ofField:fieldID inSection:section];
@@ -288,6 +290,12 @@
             }
             ctrl.enabled = NO;
             ((RBTextField *)ctrl).calcVarFields = calcVarFields;
+        }
+    }
+    
+    for (UIControl *ctrl in fields) {
+        if ([ctrl isKindOfClass:[RBTextField class]]) {
+            [(RBTextField *)ctrl calculate];
         }
     }
     

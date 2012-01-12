@@ -42,6 +42,10 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)writePDFDocument:(CGPDFDocumentRef)document withFormData:(NSDictionary *)formData toFile:(NSString *)path {       
+    NSDictionary *fontMap = [NSDictionary dictionaryWithObjectsAndKeys:@"Helvetica", @"/Helv", 
+                             @"Helvetica-Bold", @"/Helv,Bold",
+                             @"Verdana", @"/Verdana", 
+                             @"Verdana-Bold", @"/Verdana,Bold", nil];
     //Create the pdf context
     CGPDFPageRef page = CGPDFDocumentGetPage(document, 1); //Pages are numbered starting at 1
     CGRect pageRect = CGPDFPageGetBoxRect(page, kCGPDFMediaBox);
@@ -149,12 +153,34 @@
                     idString = (NSString *)nameString;
                 }
                 
+                // retrieve font information
+                CFStringRef fontName = (CFStringRef)self.font.fontName;
+                CGFloat fontsize = self.font.pointSize;
+                
+                CGPDFStringRef fontspec;
+                CFStringRef fontspecString = NULL;
+                if (CGPDFDictionaryGetString(field, "DA", &fontspec)) {
+                    fontspecString = CGPDFStringCopyTextString(fontspec);
+                    NSLog(@"font: %@", fontspecString);
+                    NSArray *ftComp = [(NSString *)fontspecString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    fontName = (CFStringRef)[fontMap objectForKey:[ftComp objectAtIndex:0]];
+                    if (!fontName) {
+                        fontName = (CFStringRef)self.font.fontName;
+                    }
+                    fontsize = [[ftComp objectAtIndex:1] floatValue];
+                }
+                
+                // retrieve justification
+                CGPDFInteger quadding = 0;
+                CGPDFDictionaryGetInteger(field, "Q", &quadding);
+
                 // write the form data
                 NSString *text = [formData objectForKey:(NSString *)idString];
                 if (strcmp(datatype, "Btn") == 0) {
-                    text = [text boolValue] ? @"●" : @"";
+                    text = [text boolValue] ? @"●" : @"○";
                 }
                 
+                NSLog(@"used font: %@, %f", fontName, fontsize);
                 if (text) {
                     // retrieve the field's rectangle
                     CGRect rect;
@@ -165,7 +191,7 @@
                     rect.size.width -= rect.origin.x;
                     rect.size.height -= rect.origin.y;
                     
-                    CTFontRef ctFont = CTFontCreateWithName((CFStringRef)self.font.fontName, self.font.pointSize, NULL);
+                    CTFontRef ctFont = CTFontCreateWithName(fontName, fontsize, NULL);
                     NSDictionary *attributesDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                                     (id)ctFont, (id)kCTFontAttributeName,
                                                     self.textColor.CGColor, (id)kCTForegroundColorAttributeName, nil];
@@ -173,11 +199,22 @@
                     NSMutableAttributedString *aStr = [[NSMutableAttributedString alloc] initWithString:text attributes:attributesDict];
                     CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)aStr);
                     CGRect lineRect = CTLineGetImageBounds(line, pdfContext);
-                    CGContextSetTextPosition(pdfContext, rect.origin.x + 5, rect.origin.y + (rect.size.height - lineRect.size.height)/2); 
+                    CGFloat x = rect.origin.x + 5;
+                    if (quadding == 1) {
+                        x += (rect.size.width - lineRect.size.width) / 2;
+                    }
+                    else if (quadding == 2) {
+                        x += rect.size.width - lineRect.size.width;
+                    }
+                    CGContextSetTextPosition(pdfContext, x, rect.origin.y + (rect.size.height - lineRect.size.height)/2); 
                     CTLineDraw(line, pdfContext);
                     CFRelease(line);
                     [aStr release];
                     CFRelease(ctFont);
+                }
+                
+                if (fontspecString) {
+                    CFRelease(fontspecString);
                 }
                 
                 CFRelease(nameString);

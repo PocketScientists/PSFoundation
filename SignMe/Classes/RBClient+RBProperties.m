@@ -32,7 +32,7 @@ static char clientCreatedKey;
         const char *propertyAttributes = property_getAttributes(propertyList[i]);
         
         // do not return relationship-properties
-        if (strstr(propertyAttributes, "NSSet") == NULL && strcmp(propertyName, "visible") != 0) {
+        if (strstr(propertyAttributes, "NSSet") == NULL && strcmp(propertyName, "visible") != 0 && strcmp(propertyName, "company") != 0) {
             [properties addObject:[NSString stringWithCString:propertyName encoding:NSUTF8StringEncoding]];
         }
     }

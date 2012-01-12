@@ -39,7 +39,7 @@
 #define kRBFormKeyDiscriminator     @"discriminator"
 #define kRBFormKeyTrueValue         @"trueValue"
 #define kRBFormKeyFalseValue        @"falseValue"
-
+#define kRBFormKeyShowZero          @"showZero"
 
 #define kRBFormKeyTabs              @"tabs"             // tabs for signing in DocuSign
 #define kRBFormKeyTabPage           @"page"             // the page a tab should appear

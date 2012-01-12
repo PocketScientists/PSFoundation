@@ -31,12 +31,12 @@ static Box *box = nil;
 + (BOOL)shouldSyncFolder {
     // TODO:
     // somehow my intention didn't work, so as a quick-fix box.net gets synced everythime
-//    return YES;
+    return YES;
   
     // download once per day
-    if (![[NSUserDefaults standardUserDefaults].formsUpdateDate isToday]) {
-        return YES;
-    }
+//    if (![[NSUserDefaults standardUserDefaults].formsUpdateDate isToday]) {
+//        return YES;
+//    }
     
     /*
     // download if not logged in -> to get login-view
@@ -55,7 +55,7 @@ static Box *box = nil;
     }
     */
     
-    return NO;
+//    return NO;
 }
 
 + (void)syncFolderWithID:(NSInteger)folderID 

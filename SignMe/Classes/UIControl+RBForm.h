@@ -23,6 +23,7 @@
 @property (nonatomic, retain) NSMutableArray *formFieldObservers;
 @property (nonatomic, retain) NSString *formTrueValue;
 @property (nonatomic, retain) NSString *formFalseValue;
+@property (nonatomic, assign) BOOL formShowZero;
 
 + (UIControl *)controlWithID:(NSString *)formID datatype:(NSString *)datatype size:(CGSize)size subtype:(NSString *)subtype;
 

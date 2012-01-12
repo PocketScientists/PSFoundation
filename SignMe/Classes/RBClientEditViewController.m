@@ -239,7 +239,8 @@
     
     fieldLabel.backgroundColor = [UIColor clearColor];
     fieldLabel.textColor = kRBColorMain;
-    fieldLabel.text = [label titlecaseString];
+    // FIX for client name
+    fieldLabel.text = [label isEqualToString:@"name"] ? @"Account Name" : [label titlecaseString];
     fieldLabel.font = [UIFont fontWithName:kRBFontName size:17];
     
     textField.borderStyle = UITextBorderStyleBezel;
