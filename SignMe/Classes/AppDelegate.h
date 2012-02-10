@@ -13,9 +13,9 @@
 
 @interface AppDelegate : NSObject <UIApplicationDelegate> 
 
-@property (nonatomic, retain) UIWindow *window;
-@property (nonatomic, retain) UINavigationController *navigationController;
-@property (nonatomic, retain) RBHomeViewController *homeViewController;
+@property (nonatomic, strong) UIWindow *window;
+@property (nonatomic, strong) UINavigationController *navigationController;
+@property (nonatomic, strong) RBHomeViewController *homeViewController;
 
 - (void)showLoadingMessage:(NSString *)message;
 - (void)showSuccessMessage:(NSString *)message;

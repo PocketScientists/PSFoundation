@@ -136,7 +136,7 @@
 			<key>DefaultValue</key>
 			<string>Unknown</string>
 			<key>Title</key>
-			<string>Name</string>
+			<string>Firstname</string>
 			<key>Key</key>
 			<string>kRBMusketeerfirstname</string>
 		</dict>
@@ -154,9 +154,27 @@
 			<key>KeyboardType</key>
 			<string>Alphabet</string>
 			<key>Title</key>
-			<string>Role</string>
+			<string>Lastname</string>
 			<key>Key</key>
 			<string>kRBMusketeerlastname</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>AutocapitalizationType</key>
+			<string>Words</string>
+			<key>AutocorrectionType</key>
+			<string>No</string>
+			<key>DefaultValue</key>
+			<string>Musketeer</string>
+			<key>IsSecure</key>
+			<false/>
+			<key>KeyboardType</key>
+			<string>Alphabet</string>
+			<key>Title</key>
+			<string>Role</string>
+			<key>Key</key>
+			<string>kRBMusketeerrole</string>
 		</dict>
 		<dict>
 			<key>Type</key>

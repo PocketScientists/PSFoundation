@@ -21,6 +21,8 @@ static Box *box = nil;
 + (void)initialize {
     if (self == [RBBoxService class]) {
         box = [[Box alloc] init];
+        box.apiKey = @"ilrihhnjp18764s9mvatu1bsz0y9gge0";
+        box.storageDirectory = kRBBoxNetDirectoryPath;
     }
 }
 
@@ -29,21 +31,18 @@ static Box *box = nil;
 }
 
 + (BOOL)shouldSyncFolder {
-    // TODO:
-    // somehow my intention didn't work, so as a quick-fix box.net gets synced everythime
-    return NO;
   
     // download once per day
-//    if (![[NSUserDefaults standardUserDefaults].formsUpdateDate isToday]) {
-//        return YES;
-//    }
+    if (![[NSUserDefaults standardUserDefaults].formsUpdateDate isToday]) {
+        return YES;
+    }
     
-    /*
     // download if not logged in -> to get login-view
     if (![[BoxUser savedUser] loggedIn]) {
         return YES;
     }
     
+    /*
     // check if download works (by getting root-folder), if not download to get login-view
     BoxFolderDownloadResponseType responseType = 0;
     [BoxFolderXMLBuilder folderForId:[NSNumber numberWithInt:0]
@@ -55,7 +54,7 @@ static Box *box = nil;
     }
     */
     
-//    return NO;
+    return NO;
 }
 
 + (void)syncFolderWithID:(NSInteger)folderID 
@@ -74,7 +73,7 @@ static Box *box = nil;
                    
                    NSLog(@"Just to make sure view is loaded: %@", loginViewController.view);
                    
-                   UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:loginViewController] autorelease];
+                   UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
                    navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
                    navigationController.navigationBar.barStyle = UIBarStyleBlack;
                    
@@ -85,13 +84,11 @@ static Box *box = nil;
             progressBlock:^(BoxResponseType response, NSObject *boxObject) {
                 if (loginViewController != nil && response != BoxResponseLoginError) {
                     [viewController dismissModalViewControllerAnimated:YES];
-                    MCReleaseNil(loginViewController);
                 }
             } 
           completionBlock:^(BoxResponseType response, NSObject *boxObject) {
               if (loginViewController != nil  && response != BoxResponseLoginError) {
                   [viewController dismissModalViewControllerAnimated:YES];
-                  MCReleaseNil(loginViewController);
               }
               
               //[viewController hideMessage];

@@ -16,6 +16,7 @@ static RBMusketeer *musketeer;
 
 @synthesize firstname = firstname_;
 @synthesize lastname = lastname_;
+@synthesize role = role_;
 @synthesize email = email_;
 @synthesize street = street_;
 @synthesize city = city_;
@@ -36,7 +37,7 @@ static RBMusketeer *musketeer;
 
 + (RBMusketeer *)reloadEntity {
     if (musketeer) {
-        [musketeer release], musketeer = nil;
+        musketeer = nil;
     }
     return [RBMusketeer loadEntity];
 }
@@ -49,16 +50,5 @@ static RBMusketeer *musketeer;
     [defaults synchronize];
 }
 
-- (void)dealloc {
-    MCReleaseNil(firstname_);
-    MCReleaseNil(lastname_);
-    MCReleaseNil(email_);
-    MCReleaseNil(street_);
-    MCReleaseNil(city_);
-    MCReleaseNil(zip_);
-    MCReleaseNil(state_);
-    
-    [super dealloc];
-}
 
 @end

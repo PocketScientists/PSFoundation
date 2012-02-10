@@ -16,13 +16,13 @@
     BOOL isMovedUp;
 }
 
-@property (nonatomic, retain) IBOutlet UIView *formsView;
-@property (nonatomic, retain) IBOutlet iCarousel *formsCarousel;
-@property (nonatomic, retain) IBOutlet UIView *clientsView;
-@property (nonatomic, retain) IBOutlet UIButton *addNewClientButton;
-@property (nonatomic, retain) IBOutlet iCarousel *clientsCarousel;
+@property (nonatomic, strong) IBOutlet UIView *formsView;
+@property (nonatomic, strong) IBOutlet iCarousel *formsCarousel;
+@property (nonatomic, strong) IBOutlet UIView *clientsView;
+@property (nonatomic, strong) IBOutlet UIButton *addNewClientButton;
+@property (nonatomic, strong) IBOutlet iCarousel *clientsCarousel;
 
-@property (nonatomic, retain) IBOutlet UITextField *searchField;
+@property (nonatomic, strong) IBOutlet UITextField *searchField;
 
 
 - (IBAction)textFieldDidEndEditing:(UITextField *)textField;

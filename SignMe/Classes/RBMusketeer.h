@@ -8,16 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-@interface RBMusketeer : NSObject {
-@private
-}
-@property (nonatomic, retain) NSString * firstname;
-@property (nonatomic, retain) NSString * lastname;
-@property (nonatomic, retain) NSString * email;
-@property (nonatomic, retain) NSString * street;
-@property (nonatomic, retain) NSString * city;
-@property (nonatomic, retain) NSString * state;
-@property (nonatomic, retain) NSString * zip;
+@interface RBMusketeer : NSObject
+
+@property (nonatomic, strong) NSString * firstname;
+@property (nonatomic, strong) NSString * lastname;
+@property (nonatomic, strong) NSString * role;
+@property (nonatomic, strong) NSString * email;
+@property (nonatomic, strong) NSString * street;
+@property (nonatomic, strong) NSString * city;
+@property (nonatomic, strong) NSString * state;
+@property (nonatomic, strong) NSString * zip;
 
 + (RBMusketeer *)loadEntity;
 + (RBMusketeer *)reloadEntity;

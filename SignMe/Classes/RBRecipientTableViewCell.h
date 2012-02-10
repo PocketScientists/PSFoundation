@@ -16,14 +16,14 @@
 + (NSString *)cellIdentifier;
 + (id)cellForTableView:(UITableView *)tableView style:(UITableViewCellStyle)style;
 
-@property (nonatomic, retain) UIImage *image;
+@property (nonatomic, strong) UIImage *image;
 @property (nonatomic, copy) NSString *mainText;
 @property (nonatomic, copy) NSString *detailText;
 @property (nonatomic, copy) NSString *placeholderText;
 @property (nonatomic, assign) int code;
 @property (nonatomic, assign) int signerType;
 @property (nonatomic, assign) BOOL idcheck;
-@property (nonatomic, assign) id<RBRecipientTableViewCellDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id<RBRecipientTableViewCellDelegate> delegate;
 
 - (void)enableAuth;
 - (void)disableAuth;

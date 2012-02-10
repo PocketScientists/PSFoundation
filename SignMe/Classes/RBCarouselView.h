@@ -18,7 +18,7 @@
 
 @interface RBCarouselView : UIControl
 
-@property (nonatomic, readonly, retain) id attachedObject;
+@property (nonatomic, readonly, strong) id attachedObject;
 @property (nonatomic, assign) BOOL isAddClientView;
 
 + (RBCarouselView *)carouselViewWithWidth:(CGFloat)width;

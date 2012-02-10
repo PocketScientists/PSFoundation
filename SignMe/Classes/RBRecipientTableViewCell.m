@@ -17,9 +17,9 @@ static UIFont *placeholderTextFont = nil;
 
 
 @interface RBRecipientTableViewCell()
-@property (nonatomic, retain) UIButton *codeBtn;
-@property (nonatomic, retain) UIButton *idBtn;
-@property (nonatomic, retain) UIButton *signerTypeBtn;
+@property (nonatomic, strong) UIButton *codeBtn;
+@property (nonatomic, strong) UIButton *idBtn;
+@property (nonatomic, strong) UIButton *signerTypeBtn;
 
 - (void)changeCode:(UIButton *)button;
 - (void)changeIDAuth:(UIButton *)button;
@@ -48,9 +48,9 @@ static UIFont *placeholderTextFont = nil;
 
 + (void)initialize {
     if (self == [RBRecipientTableViewCell class]) {
-        mainTextFont = [[UIFont fontWithName:kRBFontName size:16] retain];
-        detailTextFont = [[UIFont fontWithName:kRBFontName size:14] retain];
-        placeholderTextFont = [[UIFont fontWithName:kRBFontName size:16] retain];
+        mainTextFont = [UIFont fontWithName:kRBFontName size:16];
+        detailTextFont = [UIFont fontWithName:kRBFontName size:14];
+        placeholderTextFont = [UIFont fontWithName:kRBFontName size:16];
     }
 }
 
@@ -63,7 +63,7 @@ static UIFont *placeholderTextFont = nil;
     RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellID];
     
     if (cell == nil) {
-        cell = [[[self alloc] initWithStyle:style reuseIdentifier:cellID] autorelease];
+        cell = [[self alloc] initWithStyle:style reuseIdentifier:cellID];
     }
     
     return cell;    
@@ -107,17 +107,6 @@ static UIFont *placeholderTextFont = nil;
     return self;
 }
 
-- (void)dealloc {
-    MCRelease(image_);
-    MCRelease(mainText_);
-    MCRelease(detailText_);
-    MCRelease(placeholderText_);
-    MCRelease(codeBtn);
-    MCRelease(idBtn);
-    MCRelease(signerTypeBtn);
-    
-    [super dealloc];
-}
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -126,7 +115,6 @@ static UIFont *placeholderTextFont = nil;
 
 - (void)setImage:(UIImage *)image {
 	if (image_ != image) {
-        [image_ release];
         image_ = [image copy];
     }
     
@@ -136,7 +124,6 @@ static UIFont *placeholderTextFont = nil;
 
 - (void)setMainText:(NSString *)mainText {
 	if (mainText != mainText_) {
-        [mainText_ release];
         mainText_ = [mainText copy];
     }
     
@@ -145,7 +132,6 @@ static UIFont *placeholderTextFont = nil;
 
 - (void)setDetailText:(NSString *)detailText {
 	if (detailText != detailText_) {
-        [detailText_ release];
         detailText_ = [detailText copy];
     }
     
@@ -154,7 +140,6 @@ static UIFont *placeholderTextFont = nil;
 
 - (void)setPlaceholderText:(NSString *)placeholderText {
 	if (placeholderText != placeholderText_) {
-        [placeholderText_ release];
         placeholderText_ = [placeholderText copy];
     }
     

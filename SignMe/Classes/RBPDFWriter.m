@@ -30,10 +30,9 @@
 }
 
 - (void)dealloc {
-    [font release], font = nil;
-    [textColor release], textColor = nil;
+    font = nil;
+    textColor = nil;
     
-    [super dealloc];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -150,11 +149,11 @@
                     idString = [NSString stringWithFormat:@"%@ %s", nameString, btnValue];
                 }
                 else {
-                    idString = (NSString *)nameString;
+                    idString = (__bridge NSString *)nameString;
                 }
                 
                 // retrieve font information
-                CFStringRef fontName = (CFStringRef)self.font.fontName;
+                CFStringRef fontName = (__bridge CFStringRef)self.font.fontName;
                 CGFloat fontsize = self.font.pointSize;
                 
                 CGPDFStringRef fontspec;
@@ -162,10 +161,10 @@
                 if (CGPDFDictionaryGetString(field, "DA", &fontspec)) {
                     fontspecString = CGPDFStringCopyTextString(fontspec);
                     NSLog(@"font: %@", fontspecString);
-                    NSArray *ftComp = [(NSString *)fontspecString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                    fontName = (CFStringRef)[fontMap objectForKey:[ftComp objectAtIndex:0]];
+                    NSArray *ftComp = [(__bridge NSString *)fontspecString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    fontName = (__bridge CFStringRef)[fontMap objectForKey:[ftComp objectAtIndex:0]];
                     if (!fontName) {
-                        fontName = (CFStringRef)self.font.fontName;
+                        fontName = (__bridge CFStringRef)self.font.fontName;
                     }
                     fontsize = [[ftComp objectAtIndex:1] floatValue];
                 }
@@ -193,11 +192,11 @@
                     
                     CTFontRef ctFont = CTFontCreateWithName(fontName, fontsize, NULL);
                     NSDictionary *attributesDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                    (id)ctFont, (id)kCTFontAttributeName,
+                                                    (__bridge id)ctFont, (id)kCTFontAttributeName,
                                                     self.textColor.CGColor, (id)kCTForegroundColorAttributeName, nil];
                     
                     NSMutableAttributedString *aStr = [[NSMutableAttributedString alloc] initWithString:text attributes:attributesDict];
-                    CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)aStr);
+                    CTLineRef line = CTLineCreateWithAttributedString((__bridge CFAttributedStringRef)aStr);
                     CGRect lineRect = CTLineGetImageBounds(line, pdfContext);
                     CGFloat x = rect.origin.x + 5;
                     if (quadding == 1) {
@@ -209,7 +208,6 @@
                     CGContextSetTextPosition(pdfContext, x, rect.origin.y + (rect.size.height - lineRect.size.height)/2); 
                     CTLineDraw(line, pdfContext);
                     CFRelease(line);
-                    [aStr release];
                     CFRelease(ctFont);
                 }
                 
@@ -227,7 +225,7 @@
     CGContextRelease(pdfContext); //Release before writing data to disk.
     
     //Write to disk
-    [(NSData *)mutableData writeToFile:path atomically:YES];
+    [(__bridge NSData *)mutableData writeToFile:path atomically:YES];
     
     //Clean up
     CGDataConsumerRelease(dataConsumer);

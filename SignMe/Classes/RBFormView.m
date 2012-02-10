@@ -45,7 +45,7 @@
 
 - (id)initWithFrame:(CGRect)frame form:(RBForm *)form {
     if (self = [super initWithFrame:frame]) {
-        form_ = [form retain];
+        form_ = form;
         
         self.directionalLockEnabled = YES;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -63,7 +63,7 @@
         innerScrollView_.delegate = self;
         
         UIImage *prevImage = [UIImage imageNamed:@"PrevButton"];
-        prevButton_ = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+        prevButton_ = [UIButton buttonWithType:UIButtonTypeCustom];
         [prevButton_ setImage:prevImage forState:UIControlStateNormal];
         prevButton_.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
         prevButton_.frame = CGRectMake(30, 702, prevImage.size.width, prevImage.size.height);
@@ -71,7 +71,7 @@
         prevButton_.alpha = 0.f;
         
         UIImage *nextImage = [UIImage imageNamed:@"NextButton"];
-        nextButton_ = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+        nextButton_ = [UIButton buttonWithType:UIButtonTypeCustom];
         [nextButton_ setImage:nextImage forState:UIControlStateNormal];
         nextButton_.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         nextButton_.frame = CGRectMake( self.bounds.size.width - 97, 702, nextImage.size.width, nextImage.size.height);
@@ -88,16 +88,6 @@
     return self;
 }
 
-- (void)dealloc {
-    MCReleaseNil(innerScrollView_);
-    MCReleaseNil(pageControl_);
-    MCReleaseNil(prevButton_);
-    MCReleaseNil(nextButton_);
-    MCReleaseNil(formLayoutData_);
-    MCReleaseNil(form_);
-    
-    [super dealloc];
-}
 
 
 - (void)layoutSubviews {
@@ -130,7 +120,7 @@
 
 - (NSArray *)recipients {
     RBRecipientsView *recipientsView = (RBRecipientsView *)[self.innerScrollView viewWithTag:kRBRecipientsViewTag];
-    return [[recipientsView.recipients copy] autorelease];
+    return [recipientsView.recipients copy];
 }
 
 - (NSString *)subject {
@@ -286,7 +276,7 @@
         NSRange matchedRange = [textField.text rangeOfRegex:textField.formValidationRegEx];
         if (matchedRange.location == NSNotFound) {
             NSString *msg = textField.formValidationMsg ? textField.formValidationMsg : @"Error";
-            UILabel *errorMsg = [[[UILabel alloc] initWithFrame:textField.bounds] autorelease];
+            UILabel *errorMsg = [[UILabel alloc] initWithFrame:textField.bounds];
             errorMsg.tag = 8989;
             errorMsg.backgroundColor = kRBColorError;
             errorMsg.textColor = [UIColor whiteColor];

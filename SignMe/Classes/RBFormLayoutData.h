@@ -15,12 +15,12 @@
 @property (nonatomic, assign) CGFloat minFieldWidth;
 @property (nonatomic, assign) NSInteger numberOfColumns;
 @property (nonatomic, assign) NSInteger numberOfRows;
-@property (nonatomic, retain) NSMutableArray *columnWidths;
-@property (nonatomic, retain) NSMutableArray *columnLabelWidths;
-@property (nonatomic, retain) NSMutableArray *labels;
-@property (nonatomic, retain) NSMutableArray *fields;
-@property (nonatomic, retain) UIView *sectionHeader;
-@property (nonatomic, retain) UIButton *sectionHeaderButton;
+@property (nonatomic, strong) NSMutableArray *columnWidths;
+@property (nonatomic, strong) NSMutableArray *columnLabelWidths;
+@property (nonatomic, strong) NSMutableArray *labels;
+@property (nonatomic, strong) NSMutableArray *fields;
+@property (nonatomic, strong) UIView *sectionHeader;
+@property (nonatomic, strong) UIButton *sectionHeaderButton;
 
 - (void)calculateLayout;
 

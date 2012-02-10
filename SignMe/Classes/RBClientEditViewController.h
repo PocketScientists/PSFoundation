@@ -14,6 +14,6 @@
     NSInteger last;
 }
 
-@property (nonatomic, retain) RBClient *client;
+@property (nonatomic, strong) RBClient *client;
 
 @end

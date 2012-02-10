@@ -32,7 +32,7 @@
 
 @interface RBUIGenerator ()
 
-@property (nonatomic, assign) RBTextField *previousTextField;
+@property (nonatomic, unsafe_unretained) RBTextField *previousTextField;
 
 + (UIView *)viewOfForm:(RBFormView *)formView 
            formFieldID:(NSString *)fieldID 
@@ -73,12 +73,12 @@
 - (RBFormView *)viewWithFrame:(CGRect)frame form:(RBForm *)form client:(RBClient *)client document:(RBDocument *)document {
     NSMutableDictionary *buttonGroups = [NSMutableDictionary dictionaryWithCapacity:5];
     
-    RBFormView *view = [[[RBFormView alloc] initWithFrame:frame form:form] autorelease];
+    RBFormView *view = [[RBFormView alloc] initWithFrame:frame form:form];
     
     // ================ iterate over all sections ================
     NSInteger numberOfPages = form.numberOfSections + 1; // +1 for RecipientsView
     for (NSUInteger section=0;section < form.numberOfSections; section++) {
-        RBFormLayoutData *layoutData = [[[RBFormLayoutData alloc] init] autorelease];
+        RBFormLayoutData *layoutData = [[RBFormLayoutData alloc] init];
         [view.formLayoutData setObject:layoutData forKey:$I(section*1000-1)];
 
         // a new section starts with a new "first" textfield
@@ -104,7 +104,7 @@
         }
 
         for (NSUInteger subsection=0; subsection < [form numberOfSubsectionsInSection:section]; subsection++) {
-            layoutData = [[[RBFormLayoutData alloc] init] autorelease];
+            layoutData = [[RBFormLayoutData alloc] init];
             [view.formLayoutData setObject:layoutData forKey:$I(section*1000+subsection)];
             
             // ================ add a subsection label to the page ================
@@ -323,18 +323,16 @@
 
 
 - (UIView *)recipientsViewForDocument:(RBDocument *)document form:(RBForm *)form {
-    RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*PSAppWidth(), 0.f, 1024.f, 475.f)] autorelease];
+    RBRecipientsView *recipientsView = [[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*PSAppWidth(), 0.f, 1024.f, 475.f)];
     
     NSMutableArray *recipients = [NSMutableArray array];
     if (document.recipients == nil || [document.recipients count] == 0) {
         RBMusketeer *musketeer = [RBMusketeer loadEntity];
-        NSArray *musketeerNameComponents = [musketeer.firstname componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        NSString *mFirstname = [musketeerNameComponents objectAtIndex:0];
-        NSString *mLastname = [musketeerNameComponents count] > 1 ? [musketeerNameComponents objectAtIndex:1] : musketeer.lastname;
         NSArray *people = [[ABAddressBook sharedAddressBook] allPeople];
         ABPerson *abMusketeer = nil;
         for (ABPerson *person in people) {
-            if ([[person getFirstName] isEqualToStringIgnoringCase:mFirstname] && [[person getLastName] isEqualToStringIgnoringCase:mLastname]) {
+            if ([[person getFirstName] isEqualToStringIgnoringCase:musketeer.firstname] && 
+                [[person getLastName] isEqualToStringIgnoringCase:musketeer.lastname]) {
                 abMusketeer = person;
                 break;
             }
@@ -342,11 +340,11 @@
         if (abMusketeer == nil) {
             NSError *error;
             abMusketeer = [[ABPerson alloc] init];
-            if (mFirstname) {
-                [abMusketeer setValue:mFirstname forProperty:kABPersonFirstNameProperty error:nil];
+            if (musketeer.firstname) {
+                [abMusketeer setValue:musketeer.firstname forProperty:kABPersonFirstNameProperty error:nil];
             }
-            if (mLastname) {
-                [abMusketeer setValue:mLastname forProperty:kABPersonLastNameProperty error:nil];
+            if (musketeer.lastname) {
+                [abMusketeer setValue:musketeer.lastname forProperty:kABPersonLastNameProperty error:nil];
             }
             [[ABAddressBook sharedAddressBook] addRecord:abMusketeer error:&error];
             [[ABAddressBook sharedAddressBook] save:&error];
@@ -356,7 +354,7 @@
         if (emails == nil || [emails indexOfValue:musketeer.email] == (NSUInteger)-1L) {
             NSError *error;
             if (emails == nil) {
-                emails = [[[ABMutableMultiValue alloc] initWithPropertyType:kABPersonEmailProperty] autorelease];
+                emails = [[ABMutableMultiValue alloc] initWithPropertyType:kABPersonEmailProperty];
             }
             else {
                 emails = [emails mutableCopy];
@@ -379,7 +377,7 @@
     }
  
     for (RBRecipient *recipient in [document.recipients allObjects]) {
-        NSMutableDictionary *dictionaryRepresentation = [[[recipient dictionaryWithValuesForKeys:XARRAY(kRBRecipientPersonID, kRBRecipientEmailID, kRBRecipientCode, kRBRecipientIDCheck, kRBRecipientType, kRBRecipientOrder, kRBRecipientKind)] mutableCopy] autorelease];
+        NSMutableDictionary *dictionaryRepresentation = [[recipient dictionaryWithValuesForKeys:XARRAY(kRBRecipientPersonID, kRBRecipientEmailID, kRBRecipientCode, kRBRecipientIDCheck, kRBRecipientType, kRBRecipientOrder, kRBRecipientKind)] mutableCopy];
         [recipients addObject:dictionaryRepresentation];
     }
     
@@ -495,7 +493,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (UILabel *)labelWithText:(NSString *)text fieldID:(NSString *)fieldID alignment:(NSString *)alignment {
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1000.f, kRBRowHeight)] autorelease];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1000.f, kRBRowHeight)];
     label.formID = fieldID;
     
     label.autoresizingMask = UIViewAutoresizingNone;
@@ -521,7 +519,7 @@
 }
 
 - (UILabel *)titleLabelWithText:(NSString *)text {
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1000.f, kRBRowHeight)] autorelease];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1000.f, kRBRowHeight)];
     
     label.autoresizingMask = UIViewAutoresizingNone;
     label.backgroundColor = [UIColor clearColor];

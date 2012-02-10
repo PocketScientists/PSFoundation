@@ -15,16 +15,16 @@
     CGSize lastFormSize;
 }
 
-@property (nonatomic, retain) UIScrollView *innerScrollView;
-@property (nonatomic, retain) UIPageControl *pageControl;
-@property (nonatomic, retain) UIButton *prevButton;
-@property (nonatomic, retain) UIButton *nextButton;
-@property (nonatomic, readonly) NSArray *formControls;
-@property (nonatomic, readonly) NSArray *recipients;
-@property (nonatomic, readonly) NSString *subject;
+@property (nonatomic, strong) UIScrollView *innerScrollView;
+@property (nonatomic, strong) UIPageControl *pageControl;
+@property (nonatomic, strong) UIButton *prevButton;
+@property (nonatomic, strong) UIButton *nextButton;
+@property (unsafe_unretained, nonatomic, readonly) NSArray *formControls;
+@property (unsafe_unretained, nonatomic, readonly) NSArray *recipients;
+@property (unsafe_unretained, nonatomic, readonly) NSString *subject;
 @property (nonatomic, readonly) BOOL obeyRoutingOrder;
-@property (nonatomic, readonly) NSMutableDictionary *formLayoutData;
-@property (nonatomic, readonly) RBForm *form;
+@property (strong, nonatomic, readonly) NSMutableDictionary *formLayoutData;
+@property (unsafe_unretained, nonatomic, readonly) RBForm *form;
 
 - (id)initWithFrame:(CGRect)frame form:(RBForm *)form;
 

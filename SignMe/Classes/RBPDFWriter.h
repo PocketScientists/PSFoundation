@@ -11,8 +11,8 @@
 
 @interface RBPDFWriter : RBPDFManager
 
-@property(nonatomic, retain) UIFont *font;
-@property(nonatomic, retain) UIColor *textColor;
+@property(nonatomic, strong) UIFont *font;
+@property(nonatomic, strong) UIColor *textColor;
 
 - (void)writePDFDocument:(CGPDFDocumentRef)document withFormData:(NSDictionary *)formData toFile:(NSString *)path;
 

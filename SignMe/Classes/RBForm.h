@@ -101,26 +101,26 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus);
 - (id)initWithPath:(NSString *)path name:(NSString *)name;
 
 /** All fields stored in the plist, e.g. name, sections, ... */
- @property (nonatomic, retain, readonly) NSDictionary *formData;
+@property (nonatomic, strong, readonly) NSDictionary *formData;
 
 // Convenience Getters
 
 /** Name of the form, e.g. W9 */
 @property (nonatomic, copy, readonly) NSString *name;
 /** Path to the plist-file of the form (including values) */
-@property (nonatomic, readonly) NSString *fileName;
+@property (unsafe_unretained, nonatomic, readonly) NSString *fileName;
 /** Sections for input view */
 @property (nonatomic, readonly) NSUInteger numberOfSections;
-@property (nonatomic, readonly) NSArray *sections;
-@property (nonatomic, readonly) NSArray *sectionDisplayInfos;
+@property (unsafe_unretained, nonatomic, readonly) NSArray *sections;
+@property (unsafe_unretained, nonatomic, readonly) NSArray *sectionDisplayInfos;
 /** Tabs for DocuSign */
 @property (nonatomic, readonly) NSUInteger numberOfTabs;
 @property (nonatomic, readonly) NSUInteger numberOfRecipients;
-@property (nonatomic, readonly) NSArray *tabs;
+@property (unsafe_unretained, nonatomic, readonly) NSArray *tabs;
 /** Returns a dictionary with key-value pairs (ID/Value) for the pdf-form */
-@property (nonatomic, readonly) NSDictionary *PDFDictionary;
+@property (unsafe_unretained, nonatomic, readonly) NSDictionary *PDFDictionary;
 
-@property (nonatomic, readonly) NSString *displayName;
+@property (unsafe_unretained, nonatomic, readonly) NSString *displayName;
 
 /** all field IDs of a section */
 - (NSArray *)fieldIDsOfSection:(NSUInteger)section;

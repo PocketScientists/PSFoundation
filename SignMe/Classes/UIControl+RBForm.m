@@ -9,7 +9,6 @@
 #import "UIControl+RBForm.h"
 #import "RBForm.h"
 #import "PSIncludes.h"
-#import "DCRoundSwitch.h"
 #import "RBTextField.h"
 
 #define kRBSwitchOnTextValue        @"Y"
@@ -34,7 +33,6 @@ static char formShowZeroKey;
     UIControl *control;
     
     if ([datatype isEqualToString:kRBFormDataTypeButton]) {
-//        control = [[[DCRoundSwitch alloc] initWithFrame:(CGRect){CGPointZero, CGSizeMake(95.f,30.f)}] autorelease];
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = (CGRect){CGPointZero, CGSizeMake(36.f,36.f)};
         [btn setImage:[UIImage imageNamed:@"CheckButton.png"] forState:UIControlStateNormal];
@@ -42,7 +40,7 @@ static char formShowZeroKey;
         [btn addTarget:btn action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
         control = btn;
     } else {
-        control = [[[RBTextField alloc] initWithFrame:(CGRect){CGPointZero, size}] autorelease];
+        control = [[RBTextField alloc] initWithFrame:(CGRect){CGPointZero, size}];
         ((RBTextField *)control).subtype = subtype;
     }
     

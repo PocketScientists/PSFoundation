@@ -10,13 +10,13 @@
 
 @interface RBTextField : UITextField <UIPopoverControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
-@property (nonatomic, retain) NSString *subtype;
-@property (nonatomic, retain) NSArray *items;
-@property (nonatomic, readwrite, assign) IBOutlet UITextField *nextField;
-@property (nonatomic, readwrite, assign) IBOutlet UITextField *prevField;
-@property (nonatomic, retain) UIPopoverController *popoverController;
+@property (nonatomic, strong) NSString *subtype;
+@property (nonatomic, strong) NSArray *items;
+@property (nonatomic, readwrite, unsafe_unretained) IBOutlet UITextField *nextField;
+@property (nonatomic, readwrite, unsafe_unretained) IBOutlet UITextField *prevField;
+@property (nonatomic, strong) UIPopoverController *popoverController;
 @property (nonatomic, assign) BOOL usePopover;
-@property (nonatomic, retain) NSDictionary *calcVarFields;
+@property (nonatomic, strong) NSDictionary *calcVarFields;
 
 - (void)calculate;
 

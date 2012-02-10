@@ -15,7 +15,7 @@
 
 @interface AppDelegate ()
 
-@property (nonatomic, retain) NSTimer *docuSignUpdateTimer;
+@property (nonatomic, strong) NSTimer *docuSignUpdateTimer;
 
 - (void)configureLogger;
 - (void)appplicationPrepareForBackgroundOrTermination:(UIApplication *)application;
@@ -39,14 +39,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 - (void)dealloc {
-    MCRelease(window_);
-    MCRelease(navigationController_);
-    MCRelease(homeViewController_);
-    MCRelease(docuSignUpdateTimer_);
     [docuSignUpdateTimer_ invalidate];
-    MCRelease(docuSignUpdateTimer_);
     
-    [super dealloc];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,17 +64,17 @@
         DDLogWarn(@"NSZombieEnabled / NSAutoreleaseFreedObjectCheckEnabled enabled! Disable for release.");
     }
     
-    self.homeViewController = [[[RBHomeViewController alloc] initWithNibName:@"RBHomeView" bundle:nil] autorelease];
+    self.homeViewController = [[RBHomeViewController alloc] initWithNibName:@"RBHomeView" bundle:nil];
     
     // Add the navigation controller's view to the window and display.
-    self.navigationController = [[[UINavigationController alloc] initWithRootViewController:self.homeViewController] autorelease];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.homeViewController];
     self.navigationController.navigationBarHidden = YES;
-    self.window = [[[PSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window = [[PSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
     
     // fade effect
-    UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default-Landscape~ipad"]] autorelease];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default-Landscape~ipad"]];
     [self.navigationController.view addSubview:imageView];
     [UIView animateWithDuration:0.4 animations:^(void) {
         imageView.alpha = 0.f;
@@ -209,18 +203,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 - (void)configureLogger {
-    PSDDFormatter *psLogger = [[[PSDDFormatter alloc] init] autorelease];
+    PSDDFormatter *psLogger = [[PSDDFormatter alloc] init];
     [[DDTTYLogger sharedInstance] setLogFormatter:psLogger];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
     
 #ifndef APPSTORE
     // log to file
-    DDFileLogger *fileLogger = [[[DDFileLogger alloc] init] autorelease];
+    DDFileLogger *fileLogger = [[DDFileLogger alloc] init];
     fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
     fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
     [DDLog addLogger:fileLogger];
     
-    [self redirectNSLogToDocumentFolder];
+    //[self redirectNSLogToDocumentFolder];
 #endif
     
     
@@ -231,7 +225,7 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSDateFormatter *fmt = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
     [fmt setDateFormat:@"MMddyyyy-HHmmss"];
     NSString *fileName =[NSString stringWithFormat:@"Logs/SignMe-%@.log",[fmt stringFromDate:[NSDate date]]];
     
@@ -303,7 +297,7 @@
                                                      message:@"You got logged out of box.net?\nDo you want to delete all locally stored data?"];
         
         [alertView addButtonWithTitle:@"Delete" block:^(void) {
-            RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+            RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
             
             // delete CoreData and folder in Documents-Directory
             [persistenceManager deleteAllSavedData];

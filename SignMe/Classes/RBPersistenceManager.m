@@ -188,7 +188,7 @@
     }
     else {
         // create PDF
-        RBPDFWriter *pdfWriter = [[[RBPDFWriter alloc] init] autorelease];
+        RBPDFWriter *pdfWriter = [[RBPDFWriter alloc] init];
         
         NSString *emptyDocName = document.name;
         NSString *discriminator = [form discriminator];

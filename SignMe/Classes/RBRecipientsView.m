@@ -20,11 +20,11 @@
 
 @interface RBRecipientsView ()
 
-@property (nonatomic, readonly) PSBaseViewController *viewControllerResponder;
-@property (nonatomic, retain) UIButton *routingOrderButton;
-@property (nonatomic, retain) UITextField *subjectTextField;
-@property (nonatomic, retain) NSArray *addContactButtons;
-@property (nonatomic, retain) NSArray *recipientsForTypes;
+@property (unsafe_unretained, nonatomic, readonly) PSBaseViewController *viewControllerResponder;
+@property (nonatomic, strong) UIButton *routingOrderButton;
+@property (nonatomic, strong) UITextField *subjectTextField;
+@property (nonatomic, strong) NSArray *addContactButtons;
+@property (nonatomic, strong) NSArray *recipientsForTypes;
 
 - (void)showPeoplePicker;
 - (void)showNewContactScreen;
@@ -60,7 +60,7 @@
     if ((self = [super initWithFrame:frame])) {
         self.tag = kRBRecipientsViewTag;
         
-        UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 10.f, 150, 31)] autorelease];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(30, 10.f, 150, 31)];
         label.font = [UIFont fontWithName:kRBFontName size:18];
         label.textColor = kRBColorMain;
         label.backgroundColor = [UIColor clearColor];
@@ -78,7 +78,7 @@
         subjectTextField_.delegate = self;
         [self addSubview:subjectTextField_];
         
-        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 210.f, 150, 35.f)] autorelease];
+        label = [[UILabel alloc] initWithFrame:CGRectMake(30, 210.f, 150, 35.f)];
         label.font = [UIFont fontWithName:kRBFontName size:18];
         label.textColor = kRBColorMain;
         label.backgroundColor = [UIColor clearColor];
@@ -91,7 +91,7 @@
         [newContactButton addTarget:self action:@selector(handleNewContactPress:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:newContactButton];
         
-        label = [[[UILabel alloc] initWithFrame:CGRectMake(30, 245.f, 150, 55.f)] autorelease];
+        label = [[UILabel alloc] initWithFrame:CGRectMake(30, 245.f, 150, 55.f)];
         label.font = [UIFont fontWithName:kRBFontName size:18];
         label.textColor = kRBColorMain;
         label.backgroundColor = [UIColor clearColor];
@@ -106,7 +106,7 @@
         [routingOrderButton_ addTarget:self action:@selector(handleRoutingOrderPress:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:routingOrderButton_];
         
-        UIView *dividerView = [[[UIView alloc] initWithFrame:CGRectMake(self.bounds.size.width/2.f, 5.f, 1.f, self.bounds.size.height-10.f)] autorelease];
+        UIView *dividerView = [[UIView alloc] initWithFrame:CGRectMake(self.bounds.size.width/2.f, 5.f, 1.f, self.bounds.size.height-10.f)];
         dividerView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.3f];
         dividerView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
         [self addSubview:dividerView];
@@ -115,19 +115,9 @@
     return self;
 }
 
-- (void)dealloc {
-    MCRelease(tableViews_);
-    MCRelease(recipientsForTypes_);
-    MCRelease(routingOrderButton_);
-    MCRelease(subjectTextField_);
-    MCRelease(tabs_);
-    MCRelease(addContactButtons_);
-    
-    [super dealloc];
-}
 
 - (NSArray *)recipientTypes {
-    NSMutableArray *types = [[[NSMutableArray alloc] initWithCapacity:2] autorelease];
+    NSMutableArray *types = [[NSMutableArray alloc] initWithCapacity:2];
     for (NSDictionary *tab in self.tabs) {
         NSString *rType = [tab objectForKey:kRBFormKeyTabKind];
         if (!rType) {
@@ -158,7 +148,7 @@
 }
 
 - (NSArray *)tabsForType:(NSString *)type {
-    NSMutableArray *tabs = [[[NSMutableArray alloc] initWithCapacity:2] autorelease];
+    NSMutableArray *tabs = [[NSMutableArray alloc] initWithCapacity:2];
     for (NSDictionary *tab in self.tabs) {
         NSString *tabKind = [tab objectForKey:kRBFormKeyTabKind];
         if ((tabKind == nil && [type isEqualToString:@"default"]) || [type isEqualToString:tabKind]) {
@@ -216,8 +206,7 @@
 - (void)setTabs:(NSArray *)tabs {
     if (tabs_ == tabs) return;
     
-    NSArray *oldTabs = tabs_;
-    tabs_ = [tabs retain];
+    tabs_ = tabs;
     [tableViews_ makeObjectsPerformSelector:@selector(removeFromSuperview)];
     self.tableViews = nil;
     self.addContactButtons = nil;
@@ -228,23 +217,23 @@
         int typeIndex = 0;
         CGFloat height = floorf((self.bounds.size.height - 10.f) / self.recipientTypes.count);
         for (NSString *recipientType in self.recipientTypes) {
-            UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 90.f)] autorelease];
+            UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 90.f)];
             
-            UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 450, 35.f)] autorelease];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 450, 35.f)];
             label.font = [UIFont fontWithName:kRBFontName size:19];
             label.textColor = kRBColorMain;
             label.backgroundColor = [UIColor clearColor];
             label.text = [NSString stringWithFormat:@"%@ Signers", [recipientType isEqualToString:@"default"] ? @"" : [recipientType titlecaseString]];
             [headerView addSubview:label];
             
-            label = [[[UILabel alloc] initWithFrame:CGRectMake(45.f, 40.f, 400.f, 35.f)] autorelease];
+            label = [[UILabel alloc] initWithFrame:CGRectMake(45.f, 40.f, 400.f, 35.f)];
             label.font = [UIFont fontWithName:kRBFontName size:18];
             label.textColor = kRBColorMain;
             label.backgroundColor = [UIColor clearColor];
             label.text = [NSString stringWithFormat:@"Add %@ Signer", [recipientType isEqualToString:@"default"] ? @"" : [recipientType titlecaseString]];
             [headerView addSubview:label];
             
-            UIButton *addContactButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+            UIButton *addContactButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [addContactButton setImage:[UIImage imageNamed:@"AddButton"] forState:UIControlStateNormal];
             addContactButton.frame = CGRectMake(0.f, label.frameTop, 35.f, 35.f);
             addContactButton.tag = typeIndex;
@@ -265,7 +254,7 @@
                 tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
             }
             tableView.backgroundColor = [UIColor clearColor];
-            tableView.backgroundView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+            tableView.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
             tableView.tableHeaderView = headerView; 
             tableView.tag = typeIndex;
             // tableView_.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
@@ -279,7 +268,6 @@
         self.addContactButtons = addContactButtons;
     }        
     
-    [oldTabs release];
 }
 
 - (void)setSubject:(NSString *)subject {
@@ -591,7 +579,7 @@
 }
 
 - (void)showPeoplePicker {
-    ABPeoplePickerNavigationController *picker = [[[ABPeoplePickerNavigationController alloc] init] autorelease];
+    ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
     
     picker.peoplePickerDelegate = self;
 	picker.displayedProperties = XARRAY([NSNumber numberWithInt:kABPersonEmailProperty]);
@@ -602,8 +590,8 @@
 }
 
 - (void)showNewContactScreen {
-    ABNewPersonViewController *viewController = [[[ABNewPersonViewController alloc] init] autorelease];
-    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:viewController] autorelease];
+    ABNewPersonViewController *viewController = [[ABNewPersonViewController alloc] init];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     
     viewController.newPersonViewDelegate = self;
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;

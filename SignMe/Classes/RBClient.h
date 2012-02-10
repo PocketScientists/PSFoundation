@@ -14,14 +14,14 @@
 @interface RBClient : NSManagedObject {
 @private
 }
-@property (nonatomic, retain) NSString * company;
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * street;
-@property (nonatomic, retain) NSString * city;
-@property (nonatomic, retain) NSString * state;
-@property (nonatomic, retain) NSString * zip;
-@property (nonatomic, retain) NSNumber * visible;
-@property (nonatomic, retain) NSSet *documents;
+@property (nonatomic, strong) NSString * company;
+@property (nonatomic, strong) NSString * name;
+@property (nonatomic, strong) NSString * street;
+@property (nonatomic, strong) NSString * city;
+@property (nonatomic, strong) NSString * state;
+@property (nonatomic, strong) NSString * zip;
+@property (nonatomic, strong) NSNumber * visible;
+@property (nonatomic, strong) NSSet *documents;
 @end
 
 @interface RBClient (CoreDataGeneratedAccessors)

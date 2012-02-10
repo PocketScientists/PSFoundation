@@ -13,16 +13,16 @@
 
 @interface RBCarouselView ()
 
-@property (nonatomic, readwrite, retain) id attachedObject;
+@property (nonatomic, readwrite, strong) id attachedObject;
 
 @property (nonatomic, assign) CGFloat topMargin;
-@property (nonatomic, retain) UILabel *label1;
-@property (nonatomic, retain) UILabel *label2;
-@property (nonatomic, retain) UILabel *label3;
-@property (nonatomic, retain) UILabel *label4;
-@property (nonatomic, retain) UIView *lineView;
-@property (nonatomic, retain) UIImageView *backgroundView;
-@property (nonatomic, retain) UIImageView *statusView;
+@property (nonatomic, strong) UILabel *label1;
+@property (nonatomic, strong) UILabel *label2;
+@property (nonatomic, strong) UILabel *label3;
+@property (nonatomic, strong) UILabel *label4;
+@property (nonatomic, strong) UIView *lineView;
+@property (nonatomic, strong) UIImageView *backgroundView;
+@property (nonatomic, strong) UIImageView *statusView;
 
 - (void)splitTextOnFirstTwoLabels:(NSString *)text;
 - (void)updateLabelFrames;
@@ -49,7 +49,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 + (RBCarouselView *)carouselViewWithWidth:(CGFloat)width {
-    return [[[RBCarouselView alloc] initWithFrame:CGRectMake(0, 0, width, 120)] autorelease];
+    return [[RBCarouselView alloc] initWithFrame:CGRectMake(0, 0, width, 120)];
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -109,18 +109,6 @@
     return self;
 }
 
-- (void)dealloc {
-    MCRelease(label1_);
-    MCRelease(label2_);
-    MCRelease(label3_);
-    MCRelease(label4_);
-    MCRelease(attachedObject_);
-    MCRelease(lineView_);
-    MCRelease(backgroundView_);
-    MCRelease(statusView_);
-    
-    [super dealloc];
-}
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -227,7 +215,7 @@
     self.label3.text = [NSString stringWithFormat:@"%d DOCUMENTS", client.documents.count];
     
     if (client.documents.count > 0) {
-        RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+        RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
         
         self.label4.text = [NSString stringWithFormat:@"UPDATED %@", RBFormattedDateWithFormat([persistenceManager updateDateForClient:client], kRBDateFormat)]; 
     } else {

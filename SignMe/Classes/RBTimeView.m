@@ -46,7 +46,7 @@ static NSDateFormatter *timeFormatter = nil;
         [monthFormatter setDateFormat:@"MMM"];
         [dayFormatter setDateFormat:@"dd"];
         // always use US-Locale for timeFormatter to display AM/PM instead of e.g. vorm/nachm for german locale
-        [timeFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
+        [timeFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
         [timeFormatter setDateFormat:@"h:mm aa"];
     }
 }
@@ -59,11 +59,6 @@ static NSDateFormatter *timeFormatter = nil;
     return self;
 }
 
-- (void)dealloc {
-    MCRelease(updateTimer_);
-    
-    [super dealloc];
-}
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -121,7 +116,7 @@ static NSDateFormatter *timeFormatter = nil;
 - (void)startUpdating {
     [self stopUpdating];
     
-    __block RBTimeView *blockSelf = self;
+    __unsafe_unretained RBTimeView *blockSelf = self;
     self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:MTTimeIntervalSeconds(10) block:^(void) {
         [blockSelf setNeedsDisplay];
     } repeats:YES];

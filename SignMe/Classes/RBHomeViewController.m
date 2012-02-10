@@ -37,18 +37,18 @@
 
 @interface RBHomeViewController ()
 
-@property (nonatomic, readonly) NSFetchedResultsController *clientsFetchController;
-@property (nonatomic, readonly) NSFetchedResultsController *documentsFetchController;
+@property (strong, nonatomic, readonly) NSFetchedResultsController *clientsFetchController;
+@property (strong, nonatomic, readonly) NSFetchedResultsController *documentsFetchController;
 
 @property (nonatomic, assign) CGFloat formsViewDefaultY;
 @property (nonatomic, assign) CGFloat clientsViewDefaultY;
 
-@property (nonatomic, retain) UILabel *formsLabel;
-@property (nonatomic, retain) UILabel *clientsLabel;
+@property (nonatomic, strong) UILabel *formsLabel;
+@property (nonatomic, strong) UILabel *clientsLabel;
 
-@property (nonatomic, retain) RBFormDetailView *detailView;
-@property (nonatomic, retain) iCarousel *detailCarousel;
-@property (nonatomic, retain) NSArray *emptyForms;
+@property (nonatomic, strong) RBFormDetailView *detailView;
+@property (nonatomic, strong) iCarousel *detailCarousel;
+@property (nonatomic, strong) NSArray *emptyForms;
 
 @property (nonatomic, readonly, getter = isDetailViewVisible) BOOL detailViewVisible;
 @property (nonatomic, readonly, getter = isSearchScreenVisible) BOOL searchScreenVisible;
@@ -140,23 +140,6 @@
     return self;
 }
 
-- (void)dealloc {
-    MCRelease(clientsFetchController_);
-    MCRelease(documentsFetchController_);
-    MCRelease(formsLabel_);
-    MCRelease(clientsLabel_);
-    MCRelease(formsView_);
-    MCRelease(formsCarousel_);
-    MCRelease(clientsView_);
-    MCRelease(clientsCarousel_);
-    MCRelease(searchField_);
-    MCRelease(addNewClientButton_);
-    MCRelease(detailView_);
-    MCRelease(detailCarousel_);
-    MCRelease(emptyForms_);
-    
-    [super dealloc];
-}
 
 - (void)insertTempData {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
@@ -220,7 +203,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    emptyForms_ = [[RBForm allEmptyForms] retain];
+    emptyForms_ = [RBForm allEmptyForms];
     
     self.formsViewDefaultY = self.formsView.frameTop;
     self.clientsViewDefaultY = self.clientsView.frameTop;
@@ -244,9 +227,9 @@
     [self.formsView addSubview:self.formsLabel];
     [self.clientsView addSubview:self.clientsLabel];
     
-    self.searchField.leftView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 25, 20)] autorelease];
+    self.searchField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 25, 20)];
     self.searchField.leftViewMode = UITextFieldViewModeAlways;
-    self.searchField.rightView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SearchFieldRightView"]] autorelease];
+    self.searchField.rightView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SearchFieldRightView"]];
     self.searchField.rightViewMode = UITextFieldViewModeAlways;
     
     // we control centering for this carousel on our own
@@ -255,12 +238,12 @@
     // we also add another item width, s.t. the first item (that is ususally centered) appears on first position
     self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX + (UIInterfaceOrientationIsPortrait(PSAppStatusBarOrientation) ? -120 : 0), 0);
     
-    self.detailView = [[[RBFormDetailView alloc] initWithFrame:self.formsView.frame] autorelease];
+    self.detailView = [[RBFormDetailView alloc] initWithFrame:self.formsView.frame];
     self.detailView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.detailView.frameHeight = kDetailViewHeight;
     self.detailView.alpha = 0.f;
     
-    self.detailCarousel = [[[iCarousel alloc] initWithFrame:CGRectInset(self.detailView.bounds,0.f,15.f)] autorelease];
+    self.detailCarousel = [[iCarousel alloc] initWithFrame:CGRectInset(self.detailView.bounds,0.f,15.f)];
     self.detailCarousel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.detailCarousel.delegate = self;
     self.detailCarousel.dataSource = self;
@@ -276,7 +259,6 @@
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(startUpdate:)];
     [self.formsLabel addGestureRecognizer:tap];
-    [tap release];
 }
 
 - (void) viewDidUnload {
@@ -292,8 +274,6 @@
     self.addNewClientButton = nil;
     self.clientsCarousel = nil;
     self.detailView = nil;
-    MCReleaseNil(clientsFetchController_);
-    MCReleaseNil(documentsFetchController_);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -365,20 +345,22 @@
                                       DDLogInfo(@"Downloading %@", file.objectName);
                                       [[RBBoxService box] downloadFile:file
                                                          progressBlock:nil
-                                                       completionBlock:^(BoxResponseType resultType, NSData *fileData) {
+                                                       completionBlock:^(BoxResponseType resultType, NSString *filePath) {
                                                            // save id of file under name of file in userDefaults
                                                            // this is to retreive the stored files later from the folder Documents/box.net
                                                            // because they are stored with objectID and objectName
                                                            [[NSUserDefaults standardUserDefaults] setObjectID:file.objectId 
                                                                           forObjectWithNameIncludingExtension:file.objectName];
                                                            
-                                                           // update forms carousel
-                                                           self.emptyForms = [RBForm allEmptyForms];
-                                                           
-                                                           dispatch_async(dispatch_get_main_queue(), ^(void) {
-                                                               [NSUserDefaults standardUserDefaults].formsUpdateDate = [NSDate date];
-                                                               [self updateUI];
-                                                           });
+                                                           if ([[file.objectName pathExtension] isEqualToString:@"plist"]) {
+                                                               // update forms carousel
+                                                               self.emptyForms = [RBForm allEmptyForms];
+                                                               
+                                                               dispatch_async(dispatch_get_main_queue(), ^(void) {
+                                                                   [NSUserDefaults standardUserDefaults].formsUpdateDate = [NSDate date];
+                                                                   [self updateUI];
+                                                               });
+                                                           }
                                                        }];
                                   }
                               }
@@ -455,7 +437,7 @@
             [view setFromClient:client];
             
             // long-press on client triggers edit-screen
-            UILongPressGestureRecognizer *longPress = [[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleClientLongPress:)] autorelease];
+            UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleClientLongPress:)];
             [view addGestureRecognizer:longPress];
         }
     }
@@ -669,7 +651,7 @@
                     PSAlertView *alertView = [PSAlertView alertWithTitle:document.name message:[NSString stringWithFormat:@"Do you really want to delete this document for %@?",document.client.name]];
                     
                     [alertView addButtonWithTitle:@"Delete" block:^(void) {
-                        RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+                        RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
                         [persistenceManager deleteDocument:document];
                         [self.formsCarousel reloadData];
                         [self performSelector:@selector(showSuccessMessage:) withObject:@"Document deleted" afterDelay:0.5f];
@@ -744,7 +726,7 @@
 }
 
 - (IBAction)handleMusketeerPress:(id)sender {
-    RBMusketeerEditViewController *editViewController = [[[RBMusketeerEditViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    RBMusketeerEditViewController *editViewController = [[RBMusketeerEditViewController alloc] initWithNibName:nil bundle:nil];
     
     editViewController.musketeer = [RBMusketeer loadEntity];
     editViewController.modalPresentationStyle = UIModalPresentationFormSheet; //UIModalPresentationPageSheet;
@@ -769,7 +751,7 @@
                 PSAlertView *alertView = [PSAlertView alertWithTitle:[((RBClient *)attachedObject).name uppercaseString] message:[NSString stringWithFormat:@"Do you really want to delete client %@?", [((RBClient *)attachedObject).name uppercaseString]]];
                 
                 [alertView addButtonWithTitle:@"Delete" block:^(void) {
-                    RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+                    RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
                     [persistenceManager deleteClient:(RBClient *)attachedObject];
                     [self.clientsCarousel reloadData];
                     [self.formsCarousel reloadData];
@@ -800,13 +782,13 @@
         return clientsFetchController_;
     }
     
-	NSFetchRequest *fetchRequest = [[[NSFetchRequest alloc] init] autorelease];
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([RBClient class])
                                               inManagedObjectContext:[NSManagedObjectContext defaultContext]];
     [fetchRequest setEntity:entity];
     [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"visible = YES"]];
     
-    NSSortDescriptor *idSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
+    NSSortDescriptor *idSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
     [fetchRequest setSortDescriptors:[NSArray arrayWithObject:idSortDescriptor]];
     
     // create sections for beginDate
@@ -824,12 +806,12 @@
         return documentsFetchController_;
     }
     
-	NSFetchRequest *fetchRequest = [[[NSFetchRequest alloc] init] autorelease];
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([RBDocument class])
                                               inManagedObjectContext:[NSManagedObjectContext defaultContext]];
     [fetchRequest setEntity:entity];
     
-    NSSortDescriptor *idSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO] autorelease];
+    NSSortDescriptor *idSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
     [fetchRequest setSortDescriptors:[NSArray arrayWithObject:idSortDescriptor]];
     
     // create sections for beginDate
@@ -1003,7 +985,7 @@
 }
 
 - (void)documentInteractionControllerDidEndPreview:(UIDocumentInteractionController *)controller {
-    [controller autorelease];
+    //    [controller autorelease];
 }
 
 - (BOOL)documentInteractionController:(UIDocumentInteractionController *)controller canPerformAction:(SEL)action {
@@ -1033,7 +1015,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (UILabel *)headerLabelForView:(UIView *)view text:(NSString *)text {
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0.f, 0.f, 150.f, 40.f)] autorelease];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 0.f, 150.f, 40.f)];
     
     label.text = [text uppercaseString];
     label.textAlignment = UITextAlignmentCenter;
@@ -1108,13 +1090,13 @@
 } 
 
 - (RBClient *)clientWithName:(NSString *)name {
-    RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+    RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
     
     return [persistenceManager clientWithName:name];
 }
 
 - (void)editClient:(RBClient *)client {
-    RBClientEditViewController *editViewController = [[[RBClientEditViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    RBClientEditViewController *editViewController = [[RBClientEditViewController alloc] initWithNibName:nil bundle:nil];
     
     editViewController.client = client;
     editViewController.modalPresentationStyle = UIModalPresentationFormSheet; //UIModalPresentationPageSheet;
@@ -1128,7 +1110,7 @@
         && self.detailCarouselSelectedIndex != NSNotFound 
         && self.clientsCarouselSelectedIndex != NSNotFound) {
         [self performBlock:^(void) {
-            RBForm *form = [[[self.emptyForms objectAtIndex:self.detailCarouselSelectedIndex] copy] autorelease];
+            RBForm *form = [[self.emptyForms objectAtIndex:self.detailCarouselSelectedIndex] copy];
             RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
             
             [self presentFormViewControllerForForm:form client:client];
@@ -1137,7 +1119,7 @@
 }
 
 - (void)presentFormViewControllerForForm:(RBForm *)form client:(RBClient *)client { 
-    RBFormViewController *viewController = [[[RBFormViewController alloc] initWithForm:form client:client] autorelease];
+    RBFormViewController *viewController = [[RBFormViewController alloc] initWithForm:form client:client];
     
     viewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     viewController.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -1146,7 +1128,7 @@
 }
 
 - (void)presentFormViewControllerForDocument:(RBDocument *)document {
-    RBFormViewController *viewController = [[[RBFormViewController alloc] initWithDocument:document] autorelease];
+    RBFormViewController *viewController = [[RBFormViewController alloc] initWithDocument:document];
     
     viewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     viewController.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -1190,7 +1172,7 @@
 }
 
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {
-    RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+    RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
     
     switch (formStatus) {
         case RBFormStatusNew:
@@ -1232,7 +1214,6 @@
     if (![documentController presentPreviewAnimated:YES]) {
         DDLogInfo(@"Wasn't able to display file");
     } else {
-        [documentController retain];
     }
 }
 

@@ -55,7 +55,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
         case RBFormStatusPreSignature:
         case RBFormStatusSigned: 
         {
-            RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+            RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
             updateDate = [persistenceManager updateDateForFormStatus:formStatus];
             break;
         }
@@ -80,7 +80,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
 
 // overwrite property as read/write and mutable
 @property (nonatomic, copy, readwrite) NSString *name;
-@property (nonatomic, retain, readwrite) NSMutableDictionary *formData;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *formData;
 
 - (NSInteger)indexOfObjectWithFieldID:(NSString *)fieldID inArray:(NSArray *)array;
 
@@ -97,7 +97,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
 ////////////////////////////////////////////////////////////////////////
 
 + (RBForm *)emptyFormWithName:(NSString *)name {
-    return [[[RBForm alloc] initWithName:name] autorelease];
+    return [[RBForm alloc] initWithName:name];
 }
 
 + (NSArray *)allEmptyForms {
@@ -143,12 +143,6 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     return copy;
 }
 
-- (void)dealloc {
-    MCRelease(formData_);
-    MCRelease(name_);
-    
-    [super dealloc];
-}
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -168,7 +162,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     static NSDate *creationDate = nil;
     
     if (creationDate == nil) {
-        creationDate = [[NSDate date] retain];
+        creationDate = [NSDate date];
     }
     
     return [NSString stringWithFormat:@"%@__%@", self.name, RBFormattedDateWithFormat(creationDate, kRBDateTimeFormat)];
@@ -400,7 +394,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
         
         // add additional information to tabs
         for (NSDictionary *tab in tabsForRecipient) {
-            NSMutableDictionary *tabCopy = [[tab mutableCopy] autorelease];
+            NSMutableDictionary *tabCopy = [tab mutableCopy];
             
             // we always have document index 0
             [tabCopy setValue:$I(0) forKey:kRBFormKeyTabDocumentIndex];
@@ -441,7 +435,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
                     }
                     found = YES;
                     
-                    NSMutableDictionary *tabCopy = [[tab mutableCopy] autorelease];
+                    NSMutableDictionary *tabCopy = [tab mutableCopy];
                     
                     // we always have document index 0
                     [tabCopy setValue:$I(0) forKey:kRBFormKeyTabDocumentIndex];
@@ -477,7 +471,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
         }
     }
     
-    return [[dict copy] autorelease];
+    return [dict copy];
 }
 
 - (NSArray *)fieldIDsOfSection:(NSUInteger)section {
@@ -566,7 +560,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     
     if (index != NSNotFound) {
         NSString *mapString = [[sectionData objectAtIndex:index] valueForKey:kRBFormKeyMapping];
-        NSMutableCharacterSet *set = [[[NSCharacterSet whitespaceAndNewlineCharacterSet] mutableCopy] autorelease];
+        NSMutableCharacterSet *set = [[NSCharacterSet whitespaceAndNewlineCharacterSet] mutableCopy];
         [set formUnionWithCharacterSet:[NSCharacterSet punctuationCharacterSet]];
         [set formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
         [set removeCharactersInString:@"_"];

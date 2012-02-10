@@ -19,11 +19,11 @@
     BOOL keyboardVisible;
 }
 
-@property (nonatomic, retain) RBForm *form;
-@property (nonatomic, retain) RBClient *client;
-@property (nonatomic, retain) RBDocument *document;
+@property (nonatomic, strong) RBForm *form;
+@property (nonatomic, strong) RBClient *client;
+@property (nonatomic, strong) RBDocument *document;
 
-@property (nonatomic, retain) RBFormView *formView;
+@property (nonatomic, strong) RBFormView *formView;
 
 
 - (id)initWithForm:(RBForm *)form client:(RBClient *)client;

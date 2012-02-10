@@ -21,12 +21,12 @@
 
 @property (nonatomic, assign) CGFloat currentY;
 @property (nonatomic, assign) BOOL musketeerWasCreated;
-@property (nonatomic, retain) UILabel *headerLabel;
-@property (nonatomic, retain) UIButton *cancelButton;
-@property (nonatomic, retain) UIButton *doneButton;
-@property (nonatomic, retain) NSMutableArray *mappingTextFields;
-@property (nonatomic, retain) UIToolbar *navToolbar;
-@property (nonatomic, retain) NSArray *states;
+@property (nonatomic, strong) UILabel *headerLabel;
+@property (nonatomic, strong) UIButton *cancelButton;
+@property (nonatomic, strong) UIButton *doneButton;
+@property (nonatomic, strong) NSMutableArray *mappingTextFields;
+@property (nonatomic, strong) UIToolbar *navToolbar;
+@property (nonatomic, strong) NSArray *states;
 
 - (void)handleCancelButtonPress:(id)sender;
 - (void)handleDoneButtonPress:(id)sender;
@@ -61,23 +61,12 @@
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         mappingTextFields_ = [[NSMutableArray alloc] init];
         currentY_ = 90.f;
-        states_ = [stateList retain];
+        states_ = stateList;
     }
     
     return self;
 }
 
-- (void)dealloc {
-    MCRelease(musketeer_);
-    MCRelease(headerLabel_);
-    MCRelease(doneButton_);
-    MCRelease(cancelButton_);
-    MCRelease(mappingTextFields_);
-    MCRelease(navToolbar_);
-    MCRelease(states_);
-    
-    [super dealloc];
-}
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
@@ -94,7 +83,7 @@
 - (void)loadView {
     // TODO: This is a quick-fix solution because my custom RBKeyboardAvoidingScrollView doesn't work here
     // this should be changed to RBKeyboardAvoidingScrollView when there's more time (and fixed of course)
-    RBKeyboardAvoidingScrollView *scrollView = [[[RBKeyboardAvoidingScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds] autorelease];
+    RBKeyboardAvoidingScrollView *scrollView = [[RBKeyboardAvoidingScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view = scrollView;
@@ -121,7 +110,7 @@
     self.doneButton.frame = CGRectMake(665, 28, doneImage.size.width, doneImage.size.height);
     [self.doneButton addTarget:self action:@selector(handleDoneButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     
-    self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 28, 300, cancelImage.size.height)] autorelease];
+    self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 28, 300, cancelImage.size.height)];
     self.headerLabel.font = [UIFont fontWithName:kRBFontName size:20];
     self.headerLabel.text = (self.musketeer != nil && !self.musketeer.musketeerCreatedForEditing) ? @"Edit Musketeer" : @"New Musketeer";
     self.headerLabel.backgroundColor = [UIColor clearColor];
@@ -147,15 +136,16 @@
 //        i++;
 //    }
     first = 100;
-    last = 102;
+    last = 103;
     [self addInputFieldWithLabel:@"firstname" index:100];
     [self addInputFieldWithLabel:@"lastname" index:101];
-    [self addInputFieldWithLabel:@"email" index:102];
+    [self addInputFieldWithLabel:@"role" index:102];
+    [self addInputFieldWithLabel:@"email" index:103];
     
-    self.navToolbar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 1024, 44)] autorelease];
+    self.navToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 1024, 44)];
     self.navToolbar.barStyle = UIBarStyleBlack;
-    UIBarButtonItem *prevItem = [[[UIBarButtonItem alloc] initWithTitle:@"Prev" style:UIBarButtonItemStyleBordered target:self action:@selector(gotoPrevField:)] autorelease];
-    UIBarButtonItem *nextItem = [[[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(gotoNextField:)] autorelease];
+    UIBarButtonItem *prevItem = [[UIBarButtonItem alloc] initWithTitle:@"Prev" style:UIBarButtonItemStyleBordered target:self action:@selector(gotoPrevField:)];
+    UIBarButtonItem *nextItem = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(gotoNextField:)];
     self.navToolbar.items = [NSArray arrayWithObjects:prevItem, nextItem, nil];
     
     [(UIScrollView *)self.view setContentSize:CGSizeMake(1, self.currentY)];
@@ -229,8 +219,8 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)addInputFieldWithLabel:(NSString *)label index:(int)index {
-    UILabel *fieldLabel = [[[UILabel alloc] initWithFrame:CGRectMake(35, self.currentY, 472, 20)] autorelease];
-    UITextField *textField = [[[UITextField alloc] initWithFrame:CGRectMake(35, self.currentY + 23, 472, kRBRowHeight)] autorelease];
+    UILabel *fieldLabel = [[UILabel alloc] initWithFrame:CGRectMake(35, self.currentY, 472, 20)];
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(35, self.currentY + 23, 472, kRBRowHeight)];
     
     fieldLabel.backgroundColor = [UIColor clearColor];
     fieldLabel.textColor = kRBColorMain;
@@ -253,7 +243,6 @@
         pickerView.delegate = self;
         pickerView.showsSelectionIndicator = YES;
         textField.inputView = pickerView;
-        [pickerView release];
         NSInteger i = [self.states indexOfObject:textField.text];
         if (i != NSNotFound) {
             [pickerView selectRow:i inComponent:0 animated:NO];

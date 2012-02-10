@@ -20,7 +20,7 @@ void GetButtonStateName(const char *key, CGPDFObjectRef object, void *info);
      NSString *password;
 }
 
-@property(nonatomic, retain) NSString *password;
+@property(nonatomic, strong) NSString *password;
 
 - (CGPDFDocumentRef)newOpenDocument:(NSURL *)url;
 - (NSMutableDictionary *)annotsForPDFDocument:(CGPDFDocumentRef)document;

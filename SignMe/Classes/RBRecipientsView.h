@@ -19,10 +19,10 @@ ABPeoplePickerNavigationControllerDelegate, ABNewPersonViewControllerDelegate, U
 
 @property (nonatomic, assign) NSUInteger maxNumberOfRecipients;
 @property (nonatomic, copy) NSArray *recipients;
-@property (nonatomic, retain) NSArray *tabs;
+@property (nonatomic, strong) NSArray *tabs;
 @property (nonatomic, copy) NSString *subject;
 @property (nonatomic, assign) BOOL useRoutingOrder;
 
-@property (nonatomic, retain) NSArray *tableViews;
+@property (nonatomic, strong) NSArray *tableViews;
 
 @end

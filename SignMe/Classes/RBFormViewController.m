@@ -23,12 +23,12 @@
 
 @interface RBFormViewController ()
 
-@property (nonatomic, retain) UILabel *headerLabel;
-@property (nonatomic, retain) SSLineView *topLine;
-@property (nonatomic, retain) SSLineView *bottomLine;
-@property (nonatomic, retain) UIButton *cancelButton;
-@property (nonatomic, retain) UIButton *doneButton;
-@property (nonatomic, retain) UIButton *finalizeButton;
+@property (nonatomic, strong) UILabel *headerLabel;
+@property (nonatomic, strong) SSLineView *topLine;
+@property (nonatomic, strong) SSLineView *bottomLine;
+@property (nonatomic, strong) UIButton *cancelButton;
+@property (nonatomic, strong) UIButton *doneButton;
+@property (nonatomic, strong) UIButton *finalizeButton;
 
 - (void)handleCancelButtonPress:(id)sender;
 - (void)handleDoneButtonPress:(id)sender;
@@ -62,8 +62,8 @@
 
 - (id)initWithForm:(RBForm *)form client:(RBClient *)client {
     if ((self = [super initWithNibName:nil bundle:nil])) {
-        form_ = [form retain];
-        client_ = [client retain];
+        form_ = form;
+        client_ = client;
     }
     
     return self;
@@ -71,28 +71,14 @@
 
 - (id)initWithDocument:(RBDocument *)document {
     if ((self = [super initWithNibName:nil bundle:nil])) {
-        document_ = [document retain];
-        form_ = [document.form retain];
-        client_ = [document.client retain];
+        document_ = document;
+        form_ = document.form;
+        client_ = document.client;
     }
     
     return self;
 }
 
-- (void)dealloc {
-    MCRelease(form_);
-    MCRelease(document_);
-    MCRelease(headerLabel_);
-    MCRelease(topLine_);
-    MCRelease(bottomLine_);
-    MCRelease(formView_);
-    MCRelease(client_);
-    MCRelease(cancelButton_);
-    MCRelease(doneButton_);
-    MCRelease(finalizeButton_);
-    
-    [super dealloc];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -109,7 +95,7 @@
     self.view.frame = CGRectMake(0, 0, 1024, 748);
     self.view.autoresizingMask = UIViewAutoresizingFlexibleSize;
     
-    RBUIGenerator *generator = [[[RBUIGenerator alloc] init] autorelease];
+    RBUIGenerator *generator = [[RBUIGenerator alloc] init];
     
     self.formView = [generator viewWithFrame:CGRectMake(0, kRBOffsetTop, self.view.bounds.size.width, self.view.bounds.size.height-kRBOffsetTop-kRBOffsetBottom)
                                         form:self.form
@@ -117,7 +103,7 @@
                                     document:self.document];
     self.formView.autoresizingMask = UIViewAutoresizingFlexibleSize;
     
-    self.headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(30, 172, 580, 27)] autorelease];
+    self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 172, 580, 27)];
     self.headerLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
     self.headerLabel.backgroundColor = [UIColor clearColor];
     self.headerLabel.textColor = kRBColorMain;
@@ -125,11 +111,11 @@
     self.headerLabel.font = [UIFont fontWithName:kRBFontName size:24.];
     self.headerLabel.text = [self.form.displayName stringByAppendingFormat:@": %@", self.client.name];
     
-    self.topLine = [[[SSLineView alloc] initWithFrame:CGRectMake(30, 202, 964, 1)] autorelease];
+    self.topLine = [[SSLineView alloc] initWithFrame:CGRectMake(30, 202, 964, 1)];
     self.topLine.lineColor = [UIColor colorWithWhite:1.f alpha:0.3f];
     self.topLine.insetColor = nil;
     
-    self.bottomLine = [[[SSLineView alloc] initWithFrame:CGRectMake(30, 700, 964, 1)] autorelease];
+    self.bottomLine = [[SSLineView alloc] initWithFrame:CGRectMake(30, 700, 964, 1)];
     self.bottomLine.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     self.bottomLine.lineColor = [UIColor colorWithWhite:1.f alpha:0.3f];
     self.bottomLine.insetColor = nil;
@@ -271,7 +257,7 @@
     // go back to HomeViewController
     [self dismissModalViewControllerAnimated:YES];
     
-    RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+    RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
     
     if (self.document != nil) {
         [persistenceManager updateDocument:self.document usingForm:self.form recipients:self.formView.recipients subject:self.formView.subject obeyRoutingOrder:self.formView.obeyRoutingOrder];
@@ -303,7 +289,7 @@
             // go back to HomeViewController
             [self dismissModalViewControllerAnimated:YES];
             
-            RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+            RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
             
             if (self.document != nil) {
                 [persistenceManager updateDocument:self.document usingForm:self.form recipients:self.formView.recipients subject:self.formView.subject obeyRoutingOrder:self.formView.obeyRoutingOrder];

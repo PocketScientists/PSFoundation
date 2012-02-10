@@ -26,9 +26,8 @@ void GetButtonStateName(const char *key, CGPDFObjectRef object, void *info) {
 ////////////////////////////////////////////////////////////////////////
 
 - (void)dealloc {
-    [password release], password = nil;
+    password = nil;
     
-    [super dealloc];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -37,7 +36,7 @@ void GetButtonStateName(const char *key, CGPDFObjectRef object, void *info) {
 ////////////////////////////////////////////////////////////////////////
 
 - (CGPDFDocumentRef)newOpenDocument:(NSURL *)url {
-    CGPDFDocumentRef myDocument = CGPDFDocumentCreateWithURL((CFURLRef)url);
+    CGPDFDocumentRef myDocument = CGPDFDocumentCreateWithURL((__bridge CFURLRef)url);
     
     if (myDocument == NULL) {
         return NULL;
@@ -196,7 +195,7 @@ void GetButtonStateName(const char *key, CGPDFObjectRef object, void *info) {
                     idString = [NSString stringWithFormat:@"%@ %s", nameString, btnValue];
                 }
                 else {
-                    idString = (NSString *)nameString;
+                    idString = (__bridge NSString *)nameString;
                 }
 
                 [fields appendString:idString];
@@ -210,13 +209,13 @@ void GetButtonStateName(const char *key, CGPDFObjectRef object, void *info) {
                 if (strcmp(datatype, "Btn") == 0) {
                     [fieldDict setObject:[NSString stringWithCString:btnValue encoding:NSUTF8StringEncoding] forKey:kRBFormKeyLabel];
                     [fieldDict setObject:[NSString stringWithCString:btnType encoding:NSUTF8StringEncoding] forKey:kRBFormKeySubtype];
-                    [fieldDict setObject:(NSString*)nameString forKey:kRBFormKeyButtonGroup];
+                    [fieldDict setObject:(__bridge NSString*)nameString forKey:kRBFormKeyButtonGroup];
                     if (btnValue) {
                         [fieldDict setObject:[NSString stringWithCString:btnValue encoding:NSUTF8StringEncoding] forKey:kRBFormKeyValue];
                     }
                 }
                 else {
-                    [fieldDict setObject:(NSString*)nameString forKey:kRBFormKeyLabel];
+                    [fieldDict setObject:(__bridge NSString*)nameString forKey:kRBFormKeyLabel];
                 }
                 [fieldDict setObject:kRBFormKeyMappingNone forKey:kRBFormKeyMapping];
                 [fieldDict setObject:kRBFieldPositionRight forKey:kRBFormKeyPosition];

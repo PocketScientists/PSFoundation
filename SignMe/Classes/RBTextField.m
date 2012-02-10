@@ -51,14 +51,14 @@
         UIImage *image = [UIImage imageNamed:@"TextFieldBackground.png"];
         self.background = [image stretchableImageWithLeftCapWidth:8 topCapHeight:15];
 
-        UIToolbar *navToolbar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 1024, 44)] autorelease];
+        UIToolbar *navToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 1024, 44)];
         navToolbar.barStyle = UIBarStyleBlack;
-        UIBarButtonItem *prevItem = [[[UIBarButtonItem alloc] initWithTitle:@"Prev" style:UIBarButtonItemStyleBordered target:self action:@selector(gotoPrevField:)] autorelease];
+        UIBarButtonItem *prevItem = [[UIBarButtonItem alloc] initWithTitle:@"Prev" style:UIBarButtonItemStyleBordered target:self action:@selector(gotoPrevField:)];
         prevItem.enabled = NO;
-        UIBarButtonItem *nextItem = [[[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(gotoNextField:)] autorelease];
+        UIBarButtonItem *nextItem = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(gotoNextField:)];
         nextItem.enabled = NO;
-        UIBarButtonItem *spaceItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
-        UIBarButtonItem *closeItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeField:)] autorelease];
+        UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeField:)];
         navToolbar.items = [NSArray arrayWithObjects:prevItem, nextItem, spaceItem, closeItem, nil];
         [self setInputAccessoryView:navToolbar];
     }
@@ -72,12 +72,7 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     }
-
-    MCRelease(popoverController_);
-    MCRelease(subtype_);
-    MCRelease(calcVarFields_);
     
-    [super dealloc];
 }
 
 
@@ -110,13 +105,11 @@
 
 
 - (void)setSubtype:(NSString *)newSubtype {
-    NSString *oldSubtype = subtype_;
-    subtype_ = [newSubtype retain];
+    subtype_ = newSubtype;
     if ([subtype_ isEqualToString:@"date"] || [subtype_ isEqualToString:@"time"] || [subtype_ isEqualToString:@"datetime"]) {
         if (usePopover_) {
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showDatePicker:)];
             [self addGestureRecognizer:tap];
-            [tap release];
         }
         else {
             UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 44, PSAppWidth(), 300)];
@@ -131,14 +124,12 @@
                 datePicker.datePickerMode = UIDatePickerModeTime;
             }
             self.inputView = datePicker;
-            [datePicker release];
         }
     }
     else if ([subtype_ isEqualToString:@"list"]) {
         if (usePopover_) {
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showItemPicker:)];
             [self addGestureRecognizer:tap];
-            [tap release];
         }
         else {
             UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, PSAppWidth(), 300)];
@@ -146,7 +137,6 @@
             pickerView.delegate = self;
             pickerView.showsSelectionIndicator = YES;
             self.inputView = pickerView;
-            [pickerView release];
         }
     }
     else if ([subtype_ isEqualToString:@"number"]) {
@@ -161,7 +151,6 @@
     else if ([subtype_ isEqualToString:@"url"]) {
         self.keyboardType = UIKeyboardTypeURL;
     }
-    [oldSubtype release];
 }
 
 
@@ -341,13 +330,12 @@
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     toolbar.tintColor = kRBColorDetail;
     UIBarButtonItem *item;
-    item = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+    item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [items addObject:item];
-    item = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)] autorelease];
+    item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
     [items addObject:item];
     
     toolbar.items = items;
-    [items release];
     
     
     UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 44, 320, 300)];
@@ -375,7 +363,7 @@
     
     //create a popover controller
     if (!self.popoverController) {
-        self.popoverController = [[[UIPopoverController alloc] initWithContentViewController:popoverContent] autorelease];
+        self.popoverController = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
         self.popoverController.delegate = self;
     }
     
@@ -384,10 +372,6 @@
     [self.popoverController presentPopoverFromRect:self.frame inView:self.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 
     //release the popover content
-    [popoverView release];
-    [popoverContent release];
-    [datePicker release];
-    [toolbar release];
 }
 
 
@@ -401,13 +385,12 @@
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     toolbar.tintColor = kRBColorDetail;
     UIBarButtonItem *item;
-    item = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+    item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [items addObject:item];
-    item = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)] autorelease];
+    item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
     [items addObject:item];
     
     toolbar.items = items;
-    [items release];
     
     UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 44, 320, 300)];
     pickerView.dataSource = self;
@@ -428,7 +411,7 @@
     
     //create a popover controller
     if (!self.popoverController) {
-        self.popoverController = [[[UIPopoverController alloc] initWithContentViewController:popoverContent] autorelease];
+        self.popoverController = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
         self.popoverController.delegate = self;
     }
     
@@ -437,10 +420,6 @@
     [self.popoverController presentPopoverFromRect:self.frame inView:self.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     
     //release the popover content
-    [popoverView release];
-    [popoverContent release];
-    [pickerView release];
-    [toolbar release];
 }
 
 
@@ -516,7 +495,7 @@
 
 
 - (NSDateFormatter *)formatterForSubtype {
-    NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     if ([self.subtype isEqualToString:@"date"]) {
         formatter.dateStyle = NSDateFormatterShortStyle;
         formatter.timeStyle = NSDateFormatterNoStyle;

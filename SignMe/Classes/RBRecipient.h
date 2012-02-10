@@ -13,13 +13,13 @@
 
 @interface RBRecipient : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * addressBookPersonID;
-@property (nonatomic, retain) NSNumber * emailPropertyID;
-@property (nonatomic, retain) NSNumber * type;
-@property (nonatomic, retain) NSNumber * order;
-@property (nonatomic, retain) NSNumber * idcheck;
-@property (nonatomic, retain) NSNumber * code;
-@property (nonatomic, retain) NSString * kind;
-@property (nonatomic, retain) RBDocument *document;
+@property (nonatomic, strong) NSNumber * addressBookPersonID;
+@property (nonatomic, strong) NSNumber * emailPropertyID;
+@property (nonatomic, strong) NSNumber * type;
+@property (nonatomic, strong) NSNumber * order;
+@property (nonatomic, strong) NSNumber * idcheck;
+@property (nonatomic, strong) NSNumber * code;
+@property (nonatomic, strong) NSString * kind;
+@property (nonatomic, strong) RBDocument *document;
 
 @end

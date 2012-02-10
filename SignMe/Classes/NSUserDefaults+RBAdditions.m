@@ -155,7 +155,7 @@
         [keys replaceObjectAtIndex:i withObject:key];
     }
     
-    return [[keys copy] autorelease];
+    return [keys copy];
 }
 
 - (void)deleteStoredObjectNames {

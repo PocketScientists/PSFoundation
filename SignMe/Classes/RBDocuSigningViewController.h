@@ -10,7 +10,7 @@
 
 @interface RBDocuSigningViewController : UIViewController <UIWebViewDelegate>
 
-@property (nonatomic, retain) UIWebView *webView;
+@property (nonatomic, strong) UIWebView *webView;
 
 - (void)loadURL:(NSString *)urlString;
 

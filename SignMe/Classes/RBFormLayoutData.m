@@ -245,14 +245,13 @@
 
 - (void)dealloc 
 {
-    [columnWidths release], columnWidths = nil;
-    [columnLabelWidths release], columnLabelWidths = nil;
-    [labels release], labels = nil;
-    [fields release], fields = nil;
-    [sectionHeader release], sectionHeader = nil;
-    [sectionHeaderButton release], sectionHeaderButton = nil;
+    columnWidths = nil;
+    columnLabelWidths = nil;
+    labels = nil;
+    fields = nil;
+    sectionHeader = nil;
+    sectionHeaderButton = nil;
     
-    [super dealloc];
 }
 
 @end

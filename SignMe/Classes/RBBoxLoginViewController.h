@@ -10,6 +10,6 @@
 
 @interface RBBoxLoginViewController : UIViewController
 
-@property (nonatomic, retain) UIWebView *webView;
+@property (nonatomic, strong) UIWebView *webView;
 
 @end

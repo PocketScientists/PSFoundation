@@ -14,7 +14,7 @@
 @implementation RBDocument (RBDocument_RBForm)
 
 - (RBForm *)form {
-    return [[[RBForm alloc] initWithPath:RBPathToPlistWithName(self.fileURL) name:self.name] autorelease];
+    return [[RBForm alloc] initWithPath:RBPathToPlistWithName(self.fileURL) name:self.name];
 }
 
 - (NSArray *)recipientsAsDictionary {
@@ -27,7 +27,7 @@
     [recipientsArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         return [[obj1 objectForKey:@"order"] compare:[obj2 objectForKey:@"order"]];
     }];
-    return [[recipientsArray copy] autorelease];
+    return [recipientsArray copy];
 }
 
 - (NSURL *)filledPlistURL {

@@ -25,11 +25,6 @@
 #pragma mark Lifecycle
 ////////////////////////////////////////////////////////////////////////
 
-- (void)dealloc {
-    MCRelease(webView_);
-    
-    [super dealloc];
-}
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -37,7 +32,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)loadView {
-    self.webView = [[[UIWebView alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.bounds] autorelease];
+    self.webView = [[UIWebView alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.bounds];
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.webView.scalesPageToFit = YES;
     
@@ -47,7 +42,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(handleDonePress:)] autorelease];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(handleDonePress:)];
     // self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(handleRefreshPress:)] autorelease];
 }
 

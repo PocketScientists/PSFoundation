@@ -14,6 +14,6 @@
     NSInteger last;
 }
 
-@property (nonatomic, retain) RBMusketeer *musketeer;
+@property (nonatomic, strong) RBMusketeer *musketeer;
 
 @end

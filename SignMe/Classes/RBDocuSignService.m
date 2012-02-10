@@ -135,15 +135,13 @@ static DocuSignService *docuSign = nil;
                 dispatch_async(dispatch_get_main_queue(), ^(void) {
                     RBDocuSigningViewController *vc = [[RBDocuSigningViewController alloc] initWithNibName:nil bundle:nil];
                     
-                    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:vc] autorelease];
+                    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
                     navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
                     navigationController.navigationBar.barStyle = UIBarStyleBlack;
                     
                     [MTApplicationDelegate.homeViewController presentModalViewController:navigationController animated:YES];
                     
                     [vc loadURL:token];
-                    
-                    MCReleaseNil(vc);
                 });
             } else {
                 [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Eror initiating document viewing: %@. Please contact your IT-support team if the error persists.", [error localizedDescription]]];
@@ -172,15 +170,13 @@ static DocuSignService *docuSign = nil;
                 dispatch_async(dispatch_get_main_queue(), ^(void) {
                     RBDocuSigningViewController *vc = [[RBDocuSigningViewController alloc] initWithNibName:nil bundle:nil];
                     
-                    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:vc] autorelease];
+                    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
                     navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
                     navigationController.navigationBar.barStyle = UIBarStyleBlack;
                     
                     [MTApplicationDelegate.homeViewController presentModalViewController:navigationController animated:YES];
                     
                     [vc loadURL:token];
-                    
-                    MCReleaseNil(vc);
                 });
             } else {
                 if ([[error localizedDescription] containsString:@"out of sequence"]) {
@@ -198,7 +194,7 @@ static DocuSignService *docuSign = nil;
 }
 
 + (void)updateStatusOfDocuments {
-    RBPersistenceManager *persistenceManager = [[[RBPersistenceManager alloc] init] autorelease];
+    RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
     NSArray *documents = [persistenceManager unfinishedDocumentsAlreadySentToDocuSign];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     

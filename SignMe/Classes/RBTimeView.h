@@ -10,7 +10,7 @@
 
 @interface RBTimeView : UIView
 
-@property (nonatomic, retain) NSTimer *updateTimer;
+@property (nonatomic, strong) NSTimer *updateTimer;
 
 - (void)startUpdating;
 - (void)stopUpdating;

@@ -37,7 +37,7 @@ static char musketeerCreatedKey;
         }
     }
     
-    return [[properties copy] autorelease];
+    return [properties copy];
 }
 
 - (void)setStringValue:(NSString *)stringValue forKey:(NSString *)key {
@@ -47,7 +47,7 @@ static char musketeerCreatedKey;
     if (strstr(propertyAttributes, "NSString") != NULL) {
         [self setValue:stringValue forKey:key];
     } else if (strstr(propertyAttributes, "NSNumber") != NULL) {
-        NSNumberFormatter *f = [[[NSNumberFormatter alloc] init] autorelease];
+        NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
         [f setNumberStyle:NSNumberFormatterDecimalStyle];
         
         [self setValue:[f numberFromString:stringValue] forKey:key];
