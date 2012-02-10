@@ -40,6 +40,9 @@
             subsection:(NSInteger)subsection 
                   type:(Class)type;
 
+- (void)setupFormCalculationForFields:(NSArray *)fields;
+- (UIView *)recipientsViewForDocument:(RBDocument *)document form:(RBForm *)form;
+
 - (UILabel *)labelWithText:(NSString *)text fieldID:(NSString *)fieldID alignment:(NSString *)alignment;
 
 - (UILabel *)titleLabelWithText:(NSString *)text;
@@ -147,6 +150,8 @@
                 NSString *trueValue = [form valueForKey:kRBFormKeyTrueValue ofField:fieldID inSection:section];
                 NSString *falseValue = [form valueForKey:kRBFormKeyFalseValue ofField:fieldID inSection:section];
                 BOOL showZero = [[form valueForKey:kRBFormKeyShowZero ofField:fieldID inSection:section] boolValue];
+                NSString *repeatGroup = [form valueForKey:kRBFormKeyRepeatGroup ofField:fieldID inSection:section];
+                BOOL showRepeatButton = [[form valueForKey:kRBFormKeyShowRepeatButton ofField:fieldID inSection:section] boolValue];
                 position = position == nil ? kRBFieldPositionBelow : position;
                 
                 // ================ match values for client if there is no value set ================
@@ -261,7 +266,23 @@
     }
     
     // ================ Add Calculation Evaluators ================
-    NSArray *fields = view.formControls;
+    [self setupFormCalculationForFields:view.formControls];
+
+    // ================ Add RecipientsView ================
+    [view.innerScrollView addSubview:[self recipientsViewForDocument:document form:form]];
+    
+    // ================ update pageControl on view (isn't displayed yet, because it is not a subview of the scrollView) ================
+    view.pageControl.numberOfPages = numberOfPages;
+    
+    // ================ enable vertical scrolling ================
+    [view setInnerScrollViewSize:CGSizeMake(PSAppWidth()*numberOfPages, 1000)];
+    view.contentSize = CGSizeMake(PSAppWidth(), 1000 + 10.f);
+    
+    return view;
+}
+
+
+- (void)setupFormCalculationForFields:(NSArray *)fields {
     for (UIControl *ctrl in fields) {
         if (ctrl.formCalculate && [ctrl.formCalculate length] > 0) {
             NSMutableDictionary *calcVarFields = [NSMutableDictionary dictionary];
@@ -298,17 +319,22 @@
             [(RBTextField *)ctrl calculate];
         }
     }
-    
-    // ================ Add RecipientsView ================
+}
+
+
+- (UIView *)recipientsViewForDocument:(RBDocument *)document form:(RBForm *)form {
     RBRecipientsView *recipientsView = [[[RBRecipientsView alloc] initWithFrame:CGRectMake(form.numberOfSections*PSAppWidth(), 0.f, 1024.f, 475.f)] autorelease];
     
     NSMutableArray *recipients = [NSMutableArray array];
     if (document.recipients == nil || [document.recipients count] == 0) {
         RBMusketeer *musketeer = [RBMusketeer loadEntity];
+        NSArray *musketeerNameComponents = [musketeer.firstname componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        NSString *mFirstname = [musketeerNameComponents objectAtIndex:0];
+        NSString *mLastname = [musketeerNameComponents count] > 1 ? [musketeerNameComponents objectAtIndex:1] : musketeer.lastname;
         NSArray *people = [[ABAddressBook sharedAddressBook] allPeople];
         ABPerson *abMusketeer = nil;
         for (ABPerson *person in people) {
-            if ([[person getFirstName] isEqualToStringIgnoringCase:musketeer.firstname] && [[person getLastName] isEqualToStringIgnoringCase:musketeer.lastname]) {
+            if ([[person getFirstName] isEqualToStringIgnoringCase:mFirstname] && [[person getLastName] isEqualToStringIgnoringCase:mLastname]) {
                 abMusketeer = person;
                 break;
             }
@@ -316,11 +342,11 @@
         if (abMusketeer == nil) {
             NSError *error;
             abMusketeer = [[ABPerson alloc] init];
-            if (musketeer.firstname) {
-                [abMusketeer setValue:musketeer.firstname forProperty:kABPersonFirstNameProperty error:nil];
+            if (mFirstname) {
+                [abMusketeer setValue:mFirstname forProperty:kABPersonFirstNameProperty error:nil];
             }
-            if (musketeer.lastname) {
-                [abMusketeer setValue:musketeer.lastname forProperty:kABPersonLastNameProperty error:nil];
+            if (mLastname) {
+                [abMusketeer setValue:mLastname forProperty:kABPersonLastNameProperty error:nil];
             }
             [[ABAddressBook sharedAddressBook] addRecord:abMusketeer error:&error];
             [[ABAddressBook sharedAddressBook] save:&error];
@@ -362,16 +388,8 @@
     recipientsView.recipients = recipients;
     recipientsView.subject = document.subject;
     recipientsView.useRoutingOrder = [document.obeyRoutingOrder boolValue];
-    [view.innerScrollView addSubview:recipientsView];
-    
-    // ================ update pageControl on view (isn't displayed yet, because it is not a subview of the scrollView) ================
-    view.pageControl.numberOfPages = numberOfPages;
-    
-    // ================ enable vertical scrolling ================
-    [view setInnerScrollViewSize:CGSizeMake(PSAppWidth()*numberOfPages, 1000)];
-    view.contentSize = CGSizeMake(PSAppWidth(), 1000 + 10.f);
-    
-    return view;
+
+    return recipientsView;
 }
 
 ////////////////////////////////////////////////////////////////////////

@@ -145,11 +145,17 @@
 		A90913F514847630006CA234 /* DDParserTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913DE14847630006CA234 /* DDParserTypes.m */; };
 		A90913F614847630006CA234 /* DDTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913E014847630006CA234 /* DDTypes.m */; };
 		A90913F714847630006CA234 /* NSString+DDMathParsing.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913E214847630006CA234 /* NSString+DDMathParsing.m */; };
+		A918BF6D14E441800075E862 /* RBMultiValueTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A918BF6C14E441800075E862 /* RBMultiValueTextField.m */; };
+		A918BF8314E51C080075E862 /* libPDFCreator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A918BF7E14E51BEC0075E862 /* libPDFCreator.a */; };
 		A948733F141DFAFF00B0E038 /* UIView+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = A948733E141DFAFF00B0E038 /* UIView+RBForm.m */; };
 		A94873A4141F7CAA00B0E038 /* RBDocuSigningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A94873A3141F7CAA00B0E038 /* RBDocuSigningViewController.m */; };
 		A94D227E1483F6650077723B /* InPersonSigner.png in Resources */ = {isa = PBXBuildFile; fileRef = A94D227C1483F6650077723B /* InPersonSigner.png */; };
 		A94D227F1483F6650077723B /* RemoteSigner.png in Resources */ = {isa = PBXBuildFile; fileRef = A94D227D1483F6650077723B /* RemoteSigner.png */; };
 		A94D22811483FF8C0077723B /* FinalizeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A94D22801483FF8C0077723B /* FinalizeButton.png */; };
+		A94FC8DF14DA91D2008CCBB4 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A94FC8DE14DA91D2008CCBB4 /* ImageIO.framework */; };
+		A94FC8E514DA9427008CCBB4 /* PA.plist in Resources */ = {isa = PBXBuildFile; fileRef = A94FC8E214DA9427008CCBB4 /* PA.plist */; };
+		A94FC8E614DA9427008CCBB4 /* PALogo.png in Resources */ = {isa = PBXBuildFile; fileRef = A94FC8E314DA9427008CCBB4 /* PALogo.png */; };
+		A94FC91014DAC627008CCBB4 /* PFP_PA.plist in Resources */ = {isa = PBXBuildFile; fileRef = A94FC90F14DAC627008CCBB4 /* PFP_PA.plist */; };
 		A96DF31D144F030900E919E2 /* libDocuSign.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 394B916313D64924007BFF2E /* libDocuSign.a */; };
 		A96DF320144F0D0D00E919E2 /* DocuSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21913E1DB7B00CD4F6C /* DocuSign.framework */; };
 		A96DF4281452B65300E919E2 /* RBFormLayoutData.m in Sources */ = {isa = PBXBuildFile; fileRef = A96DF4271452B65200E919E2 /* RBFormLayoutData.m */; };
@@ -262,6 +268,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 788E1E6D126C95B1009801E5;
 			remoteInfo = PSFoundation;
+		};
+		A918BF7D14E51BEC0075E862 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A918BF7514E51BEB0075E862 /* PDFCreator.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A94FC7EB14DA8AB2008CCBB4;
+			remoteInfo = PDFCreator;
+		};
+		A918BF7F14E51BEC0075E862 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A918BF7514E51BEB0075E862 /* PDFCreator.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A94FC7F814DA8AB3008CCBB4;
+			remoteInfo = PDFCreatorTests;
+		};
+		A918BF8114E51BFC0075E862 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A918BF7514E51BEB0075E862 /* PDFCreator.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A94FC7EA14DA8AB2008CCBB4;
+			remoteInfo = PDFCreator;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -514,6 +541,9 @@
 		A90913E014847630006CA234 /* DDTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTypes.m; sourceTree = "<group>"; };
 		A90913E114847630006CA234 /* NSString+DDMathParsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DDMathParsing.h"; sourceTree = "<group>"; };
 		A90913E214847630006CA234 /* NSString+DDMathParsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+DDMathParsing.m"; sourceTree = "<group>"; };
+		A918BF6B14E441800075E862 /* RBMultiValueTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBMultiValueTextField.h; sourceTree = "<group>"; };
+		A918BF6C14E441800075E862 /* RBMultiValueTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBMultiValueTextField.m; sourceTree = "<group>"; };
+		A918BF7514E51BEB0075E862 /* PDFCreator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PDFCreator.xcodeproj; path = ../PDFCreator/PDFCreator.xcodeproj; sourceTree = "<group>"; };
 		A948733D141DFAFF00B0E038 /* UIView+RBForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RBForm.h"; sourceTree = "<group>"; };
 		A948733E141DFAFF00B0E038 /* UIView+RBForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RBForm.m"; sourceTree = "<group>"; };
 		A94873A2141F7CAA00B0E038 /* RBDocuSigningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDocuSigningViewController.h; sourceTree = "<group>"; };
@@ -521,6 +551,11 @@
 		A94D227C1483F6650077723B /* InPersonSigner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InPersonSigner.png; path = Images/InPersonSigner.png; sourceTree = "<group>"; };
 		A94D227D1483F6650077723B /* RemoteSigner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RemoteSigner.png; path = Images/RemoteSigner.png; sourceTree = "<group>"; };
 		A94D22801483FF8C0077723B /* FinalizeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FinalizeButton.png; path = Images/FinalizeButton.png; sourceTree = "<group>"; };
+		A94FC8DE14DA91D2008CCBB4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		A94FC8E114DA9427008CCBB4 /* PA.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = PA.css; sourceTree = "<group>"; };
+		A94FC8E214DA9427008CCBB4 /* PA.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PA.plist; sourceTree = "<group>"; };
+		A94FC8E314DA9427008CCBB4 /* PALogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PALogo.png; sourceTree = "<group>"; };
+		A94FC90F14DAC627008CCBB4 /* PFP_PA.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PFP_PA.plist; sourceTree = "<group>"; };
 		A96DF4261452B65200E919E2 /* RBFormLayoutData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFormLayoutData.h; sourceTree = "<group>"; };
 		A96DF4271452B65200E919E2 /* RBFormLayoutData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFormLayoutData.m; sourceTree = "<group>"; };
 		A97FAC1A13ED7C590083EFC1 /* TextFieldBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TextFieldBackground.png; path = Images/TextFieldBackground.png; sourceTree = "<group>"; };
@@ -544,6 +579,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A918BF8314E51C080075E862 /* libPDFCreator.a in Frameworks */,
+				A94FC8DF14DA91D2008CCBB4 /* ImageIO.framework in Frameworks */,
 				A96DF320144F0D0D00E919E2 /* DocuSign.framework in Frameworks */,
 				A96DF31D144F030900E919E2 /* libDocuSign.a in Frameworks */,
 				3911A21C13E1DCC000CD4F6C /* libxml2.dylib in Frameworks */,
@@ -636,6 +673,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A94FC8E014DA9427008CCBB4 /* Forms */,
 				39F2019F13E754E600DA9093 /* Default-Landscape~ipad.png */,
 				390DD51713D9D1FE00EB1EFD /* Model */,
 				395EEF2613D72E3C003C4DA8 /* Images */,
@@ -651,6 +689,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A918BF7514E51BEB0075E862 /* PDFCreator.xcodeproj */,
 				A90913B514847630006CA234 /* DDMathParser */,
 				A9D7A62814636F460004C38A /* regexkitlite */,
 				A9B4925E144CCE20002F1D02 /* VCTitleCase */,
@@ -669,6 +708,7 @@
 				39A7F07813D9FFC3008338A4 /* CoreText.framework */,
 				390DD52813D9E26600EB1EFD /* CoreData.framework */,
 				78E9B1C212B44BB900B32768 /* QuartzCore.framework */,
+				A94FC8DE14DA91D2008CCBB4 /* ImageIO.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
@@ -1006,6 +1046,8 @@
 				397B773613EC7694009438F1 /* RBTextField.m */,
 				397B773813ECA619009438F1 /* RBKeyboardAvoidingScrollView.h */,
 				397B773913ECA619009438F1 /* RBKeyboardAvoidingScrollView.m */,
+				A918BF6B14E441800075E862 /* RBMultiValueTextField.h */,
+				A918BF6C14E441800075E862 /* RBMultiValueTextField.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1150,6 +1192,15 @@
 			path = ../DDMathParser/DDMathParser;
 			sourceTree = "<group>";
 		};
+		A918BF7614E51BEB0075E862 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A918BF7E14E51BEC0075E862 /* libPDFCreator.a */,
+				A918BF8014E51BEC0075E862 /* PDFCreatorTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		A94873A1141F7C6200B0E038 /* DocuSign */ = {
 			isa = PBXGroup;
 			children = (
@@ -1157,6 +1208,17 @@
 				A94873A3141F7CAA00B0E038 /* RBDocuSigningViewController.m */,
 			);
 			name = DocuSign;
+			sourceTree = "<group>";
+		};
+		A94FC8E014DA9427008CCBB4 /* Forms */ = {
+			isa = PBXGroup;
+			children = (
+				A94FC90F14DAC627008CCBB4 /* PFP_PA.plist */,
+				A94FC8E214DA9427008CCBB4 /* PA.plist */,
+				A94FC8E114DA9427008CCBB4 /* PA.css */,
+				A94FC8E314DA9427008CCBB4 /* PALogo.png */,
+			);
+			path = Forms;
 			sourceTree = "<group>";
 		};
 		A9B4925E144CCE20002F1D02 /* VCTitleCase */ = {
@@ -1203,6 +1265,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				A918BF8214E51BFC0075E862 /* PBXTargetDependency */,
 				3911A21513E1DA9F00CD4F6C /* PBXTargetDependency */,
 				3911A1C113E1BADD00CD4F6C /* PBXTargetDependency */,
 				394B916713D64B0A007BFF2E /* PBXTargetDependency */,
@@ -1263,6 +1326,10 @@
 				{
 					ProductGroup = 3911A20C13E1DA9300CD4F6C /* Products */;
 					ProjectRef = 3911A20B13E1DA9300CD4F6C /* iPhoneContacts.xcodeproj */;
+				},
+				{
+					ProductGroup = A918BF7614E51BEB0075E862 /* Products */;
+					ProjectRef = A918BF7514E51BEB0075E862 /* PDFCreator.xcodeproj */;
 				},
 				{
 					ProductGroup = 7856A47412B444A80025424F /* Products */;
@@ -1348,6 +1415,20 @@
 			remoteRef = 7856A47D12B444A80025424F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		A918BF7E14E51BEC0075E862 /* libPDFCreator.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libPDFCreator.a;
+			remoteRef = A918BF7D14E51BEC0075E862 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A918BF8014E51BEC0075E862 /* PDFCreatorTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PDFCreatorTests.octest;
+			remoteRef = A918BF7F14E51BEC0075E862 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1396,6 +1477,9 @@
 				A94D227F1483F6650077723B /* RemoteSigner.png in Resources */,
 				A94D22811483FF8C0077723B /* FinalizeButton.png in Resources */,
 				A9B9367614B3E1E100C9A51B /* TextFieldBackgroundDisabled.png in Resources */,
+				A94FC8E514DA9427008CCBB4 /* PA.plist in Resources */,
+				A94FC8E614DA9427008CCBB4 /* PALogo.png in Resources */,
+				A94FC91014DAC627008CCBB4 /* PFP_PA.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1508,6 +1592,7 @@
 				A90913F514847630006CA234 /* DDParserTypes.m in Sources */,
 				A90913F614847630006CA234 /* DDTypes.m in Sources */,
 				A90913F714847630006CA234 /* NSString+DDMathParsing.m in Sources */,
+				A918BF6D14E441800075E862 /* RBMultiValueTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1542,6 +1627,11 @@
 			isa = PBXTargetDependency;
 			name = PSFoundation;
 			targetProxy = 7856A48012B444B10025424F /* PBXContainerItemProxy */;
+		};
+		A918BF8214E51BFC0075E862 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PDFCreator;
+			targetProxy = A918BF8114E51BFC0075E862 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1578,6 +1668,7 @@
 					"../iPhoneContacts/**",
 					"../external/**",
 					"../PSFoundation/**",
+					"../PDFCreator/**",
 				);
 				INFOPLIST_FILE = "Build-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -1606,6 +1697,7 @@
 					"../iPhoneContacts/**",
 					"../external/**",
 					"../PSFoundation/**",
+					"../PDFCreator/**",
 				);
 				INFOPLIST_FILE = "Build-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -1721,6 +1813,7 @@
 					"../iPhoneContacts/**",
 					"../external/**",
 					"../PSFoundation/**",
+					"../PDFCreator/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
@@ -1750,6 +1843,7 @@
 					"../iPhoneContacts/**",
 					"../external/**",
 					"../PSFoundation/**",
+					"../PDFCreator/**",
 				);
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -1790,6 +1884,7 @@
 					"../iPhoneContacts/**",
 					"../external/**",
 					"../PSFoundation/**",
+					"../PDFCreator/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-all_load";
@@ -1829,6 +1924,7 @@
 					"../iPhoneContacts/**",
 					"../external/**",
 					"../PSFoundation/**",
+					"../PDFCreator/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";

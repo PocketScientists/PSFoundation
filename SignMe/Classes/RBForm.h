@@ -40,6 +40,8 @@
 #define kRBFormKeyTrueValue         @"trueValue"
 #define kRBFormKeyFalseValue        @"falseValue"
 #define kRBFormKeyShowZero          @"showZero"
+#define kRBFormKeyRepeatGroup       @"repeatGroup"
+#define kRBFormKeyShowRepeatButton  @"showRepeatButton"
 
 #define kRBFormKeyTabs              @"tabs"             // tabs for signing in DocuSign
 #define kRBFormKeyTabPage           @"page"             // the page a tab should appear
@@ -141,6 +143,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus);
 - (NSString *)discriminatorOfSection:(NSUInteger)section;
 - (NSString *)discriminatorOfSubsection:(NSUInteger)subsection inSection:(NSUInteger)section;
 - (NSString *)discriminator;
+- (NSDictionary *)optionalSectionsDictionary;
 
 - (NSUInteger)numberOfTabsWithType:(NSString *)tabType;
 - (NSArray *)tabsWithType:(NSString *)tabType;

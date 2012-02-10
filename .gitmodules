@@ -34,3 +34,6 @@
 [submodule "DDMathParser"]
 	path = DDMathParser
 	url = https://github.com/davedelong/DDMathParser.git
+[submodule "PDFCreator"]
+	path = PDFCreator
+	url = ssh://jfalb@office.nousguide.com/var/cache/git/PDFCreator.git

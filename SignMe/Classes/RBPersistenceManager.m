@@ -12,6 +12,7 @@
 #import "PSIncludes.h"
 #import "RBPDFWriter.h"
 #import "AppDelegate.h"
+#import "NCPDFCreator.h"
 
 @interface RBPersistenceManager ()
 
@@ -175,31 +176,43 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)createPDFForDocument:(RBDocument *)document form:(RBForm *)form {
-    // create PDF
-    RBPDFWriter *pdfWriter = [[[RBPDFWriter alloc] init] autorelease];
-    
-    NSString *emptyDocName = document.name;
-    NSString *discriminator = [form discriminator];
-    if (discriminator && [discriminator length] > 0) {
-        emptyDocName = [NSString stringWithFormat:@"%@_%@", document.name, discriminator];
-    }
-    NSLog(@"Name of PDF template used: %@", emptyDocName);
-    NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForPDFWithName(emptyDocName)]];
-    CGPDFDocumentRef pdfRef = [pdfWriter newOpenDocument:urlToEmptyPDF];
-    if (pdfRef) {
+    if ([document.name isEqualToString:@"PA"] || [document.name isEqualToString:@"PFP_PA"]) {
         NSString *pdfFileURL = RBPathToPDFWithName(document.fileURL);
+        NSDictionary *template = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:document.name ofType:@"plist"]];
+
+        NSMutableDictionary *data = [form.PDFDictionary mutableCopy];
+        [data addEntriesFromDictionary:[form optionalSectionsDictionary]];
         
-        [pdfWriter writePDFDocument:pdfRef
-                       withFormData:form.PDFDictionary 
-                             toFile:pdfFileURL];
-        
-        CFRelease(pdfRef);
+        NCPDFCreator *creator = [[NCPDFCreator alloc] init];
+        [creator createDocumentAtURL:[NSURL fileURLWithPath:pdfFileURL] withFormData:data andTemplate:template];
     }
     else {
-        [self performBlock:^{
-            [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error creating PDF file. Cannot find template %@.pdf", emptyDocName]];
-        } afterDelay:1];
-        DDLogInfo(@"Error creating PDF file %@", [urlToEmptyPDF absoluteString]);
+        // create PDF
+        RBPDFWriter *pdfWriter = [[[RBPDFWriter alloc] init] autorelease];
+        
+        NSString *emptyDocName = document.name;
+        NSString *discriminator = [form discriminator];
+        if (discriminator && [discriminator length] > 0) {
+            emptyDocName = [NSString stringWithFormat:@"%@_%@", document.name, discriminator];
+        }
+        NSLog(@"Name of PDF template used: %@", emptyDocName);
+        NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForPDFWithName(emptyDocName)]];
+        CGPDFDocumentRef pdfRef = [pdfWriter newOpenDocument:urlToEmptyPDF];
+        if (pdfRef) {
+            NSString *pdfFileURL = RBPathToPDFWithName(document.fileURL);
+            
+            [pdfWriter writePDFDocument:pdfRef
+                           withFormData:form.PDFDictionary 
+                                 toFile:pdfFileURL];
+            
+            CFRelease(pdfRef);
+        }
+        else {
+            [self performBlock:^{
+                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error creating PDF file. Cannot find template %@.pdf", emptyDocName]];
+            } afterDelay:1];
+            DDLogInfo(@"Error creating PDF file %@", [urlToEmptyPDF absoluteString]);
+        }
     }
 }
 

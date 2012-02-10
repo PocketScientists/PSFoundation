@@ -31,7 +31,7 @@ static Box *box = nil;
 + (BOOL)shouldSyncFolder {
     // TODO:
     // somehow my intention didn't work, so as a quick-fix box.net gets synced everythime
-    return YES;
+    return NO;
   
     // download once per day
 //    if (![[NSUserDefaults standardUserDefaults].formsUpdateDate isToday]) {

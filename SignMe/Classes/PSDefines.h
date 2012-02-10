@@ -78,8 +78,9 @@
 ////////////////////////////////////////////////////////////////////////
 
 //#define kRBFolderUser               [[[BoxUser savedUser] userName] lowercaseString]
-#define kRBFolderUser               [[NSString stringWithFormat:@"%@ %@", [[RBMusketeer loadEntity] firstname], \
-                                        [[RBMusketeer loadEntity] lastname]] titlecaseString]
+#define kRBFolderUser               [[[RBMusketeer loadEntity] firstname] titlecaseString]
+//#define kRBFolderUser               [[NSString stringWithFormat:@"%@ %@", [[RBMusketeer loadEntity] firstname], \
+//                                        [[RBMusketeer loadEntity] lastname]] titlecaseString]
 #define kRBFolderEmptyForms         @"forms"
 #define kRBFolderPreSignature       @"pre-signature"
 #define kRBFolderSigned             @"signed"

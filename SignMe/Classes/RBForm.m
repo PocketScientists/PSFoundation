@@ -308,6 +308,42 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     return disc;
 }
 
+
+- (NSDictionary *)optionalSectionsDictionary {
+    NSMutableDictionary *disc = [NSMutableDictionary dictionaryWithCapacity:5];
+    for (NSUInteger section=0;section < self.numberOfSections; section++) {
+        if ([self isOptionalSection:section]) {
+            NSString *d = [self discriminatorOfSection:section];
+            if (d) {
+                d = [NSString stringWithFormat:@"section%@", d];
+                if ([self isIncludedSection:section]) {
+                    [disc setObject:[NSNumber numberWithBool:YES] forKey:d];
+                }
+                else {
+                    [disc setObject:[NSNumber numberWithBool:NO] forKey:d];
+                }
+            }
+        }
+        for (NSUInteger subsection=0; subsection < [self numberOfSubsectionsInSection:section]; subsection++) {
+            if ([self isOptionalSubsection:subsection inSection:section]) {
+                NSString *d = [self discriminatorOfSubsection:subsection inSection:section];
+                if (d) {
+                    d = [NSString stringWithFormat:@"section%@", d];
+                    if ([self isIncludedSubsection:subsection inSection:section]) {
+                        [disc setObject:[NSNumber numberWithBool:YES] forKey:d];
+                    }
+                    else {
+                        [disc setObject:[NSNumber numberWithBool:NO] forKey:d];
+                    }
+                }
+            }
+        }
+    }
+    
+    return disc;
+}
+
+
 - (NSUInteger)numberOfSections {
     return self.sections.count;
 }

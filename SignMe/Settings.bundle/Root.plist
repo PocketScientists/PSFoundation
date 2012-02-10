@@ -136,7 +136,7 @@
 			<key>DefaultValue</key>
 			<string>Unknown</string>
 			<key>Title</key>
-			<string>First Name</string>
+			<string>Name</string>
 			<key>Key</key>
 			<string>kRBMusketeerfirstname</string>
 		</dict>
@@ -154,7 +154,7 @@
 			<key>KeyboardType</key>
 			<string>Alphabet</string>
 			<key>Title</key>
-			<string>Last Name</string>
+			<string>Role</string>
 			<key>Key</key>
 			<string>kRBMusketeerlastname</string>
 		</dict>
