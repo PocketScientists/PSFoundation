@@ -10,6 +10,7 @@
 #import "RBForm.h"
 #import "PSIncludes.h"
 #import "RBTextField.h"
+#import "RBMultiValueTextField.h"
 
 #define kRBSwitchOnTextValue        @"Y"
 #define kRBSwitchOffTextValue       @""
@@ -29,7 +30,7 @@ static char formShowZeroKey;
 
 @implementation UIControl (RBForm)
 
-+ (UIControl *)controlWithID:(NSString *)formID datatype:(NSString *)datatype size:(CGSize)size subtype:(NSString *)subtype {
++ (UIControl *)controlWithID:(NSString *)formID datatype:(NSString *)datatype size:(CGSize)size subtype:(NSString *)subtype repeatGroup:(NSString *)repeatGroup showRepeatButton:(BOOL)showRepeatButton {
     UIControl *control;
     
     if ([datatype isEqualToString:kRBFormDataTypeButton]) {
@@ -39,7 +40,12 @@ static char formShowZeroKey;
         [btn setImage:[UIImage imageNamed:@"CheckButtonSelected.png"] forState:UIControlStateSelected];
         [btn addTarget:btn action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
         control = btn;
-    } else {
+    } else if (!IsEmpty(repeatGroup)) {
+        control = [[RBMultiValueTextField alloc] initWithFrame:(CGRect){CGPointZero, size}];
+        control.formShowRepeatButton = showRepeatButton;
+        control.formSubtype = subtype;
+    }
+    else {
         control = [[RBTextField alloc] initWithFrame:(CGRect){CGPointZero, size}];
         ((RBTextField *)control).subtype = subtype;
     }
@@ -55,6 +61,10 @@ static char formShowZeroKey;
     if ([self isKindOfClass:[UIButton class]]) {
         UIButton *btn = (UIButton *)self;
         btn.selected = value != nil && ([value isEqual:self.formTrueValue] || [value boolValue]);
+    } else if ([self isKindOfClass:[RBMultiValueTextField class]]) {
+        RBMultiValueTextField *textFieldSelf = (RBMultiValueTextField *)self;
+        if (IsEmpty(value)) value = [NSArray arrayWithObjects:@"", nil];
+        textFieldSelf.values = value;
     } else if ([self isKindOfClass:[UITextField class]]) {
         UITextField *textFieldSelf = (UITextField *)self;
         
@@ -63,8 +73,21 @@ static char formShowZeroKey;
         textFieldSelf.font = [UIFont fontWithName:kRBFontName size:18];
         textFieldSelf.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         textFieldSelf.clearButtonMode = UITextFieldViewModeWhileEditing;
-        if (textFieldSelf.formTextFormat) {
-            textFieldSelf.text = [NSString stringWithFormat:textFieldSelf.formTextFormat, value];
+        if (value && [value length] > 0 && textFieldSelf.formTextFormat) {
+            NSRange r = [textFieldSelf.formTextFormat rangeOfString:@"%@"];
+            if (r.location != NSNotFound) {
+                NSString *prefix = [textFieldSelf.formTextFormat substringToIndex:r.location];
+                NSString *suffix = [textFieldSelf.formTextFormat substringFromIndex:r.location + r.length];
+                if (([prefix length] == 0 || [value hasPrefix:prefix]) && ([suffix length] == 0 || [value hasSuffix:suffix])) {
+                    textFieldSelf.text = value;
+                }
+                else {
+                    textFieldSelf.text = [NSString stringWithFormat:textFieldSelf.formTextFormat, value];
+                }
+            }
+            else {
+                textFieldSelf.text = [NSString stringWithFormat:textFieldSelf.formTextFormat, value];
+            }
         }
         else {
             textFieldSelf.text = value;
@@ -162,7 +185,7 @@ static char formShowZeroKey;
     return [[self associatedValueForKey:&formShowZeroKey] boolValue];
 }
 
-- (NSString *)formTextValue {
+- (id)formTextValue {
     // Switches have value 'X' for checkbox
     if ([self isKindOfClass:[UIButton class]]) {
         UIButton *control = (UIButton *)self;
@@ -172,6 +195,10 @@ static char formShowZeroKey;
         else {
             return self.formFalseValue ? self.formFalseValue : kRBSwitchOffTextValue;
         }
+    }
+    
+    if ([self isKindOfClass:[RBMultiValueTextField class]]) {
+        return ((RBMultiValueTextField *)self).values;
     }
     
     // other controls that can store a text
@@ -210,7 +237,7 @@ static char formShowZeroKey;
 
 - (void)unregisterObservers {
     for (id observer in self.formFieldObservers) {
-        if ([self isKindOfClass:[UITextField class]]) {
+        if ([self isKindOfClass:[UITextField class]] || [self isKindOfClass:[RBMultiValueTextField class]]) {
             [self removeObserver:observer forKeyPath:@"text"];
         }
         else {

@@ -9,6 +9,7 @@
 #import "RBFormLayoutData.h"
 #import "RBForm.h"
 #import "UIControl+RBForm.h"
+#import "RBMultiValueTextField.h"
 
 #define kRBColPadding               30.f
 #define kRBInputFieldPadding        10.f
@@ -25,6 +26,7 @@
 @synthesize numberOfRows;
 @synthesize columnWidths;
 @synthesize columnLabelWidths;
+@synthesize rowHeights;
 @synthesize labels;
 @synthesize fields;
 @synthesize sectionHeader;
@@ -36,6 +38,7 @@
     if ((self = [super init])) {
         self.columnWidths = [NSMutableArray arrayWithCapacity:20];
         self.columnLabelWidths = [NSMutableArray arrayWithCapacity:20];
+        self.rowHeights = [NSMutableArray arrayWithCapacity:20];
         self.labels = [NSMutableArray arrayWithCapacity:20];
         self.fields = [NSMutableArray arrayWithCapacity:20];
         self.minFieldWidth = 80;
@@ -63,6 +66,7 @@
     
     [columnLabelWidths removeAllObjects];
     [columnWidths removeAllObjects];
+    [rowHeights removeAllObjects];
     
     CGFloat totalWidth = 0;
     for (int i = 0; i < numberOfColumns; i++) {
@@ -119,6 +123,18 @@
     for (int i = 0; i < numberOfColumns; i++) {
         CGFloat newWidth = [[columnLabelWidths objectAtIndex:i] floatValue] + fieldWidth;
         [columnWidths addObject:[NSNumber numberWithFloat:newWidth]];
+    }
+    
+    for (int i = 0; i < numberOfRows; i++) {
+        CGFloat maxRowHeight = kRBRowHeight + kRBRowPadding;
+        for (UIControl *field in self.fields) {
+            if (field.formRow == i && [field isKindOfClass:[RBMultiValueTextField class]]) {
+                if (((RBMultiValueTextField *)field).rows * (kRBRowHeight + kRBRowPadding) > maxRowHeight) {
+                    maxRowHeight = ((RBMultiValueTextField *)field).rows * (kRBRowHeight + kRBRowPadding);
+                }
+            }
+        }
+        [rowHeights addObject:[NSNumber numberWithFloat:maxRowHeight]];
     }
 }
 
@@ -192,14 +208,18 @@
         }
         
         // y
-        r.origin.y = formOrigin.y + label.formRow * (kRBRowHeight + kRBRowPadding);
+        r.origin.y = formOrigin.y;
+        for (int i = 0; i < label.formRow; i++) {
+            r.origin.y += [[rowHeights objectAtIndex:i] floatValue];
+        }
+
         if (self.sectionHeader) {
             r.origin.y += kRBRowHeight + kRBRowPadding;
         }
         r.origin.y = floorf(r.origin.y);
         
         // height
-        r.size.height = floorf(kRBRowHeight + (kRBRowHeight + kRBRowPadding) * (label.formRowSpan - 1));
+        r.size.height = floorf([[rowHeights objectAtIndex:label.formRow] floatValue] - kRBRowPadding + (kRBRowHeight + kRBRowPadding) * (label.formRowSpan - 1));
     }
     
     return r;
@@ -229,14 +249,18 @@
             r.size.width = floorf(([[columnWidths objectAtIndex:colIndex] floatValue] - [[columnLabelWidths objectAtIndex:colIndex] floatValue])*field.formSize - kRBInputFieldPadding);
         }
         // y
-        r.origin.y = formOrigin.y + field.formRow * (kRBRowHeight + kRBRowPadding);
+        r.origin.y = formOrigin.y;
+        for (int i = 0; i < field.formRow; i++) {
+            r.origin.y += [[rowHeights objectAtIndex:i] floatValue];
+        }
+
         if (self.sectionHeader) {
             r.origin.y += kRBRowHeight + kRBRowPadding;
         }
         r.origin.y = floorf(r.origin.y);
 
         // height
-        r.size.height = floorf(kRBRowHeight + (kRBRowHeight + kRBRowPadding) * (field.formRowSpan - 1));
+        r.size.height = floorf([[rowHeights objectAtIndex:field.formRow] floatValue] - kRBRowPadding + (kRBRowHeight + kRBRowPadding) * (field.formRowSpan - 1));
     }
     
     return r;

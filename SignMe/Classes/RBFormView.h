@@ -32,5 +32,7 @@
 
 - (void)validate;
 - (void)updateRecipientsView;
+- (void)forceLayout;
+- (void)setupResponderChain;
 
 @end

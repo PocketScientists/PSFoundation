@@ -43,7 +43,7 @@
 				<key>type</key>
 				<string>paragraph</string>
 				<key>text</key>
-				<string>&lt;p style=&quot;line-height: 2;&quot;&gt;${name}&lt;br/&gt;${account:1-4:&lt;br/&gt;}&lt;/p&gt;</string>
+				<string>&lt;p style=&quot;line-height: 2;&quot;&gt;${name}&lt;br/&gt;${account:all:&lt;br/&gt;}&lt;/p&gt;</string>
 				<key>x</key>
 				<integer>280</integer>
 				<key>position</key>
@@ -63,7 +63,7 @@
 				<key>type</key>
 				<string>paragraph</string>
 				<key>text</key>
-				<string>&lt;p style=&quot;line-height: 2;&quot;&gt;${owner}&#160;&lt;br/&gt;${president}&lt;br/&gt;${street}&lt;br/&gt;${city}&lt;br/&gt;${state}&lt;br/&gt;${postal_code}&lt;/p&gt;</string>
+				<string>&lt;p style=&quot;line-height: 2;&quot;&gt;${owner} &lt;br/&gt;${president}&lt;br/&gt;${street}&lt;br/&gt;${city}&lt;br/&gt;${state}&lt;br/&gt;${postal_code}&lt;/p&gt;</string>
 				<key>x</key>
 				<integer>280</integer>
 				<key>position</key>
@@ -362,37 +362,37 @@
 				<string>no_bars</string>
 				<key>content</key>
 				<array>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p&gt;${bar_name}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>0</integer>
-                        <key>spacing</key>
-                        <integer>10</integer>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p&gt;${pos_type}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>181</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p&gt;${placement}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>361</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                </array>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p&gt;${bar_name}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>0</integer>
+						<key>spacing</key>
+						<integer>10</integer>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p&gt;${pos_type}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>181</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p&gt;${placement}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>361</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+				</array>
 			</dict>
 			<dict>
 				<key>type</key>
@@ -497,28 +497,28 @@
 				<string>month</string>
 				<key>content</key>
 				<array>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p&gt;${month}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>0</integer>
-                        <key>spacing</key>
-                        <integer>10</integer>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p&gt;${tool}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>181</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                </array>
-            </dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p&gt;${month}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>0</integer>
+						<key>spacing</key>
+						<integer>10</integer>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p&gt;${tool}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>181</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+				</array>
+			</dict>
 			<dict>
 				<key>type</key>
 				<string>rect</string>
@@ -746,509 +746,509 @@
 				<key>variable</key>
 				<string>amount1</string>
 				<key>content</key>
-                <array>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p&gt;Amount to be paid out quarterly in product valued at ${payment_quaterly}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>0</integer>
-                        <key>width</key>
-                        <integer>250</integer>
-                        <key>spacing</key>
-                        <integer>10</integer>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;${percent1}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>270</integer>
-                        <key>width</key>
-                        <integer>55</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;Free goods&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>335</integer>
-                        <key>width</key>
-                        <integer>65</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;${amount1}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>410</integer>
-                        <key>width</key>
-                        <integer>55</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;${cases1}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>475</integer>
-                        <key>width</key>
-                        <integer>55</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                </array>
-            </dict>
+				<array>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p&gt;Amount to be paid out quarterly in product valued at ${payment_quaterly}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>0</integer>
+						<key>width</key>
+						<integer>250</integer>
+						<key>spacing</key>
+						<integer>10</integer>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;${percent1}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>270</integer>
+						<key>width</key>
+						<integer>55</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;Free goods&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>335</integer>
+						<key>width</key>
+						<integer>65</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;${amount1}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>410</integer>
+						<key>width</key>
+						<integer>55</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;${cases1}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>475</integer>
+						<key>width</key>
+						<integer>55</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+				</array>
+			</dict>
 			<dict>
 				<key>type</key>
 				<string>optional</string>
 				<key>variable</key>
 				<string>amount2</string>
 				<key>content</key>
-                <array>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p&gt;Amount to be made in quarterly checks
+				<array>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p&gt;Amount to be made in quarterly checks
                             Payments to be made within 30 days of the following
                             dates:&lt;br/&gt;${paydate:1-4:, }&lt;br/&gt;${paydate:5-8:, }&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>0</integer>
-                        <key>width</key>
-                        <integer>250</integer>
-                        <key>spacing</key>
-                        <integer>10</integer>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;${percent2}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>270</integer>
-                        <key>width</key>
-                        <integer>55</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;Check&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>335</integer>
-                        <key>width</key>
-                        <integer>65</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;${amount2}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>410</integer>
-                        <key>width</key>
-                        <integer>55</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                </array>
-            </dict>
+						<key>x</key>
+						<integer>0</integer>
+						<key>width</key>
+						<integer>250</integer>
+						<key>spacing</key>
+						<integer>10</integer>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;${percent2}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>270</integer>
+						<key>width</key>
+						<integer>55</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;Check&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>335</integer>
+						<key>width</key>
+						<integer>65</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;${amount2}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>410</integer>
+						<key>width</key>
+						<integer>55</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+				</array>
+			</dict>
 			<dict>
 				<key>type</key>
 				<string>optional</string>
 				<key>variable</key>
 				<string>amount3</string>
 				<key>content</key>
-                <array>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p&gt;Amount to be paid through mutually beneficial bank for mutually approved marketing usage&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>0</integer>
-                        <key>width</key>
-                        <integer>250</integer>
-                        <key>spacing</key>
-                        <integer>10</integer>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;${percent3}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>270</integer>
-                        <key>width</key>
-                        <integer>55</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;Marketing&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>335</integer>
-                        <key>width</key>
-                        <integer>65</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;${amount3}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>410</integer>
-                        <key>width</key>
-                        <integer>55</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                </array>
-            </dict>
+				<array>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p&gt;Amount to be paid through mutually beneficial bank for mutually approved marketing usage&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>0</integer>
+						<key>width</key>
+						<integer>250</integer>
+						<key>spacing</key>
+						<integer>10</integer>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;${percent3}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>270</integer>
+						<key>width</key>
+						<integer>55</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;Marketing&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>335</integer>
+						<key>width</key>
+						<integer>65</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;${amount3}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>410</integer>
+						<key>width</key>
+						<integer>55</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+				</array>
+			</dict>
 			<dict>
 				<key>type</key>
 				<string>optional</string>
 				<key>variable</key>
 				<string>amount4</string>
 				<key>content</key>
-                <array>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p&gt;Amount to be utilized for a world of Red Bull Experience. Such payments can be used for a Red Bull event&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>0</integer>
-                        <key>width</key>
-                        <integer>250</integer>
-                        <key>spacing</key>
-                        <integer>10</integer>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;${percent4}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>270</integer>
-                        <key>width</key>
-                        <integer>55</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;Experience&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>335</integer>
-                        <key>width</key>
-                        <integer>65</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;${amount4}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>410</integer>
-                        <key>width</key>
-                        <integer>55</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                </array>
-            </dict>
+				<array>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p&gt;Amount to be utilized for a world of Red Bull Experience. Such payments can be used for a Red Bull event&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>0</integer>
+						<key>width</key>
+						<integer>250</integer>
+						<key>spacing</key>
+						<integer>10</integer>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;${percent4}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>270</integer>
+						<key>width</key>
+						<integer>55</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;Experience&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>335</integer>
+						<key>width</key>
+						<integer>65</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;${amount4}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>410</integer>
+						<key>width</key>
+						<integer>55</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+				</array>
+			</dict>
 			<dict>
 				<key>type</key>
 				<string>optional</string>
 				<key>variable</key>
 				<string>amount5</string>
 				<key>content</key>
-                <array>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p&gt;Amount Staff Activation Support&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>0</integer>
-                        <key>width</key>
-                        <integer>250</integer>
-                        <key>spacing</key>
-                        <integer>10</integer>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;${percent5}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>270</integer>
-                        <key>width</key>
-                        <integer>55</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;Staff&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>335</integer>
-                        <key>width</key>
-                        <integer>65</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;${amount5}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>410</integer>
-                        <key>width</key>
-                        <integer>55</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                </array>
-            </dict>
+				<array>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p&gt;Amount Staff Activation Support&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>0</integer>
+						<key>width</key>
+						<integer>250</integer>
+						<key>spacing</key>
+						<integer>10</integer>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;${percent5}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>270</integer>
+						<key>width</key>
+						<integer>55</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;Staff&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>335</integer>
+						<key>width</key>
+						<integer>65</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;${amount5}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>410</integer>
+						<key>width</key>
+						<integer>55</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+				</array>
+			</dict>
 			<dict>
 				<key>type</key>
 				<string>optional</string>
 				<key>variable</key>
 				<string>amount6</string>
 				<key>content</key>
-                <array>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p&gt;Amount to be paid through ${paid_through}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>0</integer>
-                        <key>width</key>
-                        <integer>250</integer>
-                        <key>spacing</key>
-                        <integer>10</integer>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;${percent6}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>270</integer>
-                        <key>width</key>
-                        <integer>55</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;Other&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>335</integer>
-                        <key>width</key>
-                        <integer>65</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;text-align:center;&quot;&gt;${amount6}&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>410</integer>
-                        <key>width</key>
-                        <integer>55</integer>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                </array>
-            </dict>
+				<array>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p&gt;Amount to be paid through ${paid_through}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>0</integer>
+						<key>width</key>
+						<integer>250</integer>
+						<key>spacing</key>
+						<integer>10</integer>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;${percent6}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>270</integer>
+						<key>width</key>
+						<integer>55</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;Other&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>335</integer>
+						<key>width</key>
+						<integer>65</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;text-align:center;&quot;&gt;${amount6}&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>410</integer>
+						<key>width</key>
+						<integer>55</integer>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+				</array>
+			</dict>
 			<dict>
 				<key>type</key>
 				<string>optional</string>
 				<key>variable</key>
 				<string>sectionR</string>
 				<key>content</key>
-                <array>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;h1&gt;REDUCTION IN PAYMENTS DUE TO LACK OF AGREED UPON EXECUTION&lt;/h1&gt;&lt;p&gt;If two or more breaches in agreed upon execution occur within the duration of the agreement, payments will be reduced by ${reduction1}. Account will be randomly surveyed for execution and the survey results will be shared with the authorized decision maker. If account sells or closes a venue covered in this agreement, or cases purchased from authorized distributor over the course of the contract do not reach ${reduction2} cases, Payment to account will be reduced by ${reduction3}.&lt;/p&gt;
+				<array>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;h1&gt;REDUCTION IN PAYMENTS DUE TO LACK OF AGREED UPON EXECUTION&lt;/h1&gt;&lt;p&gt;If two or more breaches in agreed upon execution occur within the duration of the agreement, payments will be reduced by ${reduction1}. Account will be randomly surveyed for execution and the survey results will be shared with the authorized decision maker. If account sells or closes a venue covered in this agreement, or cases purchased from authorized distributor over the course of the contract do not reach ${reduction2} cases, Payment to account will be reduced by ${reduction3}.&lt;/p&gt;
                         </string>
-                        <key>x</key>
-                        <integer>0</integer>
-                        <key>spacing</key>
-                        <integer>20</integer>
-                    </dict>
-                </array>
-            </dict>
+						<key>x</key>
+						<integer>0</integer>
+						<key>spacing</key>
+						<integer>20</integer>
+					</dict>
+				</array>
+			</dict>
 			<dict>
 				<key>type</key>
 				<string>optional</string>
 				<key>variable</key>
 				<string>sectionS</string>
 				<key>content</key>
-                <array>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;h1&gt;SALES VOLUME BONUS&lt;/h1&gt;&lt;p&gt;If the aggregate amount of cases of Products purchased by the account (and all applicable venues) from the respective authorized distributor(s) meets the targets set forth below, Red Bull shall pay account the additional amounts set forth below.&lt;/p&gt;
+				<array>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;h1&gt;SALES VOLUME BONUS&lt;/h1&gt;&lt;p&gt;If the aggregate amount of cases of Products purchased by the account (and all applicable venues) from the respective authorized distributor(s) meets the targets set forth below, Red Bull shall pay account the additional amounts set forth below.&lt;/p&gt;
                         </string>
-                        <key>x</key>
-                        <integer>0</integer>
-                        <key>spacing</key>
-                        <integer>20</integer>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>rect</string>
-                        <key>x</key>
-                        <integer>0</integer>
-                        <key>width</key>
-                        <integer>542</integer>
-                        <key>height</key>
-                        <integer>20</integer>
-                        <key>spacing</key>
-                        <integer>5</integer>
-                        <key>strokeColor</key>
-                        <string>255;0;0;1.0</string>
-                        <key>fillColor</key>
-                        <string>88;87;89;1.0</string>
-                        <key>mode</key>
-                        <string>fill</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;color: #ffffff; font-size:10pt;text-align:center;&quot;&gt;Cases Purchased&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>10</integer>
-                        <key>width</key>
-                        <integer>160</integer>
-                        <key>height</key>
-                        <integer>20</integer>
-                        <key>verticalAlignment</key>
-                        <string>center</string>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;color: #ffffff; font-size:10pt;text-align:center;&quot;&gt;Additional Payout&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>190</integer>
-                        <key>width</key>
-                        <integer>160</integer>
-                        <key>height</key>
-                        <integer>20</integer>
-                        <key>verticalAlignment</key>
-                        <string>center</string>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>paragraph</string>
-                        <key>text</key>
-                        <string>&lt;p style=&quot;color: #ffffff; font-size:10pt;text-align:center;&quot;&gt;Additional Total&lt;/p&gt;</string>
-                        <key>x</key>
-                        <integer>370</integer>
-                        <key>width</key>
-                        <integer>160</integer>
-                        <key>height</key>
-                        <integer>20</integer>
-                        <key>verticalAlignment</key>
-                        <string>center</string>
-                        <key>position</key>
-                        <string>inline</string>
-                    </dict>
-                    <dict>
-                        <key>type</key>
-                        <string>group</string>
-                        <key>loop</key>
-                        <string>name</string>
-                        <key>variable</key>
-                        <string>case</string>
-                        <key>content</key>
-                        <array>
-                            <dict>
-                                <key>type</key>
-                                <string>paragraph</string>
-                                <key>text</key>
-                                <string>&lt;p&gt;${case}&lt;/p&gt;</string>
-                                <key>x</key>
-                                <integer>10</integer>
-                                <key>width</key>
-                                <integer>160</integer>
-                                <key>spacing</key>
-                                <integer>10</integer>
-                            </dict>
-                            <dict>
-                                <key>type</key>
-                                <string>paragraph</string>
-                                <key>text</key>
-                                <string>&lt;p style=&quot;text-align:center;&quot;&gt;${payout}&lt;/p&gt;</string>
-                                <key>x</key>
-                                <integer>190</integer>
-                                <key>width</key>
-                                <integer>160</integer>
-                                <key>position</key>
-                                <string>inline</string>
-                            </dict>
-                            <dict>
-                                <key>type</key>
-                                <string>paragraph</string>
-                                <key>text</key>
-                                <string>&lt;p style=&quot;text-align:center;&quot;&gt;${total}&lt;/p&gt;</string>
-                                <key>x</key>
-                                <integer>370</integer>
-                                <key>width</key>
-                                <integer>160</integer>
-                                <key>position</key>
-                                <string>inline</string>
-                            </dict>
-                        </array>
-                    </dict>
-                </array>
-            </dict>
+						<key>x</key>
+						<integer>0</integer>
+						<key>spacing</key>
+						<integer>20</integer>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>rect</string>
+						<key>x</key>
+						<integer>0</integer>
+						<key>width</key>
+						<integer>542</integer>
+						<key>height</key>
+						<integer>20</integer>
+						<key>spacing</key>
+						<integer>5</integer>
+						<key>strokeColor</key>
+						<string>255;0;0;1.0</string>
+						<key>fillColor</key>
+						<string>88;87;89;1.0</string>
+						<key>mode</key>
+						<string>fill</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;color: #ffffff; font-size:10pt;text-align:center;&quot;&gt;Cases Purchased&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>10</integer>
+						<key>width</key>
+						<integer>160</integer>
+						<key>height</key>
+						<integer>20</integer>
+						<key>verticalAlignment</key>
+						<string>center</string>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;color: #ffffff; font-size:10pt;text-align:center;&quot;&gt;Additional Payout&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>190</integer>
+						<key>width</key>
+						<integer>160</integer>
+						<key>height</key>
+						<integer>20</integer>
+						<key>verticalAlignment</key>
+						<string>center</string>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>paragraph</string>
+						<key>text</key>
+						<string>&lt;p style=&quot;color: #ffffff; font-size:10pt;text-align:center;&quot;&gt;Additional Total&lt;/p&gt;</string>
+						<key>x</key>
+						<integer>370</integer>
+						<key>width</key>
+						<integer>160</integer>
+						<key>height</key>
+						<integer>20</integer>
+						<key>verticalAlignment</key>
+						<string>center</string>
+						<key>position</key>
+						<string>inline</string>
+					</dict>
+					<dict>
+						<key>type</key>
+						<string>group</string>
+						<key>loop</key>
+						<string>name</string>
+						<key>variable</key>
+						<string>case</string>
+						<key>content</key>
+						<array>
+							<dict>
+								<key>type</key>
+								<string>paragraph</string>
+								<key>text</key>
+								<string>&lt;p&gt;${case}&lt;/p&gt;</string>
+								<key>x</key>
+								<integer>10</integer>
+								<key>width</key>
+								<integer>160</integer>
+								<key>spacing</key>
+								<integer>10</integer>
+							</dict>
+							<dict>
+								<key>type</key>
+								<string>paragraph</string>
+								<key>text</key>
+								<string>&lt;p style=&quot;text-align:center;&quot;&gt;${payout}&lt;/p&gt;</string>
+								<key>x</key>
+								<integer>190</integer>
+								<key>width</key>
+								<integer>160</integer>
+								<key>position</key>
+								<string>inline</string>
+							</dict>
+							<dict>
+								<key>type</key>
+								<string>paragraph</string>
+								<key>text</key>
+								<string>&lt;p style=&quot;text-align:center;&quot;&gt;${total_bonus}&lt;/p&gt;</string>
+								<key>x</key>
+								<integer>370</integer>
+								<key>width</key>
+								<integer>160</integer>
+								<key>position</key>
+								<string>inline</string>
+							</dict>
+						</array>
+					</dict>
+				</array>
+			</dict>
 		</array>
 		<array>
 			<dict>

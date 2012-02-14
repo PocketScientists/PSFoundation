@@ -22,6 +22,7 @@
 #import "ABMultiValue.h"
 #import "ABPerson+RBMail.h"
 #import "RegexKitLite.h"
+#import "RBMultiValueTextField.h"
 
 
 #define kRBColPadding               30.f
@@ -31,8 +32,6 @@
 
 
 @interface RBUIGenerator ()
-
-@property (nonatomic, unsafe_unretained) RBTextField *previousTextField;
 
 + (UIView *)viewOfForm:(RBFormView *)formView 
            formFieldID:(NSString *)fieldID 
@@ -48,6 +47,13 @@
 - (UILabel *)titleLabelWithText:(NSString *)text;
 
 - (UIControl *)inputFieldWithID:(NSString *)fieldID 
+                      inSection:(NSUInteger)section 
+                        forForm:(RBForm *)form 
+                         client:(RBClient *)client 
+                   buttonGroups:(NSMutableDictionary *)buttonGroups
+                   repeatGroups:(NSMutableDictionary *)repeatGroups;
+
+- (UIControl *)inputFieldWithID:(NSString *)fieldID 
                           value:(id)value 
                        datatype:(NSString *)datatype 
                           width:(CGFloat)width 
@@ -55,15 +61,10 @@
                       trueValue:(NSString *)trueValue 
                      falseValue:(NSString *)falseValue;
 
-- (void)createNextResponderChainWithControl:(UIControl *)control 
-                                     inView:(RBFormView *)view;
-
 @end
 
 
 @implementation RBUIGenerator
-
-@synthesize previousTextField = previousTextField_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -72,6 +73,7 @@
 
 - (RBFormView *)viewWithFrame:(CGRect)frame form:(RBForm *)form client:(RBClient *)client document:(RBDocument *)document {
     NSMutableDictionary *buttonGroups = [NSMutableDictionary dictionaryWithCapacity:5];
+    NSMutableDictionary *repeatGroups = [NSMutableDictionary dictionaryWithCapacity:5];
     
     RBFormView *view = [[RBFormView alloc] initWithFrame:frame form:form];
     
@@ -81,9 +83,6 @@
         RBFormLayoutData *layoutData = [[RBFormLayoutData alloc] init];
         [view.formLayoutData setObject:layoutData forKey:$I(section*1000-1)];
 
-        // a new section starts with a new "first" textfield
-        self.previousTextField = nil;
-        
         // ================ add a section label to the page ================
         NSString *sectionTitleText = [form displayNameOfSection:section];
         if (sectionTitleText && sectionTitleText.length > 0) {
@@ -131,76 +130,22 @@
             for (NSString *fieldID in fieldIDs) {
                 // ================ load all values for creating form fields ================
                 NSString *labelText = [form valueForKey:kRBFormKeyLabel ofField:fieldID inSection:section];
-                NSString *value = [form valueForKey:kRBFormKeyValue ofField:fieldID inSection:section];
-                NSString *textFormat = [form valueForKey:kRBFormKeyTextFormat ofField:fieldID inSection:section];
                 NSString *datatype = [form valueForKey:kRBFormKeyDatatype ofField:fieldID inSection:section];
                 CGFloat size = [[form valueForKey:kRBFormKeySize ofField:fieldID inSection:section] floatValue];
                 NSString *position = [form valueForKey:kRBFormKeyPosition ofField:fieldID inSection:section];
-                NSString *subtype = [form valueForKey:kRBFormKeySubtype ofField:fieldID inSection:section];
-                NSString *buttonGroup = [form valueForKey:kRBFormKeyButtonGroup ofField:fieldID inSection:section];
-                NSString *validationRegEx = [form valueForKey:kRBFormKeyValidationRegEx ofField:fieldID inSection:section];
-                NSString *validationMsg = [form valueForKey:kRBFormKeyValidationMsg ofField:fieldID inSection:section];
                 NSInteger col = [[form valueForKey:kRBFormKeyColumn ofField:fieldID inSection:section] intValue];
                 NSInteger row = [[form valueForKey:kRBFormKeyRow ofField:fieldID inSection:section] intValue];
                 NSInteger colspan = [[form valueForKey:kRBFormKeyColumnSpan ofField:fieldID inSection:section] intValue];
                 NSInteger rowspan = [[form valueForKey:kRBFormKeyRowSpan ofField:fieldID inSection:section] intValue];
                 NSString *alignment = [form valueForKey:kRBFormKeyAlignment ofField:fieldID inSection:section];
-                NSString *textAlignment = [form valueForKey:kRBFormKeyTextAlignment ofField:fieldID inSection:section];
-                NSString *calculate = [form valueForKey:kRBFormKeyCalculate ofField:fieldID inSection:section];
-                NSString *trueValue = [form valueForKey:kRBFormKeyTrueValue ofField:fieldID inSection:section];
-                NSString *falseValue = [form valueForKey:kRBFormKeyFalseValue ofField:fieldID inSection:section];
-                BOOL showZero = [[form valueForKey:kRBFormKeyShowZero ofField:fieldID inSection:section] boolValue];
-                NSString *repeatGroup = [form valueForKey:kRBFormKeyRepeatGroup ofField:fieldID inSection:section];
-                BOOL showRepeatButton = [[form valueForKey:kRBFormKeyShowRepeatButton ofField:fieldID inSection:section] boolValue];
+                NSString *textAlignment = [form valueForKey:kRBFormKeyTextFormat ofField:fieldID inSection:section];
                 position = position == nil ? kRBFieldPositionBelow : position;
-                
-                // ================ match values for client if there is no value set ================
-                if (IsEmpty(value)) {
-                    NSArray *mappings = [form fieldWithID:fieldID inSection:section matches:[RBClient propertyNamesForMapping]];
-                    if (mappings) {
-                        NSMutableString *val = [NSMutableString string];
-                        for (int i = 0; i < mappings.count; i++) {
-                            NSString *mappingValue = [client valueForKey:[mappings objectAtIndex:i]];
-                            if (mappingValue) {
-                                [val appendString:mappingValue];
-                                if (i < mappings.count - 1) {
-                                    [val appendString:@" "];
-                                }
-                            }
-                        }
-                        value = val;
-                    }
-                }
-                
-                // ================ match values for musketeer if there is no value set ================
-                if (IsEmpty(value)) {
-                    NSMutableArray *tmp = [NSMutableArray array];
-                    for (NSString *prop in [RBMusketeer propertyNamesForMapping]) {
-                        [tmp addObject:[NSString stringWithFormat:@"musketeer_%@", prop]];
-                    }
-                    
-                    NSArray *mappings = [form fieldWithID:fieldID inSection:section matches:tmp];
-                    if (mappings) {
-                        NSMutableString *val = [NSMutableString string];
-                        for (int i = 0; i < mappings.count; i++) {
-                            NSString *key = [[mappings objectAtIndex:i] substringFromIndex:[@"musketeer_" length]];
-                            NSString *mappingValue = [[RBMusketeer loadEntity] valueForKey:key];
-                            if (mappingValue) {
-                                [val appendString:mappingValue];
-                                if (i < mappings.count - 1) {
-                                    [val appendString:@" "];
-                                }
-                            }
-                        }
-                        value = val;
-                    }
-                }
                 
                 // ================ create label ================
                 UILabel *label = [self labelWithText:labelText fieldID:fieldID alignment:textAlignment];
                 label.formDatatype = datatype;
                 label.formSection = section;
-                label.formSubsection = subsection;
+                label.formSubsection = subsection; 
                 label.formSize = size;
                 label.formPosition = position;
                 label.formColumn = col;
@@ -213,8 +158,7 @@
                 [layoutData.labels addObject:label];
                 
                 // ================ create field ================
-                UIControl *inputField = [self inputFieldWithID:fieldID value:value datatype:datatype width:100.0f subtype:subtype trueValue:trueValue falseValue:falseValue];
-                inputField.formDatatype = datatype;
+                UIControl *inputField = [self inputFieldWithID:fieldID inSection:section forForm:form client:client buttonGroups:buttonGroups repeatGroups:repeatGroups];
                 inputField.formSection = section;
                 inputField.formSubsection = subsection;
                 inputField.formSize = size;
@@ -223,47 +167,37 @@
                 inputField.formRow = row;
                 inputField.formColumnSpan = colspan;
                 inputField.formRowSpan = rowspan;
-                inputField.formValidationRegEx = validationRegEx;
-                inputField.formValidationMsg = validationMsg;
                 inputField.formAlignment = alignment;
-                inputField.formTextFormat = textFormat;
-                inputField.formCalculate = calculate;
-                inputField.formShowZero = showZero;
-                
-                if ([inputField isKindOfClass:[RBTextField class]] && [subtype isEqualToString:@"list"]) {
-                    NSString *listID = [form valueForKey:kRBFormKeyListID ofField:fieldID inSection:section];
-                    if ([listID isEqualToString:@"states"]) {
-                        ((RBTextField *)inputField).items = stateList;
-                    }
-                    else if ([listID isEqualToString:@"countries"]) {
-                        ((RBTextField *)inputField).items = countryList;
-                    }
-                    else {
-                        ((RBTextField *)inputField).items = [form listForID:listID];
-                    }
-                }
-                else if ([inputField isKindOfClass:[UIControl class]] && [subtype isEqualToString:@"radio"] && buttonGroup) {
-                    NSMutableArray *btnGrp = [buttonGroups objectForKey:buttonGroup];
-                    if (!btnGrp) {
-                        btnGrp = [NSMutableArray arrayWithCapacity:2];
-                        [buttonGroups setObject:btnGrp forKey:buttonGroup];
-                    }
-                    [btnGrp addObject:inputField];
-                    inputField.formButtonGroup = btnGrp;
-                }
                 
                 if (![datatype isEqualToString:kRBFormDataTypeLabel]) {
                     [view.innerScrollView addSubview:inputField];
                 }
                 [layoutData.fields addObject:inputField];
-
-                // ================ Setup chain to go from one textfield to the next ================
-                if (!inputField.formCalculate || [inputField.formCalculate length] == 0) {
-                    [self createNextResponderChainWithControl:inputField inView:view];
+            }
+        }
+    }
+    
+    // ================ Setup repeat control fields ================
+    for (UIControl *ctrl in view.formControls) {
+        if (ctrl.formRepeatField && [ctrl.formRepeatField length] > 0) {
+            for (UIControl *varField in view.formControls) {
+                if (varField == ctrl) continue;
+                
+                if ([varField.formID isEqualToString:ctrl.formRepeatField]) {
+                    [varField addObserver:ctrl forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:@"repeatgroup"];
+                    NSMutableArray *observers = varField.formFieldObservers;
+                    if (!observers) {
+                        observers = [NSMutableArray arrayWithCapacity:2];
+                        varField.formFieldObservers = observers;
+                    }
+                    [observers addObject:ctrl];
                 }
             }
         }
     }
+    
+    // ================ Create the responder chain ================
+    [view setupResponderChain];
     
     // ================ Add Calculation Evaluators ================
     [self setupFormCalculationForFields:view.formControls];
@@ -299,7 +233,7 @@
                             varField.formFieldObservers = observers;
                         }
                         [observers addObject:ctrl];
-                        if ([varField isKindOfClass:[UITextField class]]) {
+                        if ([varField isKindOfClass:[UITextField class]] || [varField isKindOfClass:[RBMultiValueTextField class]]) {
                             [varField addObserver:ctrl forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:@"calculate"];
                         }
                         else {
@@ -309,14 +243,25 @@
                     }
                 }
             }
-            ctrl.enabled = NO;
-            ((RBTextField *)ctrl).calcVarFields = calcVarFields;
+            if ([ctrl isKindOfClass:[RBTextField class]]) {
+                ctrl.enabled = NO;
+                ((RBTextField *)ctrl).calcVarFields = calcVarFields;
+            }
+            if ([ctrl isKindOfClass:[RBMultiValueTextField class]]) {
+                for (UIControl *txtField in ((RBMultiValueTextField *)ctrl).textFields) {
+                    txtField.enabled = NO;
+                }
+                ((RBMultiValueTextField *)ctrl).calcVarFields = calcVarFields;
+            }
         }
     }
     
     for (UIControl *ctrl in fields) {
         if ([ctrl isKindOfClass:[RBTextField class]]) {
             [(RBTextField *)ctrl calculate];
+        }
+        if ([ctrl isKindOfClass:[RBMultiValueTextField class]]) {
+            [(RBMultiValueTextField *)ctrl calculate];
         }
     }
 }
@@ -470,7 +415,7 @@
     // enable vertical scrolling
     [formView setInnerScrollViewSize:CGSizeMake(realViewWidth*numberOfPages, maxHeight)];
     formView.contentSize = CGSizeMake(realViewWidth, maxHeight + 10.f);
-    [formView.innerScrollView setContentOffset:CGPointMake(formView.pageControl.currentPage*formView.bounds.size.width,0) animated:YES];
+    [formView.innerScrollView setContentOffset:CGPointMake(formView.pageControl.currentPage*formView.bounds.size.width,formView.innerScrollView.contentOffset.y) animated:NO];
 }
 
 
@@ -534,27 +479,134 @@
     return label;
 }
 
-- (UIControl *)inputFieldWithID:(NSString *)fieldID value:(id)value datatype:(NSString *)datatype width:(CGFloat)width 
-                        subtype:(NSString *)subtype trueValue:(NSString *)trueValue falseValue:(NSString *)falseValue {
-    UIControl *control = [UIControl controlWithID:fieldID datatype:datatype size:CGSizeMake(width, kRBRowHeight) subtype:subtype];
+
+- (UIControl *)inputFieldWithID:(NSString *)fieldID 
+                          value:(id)value 
+                       datatype:(NSString *)datatype 
+                          width:(CGFloat)width 
+                        subtype:(NSString *)subtype  
+                      trueValue:(NSString *)trueValue 
+                     falseValue:(NSString *)falseValue {
+    UIControl *control = [UIControl controlWithID:fieldID datatype:datatype size:CGSizeMake(width, kRBRowHeight) subtype:subtype repeatGroup:nil showRepeatButton:NO];
     
     control.formTrueValue = trueValue;
     control.formFalseValue = falseValue;
+
     [control configureControlUsingValue:value];
     
     return control;
 }
 
-- (void)createNextResponderChainWithControl:(UIControl *)control inView:(RBFormView *)view {
-    if ([control isKindOfClass:[RBTextField class]] && ![control.formDatatype isEqualToString:kRBFormDataTypeLabel]) {
-        RBTextField *textField = (RBTextField *)control;
-        
-        textField.delegate = view;
+- (UIControl *)inputFieldWithID:(NSString *)fieldID 
+                      inSection:(NSUInteger)section 
+                        forForm:(RBForm *)form 
+                         client:(RBClient *)client 
+                   buttonGroups:(NSMutableDictionary *)buttonGroups
+                   repeatGroups:(NSMutableDictionary *)repeatGroups {
+    NSString *datatype = [form valueForKey:kRBFormKeyDatatype ofField:fieldID inSection:section];
+    NSString *subtype = [form valueForKey:kRBFormKeySubtype ofField:fieldID inSection:section];
+    NSString *repeatGroup = [form valueForKey:kRBFormKeyRepeatGroup ofField:fieldID inSection:section];
+    BOOL showRepeatButton = [[form valueForKey:kRBFormKeyShowRepeatButton ofField:fieldID inSection:section] boolValue];
 
-        self.previousTextField.nextField = (UITextField *)control;
-        textField.prevField = self.previousTextField;
-        self.previousTextField = textField;
+    UIControl *control = [UIControl controlWithID:fieldID datatype:datatype size:CGSizeMake(100.0f, kRBRowHeight) subtype:subtype repeatGroup:repeatGroup showRepeatButton:showRepeatButton];
+    
+    control.formDatatype = datatype;
+    control.formValidationRegEx = [form valueForKey:kRBFormKeyValidationRegEx ofField:fieldID inSection:section];
+    control.formValidationMsg = [form valueForKey:kRBFormKeyValidationMsg ofField:fieldID inSection:section];
+    control.formTextFormat = [form valueForKey:kRBFormKeyTextFormat ofField:fieldID inSection:section];
+    control.formShowZero = [[form valueForKey:kRBFormKeyShowZero ofField:fieldID inSection:section] boolValue];
+    control.formCalculate = [form valueForKey:kRBFormKeyCalculate ofField:fieldID inSection:section];
+    control.formRepeatField = [form valueForKey:kRBFormKeyRepeatField ofField:fieldID inSection:section];
+    
+    // ================ setup control value ================
+    control.formTrueValue = [form valueForKey:kRBFormKeyTrueValue ofField:fieldID inSection:section];
+    control.formFalseValue = [form valueForKey:kRBFormKeyFalseValue ofField:fieldID inSection:section];
+
+    // ================ setup drop down lists ================
+    if (([control isKindOfClass:[RBTextField class]] || [control isKindOfClass:[RBMultiValueTextField class]]) && [subtype isEqualToString:@"list"]) {
+        NSString *listID = [form valueForKey:kRBFormKeyListID ofField:fieldID inSection:section];
+        if ([listID isEqualToString:@"states"]) {
+            ((RBTextField *)control).items = stateList;
+        }
+        else if ([listID isEqualToString:@"countries"]) {
+            ((RBTextField *)control).items = countryList;
+        }
+        else {
+            ((RBTextField *)control).items = [form listForID:listID];
+        }
     }
+    
+    id value = [form valueForKey:kRBFormKeyValue ofField:fieldID inSection:section];
+    if (value == nil || [value isKindOfClass:[NSString class]]) {
+        // ================ match values for client if there is no value set ================
+        if (IsEmpty(value)) {
+            NSArray *mappings = [form fieldWithID:fieldID inSection:section matches:[RBClient propertyNamesForMapping]];
+            if (mappings) {
+                NSMutableString *val = [NSMutableString string];
+                for (int i = 0; i < mappings.count; i++) {
+                    NSString *mappingValue = [client valueForKey:[mappings objectAtIndex:i]];
+                    if (mappingValue) {
+                        [val appendString:mappingValue];
+                        if (i < mappings.count - 1) {
+                            [val appendString:@" "];
+                        }
+                    }
+                }
+                value = val;
+            }
+        }
+        
+        // ================ match values for musketeer if there is no value set ================
+        if (IsEmpty(value)) {
+            NSMutableArray *tmp = [NSMutableArray array];
+            for (NSString *prop in [RBMusketeer propertyNamesForMapping]) {
+                [tmp addObject:[NSString stringWithFormat:@"musketeer_%@", prop]];
+            }
+            
+            NSArray *mappings = [form fieldWithID:fieldID inSection:section matches:tmp];
+            if (mappings) {
+                NSMutableString *val = [NSMutableString string];
+                for (int i = 0; i < mappings.count; i++) {
+                    NSString *key = [[mappings objectAtIndex:i] substringFromIndex:[@"musketeer_" length]];
+                    NSString *mappingValue = [[RBMusketeer loadEntity] valueForKey:key];
+                    if (mappingValue) {
+                        [val appendString:mappingValue];
+                        if (i < mappings.count - 1) {
+                            [val appendString:@" "];
+                        }
+                    }
+                }
+                value = val;
+            }
+        }
+    }
+    [control configureControlUsingValue:value];
+    
+    // ================ set buttons for button group to implement radio or toggle buttons ================
+    NSString *buttonGroup = [form valueForKey:kRBFormKeyButtonGroup ofField:fieldID inSection:section];
+    if ([control isKindOfClass:[UIControl class]] && [subtype isEqualToString:@"radio"] && buttonGroup) {
+        NSMutableArray *btnGrp = [buttonGroups objectForKey:buttonGroup];
+        if (!btnGrp) {
+            btnGrp = [NSMutableArray arrayWithCapacity:2];
+            [buttonGroups setObject:btnGrp forKey:buttonGroup];
+        }
+        [btnGrp addObject:control];
+        control.formButtonGroup = btnGrp;
+    }
+    
+    // ================ set repeat groups for adding and removing multiple fields at once ================
+    if ([control isKindOfClass:[RBMultiValueTextField class]] && repeatGroup) {
+        NSMutableArray *rptGrp = [repeatGroups objectForKey:repeatGroup];
+        if (!rptGrp) {
+            rptGrp = [NSMutableArray arrayWithCapacity:2];
+            [repeatGroups setObject:rptGrp forKey:repeatGroup];
+        }
+        [rptGrp addObject:control];
+        control.formRepeatGroup = rptGrp;
+    }
+
+    return control;
 }
+
 
 @end

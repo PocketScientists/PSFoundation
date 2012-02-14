@@ -21,7 +21,8 @@
 @property (nonatomic, assign) NSInteger formRowSpan;
 @property (nonatomic, assign) CGFloat formSize;
 @property (nonatomic, retain) NSString *formAlignment;
-@property (nonatomic, retain) NSString *formRepeatGroup;
+@property (nonatomic, retain) NSArray *formRepeatGroup;
 @property (nonatomic, assign) BOOL formShowRepeatButton;
+@property (nonatomic, retain) NSString *formRepeatField;
 
 @end

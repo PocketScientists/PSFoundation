@@ -163,6 +163,7 @@
 		A9B49268144CE7FB002F1D02 /* RBMusketeer.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B49267144CE7FB002F1D02 /* RBMusketeer.m */; };
 		A9B4926B144CE976002F1D02 /* RBMusketeer+RBProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B4926A144CE975002F1D02 /* RBMusketeer+RBProperties.m */; };
 		A9B9367614B3E1E100C9A51B /* TextFieldBackgroundDisabled.png in Resources */ = {isa = PBXBuildFile; fileRef = A9B9367514B3E1E100C9A51B /* TextFieldBackgroundDisabled.png */; };
+		A9CB0D4914E9F544008AD4CE /* RemoveButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CB0D4814E9F541008AD4CE /* RemoveButton.png */; };
 		A9D7A63114636F460004C38A /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D7A62D14636F460004C38A /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
@@ -558,6 +559,7 @@
 		A9B49269144CE975002F1D02 /* RBMusketeer+RBProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RBMusketeer+RBProperties.h"; sourceTree = "<group>"; };
 		A9B4926A144CE975002F1D02 /* RBMusketeer+RBProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RBMusketeer+RBProperties.m"; sourceTree = "<group>"; };
 		A9B9367514B3E1E100C9A51B /* TextFieldBackgroundDisabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TextFieldBackgroundDisabled.png; path = Images/TextFieldBackgroundDisabled.png; sourceTree = "<group>"; };
+		A9CB0D4814E9F541008AD4CE /* RemoveButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RemoveButton.png; path = Images/RemoveButton.png; sourceTree = "<group>"; };
 		A9D7A62B14636F460004C38A /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		A9D7A62D14636F460004C38A /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -838,6 +840,7 @@
 		395EEF2613D72E3C003C4DA8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A9CB0D4814E9F541008AD4CE /* RemoveButton.png */,
 				A9B9367514B3E1E100C9A51B /* TextFieldBackgroundDisabled.png */,
 				A94D22801483FF8C0077723B /* FinalizeButton.png */,
 				A94D227C1483F6650077723B /* InPersonSigner.png */,
@@ -1451,6 +1454,7 @@
 				A94FC8E514DA9427008CCBB4 /* PA.plist in Resources */,
 				A94FC8E614DA9427008CCBB4 /* PALogo.png in Resources */,
 				A94FC91014DAC627008CCBB4 /* PFP_PA.plist in Resources */,
+				A9CB0D4914E9F544008AD4CE /* RemoveButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

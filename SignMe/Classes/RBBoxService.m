@@ -31,7 +31,6 @@ static Box *box = nil;
 }
 
 + (BOOL)shouldSyncFolder {
-  
     // download once per day
     if (![[NSUserDefaults standardUserDefaults].formsUpdateDate isToday]) {
         return YES;

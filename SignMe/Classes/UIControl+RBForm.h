@@ -12,7 +12,7 @@
 @interface UIControl (RBForm)
 
 @property (nonatomic, retain) NSString *formMappingName;
-@property (nonatomic, readonly) NSString *formTextValue;
+@property (nonatomic, readonly) id formTextValue;
 @property (nonatomic, readonly) NSString *formButtonGroupValue;
 @property (nonatomic, retain) NSString *formSubtype;
 @property (nonatomic, retain) NSArray *formButtonGroup;
@@ -25,7 +25,7 @@
 @property (nonatomic, retain) NSString *formFalseValue;
 @property (nonatomic, assign) BOOL formShowZero;
 
-+ (UIControl *)controlWithID:(NSString *)formID datatype:(NSString *)datatype size:(CGSize)size subtype:(NSString *)subtype;
++ (UIControl *)controlWithID:(NSString *)formID datatype:(NSString *)datatype size:(CGSize)size subtype:(NSString *)subtype repeatGroup:(NSString *)repeatGroup showRepeatButton:(BOOL)showRepeatButton;
 
 - (void)configureControlUsingValue:(id)value;
 - (void)unregisterObservers;

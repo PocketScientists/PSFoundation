@@ -17,6 +17,7 @@
 @property (nonatomic, assign) NSInteger numberOfRows;
 @property (nonatomic, strong) NSMutableArray *columnWidths;
 @property (nonatomic, strong) NSMutableArray *columnLabelWidths;
+@property (nonatomic, strong) NSMutableArray *rowHeights;
 @property (nonatomic, strong) NSMutableArray *labels;
 @property (nonatomic, strong) NSMutableArray *fields;
 @property (nonatomic, strong) UIView *sectionHeader;

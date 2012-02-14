@@ -15,6 +15,7 @@
 #import "VCTitleCase.h"
 #import "RBUIGenerator.h"
 #import "RegexKitLite.h"
+#import "RBMultiValueTextField.h"
 
 
 @interface RBFormView ()
@@ -97,6 +98,17 @@
     [RBUIGenerator resizeFormView:self withForm:self.form];
 }
 
+
+- (void)forceLayout {
+    lastFormSize = self.bounds.size;
+    id tmpDelegate = innerScrollView_.delegate;
+    innerScrollView_.delegate = nil;
+    [RBUIGenerator resizeFormView:self withForm:self.form];
+    innerScrollView_.delegate = tmpDelegate;
+    [self setupResponderChain];
+}
+
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark RBFormView
@@ -148,6 +160,39 @@
         tableView.editing = YES;
     }
 }
+
+- (void)setupResponderChain {
+    NSInteger section = 0;
+    RBTextField *previousTextField = nil;
+    
+    for (UIControl *inputField in self.formControls) {
+        if (inputField.formSection != section) {
+            previousTextField = nil;
+            section = inputField.formSection;
+        }
+        // ================ Setup chain to go from one textfield to the next ================
+        if (!inputField.formCalculate || [inputField.formCalculate length] == 0) {
+            if ([inputField isKindOfClass:[RBTextField class]] && ![inputField.formDatatype isEqualToString:kRBFormDataTypeLabel]) {
+                RBTextField *textField = (RBTextField *)inputField;
+                textField.delegate = self;
+                
+                previousTextField.nextField = textField;
+                textField.prevField = previousTextField;
+                previousTextField = textField;
+            }
+            else if ([inputField isKindOfClass:[RBMultiValueTextField class]]) {
+                for (RBTextField *textField in ((RBMultiValueTextField *)inputField).textFields) {
+                    textField.delegate = self;
+                    
+                    previousTextField.nextField = textField;
+                    textField.prevField = previousTextField;
+                    previousTextField = textField;
+                }
+            }
+        }
+    }
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -242,7 +287,20 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [self validateTextField:textField];
     if (textField.formTextFormat && [textField.text length] > 0) {
-        textField.text = [NSString stringWithFormat:textField.formTextFormat, [textField.text titlecaseString]];
+        NSRange r = [textField.formTextFormat rangeOfString:@"%@"];
+        if (r.location != NSNotFound) {
+            NSString *prefix = [textField.formTextFormat substringToIndex:r.location];
+            NSString *suffix = [textField.formTextFormat substringFromIndex:r.location + r.length];
+            if (([prefix length] == 0 || [textField.text hasPrefix:prefix]) && ([suffix length] == 0 || [textField.text hasSuffix:suffix])) {
+                textField.text = [textField.text titlecaseString];
+            }
+            else {
+                textField.text = [NSString stringWithFormat:textField.formTextFormat, [textField.text titlecaseString]];
+            }
+        }
+        else {
+            textField.text = [textField.text titlecaseString];
+        }
     }
     else {
         textField.text = [textField.text titlecaseString];

@@ -42,6 +42,7 @@
 #define kRBFormKeyShowZero          @"showZero"
 #define kRBFormKeyRepeatGroup       @"repeatGroup"
 #define kRBFormKeyShowRepeatButton  @"showRepeatButton"
+#define kRBFormKeyRepeatField       @"repeatField"
 
 #define kRBFormKeyTabs              @"tabs"             // tabs for signing in DocuSign
 #define kRBFormKeyTabPage           @"page"             // the page a tab should appear

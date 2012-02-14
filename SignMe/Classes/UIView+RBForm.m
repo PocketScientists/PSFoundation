@@ -22,6 +22,7 @@ static char formSizeKey;
 static char formAlignmentKey;
 static char formRepeatGroupKey;
 static char formShowRepeatButtonKey;
+static char formRepeatFieldKey;
 
 
 @implementation UIView (RBForm)
@@ -114,11 +115,11 @@ static char formShowRepeatButtonKey;
     return [self associatedValueForKey:&formAlignmentKey];
 }
 
-- (void)setFormRepeatGroup:(NSString *)formRepeatGroup {
+- (void)setFormRepeatGroup:(NSArray *)formRepeatGroup {
     [self associateValue:formRepeatGroup withKey:&formRepeatGroupKey];
 }
 
-- (NSString *)formRepeatGroup {
+- (NSArray *)formRepeatGroup {
     return [self associatedValueForKey:&formRepeatGroupKey];
 }
 
@@ -128,6 +129,14 @@ static char formShowRepeatButtonKey;
 
 - (BOOL)formShowRepeatButton {
     return [[self associatedValueForKey:&formShowRepeatButtonKey] boolValue];
+}
+
+- (void)setFormRepeatField:(NSString *)formRepeatField {
+    [self associateValue:formRepeatField withKey:&formRepeatFieldKey];
+}
+
+- (NSString *)formRepeatField {
+    return [self associatedValueForKey:&formRepeatFieldKey];
 }
 
 @end
