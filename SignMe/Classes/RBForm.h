@@ -102,7 +102,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus);
 - (id)initWithPath:(NSString *)path name:(NSString *)name;
 
 /** All fields stored in the plist, e.g. name, sections, ... */
-@property (nonatomic, strong, readonly) NSDictionary *formData;
+@property (nonatomic, strong, readonly) NSMutableDictionary *formData;
 
 // Convenience Getters
 

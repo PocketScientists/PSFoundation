@@ -15,6 +15,7 @@
 #define kRBInputFieldPadding        10.f
 #define kRBRowHeight                35.f
 #define kRBRowPadding               11.f
+#define kRBSectionSpacing           30.f
 
 
 @implementation RBFormLayoutData
@@ -139,25 +140,25 @@
 }
 
 
-- (CGRect)rectForSectionHeader
+- (CGRect)rectForSectionHeader:(BOOL)spacing
 {
     if (sectionHeader) {
-        return CGRectMake(formOrigin.x, formOrigin.y, formWidth, kRBRowHeight);
+        return CGRectMake(formOrigin.x, formOrigin.y + (spacing ? kRBSectionSpacing : 0), formWidth, kRBRowHeight);
     }
     
     return CGRectZero;
 }
 
 
-- (CGRect)rectForSectionHeaderButton
+- (CGRect)rectForSectionHeaderButton:(BOOL)spacing
 {
     if (sectionHeaderButton) {
         if (sectionHeader) {
             CGFloat lblWidth = [sectionHeader sizeThatFits:CGSizeMake(formWidth, kRBRowHeight)].width;
-            return CGRectMake(formOrigin.x + lblWidth + kRBInputFieldPadding, formOrigin.y, 39.0f, kRBRowHeight);
+            return CGRectMake(formOrigin.x + lblWidth + kRBInputFieldPadding, formOrigin.y + (spacing ? kRBSectionSpacing : 0), 39.0f, kRBRowHeight);
         }
         else {
-            return CGRectMake(formOrigin.x, formOrigin.y, 39.0f, kRBRowHeight);
+            return CGRectMake(formOrigin.x, formOrigin.y + (spacing ? kRBSectionSpacing : 0), 39.0f, kRBRowHeight);
         }
     }
 
@@ -214,7 +215,7 @@
         }
 
         if (self.sectionHeader) {
-            r.origin.y += kRBRowHeight + kRBRowPadding;
+            r.origin.y += kRBRowHeight + kRBRowPadding + kRBSectionSpacing;
         }
         r.origin.y = floorf(r.origin.y);
         
@@ -255,7 +256,7 @@
         }
 
         if (self.sectionHeader) {
-            r.origin.y += kRBRowHeight + kRBRowPadding;
+            r.origin.y += kRBRowHeight + kRBRowPadding + kRBSectionSpacing;
         }
         r.origin.y = floorf(r.origin.y);
 

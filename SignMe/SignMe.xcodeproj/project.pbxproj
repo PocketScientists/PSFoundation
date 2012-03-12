@@ -50,7 +50,6 @@
 		393AB0A713E2762900F1BE04 /* PSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393AB0A613E2762800F1BE04 /* PSFunctions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		394B916A13D64BB1007BFF2E /* PSBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916913D64BB1007BFF2E /* PSBaseTableViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		394B916E13D64C62007BFF2E /* RBHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916D13D64C62007BFF2E /* RBHomeViewController.m */; };
-		394B917413D64CE3007BFF2E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 394B917113D64CE3007BFF2E /* Icon.png */; };
 		395EEF2513D72E39003C4DA8 /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = 395EEF2413D72E39003C4DA8 /* Background.png */; };
 		395EEF2913D72E85003C4DA8 /* RBTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 395EEF2813D72E85003C4DA8 /* RBTimeView.m */; };
 		39680E6613DF838A006B47C1 /* RBPersistenceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39680E6513DF838A006B47C1 /* RBPersistenceManager.m */; };
@@ -165,6 +164,8 @@
 		A9B9367614B3E1E100C9A51B /* TextFieldBackgroundDisabled.png in Resources */ = {isa = PBXBuildFile; fileRef = A9B9367514B3E1E100C9A51B /* TextFieldBackgroundDisabled.png */; };
 		A9CB0D4914E9F544008AD4CE /* RemoveButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CB0D4814E9F541008AD4CE /* RemoveButton.png */; };
 		A9D7A63114636F460004C38A /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D7A62D14636F460004C38A /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A9FD5F94150E47B2006256DE /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A9FD5F93150E47B2006256DE /* Icon.png */; };
+		A9FD5F96150E484A006256DE /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9FD5F95150E484A006256DE /* Icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -370,7 +371,6 @@
 		394B916913D64BB1007BFF2E /* PSBaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSBaseTableViewController.m; sourceTree = "<group>"; };
 		394B916C13D64C62007BFF2E /* RBHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBHomeViewController.h; sourceTree = "<group>"; };
 		394B916D13D64C62007BFF2E /* RBHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBHomeViewController.m; sourceTree = "<group>"; };
-		394B917113D64CE3007BFF2E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Icon.png; sourceTree = "<group>"; };
 		395EEF2413D72E39003C4DA8 /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Background.png; path = Images/Background.png; sourceTree = "<group>"; };
 		395EEF2713D72E85003C4DA8 /* RBTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTimeView.h; sourceTree = "<group>"; };
 		395EEF2813D72E85003C4DA8 /* RBTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTimeView.m; sourceTree = "<group>"; };
@@ -562,6 +562,8 @@
 		A9CB0D4814E9F541008AD4CE /* RemoveButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RemoveButton.png; path = Images/RemoveButton.png; sourceTree = "<group>"; };
 		A9D7A62B14636F460004C38A /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		A9D7A62D14636F460004C38A /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
+		A9FD5F93150E47B2006256DE /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		A9FD5F95150E484A006256DE /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -640,6 +642,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				A9FD5F95150E484A006256DE /* Icon@2x.png */,
+				A9FD5F93150E47B2006256DE /* Icon.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -668,7 +672,6 @@
 				390DD51713D9D1FE00EB1EFD /* Model */,
 				395EEF2613D72E3C003C4DA8 /* Images */,
 				78BCBB2612B5323D0093AE0C /* Localization */,
-				394B917113D64CE3007BFF2E /* Icon.png */,
 				787251DF130DABEE00571A6E /* Info.plist */,
 				787251DE130DABEE00571A6E /* Build-Info.plist */,
 				39AA377113EB6E6B00338A3E /* Settings.bundle */,
@@ -1273,7 +1276,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "SignMe" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1411,7 +1414,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				78BCBB2A12B5323D0093AE0C /* Localizable.strings in Resources */,
-				394B917413D64CE3007BFF2E /* Icon.png in Resources */,
 				395EEF2513D72E39003C4DA8 /* Background.png in Resources */,
 				39A7F07E13DA207A008338A4 /* RBHomeView.xib in Resources */,
 				3911A22913E22AA600CD4F6C /* LogoEmpty.png in Resources */,
@@ -1455,6 +1457,8 @@
 				A94FC8E614DA9427008CCBB4 /* PALogo.png in Resources */,
 				A94FC91014DAC627008CCBB4 /* PFP_PA.plist in Resources */,
 				A9CB0D4914E9F544008AD4CE /* RemoveButton.png in Resources */,
+				A9FD5F94150E47B2006256DE /* Icon.png in Resources */,
+				A9FD5F96150E484A006256DE /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1732,102 +1736,6 @@
 			};
 			name = Distribution;
 		};
-		3981E12B13DF3A4F00B23A7D /* AppStore */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CLANG_ENABLE_OBJC_ARC = NO;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PlistCreator/PlistCreator-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = AppStore;
-		};
-		7856A42A12B442300025424F /* AppStore */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7876F54C130D856A00A79E01 /* appstore.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = ../.;
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"CONFIGURATION_$(CONFIGURATION)",
-					APPSTORE,
-				);
-				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
-				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_SHADOW = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"../iPhoneContacts/**",
-					"../external/**",
-					"../PSFoundation/**",
-					"../PDFCreator/**",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				OTHER_LDFLAGS = "-all_load";
-				RUN_CLANG_STATIC_ANALYZER = YES;
-				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = AppStore;
-		};
-		7856A42B12B442300025424F /* AppStore */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)/**",
-					"\"$(SRCROOT)/..\"/**",
-					"\"$(SRCROOT)/../external/DocuSign/DocuSign\"/**",
-					"\"$(SRCROOT)/../external/DocuSign/DocuSign\"",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.pch;
-				HEADER_SEARCH_PATHS = (
-					"$(SDKROOT)/usr/include/libxml2/**",
-					"../iPhoneContacts/**",
-					"../external/**",
-					"../PSFoundation/**",
-					"../PDFCreator/**",
-				);
-				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				PRODUCT_NAME = "Sign Me";
-				STRIP_INSTALLED_PRODUCT = YES;
-				TARGETED_DEVICE_FAMILY = 2;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = AppStore;
-		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7876F54F130D856A00A79E01 /* debug.xcconfig */;
@@ -1843,7 +1751,7 @@
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -1883,7 +1791,7 @@
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -1917,7 +1825,6 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Distribution */,
-				7856A42B12B442300025424F /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Distribution;
@@ -1927,7 +1834,6 @@
 			buildConfigurations = (
 				3981E12913DF3A4F00B23A7D /* Debug */,
 				3981E12A13DF3A4F00B23A7D /* Distribution */,
-				3981E12B13DF3A4F00B23A7D /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Distribution;
@@ -1937,7 +1843,6 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Distribution */,
-				7856A42A12B442300025424F /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Distribution;

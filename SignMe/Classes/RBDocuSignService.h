@@ -17,5 +17,6 @@
 + (void)cancelDocument:(RBDocument *)document;
 + (void)signDocument:(RBDocument *)document recipient:(NSDictionary *)recipient;
 + (void)updateStatusOfDocuments;
++ (int)numberOfPDFPages:(NSURL *)url;
 
 @end

@@ -238,6 +238,8 @@
                 if (r.location != NSNotFound) {
                     NSString *prefix = [textField.formTextFormat substringToIndex:r.location];
                     NSString *suffix = [textField.formTextFormat substringFromIndex:r.location + r.length];
+                    prefix = [prefix stringByReplacingOccurrencesOfString:@"%%" withString:@"%"];
+                    suffix = [suffix stringByReplacingOccurrencesOfString:@"%%" withString:@"%"];
                     if (([prefix length] == 0 || [text hasPrefix:prefix]) && ([suffix length] == 0 || [text hasSuffix:suffix])) {
                         int length = [text length] - [prefix length] - [suffix length];
                         text = [text substringWithRange:NSMakeRange(r.location, length)];

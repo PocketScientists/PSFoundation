@@ -63,7 +63,7 @@
 				<key>type</key>
 				<string>paragraph</string>
 				<key>text</key>
-				<string>&lt;p style=&quot;line-height: 2;&quot;&gt;${owner} &lt;br/&gt;${president}&lt;br/&gt;${street}&lt;br/&gt;${city}&lt;br/&gt;${state}&lt;br/&gt;${postal_code}&lt;/p&gt;</string>
+				<string>&lt;p style=&quot;line-height: 2;&quot;&gt;${owner} &lt;br/&gt;${president} &lt;br/&gt;${street} &lt;br/&gt;${city} &lt;br/&gt;${state} &lt;br/&gt;${postal_code} &lt;/p&gt;</string>
 				<key>x</key>
 				<integer>280</integer>
 				<key>position</key>
@@ -165,7 +165,7 @@
 				<key>type</key>
 				<string>paragraph</string>
 				<key>text</key>
-				<string>&lt;p style=&quot;line-height: 2;&quot;&gt;${contract_period}&lt;br/&gt;${commencement_date}&lt;br/&gt;${expiration}&lt;/p&gt;</string>
+				<string>&lt;p style=&quot;line-height: 2;&quot;&gt;${contract_period} &lt;br/&gt;${commencement_date} &lt;br/&gt;${expiration} &lt;/p&gt;</string>
 				<key>x</key>
 				<integer>280</integer>
 				<key>position</key>
@@ -751,7 +751,7 @@
 						<key>type</key>
 						<string>paragraph</string>
 						<key>text</key>
-						<string>&lt;p&gt;Amount to be paid out quarterly in product valued at ${payment_quaterly}&lt;/p&gt;</string>
+						<string>&lt;p&gt;Amount to be paid out quarterly in product valued at   ${payment_quaterly}&lt;/p&gt;</string>
 						<key>x</key>
 						<integer>0</integer>
 						<key>width</key>

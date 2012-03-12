@@ -214,7 +214,7 @@
     fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
     [DDLog addLogger:fileLogger];
     
-    //[self redirectNSLogToDocumentFolder];
+    [self redirectNSLogToDocumentFolder];
 #endif
     
     

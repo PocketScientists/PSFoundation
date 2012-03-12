@@ -78,6 +78,8 @@ static char formShowZeroKey;
             if (r.location != NSNotFound) {
                 NSString *prefix = [textFieldSelf.formTextFormat substringToIndex:r.location];
                 NSString *suffix = [textFieldSelf.formTextFormat substringFromIndex:r.location + r.length];
+                prefix = [prefix stringByReplacingOccurrencesOfString:@"%%" withString:@"%"];
+                suffix = [suffix stringByReplacingOccurrencesOfString:@"%%" withString:@"%"];
                 if (([prefix length] == 0 || [value hasPrefix:prefix]) && ([suffix length] == 0 || [value hasSuffix:suffix])) {
                     textFieldSelf.text = value;
                 }

@@ -63,7 +63,7 @@
 				<key>type</key>
 				<string>paragraph</string>
 				<key>text</key>
-				<string>&lt;p style=&quot;line-height: 2;&quot;&gt;${owner} &lt;br/&gt;${president}&lt;br/&gt;${street}&lt;br/&gt;${city}&lt;br/&gt;${state}&lt;br/&gt;${postal_code}&lt;/p&gt;</string>
+				<string>&lt;p style=&quot;line-height: 2;&quot;&gt;${owner} &lt;br/&gt;${president} &lt;br/&gt;${street} &lt;br/&gt;${city} &lt;br/&gt;${state} &lt;br/&gt;${postal_code} &lt;/p&gt;</string>
 				<key>x</key>
 				<integer>280</integer>
 				<key>position</key>
@@ -165,7 +165,7 @@
 				<key>type</key>
 				<string>paragraph</string>
 				<key>text</key>
-				<string>&lt;p style=&quot;line-height: 2;&quot;&gt;${contract_period}&lt;br/&gt;${commencement_date}&lt;br/&gt;${expiration}&lt;/p&gt;</string>
+				<string>&lt;p style=&quot;line-height: 2;&quot;&gt;${contract_period} &lt;br/&gt;${commencement_date} &lt;br/&gt;${expiration} &lt;/p&gt;</string>
 				<key>x</key>
 				<integer>280</integer>
 				<key>position</key>
@@ -224,6 +224,18 @@
 				<string>88;87;89;1.0</string>
 				<key>mode</key>
 				<string>fill</string>
+			</dict>
+			<dict>
+				<key>type</key>
+				<string>verticalLineStart</string>
+				<key>strokeColor</key>
+				<string>88;87;89;1.0</string>
+				<key>x</key>
+				<integer>360</integer>
+				<key>lineWidth</key>
+				<integer>1</integer>
+				<key>id</key>
+				<string>sep1</string>
 			</dict>
 			<dict>
 				<key>type</key>
@@ -1017,19 +1029,11 @@
 			</dict>
 			<dict>
 				<key>type</key>
-				<string>line</string>
-				<key>strokeColor</key>
-				<string>88;87;89;1.0</string>
+				<string>verticalLineEnd</string>
 				<key>x</key>
 				<integer>360</integer>
-				<key>y</key>
-				<integer>20</integer>
-				<key>width</key>
-				<integer>0</integer>
-				<key>height</key>
-				<integer>702</integer>
-				<key>lineWidth</key>
-				<integer>1</integer>
+				<key>id</key>
+				<string>sep1</string>
 			</dict>
 		</array>
 		<array>
@@ -1137,7 +1141,7 @@
 						<key>type</key>
 						<string>paragraph</string>
 						<key>text</key>
-						<string>&lt;p&gt;Amount to be paid out quarterly in product valued at ${payment_quaterly}&lt;/p&gt;</string>
+						<string>&lt;p&gt;Amount to be paid out quarterly in product valued at   ${payment_quaterly}&lt;/p&gt;</string>
 						<key>x</key>
 						<integer>0</integer>
 						<key>width</key>

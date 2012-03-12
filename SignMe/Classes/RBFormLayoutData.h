@@ -25,8 +25,8 @@
 
 - (void)calculateLayout;
 
-- (CGRect)rectForSectionHeader;
-- (CGRect)rectForSectionHeaderButton;
+- (CGRect)rectForSectionHeader:(BOOL)spacing;
+- (CGRect)rectForSectionHeaderButton:(BOOL)spacing;
 - (CGRect)rectForLabelAtIndex:(NSInteger)index;
 - (CGRect)rectForFieldAtIndex:(NSInteger)index;
 

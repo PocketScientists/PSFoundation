@@ -18,6 +18,7 @@
 
 static DocuSignService *docuSign = nil;
 
+
 @implementation RBDocuSignService
 
 + (void)initialize {
@@ -47,11 +48,21 @@ static DocuSignService *docuSign = nil;
         }
         
         if (docuSign.account != nil) {
+            int noPages = [RBDocuSignService numberOfPDFPages:document.filledPDFURL];
+            
             // dictionary holding the PDF data and name
             NSDictionary *documentDictionary = XDICT(document.name, @"name", document.filledPDFData, @"pdf");
             // all the recipients of the PDF
             NSArray *recipients = [document recipientsAsDictionary];
             NSArray *tabs = [document.form tabsForRecipients:recipients];
+            for (NSMutableDictionary *tab in tabs) {
+                id page = [tab objectForKey:kRBFormKeyTabPage];
+                if ([page isKindOfClass:[NSString class]]) {
+                    if ([page isEqualToString:@"last"]) {
+                        [tab setObject:[NSNumber numberWithInt:noPages] forKey:kRBFormKeyTabPage];
+                    }
+                }
+            }
             NSString *subject = !IsEmpty(document.subject) ? document.subject : @"Sign this Red Bull Document";
             BOOL routingOrder = document.obeyRoutingOrder ? [document.obeyRoutingOrder boolValue] : NO;
             
@@ -284,5 +295,36 @@ static DocuSignService *docuSign = nil;
         }
     });
 }
+
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark PDF Handling
+////////////////////////////////////////////////////////////////////////
+
++ (int)numberOfPDFPages:(NSURL *)url {
+    CGPDFDocumentRef myDocument = CGPDFDocumentCreateWithURL((__bridge CFURLRef)url);
+    
+    if (myDocument == NULL) {
+        return 0;
+    }
+    
+    if (CGPDFDocumentIsEncrypted(myDocument)) {
+        CGPDFDocumentRelease(myDocument);
+        return 0;
+    }
+    
+    if (!CGPDFDocumentIsUnlocked(myDocument)) {
+        NSLog(@"cannot unlock PDF %@", url);
+        CGPDFDocumentRelease(myDocument);
+        return 0;
+    }
+    
+    size_t numberOfPages = CGPDFDocumentGetNumberOfPages(myDocument);
+    CGPDFDocumentRelease(myDocument);
+    
+    return numberOfPages;
+}
+
 
 @end

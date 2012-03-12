@@ -138,7 +138,7 @@
                 NSInteger colspan = [[form valueForKey:kRBFormKeyColumnSpan ofField:fieldID inSection:section] intValue];
                 NSInteger rowspan = [[form valueForKey:kRBFormKeyRowSpan ofField:fieldID inSection:section] intValue];
                 NSString *alignment = [form valueForKey:kRBFormKeyAlignment ofField:fieldID inSection:section];
-                NSString *textAlignment = [form valueForKey:kRBFormKeyTextFormat ofField:fieldID inSection:section];
+                NSString *textAlignment = [form valueForKey:kRBFormKeyTextAlignment ofField:fieldID inSection:section];
                 position = position == nil ? kRBFieldPositionBelow : position;
                 
                 // ================ create label ================
@@ -362,12 +362,12 @@
         
         label = layoutData.sectionHeader;
         if (label) {
-            label.frame = [layoutData rectForSectionHeader];
+            label.frame = [layoutData rectForSectionHeader:NO];
         }
         
         control = layoutData.sectionHeaderButton;
         if (control) {
-            control.frame = [layoutData rectForSectionHeaderButton];
+            control.frame = [layoutData rectForSectionHeaderButton:NO];
         }
         
         if (label || control) {
@@ -383,12 +383,12 @@
             // add a section label to the page
             label = layoutData.sectionHeader;
             if (label) {
-                label.frame = [layoutData rectForSectionHeader];
+                label.frame = [layoutData rectForSectionHeader:YES];
             }
 
             control = layoutData.sectionHeaderButton;
             if (control) {
-                control.frame = [layoutData rectForSectionHeaderButton];
+                control.frame = [layoutData rectForSectionHeaderButton:YES];
             }
 
             for (int i = 0; i < layoutData.labels.count; i++) {

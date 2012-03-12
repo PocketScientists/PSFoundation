@@ -275,6 +275,8 @@
         if (r.location != NSNotFound) {
             NSString *prefix = [textField.formTextFormat substringToIndex:r.location];
             NSString *suffix = [textField.formTextFormat substringFromIndex:r.location + r.length];
+            prefix = [prefix stringByReplacingOccurrencesOfString:@"%%" withString:@"%"];
+            suffix = [suffix stringByReplacingOccurrencesOfString:@"%%" withString:@"%"];
             if (([prefix length] == 0 || [textField.text hasPrefix:prefix]) && ([suffix length] == 0 || [textField.text hasSuffix:suffix])) {
                 int length = [textField.text length] - [prefix length] - [suffix length];
                 textField.text = [textField.text substringWithRange:NSMakeRange(r.location, length)];
@@ -291,6 +293,8 @@
         if (r.location != NSNotFound) {
             NSString *prefix = [textField.formTextFormat substringToIndex:r.location];
             NSString *suffix = [textField.formTextFormat substringFromIndex:r.location + r.length];
+            prefix = [prefix stringByReplacingOccurrencesOfString:@"%%" withString:@"%"];
+            suffix = [suffix stringByReplacingOccurrencesOfString:@"%%" withString:@"%"];
             if (([prefix length] == 0 || [textField.text hasPrefix:prefix]) && ([suffix length] == 0 || [textField.text hasSuffix:suffix])) {
                 textField.text = [textField.text titlecaseString];
             }
