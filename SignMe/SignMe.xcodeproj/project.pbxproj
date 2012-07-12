@@ -1658,8 +1658,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Red Bull North America Inc.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Red Bull North America Inc.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: NOUSguide Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: NOUSguide Inc.";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)/**",
@@ -1679,8 +1679,8 @@
 				INFOPLIST_FILE = "Build-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "Sign Me";
-				PROVISIONING_PROFILE = "E598F6C5-AEB9-4A0D-AC82-0AF15CD81CF5";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E598F6C5-AEB9-4A0D-AC82-0AF15CD81CF5";
+				PROVISIONING_PROFILE = "320F1C47-34D0-4DA2-8AA0-477F56E92272";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "320F1C47-34D0-4DA2-8AA0-477F56E92272";
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
 			};

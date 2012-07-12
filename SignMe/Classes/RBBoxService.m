@@ -15,6 +15,7 @@
 
 
 static Box *box = nil;
+static BoxFolder *rootFolder = nil;
 
 @implementation RBBoxService
 
@@ -92,7 +93,8 @@ static Box *box = nil;
               
               //[viewController hideMessage];
               
-              if (response == BoxResponseSuccess) {
+              if (response == BoxResponseSuccess || response == BoxResponseAlreadyDownloaded) {
+                  rootFolder = (BoxFolder *)boxObject;
                   successBlock(boxObject);
                   [viewController updateToSuccessMessage:@"Update successful"];
               } else {
@@ -146,12 +148,12 @@ static Box *box = nil;
 }
 
 + (void)uploadDocument:(RBDocument *)document toFolderAtPath:(NSString *)path {
-    BoxFolder *folder = (BoxFolder *)[box.rootFolder objectAtFilePath:path];
+    BoxFolder *folder = (BoxFolder *)[rootFolder objectAtFilePath:path];
     
     // folder doesn't exist yet, create it
     if (folder == nil) {
         [box createFolder:path
-                 inFolder:box.rootFolder
+                 inFolder:rootFolder
           completionBlock:^(BoxResponseType resultType, NSObject *boxObject) {
               if (resultType == BoxResponseSuccess) {
                   [RBBoxService uploadDocument:document toFolder:(BoxFolder *)boxObject];
@@ -171,8 +173,8 @@ static Box *box = nil;
 + (void)deleteDocument:(RBDocument *)document fromFolderAtPath:(NSString *)path {
     NSString *pdfPath = [path stringByAppendingPathComponent:[document.fileURL stringByAppendingString:kRBPDFExtension]];
     NSString *plistPath = [path stringByAppendingPathComponent:[document.fileURL stringByAppendingString:kRBFormExtension]];
-    BoxObject *pdfObject = [box.rootFolder objectAtFilePath:pdfPath];
-    BoxObject *plistObject = [box.rootFolder objectAtFilePath:plistPath];
+    BoxObject *pdfObject = [rootFolder objectAtFilePath:pdfPath];
+    BoxObject *plistObject = [rootFolder objectAtFilePath:plistPath];
     
     if (pdfObject != nil) {
         [box deleteObject:pdfObject completionBlock:^(BoxResponseType resultType, NSObject *boxObject) {
