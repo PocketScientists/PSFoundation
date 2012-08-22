@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		064DE1DA15E2DF6B00177D1E /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 064DE1D915E2DF6B00177D1E /* KeychainWrapper.m */; };
+		065493CA15E5096E00936ECB /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 065493C915E5096E00936ECB /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		06599BB615E27278006B6988 /* RBUserAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 06599BB515E27278006B6988 /* RBUserAuthentication.m */; };
-		06599BBA15E2A411006B6988 /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 06599BB915E2A411006B6988 /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -310,10 +310,10 @@
 		064DE1D815E2DF6B00177D1E /* KeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainWrapper.h; sourceTree = "<group>"; };
 		064DE1D915E2DF6B00177D1E /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainWrapper.m; sourceTree = "<group>"; };
 		064DE1DB15E2E66A00177D1E /* Sign Me.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Sign Me.entitlements"; sourceTree = "<group>"; };
+		065493C815E5096E00936ECB /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDataXMLNode.h; sourceTree = "<group>"; };
+		065493C915E5096E00936ECB /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLNode.m; sourceTree = "<group>"; };
 		06599BB415E27278006B6988 /* RBUserAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBUserAuthentication.h; sourceTree = "<group>"; };
 		06599BB515E27278006B6988 /* RBUserAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBUserAuthentication.m; sourceTree = "<group>"; };
-		06599BB815E2A411006B6988 /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDataXMLNode.h; path = ../../../GDataXMLNode.h; sourceTree = "<group>"; };
-		06599BB915E2A411006B6988 /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDataXMLNode.m; path = ../../../GDataXMLNode.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -635,8 +635,8 @@
 		06599BB715E2A3F9006B6988 /* XML Parser */ = {
 			isa = PBXGroup;
 			children = (
-				06599BB815E2A411006B6988 /* GDataXMLNode.h */,
-				06599BB915E2A411006B6988 /* GDataXMLNode.m */,
+				065493C815E5096E00936ECB /* GDataXMLNode.h */,
+				065493C915E5096E00936ECB /* GDataXMLNode.m */,
 			);
 			name = "XML Parser";
 			sourceTree = "<group>";
@@ -1602,8 +1602,8 @@
 				A90913F714847630006CA234 /* NSString+DDMathParsing.m in Sources */,
 				A918BF6D14E441800075E862 /* RBMultiValueTextField.m in Sources */,
 				06599BB615E27278006B6988 /* RBUserAuthentication.m in Sources */,
-				06599BBA15E2A411006B6988 /* GDataXMLNode.m in Sources */,
 				064DE1DA15E2DF6B00177D1E /* KeychainWrapper.m in Sources */,
+				065493CA15E5096E00936ECB /* GDataXMLNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
