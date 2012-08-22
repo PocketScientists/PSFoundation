@@ -16,6 +16,7 @@
 @interface AppDelegate ()
 
 @property (nonatomic, strong) NSTimer *docuSignUpdateTimer;
+@property (nonatomic, strong) NSTimer *authorizationTimer;
 
 - (void)configureLogger;
 - (void)appplicationPrepareForBackgroundOrTermination:(UIApplication *)application;
@@ -32,6 +33,8 @@
 @synthesize navigationController = navigationController_;
 @synthesize homeViewController = homeViewController_;
 @synthesize docuSignUpdateTimer = docuSignUpdateTimer_;
+@synthesize userAuthentication = userAuthentication_;
+@synthesize authorizationTimer = authorizationTimer_;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -40,6 +43,7 @@
 
 - (void)dealloc {
     [docuSignUpdateTimer_ invalidate];
+    [authorizationTimer_ invalidate];
     
 }
 
@@ -50,9 +54,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // setup CocoaLumberJack-Logging
-    [self configureLogger];
+    //[self configureLogger];
     // create needed folders
     [self setupFileStructure];
+    
+    //User Authentication part
+    self.userAuthentication = [[RBUserAuthentication alloc] init];
+    self.userAuthentication.delegate = self;
+    [self.userAuthentication displayUserAuthentication];
+    
     
     // log out of box.net? was set in Settings Application
     [self logoutUserIfSpecifiedInSettings];
@@ -114,6 +124,33 @@
     [self appplicationPrepareForBackgroundOrTermination:application];
     
     [ActiveRecordHelpers cleanUp];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark User Authentication Delegates
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+-(void)userAuthenticated
+{
+    NSLog(@"User authenticated!");
+    RBMusketeer *rbmusk = [RBMusketeer loadEntity];
+    NSLog(@"UserID: %@",rbmusk.uid);
+    NSLog(@"Token: %@",rbmusk.token);
+}
+
+
+-(void)setTimerTo:(NSTimeInterval)intervall
+{
+    
+    if(self.authorizationTimer){
+        [authorizationTimer_ invalidate];
+    }
+    self.authorizationTimer = [NSTimer scheduledTimerWithTimeInterval:intervall
+                                                                block:^(void) {
+                                                                    [userAuthentication_ displayUserAuthentication];
+                                                                    } repeats:NO];
 }
 
 
@@ -220,7 +257,6 @@
     
 }
 
-
 - (void)redirectNSLogToDocumentFolder {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -286,6 +322,7 @@
         }
     }
 }
+
 
 - (void)logoutUserIfSpecifiedInSettings {
     if ([NSUserDefaults standardUserDefaults].shouldLogOutOfBox && [[BoxUser savedUser] loggedIn]) {

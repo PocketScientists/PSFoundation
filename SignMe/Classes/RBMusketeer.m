@@ -23,6 +23,13 @@ static RBMusketeer *musketeer;
 @synthesize zip = zip_;
 @synthesize state = state_;
 
+@synthesize token=token_;
+@synthesize auth_string=auth_string_;
+@synthesize application_url=application_url_;
+@synthesize country_iso=country_iso_;
+@synthesize uid=uid_;
+
+
 + (RBMusketeer *)loadEntity {
     if (!musketeer) {
         musketeer = [[RBMusketeer alloc] init];

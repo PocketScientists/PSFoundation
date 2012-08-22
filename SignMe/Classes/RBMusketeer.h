@@ -19,6 +19,13 @@
 @property (nonatomic, strong) NSString * state;
 @property (nonatomic, strong) NSString * zip;
 
+//added new properties from session.xml
+@property (nonatomic, strong) NSString *token;
+@property (nonatomic, strong) NSString *auth_string;
+@property (nonatomic, strong) NSString *application_url;
+@property (nonatomic, strong) NSString *country_iso;
+@property (nonatomic, strong) NSString *uid;
+
 + (RBMusketeer *)loadEntity;
 + (RBMusketeer *)reloadEntity;
 - (void)saveEntity;

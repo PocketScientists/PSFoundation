@@ -31,10 +31,14 @@
 
 #define kReachabilityHostURL    @"www.box.net"
 
+#define kReachabilityUserXML @"https://wss21-s.wiiings.com/saleshq_mibsync/api/1/session.xml"
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Constants
 ////////////////////////////////////////////////////////////////////////
+
+
 
 #define kRBDetailGradientStartColor [UIColor colorWithRed:0.0627f green:0.0824f blue:0.1176f alpha:1.0000f]
 #define kRBDetailGradientEndColor   [UIColor colorWithRed:0.0824f green:0.1765f blue:0.4314f alpha:1.0000f]
@@ -71,6 +75,7 @@
 #define kRBRecipientTypeInPerson    1
 
 #define kRBDocuSignUpdateTimeInterval MTTimeIntervalMinutes(15)
+#define kRBAuthorizationTimeInterval MTTimeIntervalHours(12) 
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

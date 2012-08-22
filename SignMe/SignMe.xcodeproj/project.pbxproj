@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		064DE1DA15E2DF6B00177D1E /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 064DE1D915E2DF6B00177D1E /* KeychainWrapper.m */; };
+		06599BB615E27278006B6988 /* RBUserAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 06599BB515E27278006B6988 /* RBUserAuthentication.m */; };
+		06599BBA15E2A411006B6988 /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 06599BB915E2A411006B6988 /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -304,6 +307,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		064DE1D815E2DF6B00177D1E /* KeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainWrapper.h; sourceTree = "<group>"; };
+		064DE1D915E2DF6B00177D1E /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainWrapper.m; sourceTree = "<group>"; };
+		064DE1DB15E2E66A00177D1E /* Sign Me.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Sign Me.entitlements"; sourceTree = "<group>"; };
+		06599BB415E27278006B6988 /* RBUserAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBUserAuthentication.h; sourceTree = "<group>"; };
+		06599BB515E27278006B6988 /* RBUserAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBUserAuthentication.m; sourceTree = "<group>"; };
+		06599BB815E2A411006B6988 /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDataXMLNode.h; path = ../../../GDataXMLNode.h; sourceTree = "<group>"; };
+		06599BB915E2A411006B6988 /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDataXMLNode.m; path = ../../../GDataXMLNode.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -611,6 +621,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0624299915E4D14A000C1F64 /* UserAuthentication */ = {
+			isa = PBXGroup;
+			children = (
+				06599BB415E27278006B6988 /* RBUserAuthentication.h */,
+				06599BB515E27278006B6988 /* RBUserAuthentication.m */,
+				064DE1D815E2DF6B00177D1E /* KeychainWrapper.h */,
+				064DE1D915E2DF6B00177D1E /* KeychainWrapper.m */,
+			);
+			name = UserAuthentication;
+			sourceTree = "<group>";
+		};
+		06599BB715E2A3F9006B6988 /* XML Parser */ = {
+			isa = PBXGroup;
+			children = (
+				06599BB815E2A411006B6988 /* GDataXMLNode.h */,
+				06599BB915E2A411006B6988 /* GDataXMLNode.m */,
+			);
+			name = "XML Parser";
+			sourceTree = "<group>";
+		};
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -626,6 +656,7 @@
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
 				39C918591398EBC40045489C /* PSWindow.h */,
 				39C9185A1398EBC40045489C /* PSWindow.m */,
+				0624299915E4D14A000C1F64 /* UserAuthentication */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -642,6 +673,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				064DE1DB15E2E66A00177D1E /* Sign Me.entitlements */,
 				A9FD5F95150E484A006256DE /* Icon@2x.png */,
 				A9FD5F93150E47B2006256DE /* Icon.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -775,6 +807,7 @@
 		3925C7D013DDE70B008810AF /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				06599BB715E2A3F9006B6988 /* XML Parser */,
 				3981E13713DF643800B23A7D /* Categories */,
 				3925C7D113DDE718008810AF /* UI Generation */,
 				39A7F07413D9FF0E008338A4 /* PDF */,
@@ -1568,6 +1601,9 @@
 				A90913F614847630006CA234 /* DDTypes.m in Sources */,
 				A90913F714847630006CA234 /* NSString+DDMathParsing.m in Sources */,
 				A918BF6D14E441800075E862 /* RBMultiValueTextField.m in Sources */,
+				06599BB615E27278006B6988 /* RBUserAuthentication.m in Sources */,
+				06599BBA15E2A411006B6988 /* GDataXMLNode.m in Sources */,
+				064DE1DA15E2DF6B00177D1E /* KeychainWrapper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1628,6 +1664,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = "Sign Me.entitlements";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)/**",
@@ -1658,6 +1695,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = "Sign Me.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: NOUSguide Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: NOUSguide Inc.";
 				COPY_PHASE_STRIP = YES;
