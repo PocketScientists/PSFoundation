@@ -9,9 +9,11 @@
 #import "PSBaseViewController.h"
 #import "iCarousel.h"
 #import "RBFormDetailView.h"
+#import "ASIHttpRequest.h"
+#import "GDataXMLNode.h"
 
 
-@interface RBHomeViewController : PSBaseViewController <iCarouselDataSource, iCarouselDelegate, NSFetchedResultsControllerDelegate, UIDocumentInteractionControllerDelegate>
+@interface RBHomeViewController : PSBaseViewController <iCarouselDataSource, iCarouselDelegate, NSFetchedResultsControllerDelegate, UIDocumentInteractionControllerDelegate, ASIHTTPRequestDelegate>
 {
     BOOL isMovedUp;
 }
@@ -34,6 +36,8 @@
 - (IBAction)handleMusketeerPress:(id)sender;
 
 - (void)updateUI;
-- (void)syncBoxNet:(BOOL)forced; 
+- (void)syncBoxNet:(BOOL)forced;
+
+-(void)updateDataViaWebservice;
 
 @end

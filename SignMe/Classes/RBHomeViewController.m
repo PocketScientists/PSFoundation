@@ -102,6 +102,9 @@
 
 - (void)startUpdate:(id)sender;
 
+- (void)requestFailed:(ASIHTTPRequest *)request;
+- (void)requestFinished:(ASIHTTPRequest *)request;
+
 @end
 
 @implementation RBHomeViewController
@@ -1096,13 +1099,29 @@
 }
 
 - (void)editClient:(RBClient *)client {
-    RBClientEditViewController *editViewController = [[RBClientEditViewController alloc] initWithNibName:nil bundle:nil];
+    /*RBClientEditViewController *editViewController = [[RBClientEditViewController alloc] initWithNibName:nil bundle:nil];
     
     editViewController.client = client;
     editViewController.modalPresentationStyle = UIModalPresentationFormSheet; //UIModalPresentationPageSheet;
     editViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
-    [self presentModalViewController:editViewController animated:YES];
+    [self presentModalViewController:editViewController animated:YES];*/
+    
+    
+    //TODO Custom url scheme (client id = null) if new
+    /*
+     1. Trigger MIB to create a new outlet
+     <MIB_Bundle_Identifier>://outlet?id=0
+     
+     2. Trigger MIB to updated an existing outlet
+     <MIB_Bundle_Identifier>://outlet?id=4fcca69ea3a67d24df001c09
+     */
+  
+    NSLog(@"In edit");
+    NSURL *myURL = [NSURL
+                    URLWithString:@"com.redbull.signMeInternational://outlet=...."];
+    [[UIApplication sharedApplication] openURL:myURL];
+    
 }
 
 - (void)presentFormIfPossible {
@@ -1198,6 +1217,73 @@
     
     return numberOfRows;
 }
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Update Data from Webservice
+////////////////////////////////////////////////////////////////////////
+-(void)updateDataViaWebservice
+{
+    NSURL *url = [NSURL URLWithString:kReachabilityOutletsXML];
+    ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
+    req.username = [RBMusketeer loadEntity].email;
+    req.password = [RBMusketeer loadEntity].token;
+    req.delegate = self;
+    [req setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
+    NSLog(@"request for outlet startet");
+    [req startAsynchronous];
+
+}
+
+-(void)requestFinished:(ASIHTTPRequest *)request
+{
+    NSLog(@"request finished with code %d",[request responseStatusCode]);
+    
+    NSData *respData = [request responseData];
+    NSLog(@"Response Data Length: %d",[respData length]);
+    
+    GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData
+                                                           options:0 error:nil];
+    if (doc != nil){
+        NSArray *elementstoload = [NSArray arrayWithObjects:@"updated_at",@"name",@"street",@"city",@"postalcode",@"region",@"country",
+                                   @"country_iso",@"classification1",@"classification2",@"classification3",nil];
+        
+        for(GDataXMLElement *outlet in [doc.rootElement elementsForName:@"outlet" ])
+        {
+            RBClient *client = [RBClient createEntity];
+            client.visible=$B(YES);
+            //Special routine for id because of keyword conflict
+            NSArray *names = [outlet elementsForName:@"id"];
+            if (names.count > 0) {
+                GDataXMLElement *identifier = (GDataXMLElement *) [names objectAtIndex:0];
+                client.identifier = identifier.stringValue;
+            }
+            
+            //Load other elements
+
+            
+            for(NSString *elem in elementstoload){
+                names = [outlet elementsForName:elem];
+                if (names.count > 0) {
+                    GDataXMLElement *content = (GDataXMLElement *) [names objectAtIndex:0];
+                    [client setValue:content.stringValue forKey:elem];
+                } 
+            }
+            
+        }
+    
+    }else{
+        NSLog(@"Parser Error");
+    }
+    
+}
+
+-(void)requestFailed:(ASIHTTPRequest *)request
+{
+    NSLog(@"req failed - code %d",[request responseStatusCode]);
+    //TODO Add adequate error handling
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

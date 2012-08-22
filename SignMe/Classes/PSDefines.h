@@ -32,6 +32,8 @@
 #define kReachabilityHostURL    @"www.box.net"
 
 #define kReachabilityUserXML @"https://wss21-s.wiiings.com/saleshq_mibsync/api/1/session.xml"
+#define kReachabilityOutletsXML @"https://stage-rbmib.v2a.net/api/2/sign_me/outlets.xml"
+//#define kReachabilityOutletsXML @"https://stage-rbmib.v2a.net/api/1/outlets/list.xml"
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

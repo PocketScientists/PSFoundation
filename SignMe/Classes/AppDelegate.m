@@ -58,16 +58,11 @@
     // create needed folders
     [self setupFileStructure];
     
-    //User Authentication part
-    self.userAuthentication = [[RBUserAuthentication alloc] init];
-    self.userAuthentication.delegate = self;
-    [self.userAuthentication displayUserAuthentication];
-    
-    
     // log out of box.net? was set in Settings Application
     [self logoutUserIfSpecifiedInSettings];
     // setup CoreData
 	[ActiveRecordHelpers setupAutoMigratingCoreDataStack];
+
     
     // check for NSZombie (memory leak if enabled, but very useful!)
     if(getenv("NSZombieEnabled") || getenv("NSAutoreleaseFreedObjectCheckEnabled")) {
@@ -92,10 +87,16 @@
         [imageView removeFromSuperview];
     }];
     
+    //User Authentication part
+    self.userAuthentication = [[RBUserAuthentication alloc] init];
+    self.userAuthentication.delegate = self;
+    [self.userAuthentication displayUserAuthentication];
+    
     if (kPostFinishLaunchDelay > 0) {
         [self performSelector:@selector(postFinishLaunch) withObject:nil afterDelay:kPostFinishLaunchDelay];
     }
     
+
     return YES;
 }
 
@@ -126,6 +127,17 @@
     [ActiveRecordHelpers cleanUp];
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Custom URL revceiver
+///////////////////////////////////////////////////////////////////////////////////////////////////
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    
+    NSLog(@"got a call");
+    NSLog(@"open url: %@",[url description]);
+    return YES;
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -138,6 +150,19 @@
     RBMusketeer *rbmusk = [RBMusketeer loadEntity];
     NSLog(@"UserID: %@",rbmusk.uid);
     NSLog(@"Token: %@",rbmusk.token);
+    /*RBClient *client =[RBClient createEntity];
+    client.name=@"HUGO";
+    client =[RBClient createEntity];
+    client.name=@"Peter";
+    [[NSManagedObjectContext defaultContext] save];*/
+    
+ //   NSArray *array = [RBClient findByAttribute:@"name" withValue:@"HUGO"];
+ //   [[NSManagedObjectContext defaultContext] deleteObject:[array firstObject]];
+   // [[NSManagedObjectContext defaultContext] save];
+   // NSLog(@"array size: %d",[array count]);
+    [self.homeViewController updateDataViaWebservice];
+    
+    
 }
 
 

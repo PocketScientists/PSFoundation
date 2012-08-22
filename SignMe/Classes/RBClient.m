@@ -20,4 +20,14 @@
 @dynamic visible;
 @dynamic documents;
 
+@dynamic classification1;
+@dynamic classification2;
+@dynamic classification3;
+@dynamic country;
+@dynamic country_iso;
+@dynamic identifier;
+@dynamic postalcode;
+@dynamic region;
+@dynamic updated_at;
+
 @end

@@ -19,6 +19,8 @@
 
 - (void)displayErrorAlert:(NSUInteger)alertID;
 - (void)getUserCredentialsForName:(NSString *)username AndPwd:(NSString *)pwd;
+- (void)requestFailed:(ASIHTTPRequest *)request;
+-(void)requestFinished:(ASIHTTPRequest *)request;
 
 @end
 

@@ -1,40 +1,92 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="872" systemVersion="11C74" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1487" systemVersion="12A269" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="RBClient" representedClassName="RBClient">
-        <attribute name="city" optional="YES" attributeType="String"/>
-        <attribute name="company" optional="YES" attributeType="String"/>
-        <attribute name="name" attributeType="String" defaultValueString="Unknown" indexed="YES"/>
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="classification1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="classification2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="classification3" optional="YES" attributeType="String">
+            <userInfo/>
+        </attribute>
+        <attribute name="company" optional="YES" attributeType="String">
+            <userInfo/>
+        </attribute>
+        <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="country_iso" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" defaultValueString="Unknown" indexed="YES">
+            <userInfo/>
+        </attribute>
+        <attribute name="postalcode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="region" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="street" optional="YES" attributeType="String"/>
-        <attribute name="visible" attributeType="Boolean" defaultValueString="YES" indexed="YES"/>
-        <attribute name="zip" optional="YES" attributeType="String"/>
-        <relationship name="documents" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RBDocument" inverseName="client" inverseEntity="RBDocument"/>
+        <attribute name="street" optional="YES" attributeType="String">
+            <userInfo/>
+        </attribute>
+        <attribute name="updated_at" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="visible" attributeType="Boolean" defaultValueString="YES" indexed="YES">
+            <userInfo/>
+        </attribute>
+        <attribute name="zip" optional="YES" attributeType="String">
+            <userInfo/>
+        </attribute>
+        <relationship name="documents" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RBDocument" inverseName="client" inverseEntity="RBDocument">
+            <userInfo/>
+        </relationship>
+        <userInfo/>
     </entity>
     <entity name="RBDocument" representedClassName="RBDocument">
-        <attribute name="date" optional="YES" attributeType="Date"/>
-        <attribute name="docuSignEnvelopeID" optional="YES" attributeType="String"/>
-        <attribute name="fileURL" optional="YES" attributeType="String"/>
-        <attribute name="lastDocuSignStatus" attributeType="Integer 16" defaultValueString="0"/>
-        <attribute name="name" optional="YES" attributeType="String" indexed="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date">
+            <userInfo/>
+        </attribute>
+        <attribute name="docuSignEnvelopeID" optional="YES" attributeType="String">
+            <userInfo/>
+        </attribute>
+        <attribute name="fileURL" optional="YES" attributeType="String">
+            <userInfo/>
+        </attribute>
+        <attribute name="lastDocuSignStatus" attributeType="Integer 16" defaultValueString="0">
+            <userInfo/>
+        </attribute>
+        <attribute name="name" optional="YES" attributeType="String" indexed="YES">
+            <userInfo/>
+        </attribute>
         <attribute name="obeyRoutingOrder" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="status" attributeType="Integer 16" defaultValueString="0" indexed="YES"/>
-        <attribute name="subject" optional="YES" attributeType="String" defaultValueString="Sign this document"/>
-        <attribute name="uploadedToBox" attributeType="Boolean" defaultValueString="NO"/>
-        <relationship name="client" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBClient" inverseName="documents" inverseEntity="RBClient"/>
-        <relationship name="recipients" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RBRecipient" inverseName="document" inverseEntity="RBRecipient"/>
+        <attribute name="status" attributeType="Integer 16" defaultValueString="0" indexed="YES">
+            <userInfo/>
+        </attribute>
+        <attribute name="subject" optional="YES" attributeType="String" defaultValueString="Sign this document">
+            <userInfo/>
+        </attribute>
+        <attribute name="uploadedToBox" attributeType="Boolean" defaultValueString="NO">
+            <userInfo/>
+        </attribute>
+        <relationship name="client" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBClient" inverseName="documents" inverseEntity="RBClient">
+            <userInfo/>
+        </relationship>
+        <relationship name="recipients" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RBRecipient" inverseName="document" inverseEntity="RBRecipient">
+            <userInfo/>
+        </relationship>
+        <userInfo/>
     </entity>
     <entity name="RBRecipient" representedClassName="RBRecipient">
-        <attribute name="addressBookPersonID" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="addressBookPersonID" optional="YES" attributeType="Integer 32" defaultValueString="0">
+            <userInfo/>
+        </attribute>
         <attribute name="code" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="emailPropertyID" optional="YES" attributeType="Integer 32" defaultValueString="-1"/>
+        <attribute name="emailPropertyID" optional="YES" attributeType="Integer 32" defaultValueString="-1">
+            <userInfo/>
+        </attribute>
         <attribute name="idcheck" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="kind" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <relationship name="document" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBDocument" inverseName="recipients" inverseEntity="RBDocument"/>
+        <relationship name="document" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBDocument" inverseName="recipients" inverseEntity="RBDocument">
+            <userInfo/>
+        </relationship>
+        <userInfo/>
     </entity>
     <elements>
-        <element name="RBClient" positionX="160" positionY="48" width="128" height="165"/>
+        <element name="RBClient" positionX="160" positionY="48" width="128" height="298"/>
         <element name="RBDocument" positionX="340" positionY="-66" width="128" height="210"/>
         <element name="RBRecipient" positionX="594" positionY="60" width="128" height="165"/>
     </elements>

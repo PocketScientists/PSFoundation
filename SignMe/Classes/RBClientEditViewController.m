@@ -217,6 +217,7 @@
     [[self.view viewWithTag:self.navToolbar.tag] resignFirstResponder];
 }
 
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Private
