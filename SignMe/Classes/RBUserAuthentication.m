@@ -37,6 +37,8 @@
             NSDictionary *reqInfo =  [KeychainWrapper getKeychainDictionaryForUser:rbmusketeer.uid];
             if(reqInfo){
                 NSDate *last_auth = [reqInfo valueForKey:@"last_auth_date"];
+                rbmusketeer.token = [reqInfo valueForKey:@"Token"];
+                [rbmusketeer saveEntity];
                 time_intervall = -[last_auth timeIntervalSinceNow];
                 NSLog(@"Time Intervall since last login: %f Seconds",time_intervall);
             }
