@@ -815,7 +815,6 @@
     if (documentsFetchController_ != nil) {
         return documentsFetchController_;
     }
-    
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([RBDocument class])
                                               inManagedObjectContext:[NSManagedObjectContext defaultContext]];
@@ -843,7 +842,7 @@
     if (controller == self.clientsFetchController) {
         [self.clientsCarousel reloadData];
     } else {
-        [self.detailView reloadData];
+        [self.detailCarousel reloadData];
     }
 }
 
@@ -1056,9 +1055,29 @@
 
 - (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus {    
     if (formStatus != RBFormStatusNew) {
-        [self actualNumberOfDocumentsWithFormStatus:formStatus];
+        NSPredicate *predicate=nil;
+        RBClient *client=nil;
+        
+        if (self.clientsCarouselSelectedIndex != NSNotFound) {
+            client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
+        }
+        
+        if(![self.searchField.text isEqual:@""]){
+            predicate = [NSPredicate predicateWithFormat:@"status = %d AND client.name contains[cd] %@ AND client.visible = YES",formStatus, self.searchField.text];
+        }else{
+            if (client != nil) {
+                predicate = [NSPredicate predicateWithFormat:@"status = %d AND client = %@", formStatus, client];
+            } else {
+                predicate = [NSPredicate predicateWithFormat:@"status = %d", formStatus];
+            }
+        }
+        self.documentsFetchController.fetchRequest.predicate = predicate;
+         NSError *error = nil;
+         if (![self.documentsFetchController performFetch:&error]) {
+         DDLogError(@"Unresolved error fetching documents %@, %@", error, [error userInfo]);
+         }
     }
-    [self.formsCarousel reloadData];
+    
     [self.detailView reloadData];
 }
 
@@ -1082,6 +1101,7 @@
 }
 
 -(void)updateDocumentsWithSearchTerm:(NSString *)searchTerm {
+    [self updateDetailViewWithFormStatus:RBFormStatusForIndex(self.formsCarousel.currentItemIndex)];
     [self.formsCarousel reloadData];
     [self.detailCarousel reloadData];
 }
@@ -1207,12 +1227,22 @@
         }
     }
     self.documentsFetchController.fetchRequest.predicate = predicate;
-    
+    /*
     NSError *error = nil;
     if (![self.documentsFetchController performFetch:&error]) {
         DDLogError(@"Unresolved error fetching documents %@, %@", error, [error userInfo]);
     }
-    return self.documentsFetchController.count;
+    NSLog(@"Fetch performed Number: %d",self.documentsFetchController.count);
+    return self.documentsFetchController.count;*/
+  
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+   
+    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([RBDocument class])
+                                              inManagedObjectContext:[NSManagedObjectContext defaultContext]];
+    [request setEntity:entity];
+    
+    request.predicate = predicate;
+    return [[NSManagedObjectContext defaultContext] countForFetchRequest:request error:nil];
 }
 
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {
@@ -1223,11 +1253,13 @@
             return self.emptyForms.count;
             
         case RBFormStatusPreSignature:
+            NSLog(@"Presignature");
             return [self actualNumberOfDocumentsWithFormStatus:formStatus];
-        
+            //return 0;
         case RBFormStatusSigned:
+            NSLog(@"signed");
             return [self actualNumberOfDocumentsWithFormStatus:formStatus];
-            //[persistenceManager numberOfDocumentsWithFormStatus:formStatus];
+            //return 0;
             
         case RBFormStatusCount:
         case RBFormStatusUnknown:
