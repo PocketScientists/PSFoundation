@@ -1231,8 +1231,8 @@
     req.delegate = self;
     [req setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
     NSLog(@"request for outlet startet");
+    [self showLoadingMessage:(NSString *)@"Updating Clients and Forms!"];
     [req startAsynchronous];
-
 }
 
 -(void)requestFinished:(ASIHTTPRequest *)request
@@ -1242,6 +1242,10 @@
     NSData *respData = [request responseData];
     NSLog(@"Response Data Length: %d",[respData length]);
     
+    NSString * respStr = [[NSString alloc]  initWithData:respData
+                                                   encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",respStr);
+    
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData
                                                            options:0 error:nil];
     if (doc != nil){
@@ -1250,37 +1254,48 @@
         
         for(GDataXMLElement *outlet in [doc.rootElement elementsForName:@"outlet" ])
         {
-            RBClient *client = [RBClient createEntity];
-            client.visible=$B(YES);
+           
             //Special routine for id because of keyword conflict
-            NSArray *names = [outlet elementsForName:@"id"];
+            NSString * ident;
+            NSArray *names = [outlet elementsForName:@"name"];
             if (names.count > 0) {
                 GDataXMLElement *identifier = (GDataXMLElement *) [names objectAtIndex:0];
-                client.identifier = identifier.stringValue;
+                ident = identifier.stringValue;
             }
             
             //Load other elements
-
+            RBClient *client;
+            names = [RBClient findByAttribute:@"name" withValue:ident];
+            if(names.count > 0){
+               client = [names firstObject];
+            }else{
+                client = [RBClient createEntity];
+            }
+            client.identifier = ident;
+            client.visible=$B(YES);
             
             for(NSString *elem in elementstoload){
                 names = [outlet elementsForName:elem];
                 if (names.count > 0) {
                     GDataXMLElement *content = (GDataXMLElement *) [names objectAtIndex:0];
                     [client setValue:content.stringValue forKey:elem];
-                } 
+                }
+                
             }
+        NSLog(@"Create Enitity %@",client.name);
             
         }
     
     }else{
         NSLog(@"Parser Error");
     }
-    
+    [self showSuccessMessage:@"Finished Update!"];
 }
 
 -(void)requestFailed:(ASIHTTPRequest *)request
 {
     NSLog(@"req failed - code %d",[request responseStatusCode]);
+    [self performSelector:@selector(showErrorMessage:) withObject:@"Update Error" afterDelay:0.5f];
     //TODO Add adequate error handling
 }
 
