@@ -40,6 +40,8 @@
 @property (strong, nonatomic, readonly) NSFetchedResultsController *clientsFetchController;
 @property (strong, nonatomic, readonly) NSFetchedResultsController *documentsFetchController;
 
+@property (nonatomic, strong) NSMutableDictionary *currentNumberOfDocumentsInDetailCarousel;
+
 @property (nonatomic, assign) CGFloat formsViewDefaultY;
 @property (nonatomic, assign) CGFloat clientsViewDefaultY;
 
@@ -89,6 +91,7 @@
 
 - (NSUInteger)numberOfDocumentsToDisplay;
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus;
+- (NSUInteger)actualNumberOfDocumentsWithFormStatus:(RBFormStatus)formStatus;
 - (void)updateCarouselSelectionState:(iCarousel *)carousel selectedItem:(UIControl *)selectedItem;
 
 - (void)handleClientLongPress:(UILongPressGestureRecognizer *)gestureRecognizer;
@@ -127,6 +130,7 @@
 @synthesize detailCarouselSelectedIndex = detailCarouselSelectedIndex_;
 @synthesize clientsCarouselSelectedIndex = clientsCarouselSelectedIndex_;
 @synthesize formsCarouselChangeWasInitiatedByTap = formsCarouselChangeWasInitiatedByTap_;
+@synthesize currentNumberOfDocumentsInDetailCarousel = currentNumberOfDocumentsInDetailCarousel_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -138,6 +142,7 @@
         detailCarouselSelectedIndex_ = NSNotFound;
         clientsCarouselSelectedIndex_ = NSNotFound;
         formsCarouselChangeWasInitiatedByTap_ = NO;
+        self.currentNumberOfDocumentsInDetailCarousel = [[NSMutableDictionary alloc] init];
     }
     
     return self;
@@ -205,7 +210,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     emptyForms_ = [RBForm allEmptyForms];
     
     self.formsViewDefaultY = self.formsView.frameTop;
@@ -691,6 +696,7 @@
 
 - (void)textFieldDidChangeValue:(UITextField *)textField {
     [self updateClientsWithSearchTerm:textField.text];
+    [self updateDocumentsWithSearchTerm:textField.text];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
@@ -698,6 +704,7 @@
         // show all clients again
         textField.text = @"";
         [self updateClientsWithSearchTerm:textField.text];
+        [self updateDocumentsWithSearchTerm:textField.text];
     }
     
     [textField resignFirstResponder];
@@ -896,7 +903,7 @@
 }
 
 - (void)showSearchScreenWithDuration:(NSTimeInterval)duration {
-    self.detailCarouselSelectedIndex = NSNotFound;
+ /*   self.detailCarouselSelectedIndex = NSNotFound;
     self.clientsCarouselSelectedIndex = NSNotFound;
     self.formsView.userInteractionEnabled = NO;
     self.detailView.frameTop = self.formsViewDefaultY;
@@ -913,7 +920,7 @@
                          CGFloat diffY = self.clientsViewDefaultY - newClientsY;
                          
                          // Move views up
-                         self.formsView.alpha = 0.2;
+                         //self.formsView.alpha = 0.2;
                          if (PSIsLandscape()) {
                              isMovedUp = YES;
                              self.formsView.frameTop = self.formsViewDefaultY - diffY;
@@ -924,11 +931,11 @@
                              self.clientsCarousel.viewpointOffset = CGSizeMake(355.f, 0);
                          }
                      } 
-                     completion:nil];
+                     completion:nil];*/
 }
 
 - (void)hideSearchScreenWithDuration:(NSTimeInterval)duration {
-    self.formsView.userInteractionEnabled = YES;
+  /*  self.formsView.userInteractionEnabled = YES;
     
     [UIView animateWithDuration:duration animations:^(void) {
         self.formsView.alpha = 1.f;
@@ -943,7 +950,7 @@
             self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX + (UIInterfaceOrientationIsPortrait(PSAppStatusBarOrientation) ? -120 : 0), 0);
         }
         self.addNewClientButton.alpha = 1.f;
-    }];
+    }];*/
 }
 
 - (BOOL)isSearchScreenVisible {
@@ -1049,27 +1056,9 @@
 
 - (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus {    
     if (formStatus != RBFormStatusNew) {
-        RBClient *client = nil;
-        NSPredicate *predicate = nil;
-        
-        if (self.clientsCarouselSelectedIndex != NSNotFound) {
-            client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
-        }
-        
-        if (client != nil) {
-            predicate = [NSPredicate predicateWithFormat:@"status = %d AND client = %@", formStatus, client];
-        } else {
-            predicate = [NSPredicate predicateWithFormat:@"status = %d", formStatus];
-        }
-        
-        self.documentsFetchController.fetchRequest.predicate = predicate;
-        
-        NSError *error = nil;
-        if (![self.documentsFetchController performFetch:&error]) {
-            DDLogError(@"Unresolved error fetching documents %@, %@", error, [error userInfo]);
-        }  
+        [self actualNumberOfDocumentsWithFormStatus:formStatus];
     }
-    
+    [self.formsCarousel reloadData];
     [self.detailView reloadData];
 }
 
@@ -1090,7 +1079,12 @@
     }  
     
     [self.clientsCarousel reloadData];
-} 
+}
+
+-(void)updateDocumentsWithSearchTerm:(NSString *)searchTerm {
+    [self.formsCarousel reloadData];
+    [self.detailCarousel reloadData];
+}
 
 - (RBClient *)clientWithName:(NSString *)name {
     RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
@@ -1180,7 +1174,6 @@
 
 - (NSUInteger)numberOfDocumentsToDisplay {
     NSUInteger numberOfRows = 0;
-    
     if (self.documentsFetchController.sections.count > 0) {
         id <NSFetchedResultsSectionInfo> sectionInfo = [self.documentsFetchController.sections objectAtIndex:0];
         numberOfRows = [sectionInfo numberOfObjects];
@@ -1190,16 +1183,51 @@
     
 }
 
-- (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {
-    RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
+//Update document fetch controller for situation and deliver number of documents for section (considering searchterms and selected clients)
+-(NSUInteger)actualNumberOfDocumentsWithFormStatus:(RBFormStatus)formStatus
+{
+    NSPredicate *predicate=nil;
+    RBClient *client=nil;
     
+    if(formStatus == RBFormStatusNew){
+        return self.emptyForms.count;
+    }
+    
+    if (self.clientsCarouselSelectedIndex != NSNotFound) {
+        client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
+    }
+    
+    if(![self.searchField.text isEqual:@""]){
+        predicate = [NSPredicate predicateWithFormat:@"status = %d AND client.name contains[cd] %@ AND client.visible = YES",formStatus, self.searchField.text];
+    }else{
+        if (client != nil) {
+            predicate = [NSPredicate predicateWithFormat:@"status = %d AND client = %@", formStatus, client];
+        } else {
+            predicate = [NSPredicate predicateWithFormat:@"status = %d", formStatus];
+        }
+    }
+    self.documentsFetchController.fetchRequest.predicate = predicate;
+    
+    NSError *error = nil;
+    if (![self.documentsFetchController performFetch:&error]) {
+        DDLogError(@"Unresolved error fetching documents %@, %@", error, [error userInfo]);
+    }
+    return self.documentsFetchController.count;
+}
+
+- (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {
+  //  RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
+   
     switch (formStatus) {
         case RBFormStatusNew:
             return self.emptyForms.count;
             
         case RBFormStatusPreSignature:
+            return [self actualNumberOfDocumentsWithFormStatus:formStatus];
+        
         case RBFormStatusSigned:
-            return [persistenceManager numberOfDocumentsWithFormStatus:formStatus];
+            return [self actualNumberOfDocumentsWithFormStatus:formStatus];
+            //[persistenceManager numberOfDocumentsWithFormStatus:formStatus];
             
         case RBFormStatusCount:
         case RBFormStatusUnknown:
@@ -1237,18 +1265,20 @@
 
 -(void)requestFinished:(ASIHTTPRequest *)request
 {
+    RBClient *client=nil;
     NSLog(@"request finished with code %d",[request responseStatusCode]);
     
     NSData *respData = [request responseData];
     NSLog(@"Response Data Length: %d",[respData length]);
     
-    NSString * respStr = [[NSString alloc]  initWithData:respData
-                                                   encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",respStr);
+  //  NSString * respStr = [[NSString alloc]  initWithData:respData
+    //                                               encoding:NSUTF8StringEncoding];
+   // NSLog(@"%@",respStr);
     
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData
                                                            options:0 error:nil];
     if (doc != nil){
+        
         NSArray *elementstoload = [NSArray arrayWithObjects:@"updated_at",@"name",@"street",@"city",@"postalcode",@"region",@"country",
                                    @"country_iso",@"classification1",@"classification2",@"classification3",nil];
         
@@ -1263,14 +1293,8 @@
                 ident = identifier.stringValue;
             }
             
-            //Load other elements
-            RBClient *client;
-            names = [RBClient findByAttribute:@"name" withValue:ident];
-            if(names.count > 0){
-               client = [names firstObject];
-            }else{
-                client = [RBClient createEntity];
-            }
+            client= [self clientWithName:ident];
+            
             client.identifier = ident;
             client.visible=$B(YES);
             
@@ -1282,7 +1306,6 @@
                 }
                 
             }
-        NSLog(@"Create Enitity %@",client.name);
             
         }
     
