@@ -317,7 +317,7 @@
 
 
 - (void)startUpdate:(id)sender {
-    [self syncBoxNet:YES];
+    //[self syncBoxNet:YES];
 }
 
 

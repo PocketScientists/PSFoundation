@@ -117,7 +117,7 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     [RBMusketeer reloadEntity];
     [RBDocuSignService reloadCredentials];
-    [self.homeViewController syncBoxNet:NO];
+ //  [self.homeViewController syncBoxNet:NO];
 }
 
 
