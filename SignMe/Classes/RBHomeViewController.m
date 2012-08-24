@@ -570,6 +570,8 @@
         self.clientsCarouselSelectedIndex = index;
     }
     
+    [self.formsCarousel reloadData];
+    
     if (self.clientCarouselShowsAddItem && index == 0) {
         RBClient *client = [self clientWithName:self.searchField.text];
         client.clientCreatedForEditing = YES;
@@ -1203,7 +1205,7 @@
     
 }
 
-//Update document fetch controller for situation and deliver number of documents for section (considering searchterms and selected clients)
+//Deliver number of documents for section (considering searchterms and selected clients)
 -(NSUInteger)actualNumberOfDocumentsWithFormStatus:(RBFormStatus)formStatus
 {
     NSPredicate *predicate=nil;
@@ -1253,13 +1255,8 @@
             return self.emptyForms.count;
             
         case RBFormStatusPreSignature:
-            NSLog(@"Presignature");
-            return [self actualNumberOfDocumentsWithFormStatus:formStatus];
-            //return 0;
         case RBFormStatusSigned:
-            NSLog(@"signed");
             return [self actualNumberOfDocumentsWithFormStatus:formStatus];
-            //return 0;
             
         case RBFormStatusCount:
         case RBFormStatusUnknown:
