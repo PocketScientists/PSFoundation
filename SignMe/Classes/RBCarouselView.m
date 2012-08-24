@@ -210,22 +210,32 @@
     self.backgroundView.hidden = YES;
     self.lineView.hidden = NO;
     
-    [self splitTextOnFirstTwoLabels:client.name];
+    self.label1.text = [client.name uppercaseString];
+    self.label1.numberOfLines = 2;
     
-    self.label3.text = [NSString stringWithFormat:@"%d DOCUMENTS", client.documents.count];
+    self.label2.text = [NSString stringWithFormat:@"%@\n%@, %@ %@", client.street, client.city, client.state, client.zip];
+    self.label2.numberOfLines = 3;
     
-    if (client.documents.count > 0) {
-        RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
-        
-        self.label4.text = [NSString stringWithFormat:@"UPDATED %@", RBFormattedDateWithFormat([persistenceManager updateDateForClient:client], kRBDateFormat)]; 
-    } else {
-        self.label4.text = @"NEVER UPDATED";
+    if(client.classification3){
+        self.label3.text = [NSString stringWithFormat:@"%@ / %@ / %@", client.classification1, client.classification2, client.classification3];
+    }else if(client.classification2){
+         self.label3.text = [NSString stringWithFormat:@"%@ / %@ ", client.classification1, client.classification2];
+    }else{
+       self.label3.text = [NSString stringWithFormat:@"%@ ", client.classification1]; 
     }
     
-    self.label2.numberOfLines = 2;
+        self.label4.text = [NSString stringWithFormat:NSLocalizedString(@"%d DOCUMENTS", @"%d DOCUMENTS"), client.documents.count];
     
-    self.label1.font = [UIFont fontWithName:kRBFontName size:18.];
-    self.label2.font = [UIFont fontWithName:kRBFontName size:30.];
+    //    if (client.documents.count > 0) {
+    //        RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
+    //
+    //        self.label4.text = [NSString stringWithFormat:NSLocalizedString(@"UPDATED %@", @"UPDATED %@"), RBFormattedDateWithFormat([persistenceManager updateDateForClient:client], kRBDateFormat)];
+    //    } else {
+    //        self.label4.text = NSLocalizedString(@"NEVER UPDATED", @"NEVER UPDATED");
+    //    }
+    
+    self.label1.font = [UIFont fontWithName:kRBFontName size:20.];
+    self.label2.font = [UIFont fontWithName:kRBFontName size:12.];
     self.label3.font = [UIFont fontWithName:kRBFontName size:14.];
     self.label4.font = [UIFont fontWithName:kRBFontName size:14.];
     

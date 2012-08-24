@@ -1369,6 +1369,7 @@
                 if (names.count > 0) {
                     GDataXMLElement *content = (GDataXMLElement *) [names objectAtIndex:0];
                     [client setValue:content.stringValue forKey:elem];
+                    NSLog(@"Key %@ for element %@",elem,content.stringValue);
                 }
                 
             }
