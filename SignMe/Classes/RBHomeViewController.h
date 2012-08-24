@@ -39,6 +39,8 @@
 - (void)updateUI;
 - (void)syncBoxNet:(BOOL)forced;
 
+-(void)updateClientWithCustomURLCallString:(NSString *)urlstring;
+
 -(void)updateDataViaWebservice;
 
 @end

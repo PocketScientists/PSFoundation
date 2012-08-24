@@ -338,7 +338,8 @@
     }
 }
 
-- (void)syncBoxNet:(BOOL)forced {    
+- (void)syncBoxNet:(BOOL)forced {
+    NSLog(@"IN BOX SYNC");
     // only update forms once a day
     if (forced || [RBBoxService shouldSyncFolder]) {
         [RBBoxService syncFolderWithID:[NSUserDefaults standardUserDefaults].folderID
@@ -1115,29 +1116,23 @@
 }
 
 - (void)editClient:(RBClient *)client {
-    /*RBClientEditViewController *editViewController = [[RBClientEditViewController alloc] initWithNibName:nil bundle:nil];
+    NSURL *urlForRequest;
+    //New client request if nil / else edit existing client
+    if(client == nil){
+       urlForRequest = [NSURL URLWithString:@"mib.bundle.identifier://outlet?id=0"]; 
+    }else{
+        //TODO Change to client.id -> if id is available in xml
+        urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"mib.bundle.identifier://outlet?id%@",client.name]];
+    }
     
-    editViewController.client = client;
-    editViewController.modalPresentationStyle = UIModalPresentationFormSheet; //UIModalPresentationPageSheet;
-    editViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    
-    [self presentModalViewController:editViewController animated:YES];*/
-    
-    
-    //TODO Custom url scheme (client id = null) if new
-    /*
-     1. Trigger MIB to create a new outlet
-     <MIB_Bundle_Identifier>://outlet?id=0
-     
-     2. Trigger MIB to updated an existing outlet
-     <MIB_Bundle_Identifier>://outlet?id=4fcca69ea3a67d24df001c09
-     */
-  
-    NSLog(@"In edit");
-    NSURL *myURL = [NSURL
-                    URLWithString:@"com.redbull.signMeInternational://outlet=...."];
-    [[UIApplication sharedApplication] openURL:myURL];
-    
+    if ([[UIApplication sharedApplication] canOpenURL:urlForRequest]) {
+        [[UIApplication sharedApplication] openURL:urlForRequest];
+    }
+    else {
+        //Display error
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"MIB App not found" message:@"The MIB App is not installed. It must be installed to send the request." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }    
 }
 
 - (void)presentFormIfPossible {
@@ -1277,6 +1272,27 @@
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
+#pragma mark Incoming Custom URL Call Handling
+////////////////////////////////////////////////////////////////////////
+-(void)updateClientWithCustomURLCallString:(NSString *)urlstring
+{
+    NSString *keypart;
+    NSString *valuepart;
+    
+    NSArray * informationparts = [urlstring componentsSeparatedByString:@"&"];
+    for(NSString *informationsnippet in informationparts){
+        valuepart =[informationsnippet substringAfterSubstring:@"="];
+        keypart = [informationsnippet substringBeforeSubstring:@"="];
+        if([keypart isEqualToString:@"name"]){ //TODO change to id -> if id available in xml
+            RBClient *client = [self clientWithName:valuepart];
+        }
+    }
+    [[NSManagedObjectContext defaultContext] save];
+    [self showSuccessMessage:@"Clients successfully updated"];
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
 #pragma mark Update Data from Webservice
 ////////////////////////////////////////////////////////////////////////
 -(void)updateDataViaWebservice
@@ -1356,12 +1372,13 @@
                 }
                 
             }
-            [[NSManagedObjectContext defaultContext] save];
+            
         }
     
     }else{
         NSLog(@"Parser Error");
     }
+    [[NSManagedObjectContext defaultContext] save];
     [self showSuccessMessage:@"Finished Update!"];
 }
 

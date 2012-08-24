@@ -62,7 +62,6 @@
     [self logoutUserIfSpecifiedInSettings];
     // setup CoreData
 	[ActiveRecordHelpers setupAutoMigratingCoreDataStack];
-
     
     // check for NSZombie (memory leak if enabled, but very useful!)
     if(getenv("NSZombieEnabled") || getenv("NSAutoreleaseFreedObjectCheckEnabled")) {
@@ -134,7 +133,9 @@
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     
     NSLog(@"got a call");
-    NSLog(@"open url: %@",[url description]);
+    NSString *urlstring = [[url description] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    urlstring = [urlstring substringAfterSubstring:@"outlet?"];
+    [self.homeViewController updateClientWithCustomURLCallString:urlstring];
     return YES;
 }
 
@@ -150,16 +151,7 @@
     RBMusketeer *rbmusk = [RBMusketeer loadEntity];
     NSLog(@"UserID: %@",rbmusk.uid);
     NSLog(@"Token: %@",rbmusk.token);
-    /*RBClient *client =[RBClient createEntity];
-    client.name=@"HUGO";
-    client =[RBClient createEntity];
-    client.name=@"Peter";
-    [[NSManagedObjectContext defaultContext] save];*/
-    
- //   NSArray *array = [RBClient findByAttribute:@"name" withValue:@"HUGO"];
- //   [[NSManagedObjectContext defaultContext] deleteObject:[array firstObject]];
-   // [[NSManagedObjectContext defaultContext] save];
-   // NSLog(@"array size: %d",[array count]);
+ 
     [self.homeViewController updateDataViaWebservice];
     
     
