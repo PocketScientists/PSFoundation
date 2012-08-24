@@ -11,9 +11,10 @@
 #import "RBFormDetailView.h"
 #import "ASIHttpRequest.h"
 #import "GDataXMLNode.h"
+#import "SKPSMTPMessage.h"
 
 
-@interface RBHomeViewController : PSBaseViewController <iCarouselDataSource, iCarouselDelegate, NSFetchedResultsControllerDelegate, UIDocumentInteractionControllerDelegate, ASIHTTPRequestDelegate>
+@interface RBHomeViewController : PSBaseViewController <iCarouselDataSource, iCarouselDelegate, NSFetchedResultsControllerDelegate, UIDocumentInteractionControllerDelegate, ASIHTTPRequestDelegate,SKPSMTPMessageDelegate>
 {
     BOOL isMovedUp;
 }

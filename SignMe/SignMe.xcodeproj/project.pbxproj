@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060A17F715E77A530086A377 /* Base64Transcoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17EE15E77A530086A377 /* Base64Transcoder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		060A17F815E77A530086A377 /* HSK_CFUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17F015E77A530086A377 /* HSK_CFUtilities.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		060A17F915E77A530086A377 /* NSData+Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17F215E77A530086A377 /* NSData+Base64Additions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		060A17FA15E77A530086A377 /* NSStream+SKPSMTPExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17F415E77A530086A377 /* NSStream+SKPSMTPExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		060A17FB15E77A530086A377 /* SKPSMTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17F615E77A530086A377 /* SKPSMTPMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		064DE1DA15E2DF6B00177D1E /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 064DE1D915E2DF6B00177D1E /* KeychainWrapper.m */; };
 		065493CA15E5096E00936ECB /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 065493C915E5096E00936ECB /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		06599BB615E27278006B6988 /* RBUserAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 06599BB515E27278006B6988 /* RBUserAuthentication.m */; };
@@ -307,6 +312,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		060A17ED15E77A530086A377 /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64Transcoder.h; path = ../../SMTPLibrary/Base64Transcoder.h; sourceTree = "<group>"; };
+		060A17EE15E77A530086A377 /* Base64Transcoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Base64Transcoder.m; path = ../../SMTPLibrary/Base64Transcoder.m; sourceTree = "<group>"; };
+		060A17EF15E77A530086A377 /* HSK_CFUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSK_CFUtilities.h; path = ../../SMTPLibrary/HSK_CFUtilities.h; sourceTree = "<group>"; };
+		060A17F015E77A530086A377 /* HSK_CFUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSK_CFUtilities.m; path = ../../SMTPLibrary/HSK_CFUtilities.m; sourceTree = "<group>"; };
+		060A17F115E77A530086A377 /* NSData+Base64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64Additions.h"; path = "../../SMTPLibrary/NSData+Base64Additions.h"; sourceTree = "<group>"; };
+		060A17F215E77A530086A377 /* NSData+Base64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64Additions.m"; path = "../../SMTPLibrary/NSData+Base64Additions.m"; sourceTree = "<group>"; };
+		060A17F315E77A530086A377 /* NSStream+SKPSMTPExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSStream+SKPSMTPExtensions.h"; path = "../../SMTPLibrary/NSStream+SKPSMTPExtensions.h"; sourceTree = "<group>"; };
+		060A17F415E77A530086A377 /* NSStream+SKPSMTPExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSStream+SKPSMTPExtensions.m"; path = "../../SMTPLibrary/NSStream+SKPSMTPExtensions.m"; sourceTree = "<group>"; };
+		060A17F515E77A530086A377 /* SKPSMTPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKPSMTPMessage.h; path = ../../SMTPLibrary/SKPSMTPMessage.h; sourceTree = "<group>"; };
+		060A17F615E77A530086A377 /* SKPSMTPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKPSMTPMessage.m; path = ../../SMTPLibrary/SKPSMTPMessage.m; sourceTree = "<group>"; };
 		064DE1D815E2DF6B00177D1E /* KeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainWrapper.h; sourceTree = "<group>"; };
 		064DE1D915E2DF6B00177D1E /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainWrapper.m; sourceTree = "<group>"; };
 		064DE1DB15E2E66A00177D1E /* Sign Me.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Sign Me.entitlements"; sourceTree = "<group>"; };
@@ -621,6 +636,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		060A17EC15E77A3A0086A377 /* SKPSMTPMessage */ = {
+			isa = PBXGroup;
+			children = (
+				060A17ED15E77A530086A377 /* Base64Transcoder.h */,
+				060A17EE15E77A530086A377 /* Base64Transcoder.m */,
+				060A17EF15E77A530086A377 /* HSK_CFUtilities.h */,
+				060A17F015E77A530086A377 /* HSK_CFUtilities.m */,
+				060A17F115E77A530086A377 /* NSData+Base64Additions.h */,
+				060A17F215E77A530086A377 /* NSData+Base64Additions.m */,
+				060A17F315E77A530086A377 /* NSStream+SKPSMTPExtensions.h */,
+				060A17F415E77A530086A377 /* NSStream+SKPSMTPExtensions.m */,
+				060A17F515E77A530086A377 /* SKPSMTPMessage.h */,
+				060A17F615E77A530086A377 /* SKPSMTPMessage.m */,
+			);
+			name = SKPSMTPMessage;
+			sourceTree = "<group>";
+		};
 		0624299915E4D14A000C1F64 /* UserAuthentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -807,6 +839,7 @@
 		3925C7D013DDE70B008810AF /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				060A17EC15E77A3A0086A377 /* SKPSMTPMessage */,
 				06599BB715E2A3F9006B6988 /* XML Parser */,
 				3981E13713DF643800B23A7D /* Categories */,
 				3925C7D113DDE718008810AF /* UI Generation */,
@@ -1604,6 +1637,11 @@
 				06599BB615E27278006B6988 /* RBUserAuthentication.m in Sources */,
 				064DE1DA15E2DF6B00177D1E /* KeychainWrapper.m in Sources */,
 				065493CA15E5096E00936ECB /* GDataXMLNode.m in Sources */,
+				060A17F715E77A530086A377 /* Base64Transcoder.m in Sources */,
+				060A17F815E77A530086A377 /* HSK_CFUtilities.m in Sources */,
+				060A17F915E77A530086A377 /* NSData+Base64Additions.m in Sources */,
+				060A17FA15E77A530086A377 /* NSStream+SKPSMTPExtensions.m in Sources */,
+				060A17FB15E77A530086A377 /* SKPSMTPMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

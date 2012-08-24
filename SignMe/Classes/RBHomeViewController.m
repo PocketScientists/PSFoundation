@@ -1290,10 +1290,31 @@
     NSLog(@"request for outlet startet");
     [self showLoadingMessage:(NSString *)@"Updating Clients and Forms!"];
     [req startAsynchronous];
+    
+    NSURL *url2 = [NSURL URLWithString:@"https://stage-rbmib.v2a.net/api/2/sign_me/templates.xml"];
+    ASIHTTPRequest *req2 = [ASIHTTPRequest requestWithURL:url2];
+    req2.username = [RBMusketeer loadEntity].email;
+    req2.password = [RBMusketeer loadEntity].token;
+    req2.delegate = self;
+    [req2 setDidFinishSelector:@selector(templateRequestFinished:)];
+    [req2 setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
+    [req2 startAsynchronous];
+    
+}
+
+-(void)templateRequestFinished:(ASIHTTPRequest *)request{
+    NSData *respData = [request responseData];
+    NSLog(@"Response Data Length: %d",[respData length]);
+    
+      NSString * respStr = [[NSString alloc]  initWithData:respData
+                                                   encoding:NSUTF8StringEncoding];
+     NSLog(@"%@",respStr);
+
 }
 
 -(void)requestFinished:(ASIHTTPRequest *)request
 {
+   // [self sendEMailMessageInBackground];
     RBClient *client=nil;
     NSLog(@"request finished with code %d",[request responseStatusCode]);
     
@@ -1335,7 +1356,7 @@
                 }
                 
             }
-            
+            [[NSManagedObjectContext defaultContext] save];
         }
     
     }else{
@@ -1349,6 +1370,47 @@
     NSLog(@"req failed - code %d",[request responseStatusCode]);
     [self performSelector:@selector(showErrorMessage:) withObject:@"Update Error" afterDelay:0.5f];
     //TODO Add adequate error handling
+}
+
+
+- (void)sendEMailMessageInBackground {
+    
+    SKPSMTPMessage *testMsg = [[SKPSMTPMessage alloc] init];
+    
+    testMsg.fromEmail = @"michael.der.schwarz@gmail.com";
+    testMsg.toEmail = @"michael_schwarz@me.com";
+    testMsg.relayHost = @"smtp.gmail.com";
+    testMsg.requiresAuth = YES;
+
+    testMsg.login = @"Email@email.com";
+    testMsg.pass = @"";
+    
+    
+    testMsg.wantsSecure = YES; // smtp.gmail.com doesn't work without TLS
+    
+    testMsg.subject = @"SMTPMessage Test Message";
+
+    testMsg.delegate = self;
+    
+    //email contents
+    NSString * bodyMessage = [NSString stringWithFormat:@"This is the body of the email. You can put anything in here that you want."];
+    NSDictionary *plainPart = [NSDictionary dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey,
+                               bodyMessage ,kSKPSMTPPartMessageKey,@"8bit",kSKPSMTPPartContentTransferEncodingKey,nil];
+    testMsg.parts = [NSArray arrayWithObjects:plainPart,nil];
+    [testMsg send];
+    
+}
+
+- (void)messageSent:(SKPSMTPMessage *)message
+{
+    NSLog(@"delegate - message sent");
+}
+
+- (void)messageFailed:(SKPSMTPMessage *)message error:(NSError *)error
+{
+    
+    //self.textView.text = [NSString stringWithFormat:@"Darn! Error: %@, %@", [error code], [error localizedDescription]];
+    NSLog(@"delegate - error(%d): %@", [error code], [error localizedDescription]);
 }
 
 
