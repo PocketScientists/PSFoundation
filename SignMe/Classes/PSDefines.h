@@ -34,6 +34,7 @@
 #define kReachabilityUserXML @"https://wss21-s.wiiings.com/saleshq_mibsync/api/1/session.xml"
 #define kReachabilityOutletsXML @"https://stage-rbmib.v2a.net/api/2/sign_me/outlets.xml"
 //#define kReachabilityOutletsXML @"https://stage-rbmib.v2a.net/api/1/outlets/list.xml"
+#define kReachabilityFormsXML @"https://stage-rbmib.v2a.net/api/2/sign_me/templates.xml"
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -41,6 +42,12 @@
 ////////////////////////////////////////////////////////////////////////
 
 
+#define kRBMIBURLPath @"mib.bundle.identifier"
+#define kRBMIBCallType @"mibcalltype"
+#define kRBMIBCallClientID @"mibcallclientid"
+#define kRBMIBCallTypeAdd 1
+#define kRBMIBCallTypeEdit 2
+#define kRBMIBCallTypeDelete 3
 
 #define kRBDetailGradientStartColor [UIColor colorWithRed:0.0627f green:0.0824f blue:0.1176f alpha:1.0000f]
 #define kRBDetailGradientEndColor   [UIColor colorWithRed:0.0824f green:0.1765f blue:0.4314f alpha:1.0000f]
@@ -57,9 +64,11 @@
 #define kRBBoxNetDirectoryName      @"box.net"
 #define kRBFormSavedDirectoryName   @"SavedForms"
 #define kRBPDFSavedDirectoryName    @"PDFs"
+#define kRBLogoSavedDirectoryName   @"Logos"
 #define kRBBoxNetDirectoryPath      ([NSDocumentsFolder() stringByAppendingPathComponent:kRBBoxNetDirectoryName])
 #define kRBFormSavedDirectoryPath   ([NSDocumentsFolder() stringByAppendingPathComponent:kRBFormSavedDirectoryName])
 #define kRBPDFSavedDirectoryPath    ([NSDocumentsFolder() stringByAppendingPathComponent:kRBPDFSavedDirectoryName])
+#define kRBLogoSavedDirectorypath   ([NSDocumentsFolder() stringByAppendingPathComponent:kRBLogoSavedDirectoryName])
 
 #define kRBFontName                 @"Heiti TC"
 #define kRBDateFormat               @"MM-dd-yyyy"

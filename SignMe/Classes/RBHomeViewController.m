@@ -85,6 +85,7 @@
 
 - (RBClient *)clientWithName:(NSString *)name;
 - (void)editClient:(RBClient *)client;
+- (void)viewClient:(RBClient *)client;
 - (void)presentFormIfPossible;
 - (void)presentFormViewControllerForForm:(RBForm *)form client:(RBClient *)client;
 - (void)presentFormViewControllerForDocument:(RBDocument *)document;
@@ -106,7 +107,8 @@
 - (void)startUpdate:(id)sender;
 
 - (void)requestFailed:(ASIHTTPRequest *)request;
-- (void)requestFinished:(ASIHTTPRequest *)request;
+- (void)outletRequestFinished:(ASIHTTPRequest *)request;
+- (void)formRequestFinished:(ASIHTTPRequest *)request;
 
 @end
 
@@ -212,6 +214,7 @@
     [super viewDidLoad];
 
     emptyForms_ = [RBForm allEmptyForms];
+    NSLog(@"Empty forms %d",[emptyForms_ count]);
     
     self.formsViewDefaultY = self.formsView.frameTop;
     self.clientsViewDefaultY = self.clientsView.frameTop;
@@ -339,7 +342,6 @@
 }
 
 - (void)syncBoxNet:(BOOL)forced {
-    NSLog(@"IN BOX SYNC");
     // only update forms once a day
     if (forced || [RBBoxService shouldSyncFolder]) {
         [RBBoxService syncFolderWithID:[NSUserDefaults standardUserDefaults].folderID
@@ -758,23 +760,34 @@
             [actionSheet addButtonWithTitle:@"Edit" block:^(void) {
                 [self editClient:(RBClient *)attachedObject];
             }];
+            
+            [actionSheet addButtonWithTitle:@"View" block:^(void) {
+                [self viewClient:(RBClient *)attachedObject];
+            }];
 
             // delete document
-            [actionSheet setDestructiveButtonWithTitle:@"Delete" block:^(void) {
+            /*[actionSheet setDestructiveButtonWithTitle:@"Delete" block:^(void) {
                 PSAlertView *alertView = [PSAlertView alertWithTitle:[((RBClient *)attachedObject).name uppercaseString] message:[NSString stringWithFormat:@"Do you really want to delete client %@?", [((RBClient *)attachedObject).name uppercaseString]]];
                 
-                [alertView addButtonWithTitle:@"Delete" block:^(void) {
-                    RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
-                    [persistenceManager deleteClient:(RBClient *)attachedObject];
-                    [self.clientsCarousel reloadData];
-                    [self.formsCarousel reloadData];
-                    [self performSelector:@selector(showSuccessMessage:) withObject:@"Client deleted" afterDelay:0.5f];
+                [alertView addButtonWithTitle:@"Delete" block:^(void) { //Delete client via MIB-APP
+                    NSURL *urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://outlet?id%@/delete",kRBMIBURLPath,((RBClient *)attachedObject).name]];
+                    [[NSUserDefaults standardUserDefaults] setInteger:kRBMIBCallTypeDelete forKey:kRBMIBCallType];
+                    [[NSUserDefaults standardUserDefaults] setObject:((RBClient *)attachedObject).identifier forKey:kRBMIBCallClientID];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                 [[NSUserDefaults standardUserDefaults] synchronize];
+                 if ([[UIApplication sharedApplication] canOpenURL:urlForRequest]) {
+                     [[UIApplication sharedApplication] openURL:urlForRequest];
+                 }
+                 else {
+                     //Display error
+                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"MIB App not found" message:@"The MIB App is not installed. It must be installed to send the request." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                     [alert show];
+                 }
                 }];
                 
                 [alertView setCancelButtonWithTitle:@"Cancel" block:nil];
-                
                 [alertView show];
-            }];
+            }];*/
             
             [self performBlock:^(void) {
                 [actionSheet showFromRect:[self.view convertRect:(CGRect){CGPointMake(gestureRecognizer.view.frameLeft,gestureRecognizer.view.frameTop),gestureRecognizer.view.size} fromView:gestureRecognizer.view] 
@@ -905,7 +918,7 @@
 }
 
 - (void)showSearchScreenWithDuration:(NSTimeInterval)duration {
- /*   self.detailCarouselSelectedIndex = NSNotFound;
+    self.detailCarouselSelectedIndex = NSNotFound;
     self.clientsCarouselSelectedIndex = NSNotFound;
     self.formsView.userInteractionEnabled = NO;
     self.detailView.frameTop = self.formsViewDefaultY;
@@ -933,11 +946,11 @@
                              self.clientsCarousel.viewpointOffset = CGSizeMake(355.f, 0);
                          }
                      } 
-                     completion:nil];*/
+                     completion:nil];
 }
 
 - (void)hideSearchScreenWithDuration:(NSTimeInterval)duration {
-  /*  self.formsView.userInteractionEnabled = YES;
+   self.formsView.userInteractionEnabled = YES;
     
     [UIView animateWithDuration:duration animations:^(void) {
         self.formsView.alpha = 1.f;
@@ -952,7 +965,7 @@
             self.clientsCarousel.viewpointOffset = CGSizeMake(kViewpointOffsetX + (UIInterfaceOrientationIsPortrait(PSAppStatusBarOrientation) ? -120 : 0), 0);
         }
         self.addNewClientButton.alpha = 1.f;
-    }];*/
+    }];
 }
 
 - (BOOL)isSearchScreenVisible {
@@ -1115,15 +1128,38 @@
     return [persistenceManager clientWithName:name];
 }
 
+- (RBClient *)clientWithIdentifier:(NSString *)identifier {
+    RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
+    
+    return [persistenceManager clientWithIdentifier:identifier];
+}
+
+
+- (void) viewClient: (RBClient *)client{
+    RBClientEditViewController *clientVC= [[RBClientEditViewController alloc] init];
+    clientVC.client=client;
+    clientVC.editDisabled=YES;
+    clientVC.modalPresentationStyle = UIModalPresentationFormSheet; //UIModalPresentationPageSheet;
+    clientVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
+    [self presentModalViewController:clientVC animated:YES];
+}
+
 - (void)editClient:(RBClient *)client {
     NSURL *urlForRequest;
     //New client request if nil / else edit existing client
     if(client == nil){
-       urlForRequest = [NSURL URLWithString:@"mib.bundle.identifier://outlet?id=0"]; 
+         urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://outlet?id=0",kRBMIBURLPath]];
+        [[NSUserDefaults standardUserDefaults] setInteger:kRBMIBCallTypeAdd forKey:kRBMIBCallType];
+        [[NSUserDefaults standardUserDefaults] setObject:@"nil" forKey:kRBMIBCallClientID];
+  
     }else{
         //TODO Change to client.id -> if id is available in xml
-        urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"mib.bundle.identifier://outlet?id%@",client.name]];
+        urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://outlet?id%@",kRBMIBURLPath,client.name]];
+        [[NSUserDefaults standardUserDefaults] setInteger:kRBMIBCallTypeEdit forKey:kRBMIBCallType];
+         [[NSUserDefaults standardUserDefaults] setObject:client.identifier forKey:kRBMIBCallClientID];
     }
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     if ([[UIApplication sharedApplication] canOpenURL:urlForRequest]) {
         [[UIApplication sharedApplication] openURL:urlForRequest];
@@ -1278,17 +1314,37 @@
 {
     NSString *keypart;
     NSString *valuepart;
+    RBClient *client=nil;
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    NSUInteger calltype = [[NSUserDefaults standardUserDefaults] integerForKey:kRBMIBCallType];
+    NSString * clientid = [[NSUserDefaults standardUserDefaults] valueForKey:kRBMIBCallClientID];
+    NSLog(@"%d calltype / %@ clientid",calltype,clientid);
     
+    if(calltype == kRBMIBCallTypeDelete){
+        RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
+        client = [self clientWithIdentifier:clientid];
+        [persistenceManager deleteClient:(RBClient *)client];
+        [self performSelector:@selector(showSuccessMessage:) withObject:@"Client deleted" afterDelay:0.5f];
+    }
+    
+    if(calltype == kRBMIBCallTypeAdd || calltype == kRBMIBCallTypeEdit){
+   
     NSArray * informationparts = [urlstring componentsSeparatedByString:@"&"];
     for(NSString *informationsnippet in informationparts){
         valuepart =[informationsnippet substringAfterSubstring:@"="];
         keypart = [informationsnippet substringBeforeSubstring:@"="];
-        if([keypart isEqualToString:@"name"]){ //TODO change to id -> if id available in xml
-            RBClient *client = [self clientWithName:valuepart];
+        if([keypart isEqualToString:@"id"]){
+            client = [self clientWithIdentifier:valuepart];
+        }else{
+            [client setValue:valuepart forKey:keypart];
         }
     }
+        [self performSelector:@selector(showSuccessMessage:) withObject:@"Clients successfully updated" afterDelay:0.5f];
+    }
+    
     [[NSManagedObjectContext defaultContext] save];
-    [self showSuccessMessage:@"Clients successfully updated"];
+    [self.clientsCarousel reloadData];
+    [self.formsCarousel reloadData];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1297,49 +1353,51 @@
 ////////////////////////////////////////////////////////////////////////
 -(void)updateDataViaWebservice
 {
-    NSURL *url = [NSURL URLWithString:kReachabilityOutletsXML];
-    ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
-    req.username = [RBMusketeer loadEntity].email;
-    req.password = [RBMusketeer loadEntity].token;
-    req.delegate = self;
-    [req setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
-    NSLog(@"request for outlet startet");
-    [self showLoadingMessage:(NSString *)@"Updating Clients and Forms!"];
-    [req startAsynchronous];
+    NSURL *outleturl = [NSURL URLWithString:kReachabilityOutletsXML];
+    NSURL *formurl = [NSURL URLWithString:kReachabilityFormsXML];
     
-    NSURL *url2 = [NSURL URLWithString:@"https://stage-rbmib.v2a.net/api/2/sign_me/templates.xml"];
-    ASIHTTPRequest *req2 = [ASIHTTPRequest requestWithURL:url2];
-    req2.username = [RBMusketeer loadEntity].email;
-    req2.password = [RBMusketeer loadEntity].token;
-    req2.delegate = self;
-    [req2 setDidFinishSelector:@selector(templateRequestFinished:)];
-    [req2 setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
-    [req2 startAsynchronous];
+    ASIHTTPRequest *outletreq = [ASIHTTPRequest requestWithURL:outleturl];
+    outletreq.username = [RBMusketeer loadEntity].email;
+    outletreq.password = [RBMusketeer loadEntity].token;
+    [outletreq setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
+    outletreq.delegate = self;
+    [outletreq setDidFinishSelector:@selector(outletRequestFinished:)];
+
+    ASIHTTPRequest *formreq = [outletreq copy];
+    formreq.url = formurl;
+    [formreq setDidFinishSelector:@selector(formRequestFinished:)];
+    
+    firstRequestFinished=NO;
+    [formreq startAsynchronous];
+    [outletreq startAsynchronous];
+    
+    [self showLoadingMessage:(NSString *)@"Updating Clients and Forms!"];
     
 }
 
--(void)templateRequestFinished:(ASIHTTPRequest *)request{
+-(void)formRequestFinished:(ASIHTTPRequest *)request{
     NSData *respData = [request responseData];
     NSLog(@"Response Data Length: %d",[respData length]);
     
       NSString * respStr = [[NSString alloc]  initWithData:respData
                                                    encoding:NSUTF8StringEncoding];
-     NSLog(@"%@",respStr);
-
+   //  NSLog(@"%@",respStr);
+    
+    if(firstRequestFinished){
+        [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:0.3f];
+    }else{
+        firstRequestFinished=YES;
+    }
 }
 
--(void)requestFinished:(ASIHTTPRequest *)request
+-(void)outletRequestFinished:(ASIHTTPRequest *)request
 {
-   // [self sendEMailMessageInBackground];
     RBClient *client=nil;
-    NSLog(@"request finished with code %d",[request responseStatusCode]);
-    
     NSData *respData = [request responseData];
-    NSLog(@"Response Data Length: %d",[respData length]);
     
-  //  NSString * respStr = [[NSString alloc]  initWithData:respData
-    //                                               encoding:NSUTF8StringEncoding];
-   // NSLog(@"%@",respStr);
+    NSString * respStr = [[NSString alloc]  initWithData:respData
+                                                 encoding:NSUTF8StringEncoding];
+  //  NSLog(@"%@",respStr);
     
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData
                                                            options:0 error:nil];
@@ -1350,27 +1408,45 @@
         
         for(GDataXMLElement *outlet in [doc.rootElement elementsForName:@"outlet" ])
         {
-           
             //Special routine for id because of keyword conflict
             NSString * ident;
-            NSArray *names = [outlet elementsForName:@"name"];
-            if (names.count > 0) {
-                GDataXMLElement *identifier = (GDataXMLElement *) [names objectAtIndex:0];
-                ident = identifier.stringValue;
+            NSArray *elements = [outlet elementsForName:@"id"];
+            if (elements.count > 0) {
+                GDataXMLElement *content = (GDataXMLElement *) [elements objectAtIndex:0];
+                ident = content.stringValue;
             }
             
-            client= [self clientWithName:ident];
-            
+            client= [self clientWithIdentifier:ident];
             client.identifier = ident;
             client.visible=$B(YES);
             
-            for(NSString *elem in elementstoload){
-                names = [outlet elementsForName:elem];
-                if (names.count > 0) {
-                    GDataXMLElement *content = (GDataXMLElement *) [names objectAtIndex:0];
-                    [client setValue:content.stringValue forKey:elem];
-                    NSLog(@"Key %@ for element %@",elem,content.stringValue);
+            //Special routine for Logo
+            elements = [outlet elementsForName:@"logo_url"];
+            if (elements.count > 0) {
+                 GDataXMLElement *content = (GDataXMLElement *) [elements objectAtIndex:0];
+                client.logo_url = content.stringValue;
+                if(client.logo_url.length > 0){
+                    NSLog(@"%@",client.logo_url);
+                    ASIHTTPRequest *logoreq = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:client.logo_url ]];
+                    [logoreq setValidatesSecureCertificate:NO];
+                    [logoreq setDownloadDestinationPath:[NSString stringWithFormat:@"%@%@.jpg",kRBLogoSavedDirectorypath,client.identifier]];
+                    [logoreq setDelegate:self];
+                    [logoreq startAsynchronous];
                 }
+                 
+            }
+            
+            //Load the remaining objects
+            for(NSString *elem in elementstoload){
+                elements = [outlet elementsForName:elem];
+                if (elements.count > 0) {
+                    GDataXMLElement *content = (GDataXMLElement *) [elements objectAtIndex:0];
+                    [client setValue:content.stringValue forKey:elem];
+                    
+                }
+                
+                
+               
                 
             }
             
@@ -1380,7 +1456,18 @@
         NSLog(@"Parser Error");
     }
     [[NSManagedObjectContext defaultContext] save];
-    [self showSuccessMessage:@"Finished Update!"];
+    
+    if(firstRequestFinished){
+        [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:0.3f];
+    }else{
+        firstRequestFinished=YES;
+    }
+}
+
+-(void)requestFinished:(ASIHTTPRequest *)request{
+    NSLog(@"%d",request.responseStatusCode);
+    NSLog(@"Response data size: %d",[request.responseData length]);
+    NSLog(@"finished");
 }
 
 -(void)requestFailed:(ASIHTTPRequest *)request

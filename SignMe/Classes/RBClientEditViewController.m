@@ -53,6 +53,7 @@
 @synthesize mappingTextFields = mappingTextFields_;
 @synthesize navToolbar = navToolbar_;
 @synthesize states = states_;
+@synthesize editDisabled;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -92,32 +93,54 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    NSArray *propertiesToDisplayAtView = [NSArray arrayWithObjects:@"name",@"logo_url",@"classification1",@"classification2",@"classification3",
+                                          @"country",@"country_iso",@"region",@"postalcode",@"city",@"street",@"last_updated",nil];
+    
     self.timeView.hidden = YES;
     self.fullLogoImageView.hidden = YES;
     self.logoSignMe.hidden = YES;
     
-    UIImage *cancelImage = [UIImage imageNamed:@"AbortButton"];
-    self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.cancelButton setImage:cancelImage forState:UIControlStateNormal];
-    self.cancelButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
-    self.cancelButton.frame = CGRectMake(585, 28, cancelImage.size.width, cancelImage.size.height);
-    [self.cancelButton addTarget:self action:@selector(handleCancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    if(!self.editDisabled){
+        UIImage *cancelImage = [UIImage imageNamed:@"AbortButton"];
+        self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.cancelButton setImage:cancelImage forState:UIControlStateNormal];
+        self.cancelButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
+        self.cancelButton.frame = CGRectMake(585, 28, cancelImage.size.width, cancelImage.size.height);
+        [self.cancelButton addTarget:self action:@selector(handleCancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIImage *doneImage = [UIImage imageNamed:@"SaveButton"];
-    self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.doneButton setImage:doneImage forState:UIControlStateNormal];
-    self.doneButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
-    self.doneButton.frame = CGRectMake(665, 28, doneImage.size.width, doneImage.size.height);
-    [self.doneButton addTarget:self action:@selector(handleDoneButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+        UIImage *doneImage = [UIImage imageNamed:@"SaveButton"];
+        self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.doneButton setImage:doneImage forState:UIControlStateNormal];
+        self.doneButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
+        self.doneButton.frame = CGRectMake(665, 28, doneImage.size.width, doneImage.size.height);
+        [self.doneButton addTarget:self action:@selector(handleDoneButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+        
+        self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 28, 300, cancelImage.size.height)];
+        self.headerLabel.font = [UIFont fontWithName:kRBFontName size:20];
+        self.headerLabel.text = (self.client != nil && !self.client.clientCreatedForEditing) ? @"Edit Client" : @"New Client";
+        self.headerLabel.backgroundColor = [UIColor clearColor];
+        self.headerLabel.textColor = kRBColorMain;
+        
+        [self.view addSubview:self.headerLabel];
+        [self.view addSubview:self.cancelButton];
+    }else{
+        UIImage *doneImage = [UIImage imageNamed:@"SaveButton"]; //TODO other image instad of save button
+        self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.doneButton setImage:doneImage forState:UIControlStateNormal];
+        self.doneButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
+        self.doneButton.frame = CGRectMake(665, 28, doneImage.size.width, doneImage.size.height);
+        [self.doneButton addTarget:self action:@selector(handleDismissViewButton:) forControlEvents:UIControlEventTouchUpInside];
+        
+        UILabel * noofdoclabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 50, 300, 100)];
+        noofdoclabel.textColor = kRBColorDetail;
+        noofdoclabel.backgroundColor = [UIColor clearColor];
+        noofdoclabel.textAlignment = UITextAlignmentLeft;
+        noofdoclabel.font = [UIFont fontWithName:kRBFontName size:14.];
+        noofdoclabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d DOCUMENTS", @"%d DOCUMENTS"), self.client.documents.count];
+
+        [self.view addSubview:noofdoclabel];
+    }
     
-    self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 28, 300, cancelImage.size.height)];
-    self.headerLabel.font = [UIFont fontWithName:kRBFontName size:20];
-    self.headerLabel.text = (self.client != nil && !self.client.clientCreatedForEditing) ? @"Edit Client" : @"New Client";
-    self.headerLabel.backgroundColor = [UIColor clearColor];
-    self.headerLabel.textColor = kRBColorMain;
-    
-    [self.view addSubview:self.headerLabel];
-    [self.view addSubview:self.cancelButton];
     [self.view addSubview:self.doneButton];
     
     if (self.client == nil) {
@@ -132,9 +155,12 @@
     first = 100;
     last = [RBClient propertyNamesForMapping].count + 99;
     for (NSString *property in [RBClient propertyNamesForMapping]) {
-        [self addInputFieldWithLabel:property index:index];
+        if(self.editDisabled == NO|| [propertiesToDisplayAtView containsObject:property]){
+            [self addInputFieldWithLabel:property index:index];}
         index++;
     }
+    
+        NSLog(@"Numer of docs %d",[self.client.documents count]);
         
     self.navToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 1024, 44)];
     self.navToolbar.barStyle = UIBarStyleBlack;
@@ -191,6 +217,10 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
+- (void)handleDismissViewButton:(id)sender{
+        [self dismissModalViewControllerAnimated:YES];
+}
+
 - (void)gotoPrevField:(id)sender {
     UIView *firstResponder = [self.view viewWithTag:self.navToolbar.tag-1];
     if (firstResponder) {
@@ -224,8 +254,18 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)addInputFieldWithLabel:(NSString *)label index:(int)index {
+    
     UILabel *fieldLabel = [[UILabel alloc] initWithFrame:CGRectMake(35, self.currentY, 472, 20)];
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(35, self.currentY + 23, 472, kRBRowHeight)];
+    
+    if([label isEqualToString:@"logo_url"] && self.editDisabled){
+        NSString *filepath = [NSString stringWithFormat:@"%@%@.jpg",
+                              kRBLogoSavedDirectorypath,self.client.identifier];
+        NSData *imageData = [NSData dataWithContentsOfFile:filepath];
+        UIImageView *imageview =[[UIImageView alloc] initWithImage:[UIImage imageWithData:imageData]];
+        [imageview setFrame:CGRectMake(35,28,55,55)];
+        [self.view addSubview:imageview];
+    }
     
     fieldLabel.backgroundColor = [UIColor clearColor];
     fieldLabel.textColor = kRBColorMain;
@@ -241,6 +281,7 @@
     textField.text = [self.client.name isEqualToString:@"Unknown"] ? @"" : [[self.client valueForKey:label] description];
     textField.formMappingName = label;
     textField.tag = index;
+    [textField setEnabled:!self.editDisabled];
     textField.delegate = self;
     textField.returnKeyType = index != last ? UIReturnKeyNext : UIReturnKeyDone;
     if ([label isEqualToString:@"state"]) {
@@ -258,9 +299,12 @@
         textField.keyboardType = UIKeyboardTypeNumberPad;
     }
     
-    [self.view addSubview:fieldLabel];
-    [self.view addSubview:textField];
-    [self.mappingTextFields addObject:textField];
+    if(![label isEqualToString:@"logo_url"])
+    {
+        [self.view addSubview:fieldLabel];
+        [self.view addSubview:textField];
+        [self.mappingTextFields addObject:textField];
+    }
     
     self.currentY += kRBRowHeight + 35;
 }

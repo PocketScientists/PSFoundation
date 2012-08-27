@@ -15,5 +15,6 @@
 }
 
 @property (nonatomic, strong) RBClient *client;
+@property (nonatomic, assign) BOOL editDisabled;
 
 @end

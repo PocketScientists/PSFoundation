@@ -170,6 +170,8 @@
     NSString * respString = [[NSString alloc]  initWithData:respData
                                             encoding:NSUTF8StringEncoding];
     
+    NSLog(@"%@",respString);
+    
     [KeychainWrapper createKeychainValueWithUser:rbmusketeer.uid Token:rbmusketeer.token andXMLString:respString];
     
     if ([delegate_ respondsToSelector:@selector(setTimerTo:)]) {

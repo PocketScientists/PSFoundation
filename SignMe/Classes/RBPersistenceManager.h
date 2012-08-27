@@ -20,6 +20,8 @@
 
 // returns either a given client with the name or a new client with the given name
 - (RBClient *)clientWithName:(NSString *)name;
+// returns either a given client with the identifier or a new client with the given identifier
+- (RBClient *)clientWithIdentifier:(NSString *)identifier;
 
 // last update date of a client (= last update date of the client's documents)
 - (NSDate *)updateDateForClient:(RBClient *)client;

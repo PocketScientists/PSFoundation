@@ -17,6 +17,7 @@
 @interface RBHomeViewController : PSBaseViewController <iCarouselDataSource, iCarouselDelegate, NSFetchedResultsControllerDelegate, UIDocumentInteractionControllerDelegate, ASIHTTPRequestDelegate,SKPSMTPMessageDelegate>
 {
     BOOL isMovedUp;
+    BOOL firstRequestFinished;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *formsView;

@@ -213,12 +213,12 @@
     self.label1.text = [client.name uppercaseString];
     self.label1.numberOfLines = 2;
     
-    self.label2.text = [NSString stringWithFormat:@"%@\n%@, %@ %@", client.street, client.city, client.state, client.zip];
+    self.label2.text = [NSString stringWithFormat:@"%@\n%@, %@ %@", client.street, client.city, client.country_iso, client.postalcode];
     self.label2.numberOfLines = 3;
     
-    if(client.classification3){
+    if(client.classification3.length > 0){
         self.label3.text = [NSString stringWithFormat:@"%@ / %@ / %@", client.classification1, client.classification2, client.classification3];
-    }else if(client.classification2){
+    }else if(client.classification2.length > 0){
          self.label3.text = [NSString stringWithFormat:@"%@ / %@ ", client.classification1, client.classification2];
     }else{
        self.label3.text = [NSString stringWithFormat:@"%@ ", client.classification1]; 

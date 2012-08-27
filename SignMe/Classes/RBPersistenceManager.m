@@ -116,6 +116,19 @@
     return existingClient;
 }
 
+
+- (RBClient *)clientWithIdentifier:(NSString *)identifier {
+    RBClient *existingClient = [RBClient findFirstByAttribute:@"identifier" withValue:identifier];
+    
+    if (existingClient == nil) {
+        existingClient = [RBClient createEntity];
+        existingClient.identifier = identifier;
+        [[NSManagedObjectContext defaultContext] saveOnMainThread];
+    }
+    
+    return existingClient;
+}
+
 - (NSDate *)updateDateForClient:(RBClient *)client {
     NSArray *allDocuments = [RBDocument findAllSortedBy:@"date" 
                                               ascending:NO 
