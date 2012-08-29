@@ -124,7 +124,7 @@
         [self.view addSubview:self.headerLabel];
         [self.view addSubview:self.cancelButton];
     }else{
-        UIImage *doneImage = [UIImage imageNamed:@"SaveButton"]; //TODO other image instad of save button
+        UIImage *doneImage = [UIImage imageNamed:@"AbortButton"]; //TODO other image instad of save button
         self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.doneButton setImage:doneImage forState:UIControlStateNormal];
         self.doneButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;

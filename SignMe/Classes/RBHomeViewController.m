@@ -1439,12 +1439,11 @@
     [NSUserDefaults standardUserDefaults].formsUpdateDate = [NSDate date];
     [[NSUserDefaults standardUserDefaults] synchronize];
     emptyForms_ = [RBForm allEmptyForms];
-    NSLog(@"Empty forms %d",[emptyForms_ count]);
     
     
     if(firstRequestFinished){
+        [self updateUI];
         [self.ressourceLoadingHttpRequests addOperationWithBlock:^{
-            [self updateUI];
             [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:0.3f];
         }];
     }else{
@@ -1525,8 +1524,8 @@
     
     [[NSManagedObjectContext defaultContext] save];
     if(firstRequestFinished){
+        [self updateUI];
         [self.ressourceLoadingHttpRequests addOperationWithBlock:^{
-            [self updateUI];
             [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:0.3f];
         }];
         
