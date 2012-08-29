@@ -1453,7 +1453,7 @@
 }
 
 -(void)outletRequestFinished:(ASIHTTPRequest *)request
-{   NSUInteger counter =0;
+{  
     RBClient *client=nil;
     NSData *respData = [request responseData];
     NSLog(@"Oulet Request Finished");
@@ -1478,7 +1478,6 @@
                 ident = content.stringValue;
             }
             
-            NSLog(@"Number: %d",++counter);
             client= [RBClient findFirstByAttribute:@"identifier" withValue:ident];
             
             if (client == nil) {
@@ -1489,7 +1488,6 @@
            // client= [self clientWithIdentifier:ident];
            // client.identifier = ident;
             client.visible=$B(YES);
-            NSLog(@"clientwithidentifier %@",ident);
             //Special routine for Logo
             elements = [outlet elementsForName:@"logo_url"];
             if (elements.count > 0) {

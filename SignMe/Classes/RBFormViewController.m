@@ -267,9 +267,9 @@
     }
     
     // upload files to box.net
-    if (self.document != nil) {
-        [RBBoxService uploadDocument:self.document toFolderAtPath:RBPathToPreSignatureFolderForClientWithName(self.client.name)];
-    }
+  //  if (self.document != nil) {
+   //     [RBBoxService uploadDocument:self.document toFolderAtPath:RBPathToPreSignatureFolderForClientWithName(self.client.name)];
+   // }
     
     [MTApplicationDelegate.homeViewController updateUI];
 }
@@ -299,10 +299,10 @@
             }
             
             // upload files to box.net
-            if (self.document != nil) {
-                [RBBoxService uploadDocument:self.document toFolderAtPath:RBPathToPreSignatureFolderForClientWithName(self.client.name)];
-                [RBDocuSignService sendDocument:self.document];
-            }
+          //  if (self.document != nil) {
+           //     [RBBoxService uploadDocument:self.document toFolderAtPath:RBPathToPreSignatureFolderForClientWithName(self.client.name)];
+           //     [RBDocuSignService sendDocument:self.document];
+            //}
             
             [MTApplicationDelegate.homeViewController updateUI];
         }];
