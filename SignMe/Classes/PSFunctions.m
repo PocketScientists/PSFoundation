@@ -26,6 +26,20 @@ inline NSString *RBFormattedDateWithFormat(NSDate *date, NSString *format) {
     return [dateFormatter stringFromDate:date];
 }
 
+inline NSURL *RBFullFormRessourceURL(NSString *urlressourcepart){
+   
+    return [NSURL URLWithString:[NSString stringWithFormat:@"https://%@/%@",kApplicationURL,urlressourcepart]];
+}
+
+inline NSString *RBFormSaveName(NSString *formname, NSString *ressourceurl){
+    
+    return [NSString stringWithFormat:@"%@_%@",formname,[ressourceurl lastPathComponent]];
+}
+
+inline NSString *RBRessourceNameFromURL(NSString *urlressourcepart){
+    return  [[urlressourcepart lastPathComponent] stringByDeletingPathExtension];
+}
+
 inline NSString *RBPathToEmptyForms() {
     return kRBFolderEmptyForms;
 }
@@ -71,7 +85,8 @@ inline NSString *RBFileNameForFormWithName(NSString *formName) {
 }
 
 inline NSString *RBFileNameForPDFWithName(NSString *formName) {
-    NSNumber *objectID = [[NSUserDefaults standardUserDefaults] objectIDForPDFWithName:formName];
+//    NSNumber *objectID = [[NSUserDefaults standardUserDefaults] objectIDForPDFWithName:formName];
     
-    return [NSString stringWithFormat:@"%@_%@%@", objectID, formName, kRBPDFExtension];
+  //  return [NSString stringWithFormat:@"%@_%@%@", objectID, formName, kRBPDFExtension];
+    return [NSString stringWithFormat:@"%@%@",formName,kRBPDFExtension];
 }

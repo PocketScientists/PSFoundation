@@ -31,4 +31,6 @@
 - (void)setObjectID:(NSNumber *)objectID forPDFWithName:(NSString *)name;
 - (NSNumber *)objectIDForPDFWithName:(NSString *)name;
 
+-(void)setFormName:(NSString *)formname forObjectWithNameIncludingExtension:(NSString *)name ;
+
 @end

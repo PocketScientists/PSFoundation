@@ -59,6 +59,8 @@
 @property (nonatomic, assign) NSInteger detailCarouselSelectedIndex;
 @property (nonatomic, assign) NSInteger clientsCarouselSelectedIndex;
 
+@property (nonatomic, strong) NSOperationQueue * ressourceLoadingHttpRequests;
+
 @property (nonatomic, assign) BOOL formsCarouselChangeWasInitiatedByTap;
 
 // header label for a carousel
@@ -133,6 +135,7 @@
 @synthesize clientsCarouselSelectedIndex = clientsCarouselSelectedIndex_;
 @synthesize formsCarouselChangeWasInitiatedByTap = formsCarouselChangeWasInitiatedByTap_;
 @synthesize currentNumberOfDocumentsInDetailCarousel = currentNumberOfDocumentsInDetailCarousel_;
+@synthesize ressourceLoadingHttpRequests=ressourceLoadingHttpRequests_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -1356,6 +1359,8 @@
     NSURL *outleturl = [NSURL URLWithString:kReachabilityOutletsXML];
     NSURL *formurl = [NSURL URLWithString:kReachabilityFormsXML];
     
+    self.ressourceLoadingHttpRequests = [[NSOperationQueue alloc] init];
+    
     ASIHTTPRequest *outletreq = [ASIHTTPRequest requestWithURL:outleturl];
     outletreq.username = [RBMusketeer loadEntity].email;
     outletreq.password = [RBMusketeer loadEntity].token;
@@ -1377,28 +1382,86 @@
 
 -(void)formRequestFinished:(ASIHTTPRequest *)request{
     NSData *respData = [request responseData];
-    NSLog(@"Response Data Length: %d",[respData length]);
+    NSString * elemcontent,*formname;
     
-      NSString * respStr = [[NSString alloc]  initWithData:respData
-                                                   encoding:NSUTF8StringEncoding];
-   //  NSLog(@"%@",respStr);
+   // NSString * respStr = [[NSString alloc]  initWithData:respData
+     //                                              encoding:NSUTF8StringEncoding];
+     //NSLog(@"%@",respStr);
+    
+    [[NSUserDefaults standardUserDefaults] deleteStoredObjectNames];
+    
+    GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData
+                                                           options:0 error:nil];
+    if (doc != nil){
+        
+        for(GDataXMLElement *form in [doc.rootElement elementsForName:@"form" ])
+        {
+        NSArray *elements = [form elementsForName:@"name"];
+        if (elements.count > 0) {
+            GDataXMLElement *content = (GDataXMLElement *)[elements firstObject];
+            formname = content.stringValue;
+        }
+            for(NSString *elementname in XARRAY(@"form_url",@"pdf_url",@"pdf_css")){
+                elements = [form elementsForName:elementname];
+                if (elements.count > 0) {
+                    GDataXMLElement *content = (GDataXMLElement *)[elements firstObject];
+                    elemcontent = content.stringValue;
+                    if([elementname isEqualToString:@"form_url"]){
+                        [[NSUserDefaults standardUserDefaults] setFormName:elemcontent forObjectWithNameIncludingExtension:RBFormSaveName(formname,elemcontent)];
+                    }
+                }
+                NSLog(@"download urls: %@",RBFullFormRessourceURL(elemcontent));
+                ASIHTTPRequest *ressourcereq = [ASIHTTPRequest requestWithURL:RBFullFormRessourceURL(elemcontent)];
+                [ressourcereq setDownloadDestinationPath:[NSString stringWithFormat:@"%@/%@",kRBFolderUserEmptyForms,RBFormSaveName(formname, elemcontent)]];
+                NSLog(@"download to: %@", [NSString stringWithFormat:@"%@/%@",kRBFolderUserEmptyForms,RBFormSaveName(formname, elemcontent)]);
+                [ressourcereq setDelegate:self];
+                [self.ressourceLoadingHttpRequests addOperation:ressourcereq];
+                //[ressourcereq startAsynchronous];
+            }
+            
+            elements = [form elementsForName:@"resources"];
+            if(elements.count > 0){
+                GDataXMLElement *resources = [elements firstObject];
+                elements = [resources elementsForName:@"url"];
+                for(GDataXMLElement *urlress in elements){
+                    elemcontent =urlress.stringValue;
+                    ASIHTTPRequest *ressourcereq = [ASIHTTPRequest requestWithURL:RBFullFormRessourceURL(elemcontent)];
+                    [ressourcereq setDownloadDestinationPath:[NSString stringWithFormat:@"%@/%@",kRBFolderUserEmptyForms,RBFormSaveName(formname, elemcontent)]];
+                    [ressourcereq setDelegate:self];
+                    [self.ressourceLoadingHttpRequests addOperation:ressourcereq];
+                    //[ressourcereq startAsynchronous];
+                }
+            }
+        }
+    }
+    
+
+    [NSUserDefaults standardUserDefaults].formsUpdateDate = [NSDate date];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    emptyForms_ = [RBForm allEmptyForms];
+    NSLog(@"Empty forms %d",[emptyForms_ count]);
+    
     
     if(firstRequestFinished){
-        [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:0.3f];
+        [self.ressourceLoadingHttpRequests addOperationWithBlock:^{
+            [self updateUI];
+            [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:0.3f];
+        }];
     }else{
+            NSLog(@"Forms finished");
         firstRequestFinished=YES;
     }
 }
 
 -(void)outletRequestFinished:(ASIHTTPRequest *)request
-{
+{   NSUInteger counter =0;
     RBClient *client=nil;
     NSData *respData = [request responseData];
-    
+    NSLog(@"Oulet Request Finished");
     NSString * respStr = [[NSString alloc]  initWithData:respData
                                                  encoding:NSUTF8StringEncoding];
   //  NSLog(@"%@",respStr);
-    
+ 
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData
                                                            options:0 error:nil];
     if (doc != nil){
@@ -1416,22 +1479,29 @@
                 ident = content.stringValue;
             }
             
-            client= [self clientWithIdentifier:ident];
-            client.identifier = ident;
-            client.visible=$B(YES);
+            NSLog(@"Number: %d",++counter);
+            client= [RBClient findFirstByAttribute:@"identifier" withValue:ident];
             
+            if (client == nil) {
+                client = [RBClient createEntity];
+                client.identifier = ident;
+            }
+
+           // client= [self clientWithIdentifier:ident];
+           // client.identifier = ident;
+            client.visible=$B(YES);
+            NSLog(@"clientwithidentifier %@",ident);
             //Special routine for Logo
             elements = [outlet elementsForName:@"logo_url"];
             if (elements.count > 0) {
                  GDataXMLElement *content = (GDataXMLElement *) [elements objectAtIndex:0];
                 client.logo_url = content.stringValue;
                 if(client.logo_url.length > 0){
-                    NSLog(@"%@",client.logo_url);
                     ASIHTTPRequest *logoreq = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:client.logo_url ]];
-                    [logoreq setValidatesSecureCertificate:NO];
                     [logoreq setDownloadDestinationPath:[NSString stringWithFormat:@"%@%@.jpg",kRBLogoSavedDirectorypath,client.identifier]];
                     [logoreq setDelegate:self];
-                    [logoreq startAsynchronous];
+                    [self.ressourceLoadingHttpRequests addOperation:logoreq];
+                    //[logoreq startAsynchronous];
                 }
                  
             }
@@ -1444,30 +1514,26 @@
                     [client setValue:content.stringValue forKey:elem];
                     
                 }
-                
-                
-               
-                
             }
+            
             
         }
     
     }else{
         NSLog(@"Parser Error");
     }
-    [[NSManagedObjectContext defaultContext] save];
     
+    [[NSManagedObjectContext defaultContext] save];
     if(firstRequestFinished){
+        [self.ressourceLoadingHttpRequests addOperationWithBlock:^{
+            [self updateUI];
+            [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:0.3f];
+        }];
+        
         [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:0.3f];
     }else{
         firstRequestFinished=YES;
     }
-}
-
--(void)requestFinished:(ASIHTTPRequest *)request{
-    NSLog(@"%d",request.responseStatusCode);
-    NSLog(@"Response data size: %d",[request.responseData length]);
-    NSLog(@"finished");
 }
 
 -(void)requestFailed:(ASIHTTPRequest *)request

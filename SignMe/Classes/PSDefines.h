@@ -35,6 +35,7 @@
 #define kReachabilityOutletsXML @"https://stage-rbmib.v2a.net/api/2/sign_me/outlets.xml"
 //#define kReachabilityOutletsXML @"https://stage-rbmib.v2a.net/api/1/outlets/list.xml"
 #define kReachabilityFormsXML @"https://stage-rbmib.v2a.net/api/2/sign_me/templates.xml"
+#define kApplicationURL [[RBMusketeer loadEntity] application_url]
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -96,7 +97,8 @@
 //#define kRBFolderUser               [[[BoxUser savedUser] userName] lowercaseString]
 //#define kRBFolderUser               [[[RBMusketeer loadEntity] firstname] titlecaseString]
 #define kRBFolderUser               [[NSString stringWithFormat:@"%@ %@", [[RBMusketeer loadEntity] firstname], \
-                                        [[RBMusketeer loadEntity] lastname]] titlecaseString]
+                                    [[RBMusketeer loadEntity] lastname]] titlecaseString]
+#define kRBFolderUserEmptyForms     ([NSDocumentsFolder() stringByAppendingPathComponent:kRBFormSavedDirectoryName])
 #define kRBFolderEmptyForms         @"forms"
 #define kRBFolderPreSignature       @"pre-signature"
 #define kRBFolderSigned             @"signed"

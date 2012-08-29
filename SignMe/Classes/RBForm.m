@@ -118,12 +118,14 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
 ////////////////////////////////////////////////////////////////////////
 
 - (id)initWithName:(NSString *)name {
+
     // delete file extension if already specified
     if ([name hasSuffix:kRBFormExtension]) {
         name = [name substringToIndex:[name rangeOfString:kRBFormExtension].location];
     }
-    
-    NSString *fullPath = [kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForFormWithName(name)];
+    //NSString *fullPath = [kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForFormWithName(name)];
+
+    NSString * fullPath = [NSString stringWithFormat:@"%@/%@%@",kRBFolderUserEmptyForms,name,kRBFormExtension];
     
     return [self initWithPath:fullPath name:name];
 }

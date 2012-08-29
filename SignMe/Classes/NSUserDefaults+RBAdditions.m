@@ -190,4 +190,15 @@
     return [self objectIDForObjectWithNameIncludingExtension:[name stringByAppendingString:kRBPDFExtension]];
 }
 
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Additional Form objects for loading via Webservice
+////////////////////////////////////////////////////////////////////////
+-(void)setFormName:(NSString *)formname forObjectWithNameIncludingExtension:(NSString *)name {
+    [self setObject:formname forKey:name];
+    NSLog(@"KEY: %@ OJBECT %@",name,formname);
+    [self synchronize];
+}
+
+
 @end

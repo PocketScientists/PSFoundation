@@ -189,16 +189,21 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)createPDFForDocument:(RBDocument *)document form:(RBForm *)form {
-    if ([document.name isEqualToString:@"PA"] || [document.name isEqualToString:@"PFP_PA"]) {
+    NSLog(@"documentname: %@",document.name);
+   // if ([document.name isEqualToString:@"PA"] || [document.name isEqualToString:@"PFP_PA"]) {
         NSString *pdfFileURL = RBPathToPDFWithName(document.fileURL);
-        NSDictionary *template = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:document.name ofType:@"plist"]];
-
+    //    NSDictionary *template = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:document.name ofType:@"plist"]];
+ //NSDictionary *template = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Bar_Battle_Concept_PA_PDF" ofType:@"plist"]];
+    NSString * fullpath = [NSString stringWithFormat:@"%@/%@%@",kRBFolderUserEmptyForms,@"Bar_Battle_Concept_PA_PDF",kRBFormExtension];
+    NSLog(@"search for dict on path %@",fullpath);
+    //NSDictionary *template = [NSDictionary dictionaryWithContentsOfURL:[NSURL URLWithString:fullpath]];
+         NSDictionary *template = [[NSMutableDictionary alloc] initWithContentsOfFile:fullpath];
         NSMutableDictionary *data = [form.PDFDictionary mutableCopy];
         [data addEntriesFromDictionary:[form optionalSectionsDictionary]];
         
         NCPDFCreator *creator = [[NCPDFCreator alloc] init];
         [creator createDocumentAtURL:[NSURL fileURLWithPath:pdfFileURL] withFormData:data andTemplate:template];
-    }
+   /* }
     else {
         // create PDF
         RBPDFWriter *pdfWriter = [[RBPDFWriter alloc] init];
@@ -209,7 +214,9 @@
             emptyDocName = [NSString stringWithFormat:@"%@_%@", document.name, discriminator];
         }
         NSLog(@"Name of PDF template used: %@", emptyDocName);
-        NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForPDFWithName(emptyDocName)]];
+       // NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForPDFWithName(emptyDocName)]];
+        emptyDocName = @"Bar_Battle_Concept_PA_PDF.plist";
+        NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBFolderUserEmptyForms stringByAppendingPathComponent:emptyDocName]];
         CGPDFDocumentRef pdfRef = [pdfWriter newOpenDocument:urlToEmptyPDF];
         if (pdfRef) {
             NSString *pdfFileURL = RBPathToPDFWithName(document.fileURL);
@@ -226,7 +233,7 @@
             } afterDelay:1];
             DDLogInfo(@"Error creating PDF file %@", [urlToEmptyPDF absoluteString]);
         }
-    }
+    }*/
 }
 
 @end

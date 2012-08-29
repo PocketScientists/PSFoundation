@@ -24,3 +24,7 @@ NSString *RBPathToPDFWithName(NSString *name);
 
 NSString *RBFileNameForFormWithName(NSString *formName);
 NSString *RBFileNameForPDFWithName(NSString *formName);
+
+NSURL *RBFullFormRessourceURL(NSString *urlressourcepart);
+NSString *RBRessourceNameFromURL(NSString *urlressourcepart);
+NSString *RBFormSaveName(NSString *formname, NSString *ressourceurl);

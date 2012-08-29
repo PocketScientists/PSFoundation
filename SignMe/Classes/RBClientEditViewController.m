@@ -94,7 +94,7 @@
     [super viewDidLoad];
     
     NSArray *propertiesToDisplayAtView = [NSArray arrayWithObjects:@"name",@"logo_url",@"classification1",@"classification2",@"classification3",
-                                          @"country",@"country_iso",@"region",@"postalcode",@"city",@"street",@"last_updated",nil];
+                                          @"country",@"country_iso",@"region",@"postalcode",@"city",@"street",@"updated_at",nil];
     
     self.timeView.hidden = YES;
     self.fullLogoImageView.hidden = YES;
@@ -159,8 +159,6 @@
             [self addInputFieldWithLabel:property index:index];}
         index++;
     }
-    
-        NSLog(@"Numer of docs %d",[self.client.documents count]);
         
     self.navToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 1024, 44)];
     self.navToolbar.barStyle = UIBarStyleBlack;
