@@ -17,6 +17,8 @@
 #import "VCTitleCase.h"
 #import "AppDelegate.h"
 
+#define NOSUPERIORGROUP 99999
+
 
 @interface RBRecipientsView ()
 
@@ -25,6 +27,9 @@
 @property (nonatomic, strong) UITextField *subjectTextField;
 @property (nonatomic, strong) NSArray *addContactButtons;
 @property (nonatomic, strong) NSArray *recipientsForTypes;
+@property (nonatomic,strong) UIPopoverController *recipientPopover;
+@property (nonatomic,strong) RBRecipientPickerViewController *recPicTVC;
+@property (nonatomic,assign) NSUInteger noOfCellPickerActive;
 
 - (void)showPeoplePicker;
 - (void)showNewContactScreen;
@@ -49,6 +54,9 @@
 @synthesize routingOrderButton = routingOrderButton_;
 @synthesize subjectTextField = subjectTextField_;
 @synthesize useRoutingOrder = useRoutingOrder_;
+@synthesize recipientPopover = recipientPopover_;
+@synthesize recPicTVC = recPicTVC_;
+@synthesize noOfCellPickerActive = noOfCellPickerActive_;
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -343,9 +351,9 @@
     //RBHQ Add - give the rows in the first section ids to know wich popover belongs to which id
     if(tableView.tag == 0)
     {
-        cell.orderOfSigner=indexPath.row;
+        cell.orderOfSigner=indexPath.row+1;
     }else{
-        cell.orderOfSigner=-1;
+        cell.orderOfSigner=NOSUPERIORGROUP;
     }
     
     return cell;
@@ -358,8 +366,27 @@
 }
 
 - (void)didSelectRowWithOrderOfSigner:(NSUInteger)orderType AndTouches:(NSSet *)touches{
-    NSString *startPoint = NSStringFromCGPoint([[touches anyObject] locationInView:self]); 
-    NSLog(@"Select %d Startpoint: %@",orderType,startPoint);
+    if(orderType != NOSUPERIORGROUP && orderType <3)
+    {
+    CGPoint point = [[touches anyObject] locationInView:self];
+    if(self.recPicTVC == nil){
+            self.recPicTVC = [[RBRecipientPickerViewController alloc] init];
+            self.recPicTVC.delegate=self;
+    }
+        
+    NSArray * recipients = [RBRecipient findByAttribute:@"superiorGroup" withValue:[NSNumber numberWithInt:orderType]];
+    //recipVC.delegate=self;
+    NSMutableArray *recNames = [[NSMutableArray alloc] init];
+    for(RBRecipient *recip in recipients){
+        NSString *name = [NSString stringWithFormat:@"%@ %@",recip.firstname,recip.lastname];
+        [recNames addObject:name];
+    }
+    self.recPicTVC.recipientnames =recNames;
+    self.recipientPopover = [[UIPopoverController alloc] initWithContentViewController:self.recPicTVC];
+        
+    self.noOfCellPickerActive=orderType-1;
+    [recipientPopover_ presentPopoverFromRect:CGRectMake(point.x-20, point.y, 40, 20) inView:self permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+    }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -639,7 +666,12 @@
 
 #pragma mark - Recipients Picker Delegate
 - (void)didSelectRecipient:(NSString *)recip{
-    NSLog(@"in delegate %@",recip);
+    NSLog(@"Name: %@",recip);
+    RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *) [tableViews_.firstObject cellForRowAtIndexPath: [NSIndexPath indexPathForRow:self.noOfCellPickerActive inSection:0]];
+    NSLog(@"Current maintext: %@",cell.mainText);
+    cell.mainText = recip;
+    [tableViews_.firstObject setNeedsDisplay];
+    [self.recipientPopover dismissPopoverAnimated:YES];
 }
 
 @end

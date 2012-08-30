@@ -74,12 +74,16 @@
             <userInfo/>
         </attribute>
         <attribute name="code" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="emailPropertyID" optional="YES" attributeType="Integer 32" defaultValueString="-1">
             <userInfo/>
         </attribute>
+        <attribute name="firstname" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="idcheck" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="kind" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastname" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="superiorGroup" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="document" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RBDocument" inverseName="recipients" inverseEntity="RBDocument">
             <userInfo/>
@@ -87,8 +91,8 @@
         <userInfo/>
     </entity>
     <elements>
-        <element name="RBClient" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="RBDocument" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="RBRecipient" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="RBClient" positionX="0" positionY="0" width="128" height="313"/>
+        <element name="RBDocument" positionX="0" positionY="0" width="128" height="208"/>
+        <element name="RBRecipient" positionX="0" positionY="0" width="128" height="223"/>
     </elements>
 </model>

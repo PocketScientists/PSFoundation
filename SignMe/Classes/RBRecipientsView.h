@@ -10,6 +10,7 @@
 #import <AddressBookUI/AddressBookUI.h>
 #import "RBRecipientTableViewCell.h"
 #import "RBRecipientPickerViewController.h"
+#import "RBRecipient.h"
 
 #define kRBRecipientsViewTag    540492
 

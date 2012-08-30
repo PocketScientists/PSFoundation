@@ -48,7 +48,7 @@
     
 
     //2. if Timestamp is too old or username does not exist - pop up Login Window
-    if(time_intervall > kRBAuthorizationTimeInterval )
+    if(time_intervall > 100)//kRBAuthorizationTimeInterval )
     {
     UIAlertView *userLogin = [[UIAlertView alloc] initWithTitle:@"Authorize your M.I.B App"
                                                         message:@"Enter your Wiiings Login Data"
@@ -162,6 +162,30 @@
         }
         
         [rbmusketeer saveEntity];
+        
+        //Superior groups parsing
+        for(int superiorgroup=1;superiorgroup<=2;superiorgroup++){
+            //Delete old Recipients
+            NSArray *oldrecipients = [RBRecipient findByAttribute:@"superiorGroup" withValue:[NSNumber numberWithInt:superiorgroup]];
+            for(RBRecipient *oneoldrecipient in oldrecipients){
+                [oneoldrecipient deleteEntity];
+            }
+            [[NSManagedObjectContext defaultContext] save];
+            NSString * xpath = [NSString stringWithFormat:@"//user/superior_items/superior_group_%d/person",superiorgroup];
+            NSArray *result = [doc nodesForXPath:xpath error:nil];
+            for(GDataXMLElement *elem in result){
+                RBRecipient * recip = [RBRecipient createEntity];
+                recip.superiorGroup=[NSNumber numberWithInt:superiorgroup];
+                for(NSString * elemname in XARRAY(@"firstname",@"lastname",@"email")){
+                    NSString *elementcontent = ((GDataXMLElement*)[[elem elementsForName:elemname] firstObject]).stringValue;
+                    [recip setValue:elementcontent forKey:elemname];
+                }
+            }
+        }
+        [[NSManagedObjectContext defaultContext] save];
+        
+        
+
         
     }else{
         NSLog(@"Parser Error");

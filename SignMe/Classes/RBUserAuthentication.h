@@ -12,6 +12,7 @@
 #import "KeychainWrapper.h"
 #import "GDataXMLNode.h"
 #import "RBMusketeer+RBProperties.h"
+#import "RBRecipient.h"
 
 
 @protocol RBUserAuthenticationDelegate <NSObject>

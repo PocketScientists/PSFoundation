@@ -22,4 +22,9 @@
 @property (nonatomic, strong) NSString * kind;
 @property (nonatomic, strong) RBDocument *document;
 
+@property (nonatomic, strong) NSString * lastname;
+@property (nonatomic, strong) NSString * firstname;
+@property (nonatomic, strong) NSString * email;
+@property (nonatomic, strong) NSNumber * superiorGroup;
+
 @end

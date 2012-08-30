@@ -21,4 +21,9 @@
 @dynamic kind;
 @dynamic document;
 
+@dynamic lastname;
+@dynamic firstname;
+@dynamic email;
+@dynamic superiorGroup;
+
 @end
