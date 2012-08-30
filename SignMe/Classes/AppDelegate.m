@@ -333,7 +333,7 @@
     NSFileManager *manager = [NSFileManager defaultManager];
     
     // check if directories already exist
-    for (NSString *directoryPath in XARRAY(kRBFormSavedDirectoryPath, kRBPDFSavedDirectoryPath)) {
+    for (NSString *directoryPath in XARRAY(kRBFolderUserEmptyForms, kRBFormSavedDirectoryPath, kRBPDFSavedDirectoryPath,kRBLogoSavedDirectorypath)) {
         if (![manager fileExistsAtPath:directoryPath]) {
             [manager createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:nil];
         }

@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import "RBRecipientTableViewCell.h"
+#import "RBRecipientPickerViewController.h"
 
 #define kRBRecipientsViewTag    540492
 
 @interface RBRecipientsView : UIView <UITableViewDataSource, UITableViewDelegate, RBRecipientTableViewCellDelegate, 
-ABPeoplePickerNavigationControllerDelegate, ABNewPersonViewControllerDelegate, UITextFieldDelegate> {
+ABPeoplePickerNavigationControllerDelegate, ABNewPersonViewControllerDelegate, UITextFieldDelegate,RBRecipientPickerDelegate> {
     UIButton *lastButtonPressed;
 }
 

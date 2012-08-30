@@ -106,6 +106,10 @@
         [routingOrderButton_ addTarget:self action:@selector(handleRoutingOrderPress:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:routingOrderButton_];
         
+        //RBHQ Change: Hide Routing Order Option
+        label.hidden=YES;
+        routingOrderButton_.hidden=YES;
+        
         UIView *dividerView = [[UIView alloc] initWithFrame:CGRectMake(self.bounds.size.width/2.f, 5.f, 1.f, self.bounds.size.height-10.f)];
         dividerView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.3f];
         dividerView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
@@ -204,6 +208,7 @@
 }
 
 - (void)setTabs:(NSArray *)tabs {
+    
     if (tabs_ == tabs) return;
     
     tabs_ = tabs;
@@ -241,6 +246,12 @@
             [headerView addSubview:addContactButton];
             [addContactButtons addObject:addContactButton];
             
+            //RBHQ Change: Hide Recipient Add For the RB-Signers
+            if([recipientType isEqualToStringIgnoringCase:@"rb"]){
+                label.hidden=YES,
+                addContactButton.hidden=YES;
+            }
+            
             UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(545.f, 5.f + typeIndex * height, 450.f, height) style:UITableViewStylePlain];
             tableView.delegate = self;
             tableView.dataSource = self;
@@ -259,6 +270,7 @@
             tableView.tag = typeIndex;
             // tableView_.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
             tableView.editing = YES;
+            tableView.allowsSelection=YES;
             
             [self addSubview:tableView];
             [tableViews addObject:tableView];
@@ -295,11 +307,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	RBRecipientTableViewCell *cell = [RBRecipientTableViewCell cellForTableView:tableView style:UITableViewCellStyleDefault];
     cell.delegate = self;
-    
+    tableView.allowsSelection=YES;
+    tableView.editing=NO;
+    cell.userInteractionEnabled=YES;
     if (indexPath.row < [[self.recipientsForTypes objectAtIndex:tableView.tag] count]) {
         NSDictionary *personDict = [[self.recipientsForTypes objectAtIndex:tableView.tag] objectAtIndex:indexPath.row];
         ABPerson *person = [[ABAddressBook sharedAddressBook] personWithRecordID:[[personDict valueForKey:kRBRecipientPersonID] intValue]];
-        
         if (person.imageData != nil) {
             cell.image = [UIImage imageWithData:person.imageData];
         }
@@ -327,19 +340,35 @@
         cell.placeholderText = [[[self tabsForType:type] objectAtIndex:indexPath.row] objectForKey:kRBFormKeyTabLabel];
     }
     
+    //RBHQ Add - give the rows in the first section ids to know wich popover belongs to which id
+    if(tableView.tag == 0)
+    {
+        cell.orderOfSigner=indexPath.row;
+    }else{
+        cell.orderOfSigner=-1;
+    }
+    
     return cell;
 }
 
 // no cell is selectable
+
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     return nil;
 }
 
+- (void)didSelectRowWithOrderOfSigner:(NSUInteger)orderType AndTouches:(NSSet *)touches{
+    NSString *startPoint = NSStringFromCGPoint([[touches anyObject] locationInView:self]); 
+    NSLog(@"Select %d Startpoint: %@",orderType,startPoint);
+}
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    if (cell.mainText) {
-        return YES;
-    }
+   //Change RBHQ
+    
+   // RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+   //if (cell.mainText) {
+   //     return YES;
+   // }
     return NO;
 }
 
@@ -353,10 +382,12 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    if (cell.mainText) {
-        return YES;
-    }
+   //Change RBHQ 
+    
+  //  RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+  //  if (cell.mainText) {
+  //      return YES;
+  //  }
     return NO;
 }
 
@@ -381,10 +412,6 @@
 #pragma mark -
 #pragma mark UITableViewDelegate
 ////////////////////////////////////////////////////////////////////////
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-}
 
 - (void)redrawTableData:(UITableView *)tableView {
     NSString *type = [self.recipientTypes objectAtIndex:tableView.tag];
@@ -608,6 +635,11 @@
         textField.text = [textField.text titlecaseString];
     } afterDelay:0];
     return YES;
+}
+
+#pragma mark - Recipients Picker Delegate
+- (void)didSelectRecipient:(NSString *)recip{
+    NSLog(@"in delegate %@",recip);
 }
 
 @end

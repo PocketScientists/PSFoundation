@@ -1157,8 +1157,7 @@
         [[NSUserDefaults standardUserDefaults] setObject:@"nil" forKey:kRBMIBCallClientID];
   
     }else{
-        //TODO Change to client.id -> if id is available in xml
-        urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://outlet?id%@",kRBMIBURLPath,client.name]];
+        urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://outlet?id=%@",kRBMIBURLPath,client.identifier]];
         [[NSUserDefaults standardUserDefaults] setInteger:kRBMIBCallTypeEdit forKey:kRBMIBCallType];
          [[NSUserDefaults standardUserDefaults] setObject:client.identifier forKey:kRBMIBCallClientID];
     }
@@ -1383,6 +1382,8 @@
 -(void)formRequestFinished:(ASIHTTPRequest *)request{
     NSData *respData = [request responseData];
     NSString * elemcontent,*formname;
+    NSString *downloadpath;
+    NSFileManager *manager = [NSFileManager defaultManager];
     
    // NSString * respStr = [[NSString alloc]  initWithData:respData
      //                                              encoding:NSUTF8StringEncoding];
@@ -1401,22 +1402,28 @@
             GDataXMLElement *content = (GDataXMLElement *)[elements firstObject];
             formname = content.stringValue;
         }
+            
+            
+        downloadpath = [kRBFolderUserEmptyForms stringByAppendingPathComponent:formname];
+        if (![manager fileExistsAtPath:downloadpath]) {
+            [manager createDirectoryAtPath:downloadpath withIntermediateDirectories:YES attributes:nil error:nil];
+            NSLog(@"create dir at %@",downloadpath);
+        }
+                
             for(NSString *elementname in XARRAY(@"form_url",@"pdf_url",@"pdf_css")){
                 elements = [form elementsForName:elementname];
                 if (elements.count > 0) {
                     GDataXMLElement *content = (GDataXMLElement *)[elements firstObject];
                     elemcontent = content.stringValue;
                     if([elementname isEqualToString:@"form_url"]){
-                        [[NSUserDefaults standardUserDefaults] setFormName:elemcontent forObjectWithNameIncludingExtension:RBFormSaveName(formname,elemcontent)];
+                        [[NSUserDefaults standardUserDefaults] setFormName:downloadpath forObjectWithNameIncludingExtension:[elemcontent lastPathComponent]];
                     }
                 }
-                NSLog(@"download urls: %@",RBFullFormRessourceURL(elemcontent));
                 ASIHTTPRequest *ressourcereq = [ASIHTTPRequest requestWithURL:RBFullFormRessourceURL(elemcontent)];
-                [ressourcereq setDownloadDestinationPath:[NSString stringWithFormat:@"%@/%@",kRBFolderUserEmptyForms,RBFormSaveName(formname, elemcontent)]];
-                NSLog(@"download to: %@", [NSString stringWithFormat:@"%@/%@",kRBFolderUserEmptyForms,RBFormSaveName(formname, elemcontent)]);
+                [ressourcereq setDownloadDestinationPath:[downloadpath stringByAppendingPathComponent:[elemcontent lastPathComponent]]];
+                NSLog(@"download to: %@",[downloadpath stringByAppendingPathComponent:[elemcontent lastPathComponent]]);
                 [ressourcereq setDelegate:self];
                 [self.ressourceLoadingHttpRequests addOperation:ressourcereq];
-                //[ressourcereq startAsynchronous];
             }
             
             elements = [form elementsForName:@"resources"];
@@ -1426,7 +1433,7 @@
                 for(GDataXMLElement *urlress in elements){
                     elemcontent =urlress.stringValue;
                     ASIHTTPRequest *ressourcereq = [ASIHTTPRequest requestWithURL:RBFullFormRessourceURL(elemcontent)];
-                    [ressourcereq setDownloadDestinationPath:[NSString stringWithFormat:@"%@/%@",kRBFolderUserEmptyForms,RBFormSaveName(formname, elemcontent)]];
+                    [ressourcereq setDownloadDestinationPath:[downloadpath stringByAppendingPathComponent:[elemcontent lastPathComponent]]];
                     [ressourcereq setDelegate:self];
                     [self.ressourceLoadingHttpRequests addOperation:ressourcereq];
                     //[ressourcereq startAsynchronous];
@@ -1495,7 +1502,7 @@
                 client.logo_url = content.stringValue;
                 if(client.logo_url.length > 0){
                     ASIHTTPRequest *logoreq = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:client.logo_url ]];
-                    [logoreq setDownloadDestinationPath:[NSString stringWithFormat:@"%@%@.jpg",kRBLogoSavedDirectorypath,client.identifier]];
+                    [logoreq setDownloadDestinationPath:[NSString stringWithFormat:@"%@/%@.jpg",kRBLogoSavedDirectorypath,client.identifier]];
                     [logoreq setDelegate:self];
                     [self.ressourceLoadingHttpRequests addOperation:logoreq];
                     //[logoreq startAsynchronous];

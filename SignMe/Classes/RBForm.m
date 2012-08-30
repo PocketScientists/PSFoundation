@@ -123,9 +123,8 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     if ([name hasSuffix:kRBFormExtension]) {
         name = [name substringToIndex:[name rangeOfString:kRBFormExtension].location];
     }
-    //NSString *fullPath = [kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForFormWithName(name)];
 
-    NSString * fullPath = [NSString stringWithFormat:@"%@/%@%@",kRBFolderUserEmptyForms,name,kRBFormExtension];
+    NSString *fullPath=RBFullPathToEmptyFormWithName(name);
     
     return [self initWithPath:fullPath name:name];
 }

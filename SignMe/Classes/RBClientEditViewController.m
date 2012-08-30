@@ -257,12 +257,15 @@
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(35, self.currentY + 23, 472, kRBRowHeight)];
     
     if([label isEqualToString:@"logo_url"] && self.editDisabled){
-        NSString *filepath = [NSString stringWithFormat:@"%@%@.jpg",
+        NSString *filepath = [NSString stringWithFormat:@"%@/%@.jpg",
                               kRBLogoSavedDirectorypath,self.client.identifier];
-        NSData *imageData = [NSData dataWithContentsOfFile:filepath];
-        UIImageView *imageview =[[UIImageView alloc] initWithImage:[UIImage imageWithData:imageData]];
-        [imageview setFrame:CGRectMake(35,28,55,55)];
-        [self.view addSubview:imageview];
+        NSFileManager *manager = [NSFileManager defaultManager];
+        if([manager fileExistsAtPath:filepath]){
+            NSData *imageData = [NSData dataWithContentsOfFile:filepath];
+            UIImageView *imageview =[[UIImageView alloc] initWithImage:[UIImage imageWithData:imageData]];
+            [imageview setFrame:CGRectMake(35,28,55,55)];
+            [self.view addSubview:imageview];
+        }
     }
     
     fieldLabel.backgroundColor = [UIColor clearColor];

@@ -22,6 +22,7 @@
 @property (nonatomic, copy) NSString *placeholderText;
 @property (nonatomic, assign) int code;
 @property (nonatomic, assign) int signerType;
+@property (nonatomic, assign) int orderOfSigner;
 @property (nonatomic, assign) BOOL idcheck;
 @property (nonatomic, unsafe_unretained) id<RBRecipientTableViewCellDelegate> delegate;
 
@@ -35,4 +36,5 @@
 @protocol RBRecipientTableViewCellDelegate <NSObject>
 - (void)cell:(RBRecipientTableViewCell *)cell changedCode:(int)code idCheck:(BOOL)idCheck;
 - (void)cell:(RBRecipientTableViewCell *)cell changedSignerType:(int)type;
+- (void)didSelectRowWithOrderOfSigner:(NSUInteger)orderType AndTouches:(NSSet *)touches;
 @end

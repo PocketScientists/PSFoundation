@@ -190,50 +190,19 @@
 
 - (void)createPDFForDocument:(RBDocument *)document form:(RBForm *)form {
     NSLog(@"documentname: %@",document.name);
-   // if ([document.name isEqualToString:@"PA"] || [document.name isEqualToString:@"PFP_PA"]) {
-        NSString *pdfFileURL = RBPathToPDFWithName(document.fileURL);
-    //    NSDictionary *template = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:document.name ofType:@"plist"]];
- //NSDictionary *template = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Bar_Battle_Concept_PA_PDF" ofType:@"plist"]];
-    NSString * fullpath = [NSString stringWithFormat:@"%@/%@%@",kRBFolderUserEmptyForms,@"Bar_Battle_Concept_PA_PDF",kRBFormExtension];
+    NSLog(@"formname: %@",form.name);
+    
+    NSString *pdfFileURL = RBPathToPDFWithName(document.fileURL);
+
+    NSString * fullpath = RBFullPathToPDFTemplateWithFormName(form.name);
     NSLog(@"search for dict on path %@",fullpath);
-    //NSDictionary *template = [NSDictionary dictionaryWithContentsOfURL:[NSURL URLWithString:fullpath]];
-         NSDictionary *template = [[NSMutableDictionary alloc] initWithContentsOfFile:fullpath];
-        NSMutableDictionary *data = [form.PDFDictionary mutableCopy];
-        [data addEntriesFromDictionary:[form optionalSectionsDictionary]];
+   
+    NSDictionary *template = [[NSMutableDictionary alloc] initWithContentsOfFile:fullpath];
+    NSMutableDictionary *data = [form.PDFDictionary mutableCopy];
+    [data addEntriesFromDictionary:[form optionalSectionsDictionary]];
         
-        NCPDFCreator *creator = [[NCPDFCreator alloc] init];
-        [creator createDocumentAtURL:[NSURL fileURLWithPath:pdfFileURL] withFormData:data andTemplate:template];
-   /* }
-    else {
-        // create PDF
-        RBPDFWriter *pdfWriter = [[RBPDFWriter alloc] init];
-        
-        NSString *emptyDocName = document.name;
-        NSString *discriminator = [form discriminator];
-        if (discriminator && [discriminator length] > 0) {
-            emptyDocName = [NSString stringWithFormat:@"%@_%@", document.name, discriminator];
-        }
-        NSLog(@"Name of PDF template used: %@", emptyDocName);
-       // NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBBoxNetDirectoryPath stringByAppendingPathComponent:RBFileNameForPDFWithName(emptyDocName)]];
-        emptyDocName = @"Bar_Battle_Concept_PA_PDF.plist";
-        NSURL *urlToEmptyPDF = [NSURL fileURLWithPath:[kRBFolderUserEmptyForms stringByAppendingPathComponent:emptyDocName]];
-        CGPDFDocumentRef pdfRef = [pdfWriter newOpenDocument:urlToEmptyPDF];
-        if (pdfRef) {
-            NSString *pdfFileURL = RBPathToPDFWithName(document.fileURL);
-            
-            [pdfWriter writePDFDocument:pdfRef
-                           withFormData:form.PDFDictionary 
-                                 toFile:pdfFileURL];
-            
-            CFRelease(pdfRef);
-        }
-        else {
-            [self performBlock:^{
-                [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error creating PDF file. Cannot find template %@.pdf", emptyDocName]];
-            } afterDelay:1];
-            DDLogInfo(@"Error creating PDF file %@", [urlToEmptyPDF absoluteString]);
-        }
-    }*/
+    NCPDFCreator *creator = [[NCPDFCreator alloc] init];
+    [creator createDocumentAtURL:[NSURL fileURLWithPath:pdfFileURL] withFormData:data andTemplate:template];
 }
 
 @end

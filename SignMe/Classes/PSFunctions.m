@@ -44,6 +44,20 @@ inline NSString *RBPathToEmptyForms() {
     return kRBFolderEmptyForms;
 }
 
+inline NSString *RBFullPathToEmptyFormWithName(NSString *formressourcename) {
+    NSString * fullPath = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@%@",formressourcename,kRBFormExtension]];
+    fullPath = [NSString stringWithFormat:@"%@/%@%@",fullPath,formressourcename,kRBFormExtension];
+    return fullPath;
+}
+
+inline NSString *RBFullPathToPDFTemplateWithFormName(NSString *formressourcename) {
+    NSString *pdfname = [formressourcename substringBeforeSubstring:@"_Form"];
+    pdfname= [pdfname stringByAppendingString:@"_PDF"];
+    NSString * fullPath = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@%@",formressourcename,kRBFormExtension]];
+    fullPath = [NSString stringWithFormat:@"%@/%@%@",fullPath,pdfname,kRBFormExtension];
+    return fullPath;
+}
+
 inline NSString *RBPathToSignedFolderForClientWithName(NSString *clientName) {
     if (![BoxUser savedUser].loggedIn) {
         return nil;

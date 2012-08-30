@@ -15,6 +15,7 @@
 		064DE1DA15E2DF6B00177D1E /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 064DE1D915E2DF6B00177D1E /* KeychainWrapper.m */; };
 		065493CA15E5096E00936ECB /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 065493C915E5096E00936ECB /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		06599BB615E27278006B6988 /* RBUserAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 06599BB515E27278006B6988 /* RBUserAuthentication.m */; };
+		0666251A15EF4A0800721CBB /* RBRecipientPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0666251915EF4A0800721CBB /* RBRecipientPickerViewController.m */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -329,6 +330,8 @@
 		065493C915E5096E00936ECB /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLNode.m; sourceTree = "<group>"; };
 		06599BB415E27278006B6988 /* RBUserAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBUserAuthentication.h; sourceTree = "<group>"; };
 		06599BB515E27278006B6988 /* RBUserAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBUserAuthentication.m; sourceTree = "<group>"; };
+		0666251815EF4A0800721CBB /* RBRecipientPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBRecipientPickerViewController.h; sourceTree = "<group>"; };
+		0666251915EF4A0800721CBB /* RBRecipientPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBRecipientPickerViewController.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -864,6 +867,8 @@
 			children = (
 				3925C7DE13DDE863008810AF /* RBFormViewController.h */,
 				3925C7DF13DDE863008810AF /* RBFormViewController.m */,
+				0666251815EF4A0800721CBB /* RBRecipientPickerViewController.h */,
+				0666251915EF4A0800721CBB /* RBRecipientPickerViewController.m */,
 			);
 			name = Form;
 			sourceTree = "<group>";
@@ -1642,6 +1647,7 @@
 				060A17F915E77A530086A377 /* NSData+Base64Additions.m in Sources */,
 				060A17FA15E77A530086A377 /* NSStream+SKPSMTPExtensions.m in Sources */,
 				060A17FB15E77A530086A377 /* SKPSMTPMessage.m in Sources */,
+				0666251A15EF4A0800721CBB /* RBRecipientPickerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

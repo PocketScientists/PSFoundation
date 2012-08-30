@@ -65,9 +65,9 @@ static UIFont *placeholderTextFont = nil;
     if (cell == nil) {
         cell = [[self alloc] initWithStyle:style reuseIdentifier:cellID];
     }
-    
     return cell;    
 }
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
@@ -149,7 +149,9 @@ static UIFont *placeholderTextFont = nil;
 - (void)setCode:(int)code {
     code_ = code;
     if (code_ > 0) {
-        codeBtn.selected = YES;
+        //Change RBHQ - disable codeBtn
+        codeBtn.selected=NO;
+        //codeBtn.selected = YES;
     }
     else {
         codeBtn.selected = NO;
@@ -180,7 +182,8 @@ static UIFont *placeholderTextFont = nil;
 
 - (void)enableAuth {
     //idBtn.hidden = NO;
-    codeBtn.hidden = NO;
+    //Change RBHQ - disable codeBtn
+    codeBtn.hidden = YES;
 }
 
 
@@ -246,6 +249,17 @@ static UIFont *placeholderTextFont = nil;
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
  	[self setNeedsDisplay];
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Events
+////////////////////////////////////////////////////////////////////////
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    if([self.delegate respondsToSelector:@selector(didSelectRowWithOrderOfSigner: AndTouches:)]){
+        [self.delegate didSelectRowWithOrderOfSigner:self.orderOfSigner AndTouches:touches];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
