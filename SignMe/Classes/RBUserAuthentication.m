@@ -48,7 +48,7 @@
     
 
     //2. if Timestamp is too old or username does not exist - pop up Login Window
-    if(time_intervall > 100)//kRBAuthorizationTimeInterval )
+    if(time_intervall > kRBAuthorizationTimeInterval )
     {
     UIAlertView *userLogin = [[UIAlertView alloc] initWithTitle:@"Authorize your M.I.B App"
                                                         message:@"Enter your Wiiings Login Data"
@@ -90,6 +90,9 @@
                 [self displayUserAuthentication];
                 break;
             case kFalseUserAlert:
+                [self displayUserAuthentication];
+                break;
+            case kNoConnectionAlert:
                 [self displayUserAuthentication];
                 break;
             default:

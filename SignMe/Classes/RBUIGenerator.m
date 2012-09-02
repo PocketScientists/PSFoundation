@@ -317,20 +317,35 @@
                 break;
             }
         }
+        
+        //ADD for RBHQ - two temp entries for signers
+        NSMutableDictionary *tmpRecipientDict = XMDICT($I(0), kRBRecipientPersonID, $I(0), kRBRecipientEmailID, $I(kRBRecipientTypeInPerson), kRBRecipientType, @"RB", kRBRecipientKind);
+        [recipients addObject:tmpRecipientDict];
+        [recipients addObject:[tmpRecipientDict copy]];
+        
         NSMutableDictionary *personDict = XMDICT($I(abMusketeer.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, $I(kRBRecipientTypeInPerson), kRBRecipientType, @"RB", kRBRecipientKind);
         [recipients addObject:personDict];
+        
     }
  
     for (RBRecipient *recipient in [document.recipients allObjects]) {
+        if(recipients.count == 0){  //Create a temp array to insert afterwarts into slots
+            for(int i = 0;i< [document.recipients allObjects].count;i++){
+               [recipients addObject: [NSNull null]]; 
+            };
+        }
         NSMutableDictionary *dictionaryRepresentation = [[recipient dictionaryWithValuesForKeys:XARRAY(kRBRecipientPersonID, kRBRecipientEmailID, kRBRecipientCode, kRBRecipientIDCheck, kRBRecipientType, kRBRecipientOrder, kRBRecipientKind)] mutableCopy];
-        [recipients addObject:dictionaryRepresentation];
+        [recipients replaceObjectAtIndex:[recipient.order integerValue]-1 withObject:dictionaryRepresentation];
     }
+    
     
     recipientsView.tabs = [form tabsWithType:@"SignHere"];
     recipientsView.maxNumberOfRecipients = [form numberOfTabsWithType:@"SignHere"];
     recipientsView.recipients = recipients;
     recipientsView.subject = document.subject;
-    recipientsView.useRoutingOrder = [document.obeyRoutingOrder boolValue];
+    //RBHQ - Same order each time
+    //recipientsView.useRoutingOrder = [document.obeyRoutingOrder boolValue];
+    recipientsView.useRoutingOrder = YES;
 
     return recipientsView;
 }

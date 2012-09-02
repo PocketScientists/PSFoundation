@@ -318,34 +318,44 @@
     tableView.allowsSelection=YES;
     tableView.editing=NO;
     cell.userInteractionEnabled=YES;
+    cell.image = nil;
+    cell.mainText = nil;
+    cell.detailText = nil;
+    cell.code = 0;
+    cell.signerType = 0;
+    cell.idcheck = NO;
+    [cell disableAuth];
+    [cell disableTypeSelection];
+        //RBHQ -> fix placeholder to RedBull Inc. if group 0
+    if(tableView.tag == 1){
+    NSString *type = [self.recipientTypes objectAtIndex:tableView.tag];
+        cell.placeholderText = [[[self tabsForType:type] objectAtIndex:indexPath.row] objectForKey:kRBFormKeyTabLabel];}
+    else{
+        cell.placeholderText = [NSString stringWithFormat:@"Red Bull Inc. %d",indexPath.row+1];}
+    
     if (indexPath.row < [[self.recipientsForTypes objectAtIndex:tableView.tag] count]) {
+       
         NSDictionary *personDict = [[self.recipientsForTypes objectAtIndex:tableView.tag] objectAtIndex:indexPath.row];
-        ABPerson *person = [[ABAddressBook sharedAddressBook] personWithRecordID:[[personDict valueForKey:kRBRecipientPersonID] intValue]];
-        if (person.imageData != nil) {
-            cell.image = [UIImage imageWithData:person.imageData];
+         //RBHQ - Temp Cells - if RecipientPersonID = 0
+        if([[personDict valueForKey:kRBRecipientPersonID] intValue] != 0){
+        
+        ABPerson *person;
+        
+            person = [[ABAddressBook sharedAddressBook] personWithRecordID:[[personDict valueForKey:kRBRecipientPersonID] intValue]];
+            if (person.imageData != nil) {
+                cell.image = [UIImage imageWithData:person.imageData];
+            }
+            else {
+                cell.image = [UIImage imageNamed:@"EmptyContact"];
+            }
+            [cell enableTypeSelection];
+            cell.mainText = person.fullName;
+            cell.code = [personDict valueForKey:kRBRecipientCode] ? [[personDict valueForKey:kRBRecipientCode] intValue] : 0;
+            cell.signerType = [personDict valueForKey:kRBRecipientType] ? [[personDict valueForKey:kRBRecipientType] intValue] : 0;
+            cell.idcheck = [personDict valueForKey:kRBRecipientIDCheck] && [[personDict valueForKey:kRBRecipientIDCheck] intValue] > 0 ? YES : NO;
+            cell.detailText = [person emailForID:[personDict valueForKey:kRBRecipientEmailID]];
+            cell.placeholderText = nil;
         }
-        else {
-            cell.image = [UIImage imageNamed:@"EmptyContact"];
-        }
-        [cell enableTypeSelection];
-        cell.mainText = person.fullName;
-        cell.code = [personDict valueForKey:kRBRecipientCode] ? [[personDict valueForKey:kRBRecipientCode] intValue] : 0;
-        cell.signerType = [personDict valueForKey:kRBRecipientType] ? [[personDict valueForKey:kRBRecipientType] intValue] : 0;
-        cell.idcheck = [personDict valueForKey:kRBRecipientIDCheck] && [[personDict valueForKey:kRBRecipientIDCheck] intValue] > 0 ? YES : NO;
-        cell.detailText = [person emailForID:[personDict valueForKey:kRBRecipientEmailID]];
-        cell.placeholderText = nil;
-    }
-    else {
-        cell.image = nil;
-        cell.mainText = nil;
-        cell.detailText = nil;
-        cell.code = 0;
-        cell.signerType = 0;
-        cell.idcheck = NO;
-        [cell disableAuth];
-        [cell disableTypeSelection];
-        NSString *type = [self.recipientTypes objectAtIndex:tableView.tag];
-        cell.placeholderText = [[[self tabsForType:type] objectAtIndex:indexPath.row] objectForKey:kRBFormKeyTabLabel];
     }
     
     //RBHQ Add - give the rows in the first section ids to know wich popover belongs to which id
@@ -369,18 +379,13 @@
     if(orderType != NOSUPERIORGROUP && orderType <3)
     {
     CGPoint point = [[touches anyObject] locationInView:self];
-    if(self.recPicTVC == nil){
-            self.recPicTVC = [[RBRecipientPickerViewController alloc] init];
-            self.recPicTVC.delegate=self;
-    }
-        
+    self.recPicTVC = [[RBRecipientPickerViewController alloc] init];
+    self.recPicTVC.delegate=self;
     NSArray * recipients = [RBRecipient findByAttribute:@"superiorGroup" withValue:[NSNumber numberWithInt:orderType]];
-    //recipVC.delegate=self;
-    NSMutableArray *recNames = [[NSMutableArray alloc] init];
-    for(RBRecipient *recip in recipients){
-        NSString *name = [NSString stringWithFormat:@"%@ %@",recip.firstname,recip.lastname];
-        [recNames addObject:name];
-    }
+        NSLog(@"Number of People in Group %d",recipients.count);
+
+    NSMutableArray *recNames = [[NSMutableArray alloc] initWithArray:recipients];
+        
     self.recPicTVC.recipientnames =recNames;
     self.recipientPopover = [[UIPopoverController alloc] initWithContentViewController:self.recPicTVC];
         
@@ -444,10 +449,26 @@
     NSString *type = [self.recipientTypes objectAtIndex:tableView.tag];
     for (int i = 0; i < [[self tabsForType:type] count]; i++) {
         RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        cell.image = nil;
+        cell.mainText = nil;
+        cell.code = 0;
+        cell.signerType = 0;
+        cell.idcheck = NO;
+        cell.detailText = nil;
+        if(tableView.tag == 1){
+            cell.placeholderText = [[[self tabsForType:type] objectAtIndex:i] objectForKey:kRBFormKeyTabLabel];}
+        else{
+            cell.placeholderText = [NSString stringWithFormat:@"Red Bull Inc. %d",i+1];
+        }
+        [cell disableAuth];
+        [cell disableTypeSelection];
+        
         if (i < [[self.recipientsForTypes objectAtIndex:tableView.tag] count]) {
             NSDictionary *personDict = [[self.recipientsForTypes objectAtIndex:tableView.tag] objectAtIndex:i];
-            ABPerson *person = [[ABAddressBook sharedAddressBook] personWithRecordID:[[personDict valueForKey:kRBRecipientPersonID] intValue]];
-            
+      
+            ABPerson *person=nil;
+            person = [[ABAddressBook sharedAddressBook] personWithRecordID:[[personDict valueForKey:kRBRecipientPersonID] intValue]];
+            if(person != nil){
             if (person.imageData != nil) {
                 cell.image = [UIImage imageWithData:person.imageData];
             }
@@ -461,17 +482,7 @@
             cell.idcheck = [personDict valueForKey:kRBRecipientIDCheck] && [[personDict valueForKey:kRBRecipientIDCheck] intValue] > 0 ? YES : NO;
             cell.detailText = [person emailForID:[personDict valueForKey:kRBRecipientEmailID]];
             cell.placeholderText = nil;
-        }
-        else {
-            cell.image = nil;
-            cell.mainText = nil;
-            cell.code = 0;
-            cell.signerType = 0;
-            cell.idcheck = NO;
-            cell.detailText = nil;
-            cell.placeholderText = [[[self tabsForType:type] objectAtIndex:i] objectForKey:kRBFormKeyTabLabel];
-            [cell disableAuth];
-            [cell disableTypeSelection];
+            }
         }
     }
     tableView.editing = NO;
@@ -665,13 +676,70 @@
 }
 
 #pragma mark - Recipients Picker Delegate
-- (void)didSelectRecipient:(NSString *)recip{
-    NSLog(@"Name: %@",recip);
-    RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *) [tableViews_.firstObject cellForRowAtIndexPath: [NSIndexPath indexPathForRow:self.noOfCellPickerActive inSection:0]];
+- (void)didSelectRecipient:(RBRecipient *)recip{
+  /*  RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *) [tableViews_.firstObject cellForRowAtIndexPath: [NSIndexPath indexPathForRow:self.noOfCellPickerActive inSection:0]];
     NSLog(@"Current maintext: %@",cell.mainText);
-    cell.mainText = recip;
-    [tableViews_.firstObject setNeedsDisplay];
+    cell.mainText = [NSString stringWithFormat:@"%@ %@",recip.firstname, recip.lastname ];
+    cell.detailText = recip.email;
+    cell.placeholderText = @"";
+    [tableViews_.firstObject setNeedsDisplay];*/
     [self.recipientPopover dismissPopoverAnimated:YES];
+    
+    NSArray *people = [[ABAddressBook sharedAddressBook] allPeople];
+    ABPerson *recipPerson = nil;
+    //Look if Person already exist
+    for (ABPerson *person in people) {
+        if ([[person getFirstName] isEqualToStringIgnoringCase:recip.firstname] &&
+            [[person getLastName] isEqualToStringIgnoringCase:recip.lastname]) {
+            recipPerson = person;
+            break;
+        }
+    }
+    if (recipPerson == nil) {
+        NSError *error;
+        recipPerson = [[ABPerson alloc] init];
+        if (recip.firstname) {
+            [recipPerson setValue:recip.firstname forProperty:kABPersonFirstNameProperty error:nil];
+        }
+        if (recip.lastname) {
+            [recipPerson setValue:recip.lastname forProperty:kABPersonLastNameProperty error:nil];
+        }
+        [[ABAddressBook sharedAddressBook] addRecord:recipPerson error:&error];
+        [[ABAddressBook sharedAddressBook] save:&error];
+    }
+    
+    ABMultiValue *emails = [recipPerson valueForProperty:kABPersonEmailProperty];
+    if (emails == nil || [emails indexOfValue:recip.email] == (NSUInteger)-1L) {
+        NSError *error;
+        if (emails == nil) {
+            emails = [[ABMutableMultiValue alloc] initWithPropertyType:kABPersonEmailProperty];
+        }
+        else {
+            emails = [emails mutableCopy];
+        }
+        [(ABMutableMultiValue *)emails addValue:recip.email withLabel:(NSString *)kABWorkLabel identifier:nil];
+        [recipPerson setValue:emails forProperty:kABPersonEmailProperty error:nil];
+        [[ABAddressBook sharedAddressBook] save:&error];
+        
+        emails = [recipPerson valueForProperty:kABPersonEmailProperty];
+    }
+    ABMultiValueIdentifier identifier;
+    for (int i = 0; i < [emails count]; i++) {
+        if ([[emails valueAtIndex:i] isEqualToStringIgnoringCase:recip.email]) {
+            identifier = [emails identifierAtIndex:i];
+            break;
+        }
+    }
+    
+    NSMutableDictionary *personDict = XMDICT($I(recipPerson.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, $I(kRBRecipientTypeInPerson), kRBRecipientType, @"RB", kRBRecipientKind);
+    
+
+    [(NSMutableArray *)[self.recipientsForTypes objectAtIndex:0] replaceObjectAtIndex:noOfCellPickerActive_ withObject:personDict];
+    NSLog(@"Length [of array:%d array2: %d",self.recipients.count,[[self.recipientsForTypes objectAtIndex:0] count] );
+    
+    [self redrawTableData:[self.tableViews objectAtIndex:0]];
+
+
 }
 
 @end

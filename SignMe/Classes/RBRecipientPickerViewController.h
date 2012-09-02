@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RBRecipient.h"
 
 @protocol RBRecipientPickerDelegate<NSObject>
-- (void)didSelectRecipient:(NSString *)recip;
+- (void)didSelectRecipient:(RBRecipient *)recip;
 @end
 
 @interface RBRecipientPickerViewController : UITableViewController
