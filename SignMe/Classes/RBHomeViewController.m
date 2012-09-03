@@ -1334,7 +1334,11 @@
     NSArray * informationparts = [urlstring componentsSeparatedByString:@"&"];
     for(NSString *informationsnippet in informationparts){
         valuepart =[informationsnippet substringAfterSubstring:@"="];
-        keypart = [informationsnippet substringBeforeSubstring:@"="];
+        //keypart = [informationsnippet substringBeforeSubstring:@"="];
+        keypart = nil;
+        if([informationsnippet hasSubstring:@"="])
+            keypart = [informationsnippet substringToIndex:[informationsnippet rangeOfString:@"="].location];
+        
         if([keypart isEqualToString:@"id"]){
             client = [self clientWithIdentifier:valuepart];
         }else{

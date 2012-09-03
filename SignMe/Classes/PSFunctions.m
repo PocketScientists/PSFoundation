@@ -57,7 +57,10 @@ inline NSString *RBFullPathToEmptyFormWithName(NSString *formressourcename) {
 }
 
 inline NSString *RBFullPathToPDFTemplateWithFormName(NSString *formressourcename) {
-    NSString *pdfname = [formressourcename substringBeforeSubstring:@"_Form"];
+    //NSString *pdfname = [formressourcename substringBeforeSubstring:@"_Form"];
+    NSString *pdfname;
+    if([formressourcename hasSubstring:@"_Form"])
+		pdfname = [formressourcename substringToIndex:[formressourcename rangeOfString:@"_Form"].location];
     pdfname= [pdfname stringByAppendingString:@"_PDF"];
     NSString *fullPath = RBFullPathToRessourceDirectoryForForm(formressourcename);
     fullPath = [NSString stringWithFormat:@"%@%@%@",fullPath,pdfname,kRBFormExtension];
