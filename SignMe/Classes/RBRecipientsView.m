@@ -30,6 +30,7 @@
 @property (nonatomic,strong) UIPopoverController *recipientPopover;
 @property (nonatomic,strong) RBRecipientPickerViewController *recPicTVC;
 @property (nonatomic,assign) NSUInteger noOfCellPickerActive;
+@property (nonatomic, strong) NSMutableDictionary * selectedRecipientsAtPosition;
 
 - (void)showPeoplePicker;
 - (void)showNewContactScreen;
@@ -57,6 +58,8 @@
 @synthesize recipientPopover = recipientPopover_;
 @synthesize recPicTVC = recPicTVC_;
 @synthesize noOfCellPickerActive = noOfCellPickerActive_;
+@synthesize selectedRecipientsAtPosition=selectedRecipientsAtPosition_;
+
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -67,6 +70,8 @@
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
         self.tag = kRBRecipientsViewTag;
+        
+        selectedRecipientsAtPosition_ = [[NSMutableDictionary alloc] init];
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(30, 10.f, 150, 31)];
         label.font = [UIFont fontWithName:kRBFontName size:18];
@@ -381,10 +386,16 @@
     CGPoint point = [[touches anyObject] locationInView:self];
     self.recPicTVC = [[RBRecipientPickerViewController alloc] init];
     self.recPicTVC.delegate=self;
+        
+    NSArray *selectedEmails =[selectedRecipientsAtPosition_ allValues];
     NSArray * recipients = [RBRecipient findByAttribute:@"superiorGroup" withValue:[NSNumber numberWithInt:orderType]];
-        NSLog(@"Number of People in Group %d",recipients.count);
-
     NSMutableArray *recNames = [[NSMutableArray alloc] initWithArray:recipients];
+    //Remove Recipients which are already selected
+    for(RBRecipient *recip in recipients) {
+        if([selectedEmails containsObject:recip.email]) {
+            [recNames removeObject:recip];
+        }
+    }
         
     self.recPicTVC.recipientnames =recNames;
     self.recipientPopover = [[UIPopoverController alloc] initWithContentViewController:self.recPicTVC];
@@ -685,6 +696,8 @@
     [tableViews_.firstObject setNeedsDisplay];*/
     [self.recipientPopover dismissPopoverAnimated:YES];
     
+    [selectedRecipientsAtPosition_ setObject:recip.email forKey:[NSNumber numberWithInt:noOfCellPickerActive_]];
+    
     NSArray *people = [[ABAddressBook sharedAddressBook] allPeople];
     ABPerson *recipPerson = nil;
     //Look if Person already exist
@@ -735,10 +748,8 @@
     
 
     [(NSMutableArray *)[self.recipientsForTypes objectAtIndex:0] replaceObjectAtIndex:noOfCellPickerActive_ withObject:personDict];
-    NSLog(@"Length [of array:%d array2: %d",self.recipients.count,[[self.recipientsForTypes objectAtIndex:0] count] );
     
     [self redrawTableData:[self.tableViews objectAtIndex:0]];
-
 
 }
 
