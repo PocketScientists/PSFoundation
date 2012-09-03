@@ -268,8 +268,8 @@ static DocuSignService *docuSign = nil;
                                 // write to disk (overwrite previous PDF)
                                 [signedPDFData writeToURL:pdfFileURL atomically:YES];
                                 // Sent to Box.net
-                                NSString *folderPath = RBPathToFolderForStatusAndClientWithName([document.status intValue], document.client.name);
-                                [RBBoxService uploadDocument:document toFolderAtPath:folderPath];
+                               // NSString *folderPath = RBPathToFolderForStatusAndClientWithName([document.status intValue], document.client.name);
+                               // [RBBoxService uploadDocument:document toFolderAtPath:folderPath];
                             }
                             else {
                                 DDLogError(@"Cannot download signed PDF. Please download it manually: %@", [error localizedDescription]);
