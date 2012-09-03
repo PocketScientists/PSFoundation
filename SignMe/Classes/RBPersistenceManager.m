@@ -189,19 +189,19 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)createPDFForDocument:(RBDocument *)document form:(RBForm *)form {
-    NSLog(@"documentname: %@",document.name);
-    NSLog(@"formname: %@",form.name);
     
     NSString *pdfFileURL = RBPathToPDFWithName(document.fileURL);
 
     NSString * fullpath = RBFullPathToPDFTemplateWithFormName(form.name);
-    NSLog(@"search for dict on path %@",fullpath);
    
     NSDictionary *template = [[NSMutableDictionary alloc] initWithContentsOfFile:fullpath];
     NSMutableDictionary *data = [form.PDFDictionary mutableCopy];
     [data addEntriesFromDictionary:[form optionalSectionsDictionary]];
+    
+    NSString * ressourcePath = RBFullPathToRessourceDirectoryForForm(form.name);
         
     NCPDFCreator *creator = [[NCPDFCreator alloc] init];
+    creator.pathToRessourceFolder=ressourcePath;
     [creator createDocumentAtURL:[NSURL fileURLWithPath:pdfFileURL] withFormData:data andTemplate:template];
 }
 

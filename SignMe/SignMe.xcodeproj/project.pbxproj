@@ -157,9 +157,6 @@
 		A94D227F1483F6650077723B /* RemoteSigner.png in Resources */ = {isa = PBXBuildFile; fileRef = A94D227D1483F6650077723B /* RemoteSigner.png */; };
 		A94D22811483FF8C0077723B /* FinalizeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A94D22801483FF8C0077723B /* FinalizeButton.png */; };
 		A94FC8DF14DA91D2008CCBB4 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A94FC8DE14DA91D2008CCBB4 /* ImageIO.framework */; };
-		A94FC8E514DA9427008CCBB4 /* PA.plist in Resources */ = {isa = PBXBuildFile; fileRef = A94FC8E214DA9427008CCBB4 /* PA.plist */; };
-		A94FC8E614DA9427008CCBB4 /* PALogo.png in Resources */ = {isa = PBXBuildFile; fileRef = A94FC8E314DA9427008CCBB4 /* PALogo.png */; };
-		A94FC91014DAC627008CCBB4 /* PFP_PA.plist in Resources */ = {isa = PBXBuildFile; fileRef = A94FC90F14DAC627008CCBB4 /* PFP_PA.plist */; };
 		A96DF31D144F030900E919E2 /* libDocuSign.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 394B916313D64924007BFF2E /* libDocuSign.a */; };
 		A96DF320144F0D0D00E919E2 /* DocuSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21913E1DB7B00CD4F6C /* DocuSign.framework */; };
 		A96DF4281452B65300E919E2 /* RBFormLayoutData.m in Sources */ = {isa = PBXBuildFile; fileRef = A96DF4271452B65200E919E2 /* RBFormLayoutData.m */; };
@@ -569,10 +566,6 @@
 		A94D227D1483F6650077723B /* RemoteSigner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RemoteSigner.png; path = Images/RemoteSigner.png; sourceTree = "<group>"; };
 		A94D22801483FF8C0077723B /* FinalizeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FinalizeButton.png; path = Images/FinalizeButton.png; sourceTree = "<group>"; };
 		A94FC8DE14DA91D2008CCBB4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		A94FC8E114DA9427008CCBB4 /* PA.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = PA.css; sourceTree = "<group>"; };
-		A94FC8E214DA9427008CCBB4 /* PA.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PA.plist; sourceTree = "<group>"; };
-		A94FC8E314DA9427008CCBB4 /* PALogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PALogo.png; sourceTree = "<group>"; };
-		A94FC90F14DAC627008CCBB4 /* PFP_PA.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PFP_PA.plist; sourceTree = "<group>"; };
 		A96DF4261452B65200E919E2 /* RBFormLayoutData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFormLayoutData.h; sourceTree = "<group>"; };
 		A96DF4271452B65200E919E2 /* RBFormLayoutData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFormLayoutData.m; sourceTree = "<group>"; };
 		A97FAC1A13ED7C590083EFC1 /* TextFieldBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TextFieldBackground.png; path = Images/TextFieldBackground.png; sourceTree = "<group>"; };
@@ -734,7 +727,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A94FC8E014DA9427008CCBB4 /* Forms */,
 				39F2019F13E754E600DA9093 /* Default-Landscape~ipad.png */,
 				390DD51713D9D1FE00EB1EFD /* Model */,
 				395EEF2613D72E3C003C4DA8 /* Images */,
@@ -1258,17 +1250,6 @@
 			name = DocuSign;
 			sourceTree = "<group>";
 		};
-		A94FC8E014DA9427008CCBB4 /* Forms */ = {
-			isa = PBXGroup;
-			children = (
-				A94FC90F14DAC627008CCBB4 /* PFP_PA.plist */,
-				A94FC8E214DA9427008CCBB4 /* PA.plist */,
-				A94FC8E114DA9427008CCBB4 /* PA.css */,
-				A94FC8E314DA9427008CCBB4 /* PALogo.png */,
-			);
-			path = Forms;
-			sourceTree = "<group>";
-		};
 		A9B4925E144CCE20002F1D02 /* VCTitleCase */ = {
 			isa = PBXGroup;
 			children = (
@@ -1524,9 +1505,6 @@
 				A94D227F1483F6650077723B /* RemoteSigner.png in Resources */,
 				A94D22811483FF8C0077723B /* FinalizeButton.png in Resources */,
 				A9B9367614B3E1E100C9A51B /* TextFieldBackgroundDisabled.png in Resources */,
-				A94FC8E514DA9427008CCBB4 /* PA.plist in Resources */,
-				A94FC8E614DA9427008CCBB4 /* PALogo.png in Resources */,
-				A94FC91014DAC627008CCBB4 /* PFP_PA.plist in Resources */,
 				A9CB0D4914E9F544008AD4CE /* RemoveButton.png in Resources */,
 				A9FD5F94150E47B2006256DE /* Icon.png in Resources */,
 				A9FD5F96150E484A006256DE /* Icon@2x.png in Resources */,

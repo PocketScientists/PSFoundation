@@ -1407,7 +1407,6 @@
         downloadpath = [kRBFolderUserEmptyForms stringByAppendingPathComponent:formname];
         if (![manager fileExistsAtPath:downloadpath]) {
             [manager createDirectoryAtPath:downloadpath withIntermediateDirectories:YES attributes:nil error:nil];
-            NSLog(@"create dir at %@",downloadpath);
         }
                 
             for(NSString *elementname in XARRAY(@"form_url",@"pdf_url",@"pdf_css")){
@@ -1421,7 +1420,6 @@
                 }
                 ASIHTTPRequest *ressourcereq = [ASIHTTPRequest requestWithURL:RBFullFormRessourceURL(elemcontent)];
                 [ressourcereq setDownloadDestinationPath:[downloadpath stringByAppendingPathComponent:[elemcontent lastPathComponent]]];
-                NSLog(@"download to: %@",[downloadpath stringByAppendingPathComponent:[elemcontent lastPathComponent]]);
                 [ressourcereq setDelegate:self];
                 [self.ressourceLoadingHttpRequests addOperation:ressourcereq];
             }
@@ -1436,7 +1434,6 @@
                     [ressourcereq setDownloadDestinationPath:[downloadpath stringByAppendingPathComponent:[elemcontent lastPathComponent]]];
                     [ressourcereq setDelegate:self];
                     [self.ressourceLoadingHttpRequests addOperation:ressourcereq];
-                    //[ressourcereq startAsynchronous];
                 }
             }
         }
@@ -1463,9 +1460,9 @@
 {  
     RBClient *client=nil;
     NSData *respData = [request responseData];
-    NSLog(@"Oulet Request Finished");
-    NSString * respStr = [[NSString alloc]  initWithData:respData
-                                                 encoding:NSUTF8StringEncoding];
+    //NSLog(@"Oulet Request Finished");
+   // NSString * respStr = [[NSString alloc]  initWithData:respData
+    //                                             encoding:NSUTF8StringEncoding];
   //  NSLog(@"%@",respStr);
  
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData
@@ -1492,8 +1489,6 @@
                 client.identifier = ident;
             }
 
-           // client= [self clientWithIdentifier:ident];
-           // client.identifier = ident;
             client.visible=$B(YES);
             //Special routine for Logo
             elements = [outlet elementsForName:@"logo_url"];
@@ -1505,7 +1500,6 @@
                     [logoreq setDownloadDestinationPath:[NSString stringWithFormat:@"%@/%@.jpg",kRBLogoSavedDirectorypath,client.identifier]];
                     [logoreq setDelegate:self];
                     [self.ressourceLoadingHttpRequests addOperation:logoreq];
-                    //[logoreq startAsynchronous];
                 }
                  
             }
