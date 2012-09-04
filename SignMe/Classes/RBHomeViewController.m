@@ -583,6 +583,8 @@
     if (self.clientCarouselShowsAddItem && index == 0) {
         //RBClient *client = [self clientWithName:self.searchField.text];
         //client.clientCreatedForEditing = YES;
+        self.clientsCarouselSelectedIndex=NSNotFound;
+        [self.formsCarousel reloadData];
         [self editClient:nil];
     } else if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) != RBFormStatusNew) {
         [self.formsCarousel reloadData];
@@ -1268,7 +1270,7 @@
             predicate = [NSPredicate predicateWithFormat:@"status = %d", formStatus];
         }
     }
-    self.documentsFetchController.fetchRequest.predicate = predicate;
+    //self.documentsFetchController.fetchRequest.predicate = predicate;
     /*
     NSError *error = nil;
     if (![self.documentsFetchController performFetch:&error]) {
