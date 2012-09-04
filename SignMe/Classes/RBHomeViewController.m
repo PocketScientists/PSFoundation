@@ -1376,12 +1376,14 @@
     ASIHTTPRequest *outletreq = [ASIHTTPRequest requestWithURL:outleturl];
     outletreq.username = [RBMusketeer loadEntity].email;
     outletreq.password = [RBMusketeer loadEntity].token;
+    NSLog(@"user: %@ password:%@",[RBMusketeer loadEntity].email,outletreq.password);
     [outletreq setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
     outletreq.delegate = self;
     [outletreq setDidFinishSelector:@selector(outletRequestFinished:)];
 
     ASIHTTPRequest *formreq = [outletreq copy];
     formreq.url = formurl;
+        NSLog(@"user: %@ password:%@",formreq.username,formreq.password);
     [formreq setDidFinishSelector:@selector(formRequestFinished:)];
     
     firstRequestFinished=NO;

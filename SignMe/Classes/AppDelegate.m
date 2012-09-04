@@ -59,7 +59,7 @@
     [self setupFileStructure];
     
     // log out of box.net? was set in Settings Application
-    [self logoutUserIfSpecifiedInSettings];
+    //[self logoutUserIfSpecifiedInSettings];
     // setup CoreData
 	[ActiveRecordHelpers setupAutoMigratingCoreDataStack];
     
@@ -114,7 +114,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [[NSUserDefaults standardUserDefaults] synchronize];
-    [RBMusketeer reloadEntity];
+    //[RBMusketeer reloadEntity];
     [RBDocuSignService reloadCredentials];
  //  [self.homeViewController syncBoxNet:NO];
 }
