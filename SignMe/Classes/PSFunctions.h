@@ -31,3 +31,4 @@ NSString *RBFormSaveName(NSString *formname, NSString *ressourceurl);
 NSString *RBFullPathToEmptyFormWithName(NSString *formressourcename);
 NSString *RBFullPathToPDFTemplateWithFormName(NSString *formressourcename);
 NSString *RBFullPathToRessourceDirectoryForForm(NSString *formressourcename);
+BOOL RBAllRecipientsSet(NSArray *recipients);

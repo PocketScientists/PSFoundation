@@ -260,10 +260,13 @@
     RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
     
     if (self.document != nil) {
+        self.document.allRecipientsSet = RBAllRecipientsSet(self.formView.recipients);
         [persistenceManager updateDocument:self.document usingForm:self.form recipients:self.formView.recipients subject:self.formView.subject obeyRoutingOrder:self.formView.obeyRoutingOrder];
     } else {
         // create a new document with the given form/client
         self.document = [persistenceManager persistedDocumentUsingForm:self.form client:self.client recipients:self.formView.recipients subject:self.formView.subject obeyRoutingOrder:self.formView.obeyRoutingOrder];
+        self.document.allRecipientsSet = RBAllRecipientsSet(self.formView.recipients);
+        [[NSManagedObjectContext defaultContext] saveOnMainThread];
     }
     
     // upload files to box.net
@@ -278,7 +281,9 @@
     // update form-property with new values entered into controls
     [self updateFormFromControls];
     
-    if (self.formView.recipients.count > 0) {
+
+    
+    if (self.formView.recipients.count > 0 &&  RBAllRecipientsSet(self.formView.recipients)) {
         PSAlertView *alertView = [PSAlertView alertWithTitle:self.form.displayName message:[NSString stringWithFormat:@"Do you want to finalize this document for %@?",self.client.name]];
         
         [alertView addButtonWithTitle:@"Finalize" block:^(void) {
@@ -292,17 +297,20 @@
             RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
             
             if (self.document != nil) {
+                self.document.allRecipientsSet = RBAllRecipientsSet(self.formView.recipients);
                 [persistenceManager updateDocument:self.document usingForm:self.form recipients:self.formView.recipients subject:self.formView.subject obeyRoutingOrder:self.formView.obeyRoutingOrder];
             } else {
                 // create a new document with the given form/client
                 self.document = [persistenceManager persistedDocumentUsingForm:self.form client:self.client recipients:self.formView.recipients subject:self.formView.subject obeyRoutingOrder:self.formView.obeyRoutingOrder];
+                self.document.allRecipientsSet = RBAllRecipientsSet(self.formView.recipients);
+                [[NSManagedObjectContext defaultContext] saveOnMainThread];
             }
             
             // upload files to box.net
-          //  if (self.document != nil) {
-           //     [RBBoxService uploadDocument:self.document toFolderAtPath:RBPathToPreSignatureFolderForClientWithName(self.client.name)];
-           //     [RBDocuSignService sendDocument:self.document];
-            //}
+           if (self.document != nil) {
+              //  [RBBoxService uploadDocument:self.document toFolderAtPath:RBPathToPreSignatureFolderForClientWithName(self.client.name)];
+                [RBDocuSignService sendDocument:self.document];
+            }
             
             [MTApplicationDelegate.homeViewController updateUI];
         }];
@@ -311,7 +319,7 @@
         
         [alertView show];
     } else {
-        [self showErrorMessage:@"Document has no recipients, I cannot process it for signing!"];
+        [self showErrorMessage:@"Document has too less recipients, I cannot process it for signing!"];
     }
 }
 

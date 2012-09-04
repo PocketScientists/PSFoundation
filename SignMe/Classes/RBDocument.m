@@ -23,5 +23,6 @@
 @dynamic obeyRoutingOrder;
 @dynamic client;
 @dynamic recipients;
+@dynamic allRecipientsSet;
 
 @end

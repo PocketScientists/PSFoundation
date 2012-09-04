@@ -25,6 +25,7 @@
 @property (nonatomic, strong) NSNumber * obeyRoutingOrder;
 @property (nonatomic, strong) RBClient *client;
 @property (nonatomic, strong) NSSet *recipients;
+@property (nonatomic, assign) BOOL allRecipientsSet;
 @end
 
 @interface RBDocument (CoreDataGeneratedAccessors)

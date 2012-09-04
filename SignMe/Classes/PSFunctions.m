@@ -75,6 +75,15 @@ inline NSString *RBPathToSignedFolderForClientWithName(NSString *clientName) {
     return [[kRBFolderUser stringByAppendingPathComponent:[clientName lowercaseString]] stringByAppendingPathComponent:kRBFolderSigned];
 }
 
+inline BOOL RBAllRecipientsSet(NSArray *recipients){
+    for(NSDictionary *dict in recipients){
+        if([dict objectForKey:kRBRecipientPersonID] == $I(0)){
+            return NO;
+        }
+    }
+    return YES;
+}
+
 inline NSString *RBPathToPreSignatureFolderForClientWithName(NSString *clientName) {
     if (![BoxUser savedUser].loggedIn) {
         return nil;

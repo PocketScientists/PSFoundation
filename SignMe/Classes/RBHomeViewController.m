@@ -653,7 +653,7 @@
             if (IsEmpty(document.docuSignEnvelopeID)) {
                 // send to DocuSign
                 [actionSheet addButtonWithTitle:@"Finalize" block:^(void) {
-                    if (document.recipients.count > 0) {
+                    if (document.recipients.count > 0 && document.allRecipientsSet)  {
                         PSAlertView *alertView = [PSAlertView alertWithTitle:document.name message:[NSString stringWithFormat:@"Do you want to finalize this document for %@?",document.client.name]];
                         
                         [alertView addButtonWithTitle:@"Finalize" block:^(void) {
@@ -664,7 +664,7 @@
                         
                         [alertView show];
                     } else {
-                        [self showErrorMessage:@"Document has no recipients, cannot send!"];
+                        [self showErrorMessage:@"Document has too less recipients, cannot send!"];
                     }
                 }];
                 

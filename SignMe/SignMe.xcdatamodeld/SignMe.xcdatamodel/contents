@@ -36,6 +36,7 @@
         <userInfo/>
     </entity>
     <entity name="RBDocument" representedClassName="RBDocument">
+        <attribute name="allRecipientsSet" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date">
             <userInfo/>
         </attribute>
@@ -91,8 +92,8 @@
         <userInfo/>
     </entity>
     <elements>
-        <element name="RBClient" positionX="0" positionY="0" width="128" height="313"/>
-        <element name="RBDocument" positionX="0" positionY="0" width="128" height="208"/>
-        <element name="RBRecipient" positionX="0" positionY="0" width="128" height="223"/>
+        <element name="RBClient" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="RBDocument" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="RBRecipient" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>
