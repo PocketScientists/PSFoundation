@@ -522,7 +522,7 @@
     self.formsCarouselChangeWasInitiatedByTap = NO;
 }
 
-- (void)carousel:(iCarousel *)carousel didSelectItem:(UIView *)selectedItem atIndex:(NSInteger)index {    
+- (void)carousel:(iCarousel *)carousel didSelectItem:(UIView *)selectedItem atIndex:(NSInteger)index {
     if (carousel == self.formsCarousel) {
         [self formsCarouselDidSelectItemAtIndex:index];
     }
@@ -535,7 +535,9 @@
         [self detailCarouselDidSelectItem:(UIControl *)selectedItem atIndex:index];
     }
     
-    [self updateCarouselSelectionState:carousel selectedItem:(UIControl *)selectedItem];
+    if (!(carousel == self.clientsCarousel && self.clientCarouselShowsAddItem && index == 0)){
+        [self updateCarouselSelectionState:carousel selectedItem:(UIControl *)selectedItem];
+    }
 }
 
 - (void)formsCarouselDidSelectItemAtIndex:(NSInteger)index {
@@ -576,15 +578,17 @@
         self.clientsCarouselSelectedIndex = index;
     }
     
-    [self.formsCarousel reloadData];
-    
+   // [self.formsCarousel reloadData];
+
     if (self.clientCarouselShowsAddItem && index == 0) {
-        RBClient *client = [self clientWithName:self.searchField.text];
-        client.clientCreatedForEditing = YES;
-        [self editClient:client];
+        //RBClient *client = [self clientWithName:self.searchField.text];
+        //client.clientCreatedForEditing = YES;
+        [self editClient:nil];
     } else if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) != RBFormStatusNew) {
+        [self.formsCarousel reloadData];
         [self updateDetailViewWithFormStatus:RBFormStatusForIndex(self.formsCarousel.currentItemIndex)];
     } else {
+        [self.formsCarousel reloadData];
         [self presentFormIfPossible];
     }
 }
@@ -1102,6 +1106,9 @@
 
 - (void)updateClientsWithSearchTerm:(NSString *)searchTerm {
     NSPredicate *predicate = nil;
+    
+    [self.clientsCarousel.visibleViews makeObjectsPerformSelector:@selector(setSelected:) withObject:nil];
+    self.clientsCarouselSelectedIndex=NSNotFound;
     
     if (!IsEmpty(searchTerm)) {
         predicate = [NSPredicate predicateWithFormat:@"visible = YES AND name contains[cd] %@", searchTerm];
