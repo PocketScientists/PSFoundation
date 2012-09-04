@@ -27,10 +27,11 @@
 @property (nonatomic, strong) UITextField *subjectTextField;
 @property (nonatomic, strong) NSArray *addContactButtons;
 @property (nonatomic, strong) NSArray *recipientsForTypes;
-@property (nonatomic,strong) UIPopoverController *recipientPopover;
-@property (nonatomic,strong) RBRecipientPickerViewController *recPicTVC;
-@property (nonatomic,assign) NSUInteger noOfCellPickerActive;
+@property (nonatomic, strong) UIPopoverController *recipientPopover;
+@property (nonatomic, strong) RBRecipientPickerViewController *recPicTVC;
+@property (nonatomic, assign) NSUInteger noOfCellPickerActive;
 @property (nonatomic, strong) NSMutableDictionary * selectedRecipientsAtPosition;
+@property (nonatomic, assign) BOOL rbAccountSignerSelected;
 
 - (void)showPeoplePicker;
 - (void)showNewContactScreen;
@@ -59,6 +60,7 @@
 @synthesize recPicTVC = recPicTVC_;
 @synthesize noOfCellPickerActive = noOfCellPickerActive_;
 @synthesize selectedRecipientsAtPosition=selectedRecipientsAtPosition_;
+@synthesize rbAccountSignerSelected = rbAccountSignerSelected_;
 
 
 
@@ -283,8 +285,6 @@
             tableView.tag = typeIndex;
             // tableView_.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
             tableView.editing = YES;
-            tableView.allowsSelection=YES;
-            
             [self addSubview:tableView];
             [tableViews addObject:tableView];
             typeIndex++;
@@ -320,9 +320,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	RBRecipientTableViewCell *cell = [RBRecipientTableViewCell cellForTableView:tableView style:UITableViewCellStyleDefault];
     cell.delegate = self;
-    tableView.allowsSelection=YES;
-    tableView.editing=NO;
-    cell.userInteractionEnabled=YES;
     cell.image = nil;
     cell.mainText = nil;
     cell.detailText = nil;
@@ -333,7 +330,7 @@
     [cell disableTypeSelection];
         //RBHQ -> fix placeholder to RedBull Inc. if group 0
     if(tableView.tag == 1){
-    NSString *type = [self.recipientTypes objectAtIndex:tableView.tag];
+        NSString *type = [self.recipientTypes objectAtIndex:tableView.tag];
         cell.placeholderText = [[[self tabsForType:type] objectAtIndex:indexPath.row] objectForKey:kRBFormKeyTabLabel];}
     else{
         cell.placeholderText = [NSString stringWithFormat:@"Red Bull Inc. %d",indexPath.row+1];}
@@ -355,6 +352,7 @@
             }
             [cell enableTypeSelection];
             cell.mainText = person.fullName;
+            NSLog(@"In Get Cell: %@ Main text",person.fullName);
             cell.code = [personDict valueForKey:kRBRecipientCode] ? [[personDict valueForKey:kRBRecipientCode] intValue] : 0;
             cell.signerType = [personDict valueForKey:kRBRecipientType] ? [[personDict valueForKey:kRBRecipientType] intValue] : 0;
             cell.idcheck = [personDict valueForKey:kRBRecipientIDCheck] && [[personDict valueForKey:kRBRecipientIDCheck] intValue] > 0 ? YES : NO;
@@ -370,7 +368,6 @@
     }else{
         cell.orderOfSigner=NOSUPERIORGROUP;
     }
-    
     return cell;
 }
 
@@ -407,11 +404,10 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
    //Change RBHQ
-    
-   // RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-   //if (cell.mainText) {
-   //     return YES;
-   // }
+   // only account signer cell is deletable
+    if (rbAccountSignerSelected_ == 1 && tableView.tag==1) {
+        return YES;
+    }
     return NO;
 }
 
@@ -419,6 +415,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [(NSMutableArray *)[self.recipientsForTypes objectAtIndex:tableView.tag] removeObjectAtIndex:indexPath.row];
 
+        rbAccountSignerSelected_=NO;
         [self redrawTableData:tableView];
         ((UIButton *)[self.addContactButtons objectAtIndex:[self.tableViews indexOfObject:tableView]]).enabled = YES;
     }
@@ -467,8 +464,11 @@
         cell.idcheck = NO;
         cell.detailText = nil;
         if(tableView.tag == 1){
-            cell.placeholderText = [[[self tabsForType:type] objectAtIndex:i] objectForKey:kRBFormKeyTabLabel];}
-        else{
+            cell.placeholderText = [[[self tabsForType:type] objectAtIndex:i] objectForKey:kRBFormKeyTabLabel];
+            rbAccountSignerSelected_=NO;
+            [cell setEditing:NO animated:NO];
+            [tableView reloadData];
+        }else{
             cell.placeholderText = [NSString stringWithFormat:@"Red Bull Inc. %d",i+1];
         }
         [cell disableAuth];
@@ -493,11 +493,14 @@
             cell.idcheck = [personDict valueForKey:kRBRecipientIDCheck] && [[personDict valueForKey:kRBRecipientIDCheck] intValue] > 0 ? YES : NO;
             cell.detailText = [person emailForID:[personDict valueForKey:kRBRecipientEmailID]];
             cell.placeholderText = nil;
+            if(tableView.tag == 1) {
+                rbAccountSignerSelected_=YES;
+                [cell setEditing:YES animated:NO];
+                [tableView reloadData];
+                }
             }
         }
     }
-    tableView.editing = NO;
-    tableView.editing = YES;
 }
 
 - (void)cell:(RBRecipientTableViewCell *)cell changedCode:(int)code idCheck:(BOOL)idCheck {
@@ -750,7 +753,6 @@
     [(NSMutableArray *)[self.recipientsForTypes objectAtIndex:0] replaceObjectAtIndex:noOfCellPickerActive_ withObject:personDict];
     
     [self redrawTableData:[self.tableViews objectAtIndex:0]];
-
 }
 
 @end
