@@ -40,7 +40,6 @@
             if(reqInfo){
                 NSDate *last_auth = [reqInfo valueForKey:@"last_auth_date"];
                 rbmusketeer.token = [reqInfo valueForKey:@"Token"];
-                rbmusketeer.email = [reqInfo valueForKey:@"Username"];
                 [rbmusketeer saveEntity];
                 time_intervall = -[last_auth timeIntervalSinceNow];
                 NSLog(@"Time Intervall since last login: %f Seconds",time_intervall);
@@ -150,6 +149,10 @@
     
     NSData *respData = [request responseData];
     NSLog(@"Response Data Length: %d",[respData length]);
+    
+    NSString * respStr = [[NSString alloc]  initWithData:respData
+                                                 encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",respStr);
     
     //Parse XML File and get User data
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData

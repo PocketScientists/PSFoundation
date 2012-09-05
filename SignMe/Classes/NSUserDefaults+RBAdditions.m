@@ -22,12 +22,12 @@
         NSString *val = nil;
         
         if (standardUserDefaults) 
-            val = [standardUserDefaults objectForKey:kRBSettingsBoxFolderIDKey];
+            val = [standardUserDefaults objectForKey:kRBSettingsDocuSignUserNameKey];
         
         // TODO: / apparent Apple bug: if user hasn't opened Settings for this app yet (as if?!), then
         // the defaults haven't been copied in yet.  So do so here.  Adds another null check
         // for every retrieve, but should only trip the first time
-        if (val == nil) { 
+        if (val == nil) {
             NSLog(@"user defaults may not have been loaded from Settings.bundle ... doing that now ...");
             //Get the bundle path
             NSString *bPath = [[NSBundle mainBundle] bundlePath];
