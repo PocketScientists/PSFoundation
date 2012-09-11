@@ -153,8 +153,6 @@
     NSLog(@"Token: %@",rbmusk.token);
  
     [self.homeViewController updateDataViaWebservice];
-    
-    
 }
 
 

@@ -352,7 +352,6 @@
             }
             [cell enableTypeSelection];
             cell.mainText = person.fullName;
-            NSLog(@"In Get Cell: %@ Main text",person.fullName);
             cell.code = [personDict valueForKey:kRBRecipientCode] ? [[personDict valueForKey:kRBRecipientCode] intValue] : 0;
             cell.signerType = [personDict valueForKey:kRBRecipientType] ? [[personDict valueForKey:kRBRecipientType] intValue] : 0;
             cell.idcheck = [personDict valueForKey:kRBRecipientIDCheck] && [[personDict valueForKey:kRBRecipientIDCheck] intValue] > 0 ? YES : NO;
@@ -385,10 +384,10 @@
     self.recPicTVC.delegate=self;
         
     NSArray *selectedEmails =[selectedRecipientsAtPosition_ allValues];
-    NSArray * recipients = [RBRecipient findByAttribute:@"superiorGroup" withValue:[NSNumber numberWithInt:orderType]];
+    NSArray * recipients = [RBAvailableRecipients findByAttribute:@"superiorGroup" withValue:[NSNumber numberWithInt:orderType]];
     NSMutableArray *recNames = [[NSMutableArray alloc] initWithArray:recipients];
     //Remove Recipients which are already selected
-    for(RBRecipient *recip in recipients) {
+    for(RBAvailableRecipients *recip in recipients) {
         if([selectedEmails containsObject:recip.email]) {
             [recNames removeObject:recip];
         }
@@ -405,7 +404,8 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
    //Change RBHQ
    // only account signer cell is deletable
-    if (rbAccountSignerSelected_ == 1 && tableView.tag==1) {
+    RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    if ((rbAccountSignerSelected_ == 1 || cell.detailText.length > 0) && tableView.tag==1) {
         return YES;
     }
     return NO;
@@ -690,13 +690,7 @@
 }
 
 #pragma mark - Recipients Picker Delegate
-- (void)didSelectRecipient:(RBRecipient *)recip{
-  /*  RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *) [tableViews_.firstObject cellForRowAtIndexPath: [NSIndexPath indexPathForRow:self.noOfCellPickerActive inSection:0]];
-    NSLog(@"Current maintext: %@",cell.mainText);
-    cell.mainText = [NSString stringWithFormat:@"%@ %@",recip.firstname, recip.lastname ];
-    cell.detailText = recip.email;
-    cell.placeholderText = @"";
-    [tableViews_.firstObject setNeedsDisplay];*/
+- (void)didSelectRecipient:(RBAvailableRecipients *)recip{
     [self.recipientPopover dismissPopoverAnimated:YES];
     
     [selectedRecipientsAtPosition_ setObject:recip.email forKey:[NSNumber numberWithInt:noOfCellPickerActive_]];

@@ -131,6 +131,7 @@
 @synthesize detailCarousel = detailCarousel_;
 @synthesize emptyForms = emptyForms_;
 @synthesize searchField = searchField_;
+@synthesize actualizeBtn;
 @synthesize detailCarouselSelectedIndex = detailCarouselSelectedIndex_;
 @synthesize clientsCarouselSelectedIndex = clientsCarouselSelectedIndex_;
 @synthesize formsCarouselChangeWasInitiatedByTap = formsCarouselChangeWasInitiatedByTap_;
@@ -276,6 +277,7 @@
 }
 
 - (void) viewDidUnload {
+    [self setActualizeBtn:nil];
     [super viewDidUnload];
     
     self.timeView = nil;
@@ -1387,6 +1389,7 @@
     [formreq setDidFinishSelector:@selector(formRequestFinished:)];
     
     firstRequestFinished=NO;
+    oneRequestFailed=NO;
     [formreq startAsynchronous];
     [outletreq startAsynchronous];
     
@@ -1459,9 +1462,13 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     emptyForms_ = [RBForm allEmptyForms];
     
-    
+    //if request for Outlets already finished
     if(firstRequestFinished){
         [self updateUI];
+        NSDate *currentDate = [NSDate date];
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc]init];
+        [dateFormat setDateFormat:@"yyyy-MM-dd / HH:mm"];
+        [self.actualizeBtn setTitle:[NSString stringWithFormat:@"Zuletzt aktualisiert - %@",[dateFormat stringFromDate:currentDate]] forState:UIControlStateNormal];
         [self.ressourceLoadingHttpRequests addOperationWithBlock:^{
             [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:0.3f];
         }];
@@ -1537,8 +1544,14 @@
     }
     
     [[NSManagedObjectContext defaultContext] save];
+    
+    //if request for Forms already finished
     if(firstRequestFinished){
         [self updateUI];
+        NSDate *currentDate = [NSDate date];
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"yyyy-MM-dd / HH:mm"];
+        [self.actualizeBtn setTitle:[NSString stringWithFormat:@"Zuletzt aktualisiert - %@",[dateFormat stringFromDate:currentDate]] forState:UIControlStateNormal];
         [self.ressourceLoadingHttpRequests addOperationWithBlock:^{
             [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:0.3f];
         }];
@@ -1551,9 +1564,12 @@
 
 -(void)requestFailed:(ASIHTTPRequest *)request
 {
+
     NSLog(@"req failed - code %d",[request responseStatusCode]);
-    [self performSelector:@selector(showErrorMessage:) withObject:@"Update Error" afterDelay:0.5f];
-    //TODO Add adequate error handling
+    //Display Error msg only once
+    if(!oneRequestFailed){
+        [self performSelector:@selector(showErrorMessage:) withObject:@"Update Error" afterDelay:0.5f];}
+    oneRequestFailed=YES;
 }
 
 

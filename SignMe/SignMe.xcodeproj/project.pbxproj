@@ -15,6 +15,7 @@
 		064DE1DA15E2DF6B00177D1E /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 064DE1D915E2DF6B00177D1E /* KeychainWrapper.m */; };
 		065493CA15E5096E00936ECB /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 065493C915E5096E00936ECB /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		06599BB615E27278006B6988 /* RBUserAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 06599BB515E27278006B6988 /* RBUserAuthentication.m */; };
+		065CE85215FF7E4D00D4A94E /* RBAvailableRecipients.m in Sources */ = {isa = PBXBuildFile; fileRef = 065CE85115FF7E4D00D4A94E /* RBAvailableRecipients.m */; };
 		0666251A15EF4A0800721CBB /* RBRecipientPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0666251915EF4A0800721CBB /* RBRecipientPickerViewController.m */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
@@ -327,12 +328,14 @@
 		065493C915E5096E00936ECB /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLNode.m; sourceTree = "<group>"; };
 		06599BB415E27278006B6988 /* RBUserAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBUserAuthentication.h; sourceTree = "<group>"; };
 		06599BB515E27278006B6988 /* RBUserAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBUserAuthentication.m; sourceTree = "<group>"; };
+		065CE85015FF7E4D00D4A94E /* RBAvailableRecipients.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAvailableRecipients.h; sourceTree = "<group>"; };
+		065CE85115FF7E4D00D4A94E /* RBAvailableRecipients.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBAvailableRecipients.m; sourceTree = "<group>"; };
 		0666251815EF4A0800721CBB /* RBRecipientPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBRecipientPickerViewController.h; sourceTree = "<group>"; };
 		0666251915EF4A0800721CBB /* RBRecipientPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBRecipientPickerViewController.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* Sign Me.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sign Me.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* SignMe_Int.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SignMe_Int.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AAE50D9B0CCF005BE974 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
@@ -692,7 +695,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* Sign Me.app */,
+				1D6058910D05DD3D006BFB54 /* SignMe_Int.app */,
 				3981E11E13DF3A4F00B23A7D /* PlistCreator */,
 			);
 			name = Products;
@@ -1067,6 +1070,8 @@
 				39AA379413EB781700338A3E /* RBDocument.m */,
 				39F06FB913E9C1E1008DAB60 /* RBRecipient.h */,
 				39F06FBA13E9C1E1008DAB60 /* RBRecipient.m */,
+				065CE85015FF7E4D00D4A94E /* RBAvailableRecipients.h */,
+				065CE85115FF7E4D00D4A94E /* RBAvailableRecipients.m */,
 				39F06FA713E99B2C008DAB60 /* RBClient.h */,
 				39F06FA813E99B2C008DAB60 /* RBClient.m */,
 				3900892013D77F790093E0B0 /* RBForm.h */,
@@ -1302,7 +1307,7 @@
 			);
 			name = SignMe;
 			productName = PSAppTemplate;
-			productReference = 1D6058910D05DD3D006BFB54 /* Sign Me.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* SignMe_Int.app */;
 			productType = "com.apple.product-type.application";
 		};
 		3981E11D13DF3A4F00B23A7D /* PlistCreator */ = {
@@ -1626,6 +1631,7 @@
 				060A17FA15E77A530086A377 /* NSStream+SKPSMTPExtensions.m in Sources */,
 				060A17FB15E77A530086A377 /* SKPSMTPMessage.m in Sources */,
 				0666251A15EF4A0800721CBB /* RBRecipientPickerViewController.m in Sources */,
+				065CE85215FF7E4D00D4A94E /* RBAvailableRecipients.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1707,7 +1713,7 @@
 				);
 				INFOPLIST_FILE = "Build-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				PRODUCT_NAME = "Sign Me";
+				PRODUCT_NAME = SignMe_Int;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -1738,7 +1744,7 @@
 				);
 				INFOPLIST_FILE = "Build-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				PRODUCT_NAME = "Sign Me";
+				PRODUCT_NAME = SignMe_Int;
 				PROVISIONING_PROFILE = "320F1C47-34D0-4DA2-8AA0-477F56E92272";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "320F1C47-34D0-4DA2-8AA0-477F56E92272";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1840,8 +1846,8 @@
 			baseConfigurationReference = 7876F550130D856A00A79E01 /* distribution.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Red Bull North America Inc.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Red Bull North America Inc.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: NOUSguide Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: NOUSguide Inc.";
 				FRAMEWORK_SEARCH_PATHS = ../.;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1871,8 +1877,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-all_load";
-				PROVISIONING_PROFILE = "E598F6C5-AEB9-4A0D-AC82-0AF15CD81CF5";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E598F6C5-AEB9-4A0D-AC82-0AF15CD81CF5";
+				PROVISIONING_PROFILE = "320F1C47-34D0-4DA2-8AA0-477F56E92272";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "320F1C47-34D0-4DA2-8AA0-477F56E92272";
 				SDKROOT = iphoneos;
 			};
 			name = Distribution;

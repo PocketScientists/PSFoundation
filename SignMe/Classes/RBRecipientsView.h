@@ -11,6 +11,7 @@
 #import "RBRecipientTableViewCell.h"
 #import "RBRecipientPickerViewController.h"
 #import "RBRecipient.h"
+#import "RBAvailableRecipients.h"
 
 #define kRBRecipientsViewTag    540492
 

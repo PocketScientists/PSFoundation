@@ -60,7 +60,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    RBRecipient *recip = [self.recipientnames objectAtIndex:indexPath.row];
+    RBAvailableRecipients *recip = [self.recipientnames objectAtIndex:indexPath.row];
     NSString *name = [NSString stringWithFormat:@"%@ %@",recip.firstname,recip.lastname];
     
     cell.textLabel.text=name;

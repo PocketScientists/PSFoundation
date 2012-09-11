@@ -173,15 +173,15 @@
         //Superior groups parsing
         for(int superiorgroup=1;superiorgroup<=2;superiorgroup++){
             //Delete old Recipients
-            NSArray *oldrecipients = [RBRecipient findByAttribute:@"superiorGroup" withValue:[NSNumber numberWithInt:superiorgroup]];
-            for(RBRecipient *oneoldrecipient in oldrecipients){
+            NSArray *oldrecipients = [RBAvailableRecipients findByAttribute:@"superiorGroup" withValue:[NSNumber numberWithInt:superiorgroup]];
+            for(RBAvailableRecipients *oneoldrecipient in oldrecipients){
                 [oneoldrecipient deleteEntity];
             }
             [[NSManagedObjectContext defaultContext] save];
             NSString * xpath = [NSString stringWithFormat:@"//user/superior_items/superior_group_%d/person",superiorgroup];
             NSArray *result = [doc nodesForXPath:xpath error:nil];
             for(GDataXMLElement *elem in result){
-                RBRecipient * recip = [RBRecipient createEntity];
+                RBAvailableRecipients * recip = [RBAvailableRecipients createEntity];
                 recip.superiorGroup=[NSNumber numberWithInt:superiorgroup];
                 for(NSString * elemname in XARRAY(@"firstname",@"lastname",@"email")){
                     NSString *elementcontent = ((GDataXMLElement*)[[elem elementsForName:elemname] firstObject]).stringValue;

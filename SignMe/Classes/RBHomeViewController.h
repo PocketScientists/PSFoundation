@@ -18,6 +18,7 @@
 {
     BOOL isMovedUp;
     BOOL firstRequestFinished;
+    BOOL oneRequestFailed;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *formsView;
@@ -27,6 +28,7 @@
 @property (nonatomic, strong) IBOutlet iCarousel *clientsCarousel;
 
 @property (nonatomic, strong) IBOutlet UITextField *searchField;
+@property (nonatomic, strong) IBOutlet UIButton *actualizeBtn;
 
 
 - (IBAction)textFieldDidEndEditing:(UITextField *)textField;
@@ -42,6 +44,6 @@
 
 -(void)updateClientWithCustomURLCallString:(NSString *)urlstring;
 
--(void)updateDataViaWebservice;
+-(IBAction)updateDataViaWebservice;
 
 @end

@@ -16,7 +16,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string></string>
+			<string>prometheusinc@gmail.com</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
@@ -34,7 +34,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string></string>
+			<string>asdf1234</string>
 			<key>IsSecure</key>
 			<true/>
 			<key>Key</key>
@@ -64,7 +64,7 @@
 			<key>KeyboardType</key>
 			<string>Alphabet</string>
 			<key>DefaultValue</key>
-			<string>Unknown</string>
+			<string>Max</string>
 			<key>Title</key>
 			<string>Firstname</string>
 			<key>Key</key>
@@ -78,7 +78,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>Musketeer</string>
+			<string>Mustermann</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>
@@ -96,7 +96,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>Musketeer</string>
+			<string>INT MIB Administrator</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>
@@ -114,7 +114,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string></string>
+			<string>mail@musketeer.com</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>
