@@ -316,6 +316,9 @@
             if ([self.text length] == 0 && [self.inputView isKindOfClass:[UIPickerView class]] && [self.items count] > 0) {
                 self.text = [self.items objectAtIndex:0];
             }
+            if([self.text length] == 0 && [self.inputView isKindOfClass:[UIDatePicker class]]){
+                self.text = [[self formatterForSubtype] stringFromDate:[NSDate date]];
+            }
         }
         return resp;
     }
@@ -345,6 +348,7 @@
     [datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
     NSDate *date = [[self formatterForSubtype] dateFromString:self.text];
     if (date) datePicker.date = date;
+    
     if ([self.subtype isEqualToString:@"date"]) {
         datePicker.datePickerMode = UIDatePickerModeDate;
     }
@@ -354,7 +358,6 @@
     else if ([self.subtype isEqualToString:@"time"]) {
         datePicker.datePickerMode = UIDatePickerModeTime;
     }
-
     [popoverView addSubview:toolbar];
     [popoverView addSubview:datePicker];        
     popoverContent.view = popoverView;
@@ -441,7 +444,6 @@
 
 - (void)dateChanged:(id)sender {
     UIDatePicker *datePicker = (UIDatePicker *)sender;
-    
     self.text = [[self formatterForSubtype] stringFromDate:datePicker.date];
 }
 
