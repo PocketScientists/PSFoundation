@@ -253,8 +253,8 @@ static DocuSignService *docuSign = nil;
                             // if status has changed to completed, delete old files from box.net folder pre-signature
                             if (previousStatus != DSAPIService_EnvelopeStatusCode_Completed) {
                                 DDLogInfo(@"Will delete old files from Pre-Signature folder for document %@", document.fileURL);
-                                [RBBoxService deleteDocument:document 
-                                            fromFolderAtPath:RBPathToPreSignatureFolderForClientWithName(document.client.name)];
+                            //    [RBBoxService deleteDocument:document
+                            //                fromFolderAtPath:RBPathToPreSignatureFolderForClientWithName(document.client.name)];
                             }
                         }
                         
