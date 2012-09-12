@@ -336,6 +336,11 @@
 - (void)updateUI {
     self.emptyForms = [RBForm allEmptyForms];
     
+    //Update reload button-text
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd / HH:mm"];
+    [self.actualizeBtn setTitle:[NSString stringWithFormat:@"Updated - %@",[dateFormat stringFromDate:[NSUserDefaults standardUserDefaults].webserviceUpdateDate]] forState:UIControlStateNormal];
+    
     if ([self isViewLoaded]) {
         [self.formsCarousel reloadData];
         [self.clientsCarousel reloadData];
@@ -1005,6 +1010,8 @@
     }];
 }
 
+
+
 - (BOOL)isSearchScreenVisible {
     return self.formsView.userInteractionEnabled == NO;
 }
@@ -1490,11 +1497,8 @@
     
     //if request for Outlets already finished
     if(firstRequestFinished){
+        [NSUserDefaults standardUserDefaults].webserviceUpdateDate = [NSDate date];
         [self updateUI];
-        NSDate *currentDate = [NSDate date];
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc]init];
-        [dateFormat setDateFormat:@"yyyy-MM-dd / HH:mm"];
-        [self.actualizeBtn setTitle:[NSString stringWithFormat:@"Zuletzt aktualisiert - %@",[dateFormat stringFromDate:currentDate]] forState:UIControlStateNormal];
         [self.ressourceLoadingHttpRequests addOperationWithBlock:^{
             [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:0.3f];
         }];
@@ -1573,11 +1577,8 @@
     
     //if request for Forms already finished
     if(firstRequestFinished){
+        [NSUserDefaults standardUserDefaults].webserviceUpdateDate = [NSDate date];
         [self updateUI];
-        NSDate *currentDate = [NSDate date];
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"yyyy-MM-dd / HH:mm"];
-        [self.actualizeBtn setTitle:[NSString stringWithFormat:@"Zuletzt aktualisiert - %@",[dateFormat stringFromDate:currentDate]] forState:UIControlStateNormal];
         [self.ressourceLoadingHttpRequests addOperationWithBlock:^{
             [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:0.3f];
         }];

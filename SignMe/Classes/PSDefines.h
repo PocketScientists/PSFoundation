@@ -113,6 +113,7 @@
 #define kRBSettingsBoxUsernameKey           @"kRBSettingsBoxUsernameKey"
 #define kRBSettingsBoxPasswordKey           @"kRBSettingsBoxPasswordKey"
 #define kRBSettingsFormsUpdateDateKey       @"kRBSettingsFormsUpdateDateKey"
+#define kRBSettingsWebserviceUpdateDateKey  @"kRBSettingsWebserviceUpdateKey"
 #define kRBSettingsDocuSignUserNameKey      @"kRBSettingsDocuSignUserNameKey"
 #define kRBSettingsDocuSignPasswordKey      @"kRBSettingsDocuSignPasswordKey"
 #define kRBSettingsDocuSignUpdateDateKey    @"kRBSettingsDocuSignUpdateDateKey"

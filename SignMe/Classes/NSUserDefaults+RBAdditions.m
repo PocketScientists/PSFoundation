@@ -75,6 +75,15 @@
     [self synchronize];
 }
 
+- (void)setWebserviceUpdateDate:(NSDate *)webserviceUpdateDate {
+    [self setObject:webserviceUpdateDate forKey:kRBSettingsWebserviceUpdateDateKey];
+    [self synchronize];
+}
+
+- (NSDate *)webserviceUpdateDate {
+    return [self objectForKey:kRBSettingsWebserviceUpdateDateKey];
+}
+
 - (BOOL)shouldLogOutOfBox {
     return [self boolForKey:kRBSettingsBoxLogoutKey];
 }
@@ -196,7 +205,6 @@
 ////////////////////////////////////////////////////////////////////////
 -(void)setFormName:(NSString *)formname forObjectWithNameIncludingExtension:(NSString *)name {
     [self setObject:formname forKey:name];
-    NSLog(@"KEY: %@ OJBECT %@",name,formname);
     [self synchronize];
 }
 

@@ -13,6 +13,7 @@
 @property (nonatomic, assign) NSInteger folderID;
 @property (nonatomic, assign) BOOL shouldLogOutOfBox;
 @property (nonatomic, retain) NSDate *formsUpdateDate;
+@property (nonatomic, retain) NSDate *webserviceUpdateDate;
 @property (nonatomic, retain) NSString *docuSignUserName;
 @property (nonatomic, retain) NSString *docuSignPassword;
 @property (nonatomic, retain) NSDate *docuSignUpdateDate;
