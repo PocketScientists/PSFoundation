@@ -34,10 +34,12 @@
 - (IBAction)textFieldDidEndEditing:(UITextField *)textField;
 - (IBAction)textFieldDidChangeValue:(UITextField *)textField;
 - (IBAction)textFieldDidEndOnExit:(UITextField *)textField;
+- (IBAction)textFieldDidBeginEditing:(UITextField *)textField;
 
 - (IBAction)handleAddNewClientPress:(id)sender;
 - (IBAction)handleBackgroundPress:(id)sender;
 - (IBAction)handleMusketeerPress:(id)sender;
+-(IBAction)clearSearchPressed;
 
 - (void)updateUI;
 - (void)syncBoxNet:(BOOL)forced;

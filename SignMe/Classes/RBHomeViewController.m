@@ -218,7 +218,6 @@
     [super viewDidLoad];
 
     emptyForms_ = [RBForm allEmptyForms];
-    NSLog(@"Empty forms %d",[emptyForms_ count]);
     
     self.formsViewDefaultY = self.formsView.frameTop;
     self.clientsViewDefaultY = self.clientsView.frameTop;
@@ -715,6 +714,17 @@
     [self updateDocumentsWithSearchTerm:textField.text];
 }
 
+- (IBAction)textFieldDidBeginEditing:(UITextField *)textField{
+    UIButton * cancelSearchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+
+    UIImage *btnimg = [UIImage imageNamed:@"11-x.png"];
+    
+    [cancelSearchBtn setFrame:searchField_.rightView.frame];
+    [cancelSearchBtn setImage:btnimg forState:UIControlStateNormal];
+    [cancelSearchBtn addTarget:self action:@selector(clearSearchPressed) forControlEvents:UIControlEventTouchUpInside];
+    searchField_.rightView =cancelSearchBtn;//[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"AddButton"]];
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if (self.clientCarouselShowsAddItem) {
         // show all clients again
@@ -722,8 +732,13 @@
         [self updateClientsWithSearchTerm:textField.text];
         [self updateDocumentsWithSearchTerm:textField.text];
     }
+    self.searchField.rightView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SearchFieldRightView"]];
     
     [textField resignFirstResponder];
+}
+
+-(IBAction)clearSearchPressed{
+    searchField_.text=@"";
 }
 
 - (IBAction)textFieldDidEndOnExit:(UITextField *)textField {
@@ -1179,7 +1194,7 @@
     }
     else {
         //Display error
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"MIB App not found" message:@"The MIB App is not installed. It must be installed to send the request." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"M.I.B. App not found" message:@"The M.I.B. App is not installed. It must be installed to send the request." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     }    
 }
