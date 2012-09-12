@@ -637,7 +637,18 @@
                 && [document.lastDocuSignStatus intValue] != DSAPIService_EnvelopeStatusCode_Deleted
                 && [document.lastDocuSignStatus intValue] != DSAPIService_EnvelopeStatusCode_Declined
                 && [document.lastDocuSignStatus intValue] != DSAPIService_EnvelopeStatusCode_TimedOut) {
+                //Add sort by order
+                //First create temp array with slots
+                NSMutableArray *recipients = [NSMutableArray array];
+                for(int i = 0;i< [document.recipients allObjects].count;i++){
+                    [recipients addObject: [NSNull null]];
+                }
+                //now insert recipients in the right slots
                 for (RBRecipient *recipient in document.recipients) {
+                    [recipients replaceObjectAtIndex:[recipient.order integerValue]-1 withObject:recipient];
+                }
+                //finally add the buttons for the on device signers
+                for (RBRecipient *recipient in recipients) {
                     if ([recipient.type intValue] == kRBRecipientTypeInPerson) {
                         NSDictionary *person = [recipient dictionaryRepresentation];
                         [actionSheet addButtonWithTitle:[NSString stringWithFormat:@"Sign by %@", [person objectForKey:@"name"]] block:^(void) {
