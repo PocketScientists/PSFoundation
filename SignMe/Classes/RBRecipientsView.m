@@ -357,6 +357,7 @@
             cell.idcheck = [personDict valueForKey:kRBRecipientIDCheck] && [[personDict valueForKey:kRBRecipientIDCheck] intValue] > 0 ? YES : NO;
             cell.detailText = [person emailForID:[personDict valueForKey:kRBRecipientEmailID]];
             cell.placeholderText = nil;
+            [selectedRecipientsAtPosition_ setObject:cell.detailText forKey:[NSNumber numberWithInt:indexPath.row]];
         }
     }
     
