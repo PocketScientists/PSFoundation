@@ -13,8 +13,7 @@
  kSecClass = kSecClassGenericPassword ++
  kSecAttrGeneric = "Authentication" ++
  kSecValueData = ''token'' 
- kSecAttrAccount = ''username'' 
- kSecAttrComment = die user.xml mit last_auth_date als node
+ kSecAttrAccount = ''username''
  kSecAttrDescribtion = last_auth_date
  */
 
@@ -85,10 +84,10 @@
         if(ergstr){
             [returnDictionary setObject:ergstr forKey:@"Username"];}
         
-        resdata = [result valueForKey:(__bridge id)kSecAttrComment];
+        /*resdata = [result valueForKey:(__bridge id)kSecAttrComment];
         ergstr =[[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding];
         if(ergstr){
-            [returnDictionary setObject:[[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding] forKey:@"UserXML"];}
+            [returnDictionary setObject:[[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding] forKey:@"UserXML"];}*/
         
         resdata = [result valueForKey:(__bridge id)kSecAttrDescription];
         NSString *auth_date = [[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding];
@@ -107,13 +106,13 @@
 }
 
 
-+ (BOOL)createKeychainValueWithUser:(NSString *)username Token:(NSString *)tokenID andXMLString:(NSString *)xmlStr;
++ (BOOL)createKeychainValueWithUser:(NSString *)username Token:(NSString *)tokenID
 {
     NSMutableDictionary *dictionary = [self setupSearchDirectory];
     
     [dictionary setObject:[username dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccount];
     [dictionary setObject:[tokenID dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecValueData];
-    [dictionary setObject:[xmlStr dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrComment];
+   // [dictionary setObject:[xmlStr dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrComment];
     
     //Create Timestamp
     NSString * time_stamp = [self createTimeStamp];
@@ -125,14 +124,14 @@
     if(status == errSecSuccess){
         return YES;
     }else if (status == errSecDuplicateItem){
-        return [self updateKeychainValueWithUser:username Token:tokenID andXMLString:xmlStr];;
+        return [self updateKeychainValueWithUser:username Token:tokenID ];
     }else{
         return NO;
         
     }
 }
 
-+ (BOOL)updateKeychainValueWithUser:(NSString *)username Token:(NSString *)tokenID andXMLString:(NSString *)xmlStr;
++ (BOOL)updateKeychainValueWithUser:(NSString *)username Token:(NSString *)tokenID
 {
     NSMutableDictionary *searchdictionary = [self setupSearchDirectory];
     NSMutableDictionary *updateDictionary = [[NSMutableDictionary alloc] init];
@@ -140,7 +139,7 @@
     [searchdictionary setObject:[username dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccount];
     [updateDictionary setObject:[username dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccount];
     [updateDictionary setObject:[tokenID dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecValueData];
-    [updateDictionary setObject:[xmlStr dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrComment];
+   // [updateDictionary setObject:[xmlStr dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrComment];
     
     //Create Timestamp
     NSString * time_stamp = [self createTimeStamp];

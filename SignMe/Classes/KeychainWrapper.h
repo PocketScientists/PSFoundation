@@ -20,10 +20,10 @@
 + (NSDictionary *)getKeychainDictionaryForUser:(NSString *) user;
 
 //Default initializer to store value in keychain - If Keychain Entries already exists - Update is called automatically
-+ (BOOL)createKeychainValueWithUser:(NSString *)username Token:(NSString *)tokenID andXMLString:(NSString *)xmlStr;
++ (BOOL)createKeychainValueWithUser:(NSString *)username Token:(NSString *)tokenID;
 
 //Update a value in the keychain - is called automatically from createKeychainValue... if entry already exists.
-+ (BOOL)updateKeychainValueWithUser:(NSString *)username Token:(NSString *)tokenID andXMLString:(NSString *)xmlStr;
++ (BOOL)updateKeychainValueWithUser:(NSString *)username Token:(NSString *)tokenID;
 
 
 @end

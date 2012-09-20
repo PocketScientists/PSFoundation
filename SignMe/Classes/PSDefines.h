@@ -31,10 +31,10 @@
 
 #define kReachabilityHostURL    @"www.box.net"
 
-#define kReachabilityUserXML @"https://wss21-s.wiiings.com/saleshq_mibsync/api/1/session.xml"
-#define kReachabilityOutletsXML @"https://stage-rbmib.v2a.net/api/2/sign_me/outlets.xml"
-//#define kReachabilityOutletsXML @"https://stage-rbmib.v2a.net/api/1/outlets/list.xml"
-#define kReachabilityFormsXML @"https://stage-rbmib.v2a.net/api/2/sign_me/templates.xml"
+#define kReachabilitySessionXML @"https://wss21-s.wiiings.com/saleshq_mibsync/api/sign_me/session.xml"
+#define kReachabilityUserXML @"https://stage-rbmib.v2a.net/api/1/sign_me/user.xml"
+#define kReachabilityOutletsXML @"https://stage-rbmib.v2a.net/api/1/sign_me/outlets.xml"
+#define kReachabilityFormsXML @"https://stage-rbmib.v2a.net/api/1/sign_me/templates.xml"
 #define kApplicationURL [[RBMusketeer loadEntity] application_url]
 
 ////////////////////////////////////////////////////////////////////////
@@ -43,7 +43,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 
-#define kRBMIBURLPath @"mib.bundle.identifier"
+#define kRBMIBURLPath @"rb-mib"
 #define kRBMIBCallType @"mibcalltype"
 #define kRBMIBCallClientID @"mibcallclientid"
 #define kRBMIBCallTypeAdd 1
@@ -87,7 +87,7 @@
 #define kRBRecipientTypeInPerson    1
 
 #define kRBDocuSignUpdateTimeInterval MTTimeIntervalMinutes(15)
-#define kRBAuthorizationTimeInterval MTTimeIntervalHours(12) 
+#define kRBAuthorizationTimeInterval 40//MTTimeIntervalHours(12) 
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

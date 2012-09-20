@@ -20,7 +20,8 @@
 - (void)displayErrorAlert:(NSUInteger)alertID;
 - (void)getUserCredentialsForName:(NSString *)username AndPwd:(NSString *)pwd;
 - (void)requestFailed:(ASIHTTPRequest *)request;
--(void)requestFinished:(ASIHTTPRequest *)request;
+- (void)userDataRequestFinished:(ASIHTTPRequest *)request;
+- (void)loginRequestFinished:(ASIHTTPRequest *)request;
 
 @end
 
@@ -131,11 +132,12 @@
 }
 
 -(void)getUserCredentialsForName:(NSString *)usr AndPwd:(NSString *)pwd{
-    NSURL *url = [NSURL URLWithString:kReachabilityUserXML];
+    NSURL *url = [NSURL URLWithString:kReachabilitySessionXML];
     ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
     [req setUseCookiePersistence:NO];
     [req setUseKeychainPersistence:NO];
     [req setUseSessionPersistence:NO];
+    [req setDidFinishSelector:@selector(loginRequestFinished:)];
     req.username = usr;
     req.password = pwd;
     req.delegate = self;
@@ -143,7 +145,50 @@
     [req startAsynchronous];
 }
 
--(void)requestFinished:(ASIHTTPRequest *)request{
+-(void)loginRequestFinished:(ASIHTTPRequest *)request{
+    NSString * respStr = [[NSString alloc]  initWithData:request.responseData
+                                                encoding:NSUTF8StringEncoding];
+    NSArray *substrings = [respStr componentsSeparatedByString:@"\n"];
+    NSString * token,*user;
+    if(substrings.count == 2){
+        user = [substrings objectAtIndex:0];
+        token = [substrings objectAtIndex:1];
+    }else{
+      [self displayErrorAlert:kNoConnectionAlert];  
+    }
+    user = [user substringAfterSubstring:@"user:"];
+    token =[token substringAfterSubstring:@"token:"];
+    user = [user stringByTrimmingCharactersInSet:
+     [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    token = [token stringByTrimmingCharactersInSet:
+            [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    RBMusketeer * rbmusketeer = [RBMusketeer loadEntity];
+    rbmusketeer.uid = user;
+    rbmusketeer.token=token;
+    [rbmusketeer saveEntity];
+    
+    [KeychainWrapper createKeychainValueWithUser:rbmusketeer.uid Token:rbmusketeer.token];
+    
+    if ([delegate_ respondsToSelector:@selector(setTimerTo:)]) {
+        [delegate_ setTimerTo:kRBAuthorizationTimeInterval];
+    }
+    
+    
+    NSURL *url = [NSURL URLWithString:kReachabilityUserXML];
+    ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
+    [req setUseCookiePersistence:NO];
+    [req setUseKeychainPersistence:NO];
+    [req setUseSessionPersistence:NO];
+    req.username = user;
+    req.password = token;
+    req.delegate = self;
+    [req setDidFinishSelector:@selector(userDataRequestFinished:)];
+    NSLog(@"Start next request for %@",[url absoluteString]);
+    [req startAsynchronous];
+}
+
+-(void)userDataRequestFinished:(ASIHTTPRequest *)request{
     RBMusketeer * rbmusketeer = [RBMusketeer loadEntity];
     NSLog(@"request finished with code %d",[request responseStatusCode]);
     
@@ -152,7 +197,7 @@
     
     NSString * respStr = [[NSString alloc]  initWithData:respData
                                                  encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",respStr);
+    NSLog(@"Response: %@",respStr);
     
     //Parse XML File and get User data
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData
@@ -202,12 +247,6 @@
                                             encoding:NSUTF8StringEncoding];
     
     NSLog(@"%@",respString);
-    
-    [KeychainWrapper createKeychainValueWithUser:rbmusketeer.uid Token:rbmusketeer.token andXMLString:respString];
-    
-    if ([delegate_ respondsToSelector:@selector(setTimerTo:)]) {
-        [delegate_ setTimerTo:kRBAuthorizationTimeInterval];
-    }
     
     if ([delegate_ respondsToSelector:@selector(userAuthenticated)]) {
         [delegate_ userAuthenticated];

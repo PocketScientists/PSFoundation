@@ -32,6 +32,8 @@
 #define kDetailViewHeight       170.f
 #define kDetailYOffset           95.f
 
+#define kLogoReq 42
+
 #define kViewpointOffsetX       (self.addNewClientButton.frameWidth/2 + kRBClientsCarouselItemWidth)
 
 
@@ -111,6 +113,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)request;
 - (void)outletRequestFinished:(ASIHTTPRequest *)request;
 - (void)formRequestFinished:(ASIHTTPRequest *)request;
+- (IBAction)mibHomeButtonPressed:(id)sender;
 
 @end
 
@@ -840,6 +843,19 @@
     }
 }
 
+
+- (IBAction)mibHomeButtonPressed:(id)sender {
+    NSURL *urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://",kRBMIBURLPath]];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:urlForRequest]) {
+        [[UIApplication sharedApplication] openURL:urlForRequest];
+    }
+    else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"M.I.B. App not found" message:@"The M.I.B. App is not installed. It must be installed to send the request." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Core Data Persistence
@@ -1196,12 +1212,12 @@
     NSURL *urlForRequest;
     //New client request if nil / else edit existing client
     if(client == nil){
-         urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://outlet?id=0",kRBMIBURLPath]];
+         urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://sign_me/outlets/new",kRBMIBURLPath]];
         [[NSUserDefaults standardUserDefaults] setInteger:kRBMIBCallTypeAdd forKey:kRBMIBCallType];
         [[NSUserDefaults standardUserDefaults] setObject:@"nil" forKey:kRBMIBCallClientID];
   
     }else{
-        urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://outlet?id=%@",kRBMIBURLPath,client.identifier]];
+        urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://sign_me/outlets/%@/edit",kRBMIBURLPath,client.identifier]];
         [[NSUserDefaults standardUserDefaults] setInteger:kRBMIBCallTypeEdit forKey:kRBMIBCallType];
          [[NSUserDefaults standardUserDefaults] setObject:client.identifier forKey:kRBMIBCallClientID];
     }
@@ -1513,9 +1529,9 @@
     RBClient *client=nil;
     NSData *respData = [request responseData];
     //NSLog(@"Oulet Request Finished");
-   // NSString * respStr = [[NSString alloc]  initWithData:respData
-    //                                             encoding:NSUTF8StringEncoding];
-  //  NSLog(@"%@",respStr);
+    NSString * respStr = [[NSString alloc]  initWithData:respData
+                                                encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",respStr);
  
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData
                                                            options:0 error:nil];
@@ -1542,7 +1558,7 @@
             }
 
             client.visible=$B(YES);
-            //Special routine for Logo
+            //Special routine for Logo - add logo request
             elements = [outlet elementsForName:@"logo_url"];
             if (elements.count > 0) {
                  GDataXMLElement *content = (GDataXMLElement *) [elements objectAtIndex:0];
@@ -1551,6 +1567,7 @@
                     ASIHTTPRequest *logoreq = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:client.logo_url ]];
                     [logoreq setDownloadDestinationPath:[NSString stringWithFormat:@"%@/%@.jpg",kRBLogoSavedDirectorypath,client.identifier]];
                     [logoreq setDelegate:self];
+                    logoreq.tag = kLogoReq;
                     [self.ressourceLoadingHttpRequests addOperation:logoreq];
                 }
                  
@@ -1592,14 +1609,15 @@
 -(void)requestFailed:(ASIHTTPRequest *)request
 {
 
-    NSLog(@"req failed - code %d",[request responseStatusCode]);
-    //Display Error msg only once
-    if(!oneRequestFailed){
+    NSLog(@"req failed - code %d %@",[request responseStatusCode],[[request url] absoluteString]);
+    //Display Error msg only once (Display no error message if a request for a logo fails - because they are optional)
+    if(!oneRequestFailed && request.tag != kLogoReq){
         [self performSelector:@selector(showErrorMessage:) withObject:@"Update Error" afterDelay:0.5f];}
     oneRequestFailed=YES;
 }
 
-
+//Email Messaging Part
+/*
 - (void)sendEMailMessageInBackground {
     
     SKPSMTPMessage *testMsg = [[SKPSMTPMessage alloc] init];
@@ -1638,7 +1656,7 @@
     
     //self.textView.text = [NSString stringWithFormat:@"Darn! Error: %@, %@", [error code], [error localizedDescription]];
     NSLog(@"delegate - error(%d): %@", [error code], [error localizedDescription]);
-}
+}*/
 
 
 ////////////////////////////////////////////////////////////////////////
