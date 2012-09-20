@@ -1421,7 +1421,6 @@
 {
     NSURL *outleturl = [NSURL URLWithString:kReachabilityOutletsXML];
     NSURL *formurl = [NSURL URLWithString:kReachabilityFormsXML];
-    
     self.ressourceLoadingHttpRequests = [[NSOperationQueue alloc] init];
     
     ASIHTTPRequest *outletreq = [ASIHTTPRequest requestWithURL:outleturl];

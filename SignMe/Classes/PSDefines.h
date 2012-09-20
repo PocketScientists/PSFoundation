@@ -87,7 +87,7 @@
 #define kRBRecipientTypeInPerson    1
 
 #define kRBDocuSignUpdateTimeInterval MTTimeIntervalMinutes(15)
-#define kRBAuthorizationTimeInterval 40//MTTimeIntervalHours(12) 
+#define kRBAuthorizationTimeInterval  MTTimeIntervalHours(12) 
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

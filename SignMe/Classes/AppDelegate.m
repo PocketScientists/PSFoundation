@@ -151,7 +151,7 @@
     RBMusketeer *rbmusk = [RBMusketeer loadEntity];
     NSLog(@"UserID: %@",rbmusk.uid);
     NSLog(@"Token: %@",rbmusk.token);
- 
+    
     [self.homeViewController updateDataViaWebservice];
 }
 

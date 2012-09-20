@@ -38,20 +38,9 @@
     NSMutableDictionary *searchDictionary = [[NSMutableDictionary alloc] init];
     [searchDictionary setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
     [searchDictionary setObject:[@"Authentication" dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrGeneric];
-    
-#if TARGET_IPHONE_SIMULATOR
-    // Ignore the access group if running on the iPhone simulator.
-    //
-    // Apps that are built for the simulator aren't signed, so there's no keychain access group
-    // for the simulator to check. This means that all apps can see all keychain items when run
-    // on the simulator.
-    //
-    // If a SecItem contains an access group attribute, SecItemAdd and SecItemUpdate on the
-    // simulator will return -25243 (errSecNoAccessForItem).
-#else
   //  [searchDictionary setObject:[@"5HPAW9M6JM.com.us.redbull.MIB2012PreStage || 5HPAW9M6JM.com.us.redbull.MIB2012Stage || 5HPAW9M6JM.com.us.redbull.MIB2012"
-    //                             dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccessGroup];
-#endif
+   //                              dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccessGroup];
+
     
     return searchDictionary;
 }
@@ -83,7 +72,7 @@
         ergstr =[[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding];
         if(ergstr){
             [returnDictionary setObject:ergstr forKey:@"Username"];}
-        
+        NSLog(@"Name%@",ergstr);
         /*resdata = [result valueForKey:(__bridge id)kSecAttrComment];
         ergstr =[[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding];
         if(ergstr){
@@ -96,7 +85,7 @@
         { [returnDictionary setObject:date forKey:@"last_auth_date"]; }
         
         //If all entries are in the dictionary
-        if(returnDictionary.count >= 4){
+        if(returnDictionary.count >= 3){
             return returnDictionary;    }
         else{
                 return nil;

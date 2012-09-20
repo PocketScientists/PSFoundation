@@ -35,6 +35,7 @@
     RBMusketeer * rbmusketeer = [RBMusketeer loadEntity];
     NSTimeInterval  time_intervall = 999999;
     
+    NSLog(@"RBMusketeer: %@",rbmusketeer.uid);
     //1. If Username exist - also Keychain entry exists - check for Timestamp
     if(rbmusketeer.uid){
             NSDictionary *reqInfo =  [KeychainWrapper getKeychainDictionaryForUser:rbmusketeer.uid];
@@ -148,23 +149,39 @@
 -(void)loginRequestFinished:(ASIHTTPRequest *)request{
     NSString * respStr = [[NSString alloc]  initWithData:request.responseData
                                                 encoding:NSUTF8StringEncoding];
-    NSArray *substrings = [respStr componentsSeparatedByString:@"\n"];
-    NSString * token,*user;
-    if(substrings.count == 2){
-        user = [substrings objectAtIndex:0];
-        token = [substrings objectAtIndex:1];
-    }else{
-      [self displayErrorAlert:kNoConnectionAlert];  
+    NSLog(@"%@",respStr);
+    NSString *email = [respStr substringAfterSubstring:@"<email>"];
+    
+    NSString *uid = [respStr substringAfterSubstring:@"<uid>"];
+    
+    NSString *token = [respStr substringAfterSubstring:@"<token>"];
+    
+    if([email hasSubstring:@"</email>"]){
+        email = [email substringToIndex:[email rangeOfString:@"</email>"].location];
     }
-    user = [user substringAfterSubstring:@"user:"];
-    token =[token substringAfterSubstring:@"token:"];
-    user = [user stringByTrimmingCharactersInSet:
-     [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    token = [token stringByTrimmingCharactersInSet:
-            [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    else{
+        email=nil;
+    }
+    
+    if([uid hasSubstring:@"</uid>"]){
+        uid = [uid substringToIndex:[uid rangeOfString:@"</uid>"].location];
+    }
+    else{
+        uid=nil;
+    }
+    
+    if([token hasSubstring:@"</token>"]){
+        token = [token substringToIndex:[token rangeOfString:@"</token>"].location];
+    }
+    else{
+        token=nil;
+    }
+        
+    NSLog(@"Token %@ User %@ email %@",token,uid,email);
     
     RBMusketeer * rbmusketeer = [RBMusketeer loadEntity];
-    rbmusketeer.uid = user;
+    rbmusketeer.uid = uid;
+    rbmusketeer.email = email;
     rbmusketeer.token=token;
     [rbmusketeer saveEntity];
     
@@ -180,8 +197,8 @@
     [req setUseCookiePersistence:NO];
     [req setUseKeychainPersistence:NO];
     [req setUseSessionPersistence:NO];
-    req.username = user;
-    req.password = token;
+    req.username = rbmusketeer.email;
+    req.password = rbmusketeer.token;
     req.delegate = self;
     [req setDidFinishSelector:@selector(userDataRequestFinished:)];
     NSLog(@"Start next request for %@",[url absoluteString]);
@@ -255,6 +272,7 @@
 
 -(void)requestFailed:(ASIHTTPRequest *)request{
     NSUInteger respCode = [request responseStatusCode];
+    NSLog(@"Response Code %d",respCode);
     if(respCode == kResponseCodeFalseUser){
         [self displayErrorAlert:kFalseUserAlert];
     }else{
