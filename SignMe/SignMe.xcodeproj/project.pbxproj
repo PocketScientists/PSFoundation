@@ -12,6 +12,7 @@
 		060A17F915E77A530086A377 /* NSData+Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17F215E77A530086A377 /* NSData+Base64Additions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		060A17FA15E77A530086A377 /* NSStream+SKPSMTPExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17F415E77A530086A377 /* NSStream+SKPSMTPExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		060A17FB15E77A530086A377 /* SKPSMTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17F615E77A530086A377 /* SKPSMTPMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		06316131160AFA0F003E9AEA /* mibhome.png in Resources */ = {isa = PBXBuildFile; fileRef = 06316130160AFA0E003E9AEA /* mibhome.png */; };
 		064DE1DA15E2DF6B00177D1E /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 064DE1D915E2DF6B00177D1E /* KeychainWrapper.m */; };
 		065493CA15E5096E00936ECB /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 065493C915E5096E00936ECB /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		06599BB615E27278006B6988 /* RBUserAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 06599BB515E27278006B6988 /* RBUserAuthentication.m */; };
@@ -321,6 +322,7 @@
 		060A17F415E77A530086A377 /* NSStream+SKPSMTPExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSStream+SKPSMTPExtensions.m"; path = "../../SMTPLibrary/NSStream+SKPSMTPExtensions.m"; sourceTree = "<group>"; };
 		060A17F515E77A530086A377 /* SKPSMTPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKPSMTPMessage.h; path = ../../SMTPLibrary/SKPSMTPMessage.h; sourceTree = "<group>"; };
 		060A17F615E77A530086A377 /* SKPSMTPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKPSMTPMessage.m; path = ../../SMTPLibrary/SKPSMTPMessage.m; sourceTree = "<group>"; };
+		06316130160AFA0E003E9AEA /* mibhome.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mibhome.png; path = Images/mibhome.png; sourceTree = "<group>"; };
 		064DE1D815E2DF6B00177D1E /* KeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainWrapper.h; sourceTree = "<group>"; };
 		064DE1D915E2DF6B00177D1E /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainWrapper.m; sourceTree = "<group>"; };
 		064DE1DB15E2E66A00177D1E /* Sign Me.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Sign Me.entitlements"; sourceTree = "<group>"; };
@@ -909,6 +911,7 @@
 		395EEF2613D72E3C003C4DA8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				06316130160AFA0E003E9AEA /* mibhome.png */,
 				A9CB0D4814E9F541008AD4CE /* RemoveButton.png */,
 				A9B9367514B3E1E100C9A51B /* TextFieldBackgroundDisabled.png */,
 				A94D22801483FF8C0077723B /* FinalizeButton.png */,
@@ -1513,6 +1516,7 @@
 				A9CB0D4914E9F544008AD4CE /* RemoveButton.png in Resources */,
 				A9FD5F94150E47B2006256DE /* Icon.png in Resources */,
 				A9FD5F96150E484A006256DE /* Icon@2x.png in Resources */,
+				06316131160AFA0F003E9AEA /* mibhome.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
