@@ -28,6 +28,11 @@ int main(int argc, char *argv[]) {
 #endif
 
     @autoreleasepool {
+        //Force Language to English (for the Standard-UI-Elements like UIPickerView)
+        NSArray *languages = [NSArray arrayWithObjects:@"en", nil];
+        [[NSUserDefaults standardUserDefaults] setObject:languages forKey:@"AppleLanguages"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    
         int retVal = UIApplicationMain(argc, argv, nil, @"AppDelegate");
         return retVal;
     }
