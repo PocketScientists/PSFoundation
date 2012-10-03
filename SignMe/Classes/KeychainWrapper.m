@@ -38,8 +38,9 @@
     NSMutableDictionary *searchDictionary = [[NSMutableDictionary alloc] init];
     [searchDictionary setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
     [searchDictionary setObject:[@"Authentication" dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrGeneric];
-  //  [searchDictionary setObject:[@"5HPAW9M6JM.com.us.redbull.MIB2012PreStage || 5HPAW9M6JM.com.us.redbull.MIB2012Stage || 5HPAW9M6JM.com.us.redbull.MIB2012"
-   //                              dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccessGroup];
+    //Written to the entitlement file as default
+   // [searchDictionary setObject:[@"L5F57NK445.com.us.redbull.MIB2012"
+     //                            dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccessGroup];
 
     
     return searchDictionary;
@@ -62,6 +63,9 @@
     
     if(status == noErr){
         result = (__bridge_transfer NSDictionary *)foundDict;
+         NSString *accessGroup = [(NSDictionary *)result objectForKey:(__bridge id)kSecAttrAccessGroup];
+        NSLog(@"Access group: %@",accessGroup);
+        [[[UIAlertView alloc]initWithTitle:accessGroup message:@"this is it" delegate:nil cancelButtonTitle:@"canc" otherButtonTitles:@"no", nil] show];
         
         resdata = [result valueForKey:(__bridge id)kSecValueData];
         NSString *ergstr =[[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding];
@@ -72,7 +76,6 @@
         ergstr =[[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding];
         if(ergstr){
             [returnDictionary setObject:ergstr forKey:@"Username"];}
-        NSLog(@"Name%@",ergstr);
         /*resdata = [result valueForKey:(__bridge id)kSecAttrComment];
         ergstr =[[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding];
         if(ergstr){
@@ -110,11 +113,19 @@
     //Add
     OSStatus status = SecItemAdd((__bridge CFDictionaryRef)dictionary, NULL);
     
+   
+    
     if(status == errSecSuccess){
+         NSLog(@"Write Successfully to keychain: kSecAttrAccount %@ / kSecValuedata %@ / ",username,tokenID);
+        [[[UIAlertView alloc]initWithTitle:@"info" message:@"Written successfully" delegate:nil cancelButtonTitle:@"canc" otherButtonTitles:@"no", nil] show];
         return YES;
     }else if (status == errSecDuplicateItem){
+         [[[UIAlertView alloc]initWithTitle:@"DUPLICATE" message:@"error writting successfully" delegate:nil cancelButtonTitle:@"canc" otherButtonTitles:@"no", nil] show];
+        NSLog(@"Keychain dupl entry fails");
         return [self updateKeychainValueWithUser:username Token:tokenID ];
     }else{
+        [[[UIAlertView alloc]initWithTitle:@"error wirtting" message:@"error writting successfully" delegate:nil cancelButtonTitle:@"canc" otherButtonTitles:@"no", nil] show];
+        NSLog(@"Keychain write fails");
         return NO;
         
     }
@@ -137,6 +148,7 @@
     OSStatus status = SecItemUpdate((__bridge CFDictionaryRef)searchdictionary, (__bridge CFDictionaryRef)updateDictionary);
     
     if(status == errSecSuccess){
+         NSLog(@"Write Successfully to keychain: kSecAttrAccount %@ / kSecValuedata %@ / ",username,tokenID);
         return YES;
     }else{
         return NO;

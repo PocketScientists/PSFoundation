@@ -4,10 +4,7 @@
 <dict>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)com.nousguide.redbull.signme</string>
-		<string>$(AppIdentifierPrefix)com.us.redbull.MIB2012PreStage</string>
-		<string>$(AppIdentifierPrefix)com.us.redbull.MIB2012Stage</string>
-		<string>$(AppIdentifierPrefix)com.us.redbull.MIB2012 || $(AppIdentifierPrefix)com.us.redbull.MIB2012Stage || $(AppIdentifierPrefix)com.us.redbull.MIB2012PreStage</string>
+		<string>$(AppIdentifierPrefix)com.us.redbull.MIB2012PreStage || $(AppIdentifierPrefix)com.us.redbull.MIB2012Stage || $(AppIdentifierPrefix)com.us.redbull.MIB2012</string>
 	</array>
 </dict>
 </plist>
