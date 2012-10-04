@@ -24,6 +24,7 @@
 @property (nonatomic, assign) int signerType;
 @property (nonatomic, assign) int orderOfSigner;
 @property (nonatomic, assign) BOOL idcheck;
+@property (nonatomic, assign) BOOL signerNeeded;
 @property (nonatomic, unsafe_unretained) id<RBRecipientTableViewCellDelegate> delegate;
 
 - (void)enableAuth;

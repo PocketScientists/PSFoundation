@@ -253,19 +253,19 @@
     for (UIControl *control in self.formView.formControls) {
         [control unregisterObservers];
     }
-
+    RBRecipientsView *recipientsView = (RBRecipientsView *)[self.formView.innerScrollView viewWithTag:kRBRecipientsViewTag];
     // go back to HomeViewController
     [self dismissModalViewControllerAnimated:YES];
     
     RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
     
     if (self.document != nil) {
-        self.document.allRecipientsSet = RBAllRecipientsSet(self.formView.recipients);
+        self.document.allRecipientsSet = RBAllRecipientsSet(self.formView.recipients,recipientsView.numberOfRBSigners);
         [persistenceManager updateDocument:self.document usingForm:self.form recipients:self.formView.recipients subject:self.formView.subject obeyRoutingOrder:self.formView.obeyRoutingOrder];
     } else {
         // create a new document with the given form/client
         self.document = [persistenceManager persistedDocumentUsingForm:self.form client:self.client recipients:self.formView.recipients subject:self.formView.subject obeyRoutingOrder:self.formView.obeyRoutingOrder];
-        self.document.allRecipientsSet = RBAllRecipientsSet(self.formView.recipients);
+        self.document.allRecipientsSet = RBAllRecipientsSet(self.formView.recipients,recipientsView.numberOfRBSigners);
         [[NSManagedObjectContext defaultContext] saveOnMainThread];
     }
     
@@ -282,8 +282,8 @@
     [self updateFormFromControls];
     
 
-    
-    if (self.formView.recipients.count > 0 &&  RBAllRecipientsSet(self.formView.recipients)) {
+    RBRecipientsView *recipientsView = (RBRecipientsView *)[self.formView.innerScrollView viewWithTag:kRBRecipientsViewTag];
+    if (self.formView.recipients.count > 0 &&  RBAllRecipientsSet(self.formView.recipients,recipientsView.numberOfRBSigners)) {
         PSAlertView *alertView = [PSAlertView alertWithTitle:self.form.displayName message:[NSString stringWithFormat:@"Do you want to finalize this document for %@?",self.client.name]];
         
         [alertView addButtonWithTitle:@"Finalize" block:^(void) {
@@ -297,18 +297,28 @@
             RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
             
             if (self.document != nil) {
-                self.document.allRecipientsSet = RBAllRecipientsSet(self.formView.recipients);
+                self.document.allRecipientsSet = RBAllRecipientsSet(self.formView.recipients,recipientsView.numberOfRBSigners);
                 [persistenceManager updateDocument:self.document usingForm:self.form recipients:self.formView.recipients subject:self.formView.subject obeyRoutingOrder:self.formView.obeyRoutingOrder];
             } else {
                 // create a new document with the given form/client
                 self.document = [persistenceManager persistedDocumentUsingForm:self.form client:self.client recipients:self.formView.recipients subject:self.formView.subject obeyRoutingOrder:self.formView.obeyRoutingOrder];
-                self.document.allRecipientsSet = RBAllRecipientsSet(self.formView.recipients);
+                self.document.allRecipientsSet = RBAllRecipientsSet(self.formView.recipients,recipientsView.numberOfRBSigners);
                 [[NSManagedObjectContext defaultContext] saveOnMainThread];
             }
             
             // upload files to box.net
            if (self.document != nil) {
               //  [RBBoxService uploadDocument:self.document toFolderAtPath:RBPathToPreSignatureFolderForClientWithName(self.client.name)];
+               
+                //delete recipients which are not needed
+                NSMutableArray *neededRecipients = [[NSMutableArray alloc] init];
+               
+               for(RBRecipient *recip in self.document.recipients){
+                   if([[recip valueForKey:kRBisNeededSigner] isEqualToNumber:kRBisNeededSignerTRUE]){
+                       [neededRecipients addObject:recip];
+                   }
+               }
+               [self.document setRecipients:[NSSet setWithArray:neededRecipients]];
                 [RBDocuSignService sendDocument:self.document];
             }
             

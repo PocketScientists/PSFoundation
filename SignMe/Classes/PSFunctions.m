@@ -75,13 +75,27 @@ inline NSString *RBPathToSignedFolderForClientWithName(NSString *clientName) {
     return [[kRBFolderUser stringByAppendingPathComponent:[clientName lowercaseString]] stringByAppendingPathComponent:kRBFolderSigned];
 }
 
-inline BOOL RBAllRecipientsSet(NSArray *recipients){
+inline BOOL RBAllRecipientsSet(NSArray *recipients,NSUInteger numberOfRBSigner){
+    NSUInteger rbsigners =0,accountsigners=0;
+    
     for(NSDictionary *dict in recipients){
-        if([dict objectForKey:kRBRecipientPersonID] == $I(0)){
-            return NO;
+        if([dict objectForKey:kRBRecipientPersonID] != $I(0)){
+            NSString *type = (NSString *)[dict objectForKey:kRBRecipientKind];
+            if([type isEqualToString:@"RB"]){
+                if([[dict objectForKey:kRBisNeededSigner] isEqualToNumber:kRBisNeededSignerTRUE]){
+                    rbsigners++;
+                }
+            }
+            if([type isEqualToString:@"Account"]){
+                accountsigners++;
+            }
         }
     }
-    return YES;
+    
+    if(accountsigners == 1 && rbsigners >= numberOfRBSigner){
+        return YES;
+    }
+    return NO;
 }
 
 inline NSString *RBPathToPreSignatureFolderForClientWithName(NSString *clientName) {
@@ -100,6 +114,23 @@ inline NSString *RBPathToFolderForStatusAndClientWithName(RBFormStatus status, N
     }
     
     return nil;
+}
+
+inline NSUInteger RBNumberOfSignersForContractSum(NSUInteger contractValue){
+    RBMusketeer *musketeer = [RBMusketeer loadEntity];
+    NSUInteger limit1,limit2;
+    limit1=limit2=0;
+    if(musketeer.sign_me_limit_1 != nil){
+        limit1 = [musketeer.sign_me_limit_1 integerValue];
+    }
+    
+    if(musketeer.sign_me_limit_2 != nil){
+        limit2 = [musketeer.sign_me_limit_2 integerValue];
+    }
+    if(contractValue > limit2) return 3;
+    if(contractValue > limit1) return 2;
+    
+    return 1;
 }
 
 inline NSString *RBPathToPlistWithName(NSString *name) {

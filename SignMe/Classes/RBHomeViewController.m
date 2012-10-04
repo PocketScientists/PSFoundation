@@ -648,13 +648,18 @@
                 //Add sort by order
                 //First create temp array with slots
                 NSMutableArray *recipients = [NSMutableArray array];
-                for(int i = 0;i< [document.recipients allObjects].count;i++){
+                for(int i = 0;i< 4;i++){
                     [recipients addObject: [NSNull null]];
                 }
+                
                 //now insert recipients in the right slots
+                NSLog(@"Number of recipients %d",document.recipients.count);
                 for (RBRecipient *recipient in document.recipients) {
+                    NSLog(@"order %@",recipient.order);
                     [recipients replaceObjectAtIndex:[recipient.order integerValue]-1 withObject:recipient];
                 }
+                [recipients removeObjectIdenticalTo:[NSNull null]];
+                NSLog(@"%d",recipients.count);
                 //finally add the buttons for the on device signers
                 for (RBRecipient *recipient in recipients) {
                     if ([recipient.type intValue] == kRBRecipientTypeInPerson) {
@@ -1380,7 +1385,6 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     NSUInteger calltype = [[NSUserDefaults standardUserDefaults] integerForKey:kRBMIBCallType];
     NSString * clientid = [[NSUserDefaults standardUserDefaults] valueForKey:kRBMIBCallClientID];
-    NSLog(@"%d calltype / %@ clientid",calltype,clientid);
     
     if(calltype == kRBMIBCallTypeDelete){
         RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
@@ -1426,14 +1430,12 @@
     ASIHTTPRequest *outletreq = [ASIHTTPRequest requestWithURL:outleturl];
     outletreq.username = [RBMusketeer loadEntity].email;
     outletreq.password = [RBMusketeer loadEntity].token;
-    NSLog(@"user: %@ password:%@",[RBMusketeer loadEntity].email,outletreq.password);
     [outletreq setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
     outletreq.delegate = self;
     [outletreq setDidFinishSelector:@selector(outletRequestFinished:)];
 
     ASIHTTPRequest *formreq = [outletreq copy];
     formreq.url = formurl;
-        NSLog(@"user: %@ password:%@",formreq.username,formreq.password);
     [formreq setDidFinishSelector:@selector(formRequestFinished:)];
     
     firstRequestFinished=NO;
@@ -1450,10 +1452,6 @@
     NSString * elemcontent,*formname;
     NSString *downloadpath;
     NSFileManager *manager = [NSFileManager defaultManager];
-    
-   // NSString * respStr = [[NSString alloc]  initWithData:respData
-     //                                              encoding:NSUTF8StringEncoding];
-     //NSLog(@"%@",respStr);
     
     [[NSUserDefaults standardUserDefaults] deleteStoredObjectNames];
     
@@ -1514,11 +1512,8 @@
     if(firstRequestFinished){
         [NSUserDefaults standardUserDefaults].webserviceUpdateDate = [NSDate date];
         [self updateUI];
-        [self.ressourceLoadingHttpRequests addOperationWithBlock:^{
-            [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:0.3f];
-        }];
+        [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:1.0f];
     }else{
-            NSLog(@"Forms finished");
         firstRequestFinished=YES;
     }
 }
@@ -1527,10 +1522,6 @@
 {  
     RBClient *client=nil;
     NSData *respData = [request responseData];
-    //NSLog(@"Oulet Request Finished");
-    NSString * respStr = [[NSString alloc]  initWithData:respData
-                                                encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",respStr);
  
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData
                                                            options:0 error:nil];
@@ -1595,11 +1586,7 @@
     if(firstRequestFinished){
         [NSUserDefaults standardUserDefaults].webserviceUpdateDate = [NSDate date];
         [self updateUI];
-        [self.ressourceLoadingHttpRequests addOperationWithBlock:^{
-            [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:0.3f];
-        }];
-        
-        [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:0.3f];
+        [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:1.0f];
     }else{
         firstRequestFinished=YES;
     }
@@ -1681,6 +1668,15 @@
 }
 
 - (void)finalizeDocument:(RBDocument *)document {
+    //Delete recipients which are not needed
+    NSMutableArray *neededRecipients = [[NSMutableArray alloc] init];
+    
+    for(RBRecipient *recip in document.recipients){
+        if([[recip valueForKey:kRBisNeededSigner] isEqualToNumber:kRBisNeededSignerTRUE]){
+            [neededRecipients addObject:recip];
+        }
+    }
+    [document setRecipients:[NSSet setWithArray:neededRecipients]];
     [RBDocuSignService sendDocument:document];
 }
 

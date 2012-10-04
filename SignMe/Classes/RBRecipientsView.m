@@ -56,6 +56,7 @@
 @synthesize routingOrderButton = routingOrderButton_;
 @synthesize subjectTextField = subjectTextField_;
 @synthesize useRoutingOrder = useRoutingOrder_;
+@synthesize numberOfRBSigners = numberOfRBSigners_;
 @synthesize recipientPopover = recipientPopover_;
 @synthesize recPicTVC = recPicTVC_;
 @synthesize noOfCellPickerActive = noOfCellPickerActive_;
@@ -72,7 +73,6 @@
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
         self.tag = kRBRecipientsViewTag;
-        
         selectedRecipientsAtPosition_ = [[NSMutableDictionary alloc] init];
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(30, 10.f, 150, 31)];
@@ -200,6 +200,46 @@
 #pragma mark Setter/Getter
 ////////////////////////////////////////////////////////////////////////
 
+-(void)setNumberOfRBSigners:(NSInteger)noOfSigners{
+    numberOfRBSigners_=noOfSigners;
+    NSLog(@"Signer Number set %d",numberOfRBSigners_);
+  
+    RBRecipientTableViewCell *cell_signer1 = (RBRecipientTableViewCell *)[ [self.tableViews objectAtIndex:0] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    RBRecipientTableViewCell *cell_signer2 = (RBRecipientTableViewCell *)[ [self.tableViews objectAtIndex:0] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    RBRecipientTableViewCell *cell_signer3 = (RBRecipientTableViewCell *)[ [self.tableViews objectAtIndex:0] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+    
+    //Musketeer always needed
+    cell_signer3.signerNeeded=YES;
+    
+    if(noOfSigners == 1){
+        NSDictionary *recip = [self.recipients objectAtIndex:0];
+        [recip setValue:kRBisNeededSignerFALSE forKey:kRBisNeededSigner];
+        recip = [self.recipients objectAtIndex:1];
+        [recip setValue:kRBisNeededSignerFALSE forKey:kRBisNeededSigner];
+        cell_signer1.signerNeeded=NO;
+        cell_signer2.signerNeeded=NO;
+    }
+    if(noOfSigners == 2){
+        NSDictionary *recip = [self.recipients objectAtIndex:0];
+        [recip setValue:kRBisNeededSignerTRUE forKey:kRBisNeededSigner];
+        recip = [self.recipients objectAtIndex:1];
+        [recip setValue:kRBisNeededSignerFALSE forKey:kRBisNeededSigner];
+        cell_signer1.signerNeeded=YES;
+        cell_signer2.signerNeeded=NO;
+    }
+    if(noOfSigners == 3){
+        NSDictionary *recip = [self.recipients objectAtIndex:0];
+        [recip setValue:kRBisNeededSignerTRUE forKey:kRBisNeededSigner];
+        recip = [self.recipients objectAtIndex:1];
+        [recip setValue:kRBisNeededSignerTRUE forKey:kRBisNeededSigner];
+        cell_signer1.signerNeeded=YES;
+        cell_signer2.signerNeeded=YES;
+    }
+    
+    
+    [self redrawTableData:[self.tableViews objectAtIndex:0]];
+}
+          
 - (void)setRecipients:(NSArray *)recipients {
     NSMutableArray *r = [NSMutableArray array];
     for (NSString *type in self.recipientTypes) {
@@ -565,7 +605,7 @@
     NSString *type = [self.recipientTypes objectAtIndex:lastButtonPressed.tag];
     
     ABPerson *personWrapper = [[ABAddressBook sharedAddressBook] personWithRecordRef:person];
-    NSMutableDictionary *personDict = XMDICT($I(personWrapper.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, $I(kRBRecipientTypeInPerson), kRBRecipientType, type, kRBRecipientKind);
+    NSMutableDictionary *personDict = XMDICT($I(personWrapper.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, $I(kRBRecipientTypeInPerson), kRBRecipientType, type, kRBRecipientKind,kRBisNeededSignerTRUE,kRBisNeededSigner);
     
     if ([self.recipients indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         if ([obj isKindOfClass:[NSDictionary class]]) {
@@ -742,7 +782,7 @@
         }
     }
     
-    NSMutableDictionary *personDict = XMDICT($I(recipPerson.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, $I(kRBRecipientTypeInPerson), kRBRecipientType, @"RB", kRBRecipientKind);
+    NSMutableDictionary *personDict = XMDICT($I(recipPerson.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, $I(kRBRecipientTypeInPerson), kRBRecipientType, @"RB", kRBRecipientKind,kRBisNeededSignerTRUE,kRBisNeededSigner);
     
 
     [(NSMutableArray *)[self.recipientsForTypes objectAtIndex:0] replaceObjectAtIndex:noOfCellPickerActive_ withObject:personDict];

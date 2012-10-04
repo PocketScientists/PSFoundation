@@ -151,10 +151,9 @@
                                                 encoding:NSUTF8StringEncoding];
     NSLog(@"%@",respStr);
     NSString *email = [respStr substringAfterSubstring:@"<email>"];
-    
     NSString *uid = [respStr substringAfterSubstring:@"<uid>"];
-    
     NSString *token = [respStr substringAfterSubstring:@"<token>"];
+    
     
     if([email hasSubstring:@"</email>"]){
         email = [email substringToIndex:[email rangeOfString:@"</email>"].location];
@@ -176,8 +175,6 @@
     else{
         token=nil;
     }
-        
-    NSLog(@"Token %@ User %@ email %@",token,uid,email);
     
     RBMusketeer * rbmusketeer = [RBMusketeer loadEntity];
     rbmusketeer.uid = uid;
@@ -207,14 +204,11 @@
 
 -(void)userDataRequestFinished:(ASIHTTPRequest *)request{
     RBMusketeer * rbmusketeer = [RBMusketeer loadEntity];
-    NSLog(@"request finished with code %d",[request responseStatusCode]);
     
     NSData *respData = [request responseData];
-    NSLog(@"Response Data Length: %d",[respData length]);
     
     NSString * respStr = [[NSString alloc]  initWithData:respData
                                                  encoding:NSUTF8StringEncoding];
-    NSLog(@"Response: %@",respStr);
     
     //Parse XML File and get User data
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData

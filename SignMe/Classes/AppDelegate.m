@@ -151,6 +151,7 @@
     RBMusketeer *rbmusk = [RBMusketeer loadEntity];
     NSLog(@"UserID: %@",rbmusk.uid);
     NSLog(@"Token: %@",rbmusk.token);
+    NSLog(@"Signing Limit 1 %@, 2%@",rbmusk.sign_me_limit_1,rbmusk.sign_me_limit_2);
     
     [self.homeViewController updateDataViaWebservice];
 }

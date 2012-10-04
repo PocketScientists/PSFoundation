@@ -12,6 +12,7 @@
 #import "RBFormView.h"
 #import "RBClient.h"
 #import "SSLineView.h"
+#import "RBRecipientsView.h"
 
 @interface RBFormViewController : PSBaseViewController {
     id observerShow;

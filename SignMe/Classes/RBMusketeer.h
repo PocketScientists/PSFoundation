@@ -25,6 +25,9 @@
 @property (nonatomic, strong) NSString *application_url;
 @property (nonatomic, strong) NSString *country_iso;
 @property (nonatomic, strong) NSString *uid;
+@property (nonatomic, strong) NSString *sign_me_limit_1;
+@property (nonatomic, strong) NSString *sign_me_limit_2;
+
 
 + (RBMusketeer *)loadEntity;
 + (RBMusketeer *)reloadEntity;

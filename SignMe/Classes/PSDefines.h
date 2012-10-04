@@ -53,6 +53,7 @@
 #define kRBDetailGradientStartColor [UIColor colorWithRed:0.0627f green:0.0824f blue:0.1176f alpha:1.0000f]
 #define kRBDetailGradientEndColor   [UIColor colorWithRed:0.0824f green:0.1765f blue:0.4314f alpha:1.0000f]
 #define kRBColorMain                [UIColor whiteColor]
+#define kRBColorDisabled            [UIColor colorWithWhite:0.841 alpha:0.500]
 #define kRBColorDetail              [UIColor colorWithRed:1.0000f green:0.7725f blue:0.0000f alpha:1.0000f]
 #define kRBColorDetail2             [UIColor colorWithRed:0.7804f green:0.0000f blue:0.2941f alpha:1.0000f]
 #define kRBColorError               [UIColor colorWithRed:0.7961f green:0.0000f blue:0.3098f alpha:1.0000f]
@@ -77,6 +78,9 @@
 #define kRBDateTime2Format          @"MM-dd-yyyy hh:mm a"
 
 #define kRBRecipientPersonID        @"addressBookPersonID"
+#define kRBisNeededSignerTRUE       $I(1)
+#define kRBisNeededSignerFALSE      $I(2)
+#define kRBisNeededSigner           @"neededSigner"
 #define kRBRecipientEmailID         @"emailPropertyID"
 #define kRBRecipientType            @"type"
 #define kRBRecipientCode            @"code"

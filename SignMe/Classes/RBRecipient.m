@@ -20,5 +20,6 @@
 @dynamic code;
 @dynamic kind;
 @dynamic document;
+@dynamic neededSigner;
 
 @end

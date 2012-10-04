@@ -157,6 +157,8 @@
                 }
                 [layoutData.labels addObject:label];
                 
+                
+                
                 // ================ create field ================
                 UIControl *inputField = [self inputFieldWithID:fieldID inSection:section forForm:form client:client buttonGroups:buttonGroups repeatGroups:repeatGroups];
                 inputField.formSection = section;
@@ -319,11 +321,13 @@
         }
         
         //ADD for RBHQ - two temp entries for signers
-        NSMutableDictionary *tmpRecipientDict = XMDICT($I(0), kRBRecipientPersonID, $I(0), kRBRecipientEmailID, $I(kRBRecipientTypeInPerson), kRBRecipientType, @"RB", kRBRecipientKind);
+        NSMutableDictionary *tmpRecipientDict = XMDICT($I(0), kRBRecipientPersonID, $I(0), kRBRecipientEmailID, $I(kRBRecipientTypeInPerson), kRBRecipientType, @"RB", kRBRecipientKind, kRBisNeededSignerFALSE,kRBisNeededSigner);
         [recipients addObject:tmpRecipientDict];
-        [recipients addObject:[tmpRecipientDict copy]];
         
-        NSMutableDictionary *personDict = XMDICT($I(abMusketeer.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, $I(kRBRecipientTypeInPerson), kRBRecipientType, @"RB", kRBRecipientKind);
+        tmpRecipientDict = XMDICT($I(0), kRBRecipientPersonID, $I(0), kRBRecipientEmailID, $I(kRBRecipientTypeInPerson), kRBRecipientType, @"RB", kRBRecipientKind, kRBisNeededSignerFALSE,kRBisNeededSigner);
+        [recipients addObject:tmpRecipientDict];
+        
+        NSMutableDictionary *personDict = XMDICT($I(abMusketeer.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, $I(kRBRecipientTypeInPerson), kRBRecipientType, @"RB", kRBRecipientKind, kRBisNeededSignerTRUE,kRBisNeededSigner);
         [recipients addObject:personDict];
         
     }
@@ -334,7 +338,7 @@
                [recipients addObject: [NSNull null]]; 
             };
         }
-        NSMutableDictionary *dictionaryRepresentation = [[recipient dictionaryWithValuesForKeys:XARRAY(kRBRecipientPersonID, kRBRecipientEmailID, kRBRecipientCode, kRBRecipientIDCheck, kRBRecipientType, kRBRecipientOrder, kRBRecipientKind)] mutableCopy];
+        NSMutableDictionary *dictionaryRepresentation = [[recipient dictionaryWithValuesForKeys:XARRAY(kRBRecipientPersonID, kRBRecipientEmailID, kRBRecipientCode, kRBRecipientIDCheck, kRBRecipientType, kRBRecipientOrder, kRBRecipientKind,kRBisNeededSigner)] mutableCopy];
         [recipients replaceObjectAtIndex:[recipient.order integerValue]-1 withObject:dictionaryRepresentation];
     }
     
@@ -346,6 +350,13 @@
     //RBHQ - Same order each time
     //recipientsView.useRoutingOrder = [document.obeyRoutingOrder boolValue];
     recipientsView.useRoutingOrder = YES;
+    //Set default signer number to 3
+    
+    
+    //RBHQ Add -> Look for the Contract Size (Field Total) and set the number of signers depending on the size
+    NSString *totalAmount = (NSString *)[form valueForKey:kRBFormKeyValue ofField:@"total" inSection:1];
+    totalAmount=[totalAmount substringAfterSubstring:@"$"];
+    recipientsView.numberOfRBSigners = RBNumberOfSignersForContractSum([totalAmount integerValue]);
 
     return recipientsView;
 }

@@ -25,6 +25,7 @@ ABPeoplePickerNavigationControllerDelegate, ABNewPersonViewControllerDelegate, U
 @property (nonatomic, strong) NSArray *tabs;
 @property (nonatomic, copy) NSString *subject;
 @property (nonatomic, assign) BOOL useRoutingOrder;
+@property (nonatomic, assign) NSInteger numberOfRBSigners;
 
 @property (nonatomic, strong) NSArray *tableViews;
 

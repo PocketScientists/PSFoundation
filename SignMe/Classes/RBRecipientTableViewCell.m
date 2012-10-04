@@ -39,6 +39,7 @@ static UIFont *placeholderTextFont = nil;
 @synthesize idcheck = idcheck_;
 @synthesize signerType = signerType_;
 @synthesize delegate;
+@synthesize signerNeeded =signerNeeded_;
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -102,6 +103,7 @@ static UIFont *placeholderTextFont = nil;
         signerTypeBtn.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         signerTypeBtn.hidden = YES;
         [self addSubview:signerTypeBtn];
+        self.signerNeeded=YES;
     }
     
     return self;
@@ -119,6 +121,12 @@ static UIFont *placeholderTextFont = nil;
     }
     
 	[self setNeedsDisplay];
+}
+
+-(void)setSignerIsNeeded:(BOOL)needed{
+    signerNeeded_=needed;
+    [self setNeedsDisplay];
+    [self setNeedsDisplay];
 }
 
 
@@ -257,8 +265,10 @@ static UIFont *placeholderTextFont = nil;
 ////////////////////////////////////////////////////////////////////////
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    if([self.delegate respondsToSelector:@selector(didSelectRowWithOrderOfSigner: AndTouches:)]){
-        [self.delegate didSelectRowWithOrderOfSigner:self.orderOfSigner AndTouches:touches];
+    if(signerNeeded_){
+        if([self.delegate respondsToSelector:@selector(didSelectRowWithOrderOfSigner: AndTouches:)]){
+            [self.delegate didSelectRowWithOrderOfSigner:self.orderOfSigner AndTouches:touches];
+        }
     }
 }
 
@@ -273,6 +283,12 @@ static UIFont *placeholderTextFont = nil;
     UIColor *detailTextColor = kRBColorDetail;
     UIColor *placeholderTextColor = kRBColorMain;
     CGPoint p = CGPointMake(50.f, 5.f);
+    
+    if(self.signerNeeded == NO){
+        mainTextColor=kRBColorDisabled;
+        detailTextColor=kRBColorDisabled;
+        placeholderTextColor=kRBColorDisabled;
+    }
     
     // change colors when selected
 	if(highlighted) {

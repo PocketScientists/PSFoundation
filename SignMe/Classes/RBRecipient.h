@@ -21,5 +21,6 @@
 @property (nonatomic, strong) NSNumber * code;
 @property (nonatomic, strong) NSString * kind;
 @property (nonatomic, strong) RBDocument *document;
+@property (nonatomic, strong) NSNumber * neededSigner;
 
 @end
