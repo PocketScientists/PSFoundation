@@ -6,5 +6,7 @@
 	<array>
 		<string>$(AppIdentifierPrefix)com.us.redbull.MIB2012PreStage || $(AppIdentifierPrefix)com.us.redbull.MIB2012Stage || $(AppIdentifierPrefix)com.us.redbull.MIB2012</string>
 	</array>
+	<key>get-task-allow</key>
+	<false/>
 </dict>
 </plist>

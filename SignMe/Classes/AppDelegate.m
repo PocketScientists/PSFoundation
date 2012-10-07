@@ -91,6 +91,7 @@
     self.userAuthentication.delegate = self;
     [self.userAuthentication displayUserAuthentication];
     
+    
     if (kPostFinishLaunchDelay > 0) {
         [self performSelector:@selector(postFinishLaunch) withObject:nil afterDelay:kPostFinishLaunchDelay];
     }
@@ -147,11 +148,27 @@
 
 -(void)userAuthenticated
 {
-    NSLog(@"User authenticated!");
-    RBMusketeer *rbmusk = [RBMusketeer loadEntity];
-    NSLog(@"UserID: %@",rbmusk.uid);
-    NSLog(@"Token: %@",rbmusk.token);
-    NSLog(@"Signing Limit 1 %@, 2%@",rbmusk.sign_me_limit_1,rbmusk.sign_me_limit_2);
+    //Ask for Adressbook permission if needed (ios6)
+    if(ABAddressBookCreateWithOptions != NULL){
+        if(ABAddressBookGetAuthorizationStatus() != kABAuthorizationStatusAuthorized ){
+            ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
+            ABAddressBookRequestAccessWithCompletion(addressBook,  ^(bool granted, CFErrorRef error) {
+                if(granted == YES){
+                    [[NSUserDefaults standardUserDefaults] setAddressBookAccess:YES];
+                }else{
+                    [[NSUserDefaults standardUserDefaults] setAddressBookAccess:NO];
+                    [[[UIAlertView alloc] initWithTitle:@"Warning" message:@"Addressbook Access is needed to create new Documents!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+                }
+                if(addressBook != NULL){
+                    CFRelease(addressBook);
+                }
+            });
+        }else{
+                [[NSUserDefaults standardUserDefaults] setAddressBookAccess:YES];
+            }
+    }else{ //iOS 5.x and lower -> no special permission needed
+        [[NSUserDefaults standardUserDefaults] setAddressBookAccess:YES];
+    }
     
     [self.homeViewController updateDataViaWebservice];
 }
@@ -296,8 +313,9 @@
 }
 
 // launched via post selector to speed up launch time
-- (void)postFinishLaunch {    
+- (void)postFinishLaunch {
     float delay = 60;
+    
     NSDate *lastDocuSignCheck = [NSUserDefaults standardUserDefaults].docuSignUpdateDate;
     if ([lastDocuSignCheck timeIntervalSinceNow] > -kRBDocuSignUpdateTimeInterval) {
         delay = kRBDocuSignUpdateTimeInterval + [lastDocuSignCheck timeIntervalSinceNow];

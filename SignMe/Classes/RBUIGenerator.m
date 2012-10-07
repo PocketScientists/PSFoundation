@@ -275,7 +275,9 @@
     NSMutableArray *recipients = [NSMutableArray array];
     if (document.recipients == nil || [document.recipients count] == 0) {
         RBMusketeer *musketeer = [RBMusketeer loadEntity];
+        NSLog(@"Firstname %@",musketeer.firstname);
         NSArray *people = [[ABAddressBook sharedAddressBook] allPeople];
+        NSLog(@"Count people: %d",people.count);
         ABPerson *abMusketeer = nil;
         for (ABPerson *person in people) {
             if ([[person getFirstName] isEqualToStringIgnoringCase:musketeer.firstname] && 
@@ -356,7 +358,8 @@
     //RBHQ Add -> Look for the Contract Size (Field Total) and set the number of signers depending on the size
     NSString *totalAmount = (NSString *)[form valueForKey:kRBFormKeyValue ofField:@"total" inSection:1];
     totalAmount=[totalAmount substringAfterSubstring:@"$"];
-    recipientsView.numberOfRBSigners = RBNumberOfSignersForContractSum([totalAmount integerValue]);
+    NSUInteger numberofSigners =RBNumberOfSignersForContractSum([totalAmount integerValue]);;
+    recipientsView.numberOfRBSigners = numberofSigners;
 
     return recipientsView;
 }

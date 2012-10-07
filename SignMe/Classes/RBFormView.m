@@ -228,7 +228,8 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self setContentOffset:CGPointMake(self.contentOffset.x, 0) animated:YES];
+    //Fix RBHQ / ios6 - set animated:NO (otherwise we have shifted forms.
+    [self setContentOffset:CGPointMake(self.contentOffset.x, 0.0) animated:NO];
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {

@@ -70,6 +70,14 @@
     return [self integerForKey:kRBSettingsBoxFolderIDKey];
 }
 
+-(void)setAddressBookAccess:(BOOL)granted{
+    [self setBool:granted forKey:kRBSettingsAddressBookAccess];
+    [self synchronize];
+}
+
+-(BOOL)addressBookAccess{
+    return [self boolForKey:kRBSettingsAddressBookAccess];
+}
 - (void)setShouldLogOutOfBox:(BOOL)shouldLogOutOfBox {
     [self setBool:shouldLogOutOfBox forKey:kRBSettingsBoxLogoutKey];
     [self synchronize];

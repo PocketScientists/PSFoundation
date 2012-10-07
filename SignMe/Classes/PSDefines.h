@@ -121,6 +121,7 @@
 #define kRBSettingsDocuSignUserNameKey      @"kRBSettingsDocuSignUserNameKey"
 #define kRBSettingsDocuSignPasswordKey      @"kRBSettingsDocuSignPasswordKey"
 #define kRBSettingsDocuSignUpdateDateKey    @"kRBSettingsDocuSignUpdateDateKey"
+#define kRBSettingsAddressBookAccess        @"kRBSettingsAddressBookAccessKey"
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

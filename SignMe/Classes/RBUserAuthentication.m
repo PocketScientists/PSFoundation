@@ -207,9 +207,6 @@
     
     NSData *respData = [request responseData];
     
-    NSString * respStr = [[NSString alloc]  initWithData:respData
-                                                 encoding:NSUTF8StringEncoding];
-    
     //Parse XML File and get User data
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData
                                                            options:0 error:nil];

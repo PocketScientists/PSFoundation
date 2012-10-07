@@ -763,6 +763,8 @@
 
 -(IBAction)clearSearchPressed{
     searchField_.text=@"";
+    [self updateClientsWithSearchTerm:searchField_.text];
+    [self updateDocumentsWithSearchTerm:searchField_.text];
 }
 
 - (IBAction)textFieldDidEndOnExit:(UITextField *)textField {
@@ -1239,19 +1241,26 @@
 }
 
 - (void)presentFormIfPossible {
-    if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) == RBFormStatusNew 
-        && self.detailCarouselSelectedIndex != NSNotFound 
-        && self.clientsCarouselSelectedIndex != NSNotFound) {
-        [self performBlock:^(void) {
-            RBForm *form = [[self.emptyForms objectAtIndex:self.detailCarouselSelectedIndex] copy];
-            RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
+   
+        if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) == RBFormStatusNew 
+            && self.detailCarouselSelectedIndex != NSNotFound 
+            && self.clientsCarouselSelectedIndex != NSNotFound) {
+             if( [[NSUserDefaults standardUserDefaults] addressBookAccess] == YES){
+                 [self performBlock:^(void) {
+                     RBForm *form = [[self.emptyForms objectAtIndex:self.detailCarouselSelectedIndex] copy];
+                     RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
             
-            [self presentFormViewControllerForForm:form client:client];
-        } afterDelay:0.4];
+                     [self presentFormViewControllerForForm:form client:client];
+                 } afterDelay:0.4];
+             }else{
+                 [[[UIAlertView alloc] initWithTitle:@"Error" message:@"App has no permission to access the addressbook. Grant access in the ios settings to go on."
+                                            delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+        }
+   
     }
 }
 
-- (void)presentFormViewControllerForForm:(RBForm *)form client:(RBClient *)client { 
+- (void)presentFormViewControllerForForm:(RBForm *)form client:(RBClient *)client {
     RBFormViewController *viewController = [[RBFormViewController alloc] initWithForm:form client:client];
     
     viewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
@@ -1511,11 +1520,12 @@
     //if request for Outlets already finished
     if(firstRequestFinished){
         [NSUserDefaults standardUserDefaults].webserviceUpdateDate = [NSDate date];
-        [self updateUI];
+        [self performSelector:@selector(updateUI) afterDelay:1.0];
         [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:1.0f];
     }else{
         firstRequestFinished=YES;
     }
+        NSLog(@"from finished");
 }
 
 -(void)outletRequestFinished:(ASIHTTPRequest *)request
@@ -1585,11 +1595,13 @@
     //if request for Forms already finished
     if(firstRequestFinished){
         [NSUserDefaults standardUserDefaults].webserviceUpdateDate = [NSDate date];
-        [self updateUI];
+        //[self updateUI];
         [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:1.0f];
+        [self performSelector:@selector(updateUI) afterDelay:1.0];
     }else{
         firstRequestFinished=YES;
     }
+    NSLog(@"outlet finished");
 }
 
 -(void)requestFailed:(ASIHTTPRequest *)request
