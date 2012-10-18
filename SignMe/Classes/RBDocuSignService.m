@@ -112,15 +112,15 @@ static DocuSignService *docuSign = nil;
             NSError *error;
             if ([docuSign cancelEnvelope:document.docuSignEnvelopeID reason:@"Voided by the sender" error:&error]) {
                 document.lastDocuSignStatus = $I(DSAPIService_EnvelopeStatusCode_Voided);
-                dispatch_async(dispatch_get_main_queue(), ^(void) {
+              //  dispatch_async(dispatch_get_main_queue(), ^(void) {
                     [MTApplicationDelegate showSuccessMessage:@"Envelope voided succesfully"];
-                    [MTApplicationDelegate.homeViewController updateUI];
-                });
+                    //[MTApplicationDelegate.homeViewController updateUI];
+                //});
 
                 [[NSManagedObjectContext defaultContext] save];
                 
-                // update document status after 10 seconds
-                [self performSelector:@selector(updateStatusOfDocuments) afterDelay:10.];
+                // update document status after 5 seconds
+                [self performSelector:@selector(updateStatusOfDocuments)];
             } else {
                 [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Error voiding envelope: %@. Please contact your IT-support team.", [error localizedDescription]]];
                 DDLogError(@"Wasn't able to void document: %@", [error localizedDescription]);
