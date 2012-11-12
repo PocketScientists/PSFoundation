@@ -34,8 +34,6 @@
 - (void)displayUserAuthentication{
     RBMusketeer * rbmusketeer = [RBMusketeer loadEntity];
     NSTimeInterval  time_intervall = 999999;
-    
-    NSLog(@"RBMusketeer: %@",rbmusketeer.uid);
     //1. If Username exist - also Keychain entry exists - check for Timestamp
     if(rbmusketeer.uid){
             NSDictionary *reqInfo =  [KeychainWrapper getKeychainDictionaryForUser:rbmusketeer.uid];
@@ -142,14 +140,12 @@
     req.username = usr;
     req.password = pwd;
     req.delegate = self;
-    NSLog(@"request with %@ %@",usr,pwd);
     [req startAsynchronous];
 }
 
 -(void)loginRequestFinished:(ASIHTTPRequest *)request{
     NSString * respStr = [[NSString alloc]  initWithData:request.responseData
                                                 encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",respStr);
     NSString *email = [respStr substringAfterSubstring:@"<email>"];
     NSString *uid = [respStr substringAfterSubstring:@"<uid>"];
     NSString *token = [respStr substringAfterSubstring:@"<token>"];
@@ -198,13 +194,12 @@
     req.password = rbmusketeer.token;
     req.delegate = self;
     [req setDidFinishSelector:@selector(userDataRequestFinished:)];
-    NSLog(@"Start next request for %@",[url absoluteString]);
     [req startAsynchronous];
 }
 
 -(void)userDataRequestFinished:(ASIHTTPRequest *)request{
     RBMusketeer * rbmusketeer = [RBMusketeer loadEntity];
-    
+    NSArray *result;
     NSData *respData = [request responseData];
     
     //Parse XML File and get User data
@@ -214,14 +209,36 @@
         
         for (NSString *prop in [RBMusketeer propertyNamesForMapping]){
             NSString *xpath = [NSString stringWithFormat:@"//user/%@",prop];
-            NSArray *result = [doc nodesForXPath:xpath error:nil];
+            result = [doc nodesForXPath:xpath error:nil];
             if(result.count > 0){   //If property exists in xml
                  GDataXMLElement *elem = (GDataXMLElement *)[result firstObject];
                  [rbmusketeer setValue:elem.stringValue forKey:prop];
             }
         }
         
+        //Admin Data
+        //Admin Email
+        NSArray *result = [doc nodesForXPath:@"//user/superior_items/admin_signme/email" error:nil];
+        if(result.count > 0){   //If property exists in xml
+            GDataXMLElement *elem = (GDataXMLElement *)[result firstObject];
+            [rbmusketeer setValue:elem.stringValue forKey:@"adminemail"];
+        }
+        
+        result = [doc nodesForXPath:@"//user/superior_items/admin_signme/firstname" error:nil];
+        if(result.count > 0){   //If property exists in xml
+            GDataXMLElement *elem = (GDataXMLElement *)[result firstObject];
+            [rbmusketeer setValue:elem.stringValue forKey:@"adminfirstname"];
+        }
+        
+        result = [doc nodesForXPath:@"//user/superior_items/admin_signme/lastname" error:nil];
+        if(result.count > 0){   //If property exists in xml
+            GDataXMLElement *elem = (GDataXMLElement *)[result firstObject];
+            [rbmusketeer setValue:elem.stringValue forKey:@"adminlastname"];
+        }
+        
         [rbmusketeer saveEntity];
+        
+        NSLog(@"adminmail %@, %@, %@",rbmusketeer.adminemail,rbmusketeer.adminfirstname,rbmusketeer.adminlastname);
         
         //Superior groups parsing
         for(int superiorgroup=1;superiorgroup<=2;superiorgroup++){
@@ -232,7 +249,7 @@
             }
             [[NSManagedObjectContext defaultContext] save];
             NSString * xpath = [NSString stringWithFormat:@"//user/superior_items/superior_group_%d/person",superiorgroup];
-            NSArray *result = [doc nodesForXPath:xpath error:nil];
+            result = [doc nodesForXPath:xpath error:nil];
             for(GDataXMLElement *elem in result){
                 RBAvailableRecipients * recip = [RBAvailableRecipients createEntity];
                 recip.superiorGroup=[NSNumber numberWithInt:superiorgroup];
@@ -244,17 +261,9 @@
         }
         [[NSManagedObjectContext defaultContext] save];
         
-        
-
-        
     }else{
         NSLog(@"Parser Error");
     }
-   
-    NSString * respString = [[NSString alloc]  initWithData:respData
-                                            encoding:NSUTF8StringEncoding];
-    
-    NSLog(@"%@",respString);
     
     if ([delegate_ respondsToSelector:@selector(userAuthenticated)]) {
         [delegate_ userAuthenticated];
@@ -263,7 +272,6 @@
 
 -(void)requestFailed:(ASIHTTPRequest *)request{
     NSUInteger respCode = [request responseStatusCode];
-    NSLog(@"Response Code %d",respCode);
     if(respCode == kResponseCodeFalseUser){
         [self displayErrorAlert:kFalseUserAlert];
     }else{

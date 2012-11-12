@@ -18,6 +18,7 @@
 		06599BB615E27278006B6988 /* RBUserAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 06599BB515E27278006B6988 /* RBUserAuthentication.m */; };
 		065CE85215FF7E4D00D4A94E /* RBAvailableRecipients.m in Sources */ = {isa = PBXBuildFile; fileRef = 065CE85115FF7E4D00D4A94E /* RBAvailableRecipients.m */; };
 		0666251A15EF4A0800721CBB /* RBRecipientPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0666251915EF4A0800721CBB /* RBRecipientPickerViewController.m */; };
+		0670C025164D47AB0038AF4B /* mibhome@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0670C024164D47AB0038AF4B /* mibhome@2x.png */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -325,15 +326,16 @@
 		06316130160AFA0E003E9AEA /* mibhome.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mibhome.png; path = Images/mibhome.png; sourceTree = "<group>"; };
 		064DE1D815E2DF6B00177D1E /* KeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainWrapper.h; sourceTree = "<group>"; };
 		064DE1D915E2DF6B00177D1E /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainWrapper.m; sourceTree = "<group>"; };
-		064DE1DB15E2E66A00177D1E /* Sign Me.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Sign Me.entitlements"; sourceTree = "<group>"; };
 		065493C815E5096E00936ECB /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDataXMLNode.h; sourceTree = "<group>"; };
 		065493C915E5096E00936ECB /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLNode.m; sourceTree = "<group>"; };
 		06599BB415E27278006B6988 /* RBUserAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBUserAuthentication.h; sourceTree = "<group>"; };
 		06599BB515E27278006B6988 /* RBUserAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBUserAuthentication.m; sourceTree = "<group>"; };
 		065CE85015FF7E4D00D4A94E /* RBAvailableRecipients.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAvailableRecipients.h; sourceTree = "<group>"; };
 		065CE85115FF7E4D00D4A94E /* RBAvailableRecipients.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBAvailableRecipients.m; sourceTree = "<group>"; };
+		065EDB1916504AC800E0D10B /* SignMe_Int.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SignMe_Int.entitlements; sourceTree = "<group>"; };
 		0666251815EF4A0800721CBB /* RBRecipientPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBRecipientPickerViewController.h; sourceTree = "<group>"; };
 		0666251915EF4A0800721CBB /* RBRecipientPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBRecipientPickerViewController.m; sourceTree = "<group>"; };
+		0670C024164D47AB0038AF4B /* mibhome@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "mibhome@2x.png"; path = "Images/mibhome@2x.png"; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -706,7 +708,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				064DE1DB15E2E66A00177D1E /* Sign Me.entitlements */,
+				065EDB1916504AC800E0D10B /* SignMe_Int.entitlements */,
 				A9FD5F95150E484A006256DE /* Icon@2x.png */,
 				A9FD5F93150E47B2006256DE /* Icon.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -911,6 +913,7 @@
 		395EEF2613D72E3C003C4DA8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0670C024164D47AB0038AF4B /* mibhome@2x.png */,
 				06316130160AFA0E003E9AEA /* mibhome.png */,
 				A9CB0D4814E9F541008AD4CE /* RemoveButton.png */,
 				A9B9367514B3E1E100C9A51B /* TextFieldBackgroundDisabled.png */,
@@ -1517,6 +1520,7 @@
 				A9FD5F94150E47B2006256DE /* Icon.png in Resources */,
 				A9FD5F96150E484A006256DE /* Icon@2x.png in Resources */,
 				06316131160AFA0F003E9AEA /* mibhome.png in Resources */,
+				0670C025164D47AB0038AF4B /* mibhome@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1697,8 +1701,9 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "Sign Me.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = SignMe_Int.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Red Bull North America Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Red Bull North America Inc.";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)/**",
@@ -1720,7 +1725,8 @@
 				INFOPLIST_FILE = "Build-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = SignMe_Int;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "C779FEC4-21AC-4DA6-8793-52006C6EA264";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C779FEC4-21AC-4DA6-8793-52006C6EA264";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -1731,7 +1737,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "Sign Me.entitlements";
+				CODE_SIGN_ENTITLEMENTS = SignMe_Int.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Red Bull North America Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Red Bull North America Inc.";
 				COPY_PHASE_STRIP = YES;

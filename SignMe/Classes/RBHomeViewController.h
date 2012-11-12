@@ -39,7 +39,7 @@
 - (IBAction)handleAddNewClientPress:(id)sender;
 - (IBAction)handleBackgroundPress:(id)sender;
 - (IBAction)handleMusketeerPress:(id)sender;
--(IBAction)clearSearchPressed;
+- (IBAction)clearSearchPressed;
 
 - (void)updateUI;
 - (void)syncBoxNet:(BOOL)forced;
@@ -47,5 +47,7 @@
 -(void)updateClientWithCustomURLCallString:(NSString *)urlstring;
 
 -(IBAction)updateDataViaWebservice;
+
+- (void)sendEMailMessageInBackgroundWithPDFAttachment:(NSData *)pdfData contractName:(NSString *)contractName client:(NSString *)clientName;
 
 @end

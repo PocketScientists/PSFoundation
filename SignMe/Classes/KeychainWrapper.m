@@ -32,18 +32,6 @@
 
 
 @implementation KeychainWrapper
-
-//Sets the default search values in the dictionary
-+ (NSMutableDictionary *)setupSearchDirectory{
-    NSMutableDictionary *searchDictionary = [[NSMutableDictionary alloc] init];
-    [searchDictionary setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
-    [searchDictionary setObject:[@"Authentication" dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrGeneric];
-    //Written to the entitlement file as default
-    [searchDictionary setObject:@"5HPAW9M6JM.com.us.redbull.MIB2012PreStage || 5HPAW9M6JM.com.us.redbull.MIB2012Stage || 5HPAW9M6JM.com.us.redbull.MIB2012" forKey:(__bridge id)kSecAttrAccessGroup];
-
-    
-    return searchDictionary;
-}
  
 + (NSDictionary *)getKeychainDictionaryForUser:(NSString *) user
 {
@@ -71,10 +59,6 @@
         ergstr =[[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding];
         if(ergstr){
             [returnDictionary setObject:ergstr forKey:@"Username"];}
-        /*resdata = [result valueForKey:(__bridge id)kSecAttrComment];
-        ergstr =[[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding];
-        if(ergstr){
-            [returnDictionary setObject:[[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding] forKey:@"UserXML"];}*/
         
         resdata = [result valueForKey:(__bridge id)kSecAttrDescription];
         NSString *auth_date = [[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding];
@@ -108,14 +92,12 @@
     //Add
     OSStatus status = SecItemAdd((__bridge CFDictionaryRef)dictionary, NULL);
     
-   
-    
     if(status == errSecSuccess){
-         NSLog(@"Write Successfully to keychain: kSecAttrAccount %@ / kSecValuedata %@ / ",username,tokenID);
         return YES;
     }else if (status == errSecDuplicateItem){
         return [self updateKeychainValueWithUser:username Token:tokenID ];
     }else{
+        [[[UIAlertView alloc] initWithTitle:@"SignMe-Keychain" message:[NSString stringWithFormat:@"%@ %d",@"Error writing in shared Keychain: code %d",(int)status] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         return NO;
         
     }
@@ -149,7 +131,15 @@
 #pragma mark -
 #pragma mark Private Methods
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
+//Sets the default search values in the dictionary
++ (NSMutableDictionary *)setupSearchDirectory{
+    NSMutableDictionary *searchDictionary = [[NSMutableDictionary alloc] init];
+    [searchDictionary setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
+    [searchDictionary setObject:[@"Authentication" dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrGeneric];
+    //Written to the entitlement file as default
+    [searchDictionary setObject:@"5HPAW9M6JM.redbull" forKey:(__bridge id)kSecAttrAccessGroup];
+    return searchDictionary;
+}
 
 +(NSDateFormatter *)getNSDateFormatterForTimestamp
 {

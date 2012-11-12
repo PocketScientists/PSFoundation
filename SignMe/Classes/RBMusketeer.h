@@ -19,7 +19,7 @@
 @property (nonatomic, strong) NSString * state;
 @property (nonatomic, strong) NSString * zip;
 
-//added new properties from session.xml
+//added new properties from session.xml & user.xml
 @property (nonatomic, strong) NSString *token;
 @property (nonatomic, strong) NSString *auth_string;
 @property (nonatomic, strong) NSString *application_url;
@@ -27,6 +27,9 @@
 @property (nonatomic, strong) NSString *uid;
 @property (nonatomic, strong) NSString *sign_me_limit_1;
 @property (nonatomic, strong) NSString *sign_me_limit_2;
+@property (nonatomic, strong) NSString *adminemail;
+@property (nonatomic, strong) NSString *adminfirstname;
+@property (nonatomic, strong) NSString *adminlastname;
 
 
 + (RBMusketeer *)loadEntity;

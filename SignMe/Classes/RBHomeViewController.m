@@ -65,6 +65,8 @@
 
 @property (nonatomic, assign) BOOL formsCarouselChangeWasInitiatedByTap;
 
+@property (nonatomic, strong) SKPSMTPMessage *emailMsg;
+
 // header label for a carousel
 - (UILabel *)headerLabelForView:(UIView *)view text:(NSString *)text;
 
@@ -140,6 +142,7 @@
 @synthesize formsCarouselChangeWasInitiatedByTap = formsCarouselChangeWasInitiatedByTap_;
 @synthesize currentNumberOfDocumentsInDetailCarousel = currentNumberOfDocumentsInDetailCarousel_;
 @synthesize ressourceLoadingHttpRequests=ressourceLoadingHttpRequests_;
+@synthesize emailMsg = emailMsg_;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -1403,21 +1406,20 @@
     }
     
     if(calltype == kRBMIBCallTypeAdd || calltype == kRBMIBCallTypeEdit){
-   
-    NSArray * informationparts = [urlstring componentsSeparatedByString:@"&"];
-    for(NSString *informationsnippet in informationparts){
-        valuepart =[informationsnippet substringAfterSubstring:@"="];
-        //keypart = [informationsnippet substringBeforeSubstring:@"="];
-        keypart = nil;
-        if([informationsnippet hasSubstring:@"="])
-            keypart = [informationsnippet substringToIndex:[informationsnippet rangeOfString:@"="].location];
         
-        if([keypart isEqualToString:@"id"]){
-            client = [self clientWithIdentifier:valuepart];
-        }else{
-            [client setValue:valuepart forKey:keypart];
+        NSArray * informationparts = [urlstring componentsSeparatedByString:@"&"];
+        for(NSString *informationsnippet in informationparts){
+            valuepart =[informationsnippet substringAfterSubstring:@"="];
+            //keypart = [informationsnippet substringBeforeSubstring:@"="];
+            keypart = nil;
+            if([informationsnippet hasSubstring:@"="])
+                keypart = [informationsnippet substringToIndex:[informationsnippet rangeOfString:@"="].location];
+            if([keypart isEqualToString:@"id"]){
+                client = [self clientWithIdentifier:valuepart];
+            }else{
+                [client setValue:valuepart forKey:keypart];
+            }
         }
-    }
         [self performSelector:@selector(showSuccessMessage:) withObject:@"Clients successfully updated" afterDelay:0.5f];
     }
     
@@ -1453,7 +1455,6 @@
     [outletreq startAsynchronous];
     
     [self showLoadingMessage:(NSString *)@"Updating Clients and Forms!"];
-    
 }
 
 -(void)formRequestFinished:(ASIHTTPRequest *)request{
@@ -1520,12 +1521,14 @@
     //if request for Outlets already finished
     if(firstRequestFinished){
         [NSUserDefaults standardUserDefaults].webserviceUpdateDate = [NSDate date];
-        [self performSelector:@selector(updateUI) afterDelay:1.0];
-        [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:1.0f];
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:1.0f];
+            [self performSelector:@selector(updateUI) afterDelay:1.0];
+            [self.clientsCarousel scrollToItemAtIndex:0 animated:YES];
+        });
     }else{
         firstRequestFinished=YES;
     }
-        NSLog(@"from finished");
 }
 
 -(void)outletRequestFinished:(ASIHTTPRequest *)request
@@ -1595,9 +1598,11 @@
     //if request for Forms already finished
     if(firstRequestFinished){
         [NSUserDefaults standardUserDefaults].webserviceUpdateDate = [NSDate date];
-        //[self updateUI];
-        [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:1.0f];
-        [self performSelector:@selector(updateUI) afterDelay:1.0];
+         dispatch_async(dispatch_get_main_queue(), ^(void) {
+                [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:1.0f];
+                [self performSelector:@selector(updateUI) afterDelay:1.0];
+                [self.clientsCarousel scrollToItemAtIndex:0 animated:YES];
+         });
     }else{
         firstRequestFinished=YES;
     }
@@ -1614,47 +1619,65 @@
     oneRequestFailed=YES;
 }
 
-//Email Messaging Part
-/*
-- (void)sendEMailMessageInBackground {
-    
-    SKPSMTPMessage *testMsg = [[SKPSMTPMessage alloc] init];
-    
-    testMsg.fromEmail = @"michael.der.schwarz@gmail.com";
-    testMsg.toEmail = @"michael_schwarz@me.com";
-    testMsg.relayHost = @"smtp.gmail.com";
-    testMsg.requiresAuth = YES;
 
-    testMsg.login = @"Email@email.com";
-    testMsg.pass = @"";
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Email Messaging
+////////////////////////////////////////////////////////////////////////
+- (void)sendEMailMessageInBackgroundWithPDFAttachment:(NSData *)pdfData contractName:(NSString *)contractName client:(NSString *)clientName{
     
+    self.emailMsg = [[SKPSMTPMessage alloc] init];
+    RBMusketeer *musketeer = [RBMusketeer loadEntity];
     
-    testMsg.wantsSecure = YES; // smtp.gmail.com doesn't work without TLS
+    emailMsg_.fromEmail = [[NSUserDefaults standardUserDefaults] stringForKey:@"kRBMailConfigFromEmail"];
+    emailMsg_.toEmail = musketeer.adminemail;
+    emailMsg_.relayHost =[[NSUserDefaults standardUserDefaults] stringForKey:@"kRBMailConfigHost"];
+    emailMsg_.requiresAuth = YES;
+    emailMsg_.login = [[NSUserDefaults standardUserDefaults] stringForKey:@"kRBMailConfigLoginUser"];
+    emailMsg_.pass = [[NSUserDefaults standardUserDefaults] stringForKey:@"kRBMailConfigLoginPwd"];
+    emailMsg_.wantsSecure = YES;
+    emailMsg_.subject = [NSString stringWithFormat:@"<%@> SignMe <%@>",musketeer.uid,clientName];
+    emailMsg_.delegate = self;
     
-    testMsg.subject = @"SMTPMessage Test Message";
-
-    testMsg.delegate = self;
+    NSLog(@"From:%@ To:%@ host:%@ login:%@ pass:%@",emailMsg_.fromEmail,emailMsg_.toEmail,emailMsg_.relayHost,emailMsg_.login,emailMsg_.pass);
     
     //email contents
-    NSString * bodyMessage = [NSString stringWithFormat:@"This is the body of the email. You can put anything in here that you want."];
+   NSString * bodyMessage = [NSString stringWithFormat:@"### Contract Info ###\n-Type: %@ \n\n### Musketeer Info ####\n-Firstname: %@ \n-Lastname: %@\n-E-Mail: %@ \n\n",
+                                                          contractName,musketeer.firstname,musketeer.lastname,musketeer.email];
     NSDictionary *plainPart = [NSDictionary dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey,
                                bodyMessage ,kSKPSMTPPartMessageKey,@"8bit",kSKPSMTPPartContentTransferEncodingKey,nil];
-    testMsg.parts = [NSArray arrayWithObjects:plainPart,nil];
-    [testMsg send];
     
+    NSDictionary *attachmentPart = [NSDictionary dictionaryWithObjectsAndKeys:@"text/directory;\r\n\tx-unix-mode=0644;\r\n\tname=\"contract.pdf\"",kSKPSMTPPartContentTypeKey,
+							 @"attachment;\r\n\tfilename=\"contract.pdf\"",kSKPSMTPPartContentDispositionKey,[pdfData base64Encoding],kSKPSMTPPartMessageKey,@"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
+    
+    emailMsg_.parts = [NSArray arrayWithObjects:plainPart,attachmentPart,nil];
+    
+    if(emailMsg_.fromEmail != nil && emailMsg_.toEmail != nil && emailMsg_.relayHost != nil && emailMsg_.login != nil && emailMsg_.pass != nil){
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [emailMsg_ send];});
+    }else{
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [self performSelector:@selector(showErrorMessage:) withObject:@"E-Mail function in SignMe Settings not fully conigurated." afterDelay:3.0f];
+        });
+        self.emailMsg=nil;
+    }
 }
 
 - (void)messageSent:(SKPSMTPMessage *)message
 {
-    NSLog(@"delegate - message sent");
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [self performSelector:@selector(showSuccessMessage:) withObject:@"E-Mail with signed agreement has been successfully sent!" afterDelay:3.0f];
+    });
+    self.emailMsg = nil;
 }
 
 - (void)messageFailed:(SKPSMTPMessage *)message error:(NSError *)error
 {
-    
-    //self.textView.text = [NSString stringWithFormat:@"Darn! Error: %@, %@", [error code], [error localizedDescription]];
-    NSLog(@"delegate - error(%d): %@", [error code], [error localizedDescription]);
-}*/
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [self performSelector:@selector(showErrorMessage:) withObject:@"E-Mail with signed agreement hasn't been successfully sent!" afterDelay:3.0f];
+    });
+    self.emailMsg = nil;
+}
 
 
 ////////////////////////////////////////////////////////////////////////

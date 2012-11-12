@@ -267,6 +267,15 @@ static DocuSignService *docuSign = nil;
                                 
                                 // write to disk (overwrite previous PDF)
                                 [signedPDFData writeToURL:pdfFileURL atomically:YES];
+                                
+                                //Sent E-Mail with fully signed document
+                                if(status == DSAPIService_EnvelopeStatusCode_Completed){
+                                    dispatch_async(dispatch_get_main_queue(), ^(void) {
+                                        [MTApplicationDelegate.homeViewController sendEMailMessageInBackgroundWithPDFAttachment:signedPDFData
+                                                                                                                   contractName:document.name
+                                                                                                                         client:document.client.name];
+                                    });
+                                }
                                 // Sent to Box.net
                                // NSString *folderPath = RBPathToFolderForStatusAndClientWithName([document.status intValue], document.client.name);
                                // [RBBoxService uploadDocument:document toFolderAtPath:folderPath];
@@ -295,7 +304,6 @@ static DocuSignService *docuSign = nil;
         }
     });
 }
-
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

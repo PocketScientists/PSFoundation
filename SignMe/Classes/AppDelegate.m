@@ -44,7 +44,6 @@
 - (void)dealloc {
     [docuSignUpdateTimer_ invalidate];
     [authorizationTimer_ invalidate];
-    
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,7 +132,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     
-    NSLog(@"got a call");
+   // [[[UIAlertView alloc] initWithTitle:@"Got  Call from M.I.B." message: [[url description] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     NSString *urlstring = [[url description] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     urlstring = [urlstring substringAfterSubstring:@"outlet?"];
     [self.homeViewController updateClientWithCustomURLCallString:urlstring];
@@ -183,7 +182,7 @@
     self.authorizationTimer = [NSTimer scheduledTimerWithTimeInterval:intervall
                                                                 block:^(void) {
                                                                     [userAuthentication_ displayUserAuthentication];
-                                                                    } repeats:NO];
+                                                                } repeats:NO];
 }
 
 
