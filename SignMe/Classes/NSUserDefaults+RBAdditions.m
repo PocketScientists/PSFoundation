@@ -22,7 +22,7 @@
         NSString *val = nil;
         
         if (standardUserDefaults) 
-            val = [standardUserDefaults objectForKey:kRBSettingsDocuSignUserNameKey];
+            val = [standardUserDefaults objectForKey:@"kRBMailConfigFromEmail"];
         
         // TODO: / apparent Apple bug: if user hasn't opened Settings for this app yet (as if?!), then
         // the defaults haven't been copied in yet.  So do so here.  Adds another null check
@@ -46,7 +46,7 @@
                 
                 //Get the default value specified in the plist file.
                 id defaultValue = [item objectForKey:@"DefaultValue"];
-                
+                NSLog(@"key: %@ %@",keyValue,defaultValue);
                 if (keyValue && defaultValue) {				
                     [standardUserDefaults setObject:defaultValue forKey:keyValue];
                 }
