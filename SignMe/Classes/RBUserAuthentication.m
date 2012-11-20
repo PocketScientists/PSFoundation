@@ -218,7 +218,7 @@
         
         //Admin Data
         //Admin Email
-        NSArray *result = [doc nodesForXPath:@"//user/superior_items/admin_signme/email" error:nil];
+        result = [doc nodesForXPath:@"//user/superior_items/admin_signme/email" error:nil];
         if(result.count > 0){   //If property exists in xml
             GDataXMLElement *elem = (GDataXMLElement *)[result firstObject];
             [rbmusketeer setValue:elem.stringValue forKey:@"adminemail"];

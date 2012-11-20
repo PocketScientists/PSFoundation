@@ -264,13 +264,13 @@ static DocuSignService *docuSign = nil;
                             NSData *signedPDFData = [docuSign requestPDF:document.docuSignEnvelopeID error:&error];
                             if (signedPDFData) {
                                 NSURL *pdfFileURL = document.filledPDFURL;
-                                
+                                NSLog(@"Document Signed id: %@",document.docuSignEnvelopeID);
                                 // write to disk (overwrite previous PDF)
                                 [signedPDFData writeToURL:pdfFileURL atomically:YES];
                                 
                                 //Sent E-Mail with fully signed document
                                 if(status == DSAPIService_EnvelopeStatusCode_Completed){
-                                    dispatch_async(dispatch_get_main_queue(), ^(void) {
+                                    dispatch_async(queue, ^(void) {
                                         [MTApplicationDelegate.homeViewController sendEMailMessageInBackgroundWithPDFAttachment:signedPDFData
                                                                                                                    contractName:document.name
                                                                                                                          client:document.client.name];

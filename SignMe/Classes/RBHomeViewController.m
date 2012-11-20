@@ -22,6 +22,7 @@
 #import "RBClient+RBProperties.h"
 #import "RBDocuSignService.h"
 #import "DocuSignService.h"
+#import "NSData+Base64Additions.h"
 
 
 #define kMinNumberOfItemsToWrap   6
@@ -1420,7 +1421,11 @@
                 [client setValue:valuepart forKey:keypart];
             }
         }
-        [self performSelector:@selector(showSuccessMessage:) withObject:@"Clients successfully updated" afterDelay:0.5f];
+        if(client != nil){
+            [self performSelector:@selector(showSuccessMessage:) withObject:@"Clients successfully updated" afterDelay:0.5f];
+        }else{
+             [self performSelector:@selector(showErrorMessage:) withObject:@"Update Error - Client data is missing!" afterDelay:0.5f];
+        }
     }
     
     [[NSManagedObjectContext defaultContext] save];
@@ -1642,20 +1647,21 @@
     NSLog(@"From:%@ To:%@ host:%@ login:%@ pass:%@",emailMsg_.fromEmail,emailMsg_.toEmail,emailMsg_.relayHost,emailMsg_.login,emailMsg_.pass);
     
     //email contents
-   NSString * bodyMessage = [NSString stringWithFormat:@"### Contract Info ###\n-Type: %@ \n\n### Musketeer Info ####\n-Firstname: %@ \n-Lastname: %@\n-E-Mail: %@ \n\n",
-                                                          contractName,musketeer.firstname,musketeer.lastname,musketeer.email];
+    NSString * bodyMessage = [NSString stringWithFormat:@"### Contract Info ###\n-Type: %@ \n\n### Musketeer Info ####\n-Firstname: %@ \n-Lastname: %@\n-E-Mail: %@ \n\n",
+                              contractName,musketeer.firstname,musketeer.lastname,musketeer.email];
     NSDictionary *plainPart = [NSDictionary dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey,
                                bodyMessage ,kSKPSMTPPartMessageKey,@"8bit",kSKPSMTPPartContentTransferEncodingKey,nil];
     
-    NSDictionary *attachmentPart = [NSDictionary dictionaryWithObjectsAndKeys:@"text/directory;\r\n\tx-unix-mode=0644;\r\n\tname=\"contract.pdf\"",kSKPSMTPPartContentTypeKey,
-							 @"attachment;\r\n\tfilename=\"contract.pdf\"",kSKPSMTPPartContentDispositionKey,[pdfData base64Encoding],kSKPSMTPPartMessageKey,@"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
+    NSDictionary *attachmentPart = [NSDictionary dictionaryWithObjectsAndKeys:@"application/pdf;\r\n\tx-unix-mode=0644;\r\n\tname=\"contract.pdf\"",kSKPSMTPPartContentTypeKey,
+                                    @"inline;\r\n\tfilename=\"contract.pdf\"",kSKPSMTPPartContentDispositionKey,[pdfData encodeWrappedBase64ForData],kSKPSMTPPartMessageKey,@"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
     
     emailMsg_.parts = [NSArray arrayWithObjects:plainPart,attachmentPart,nil];
     
     if(emailMsg_.fromEmail != nil && emailMsg_.toEmail != nil && emailMsg_.relayHost != nil && emailMsg_.login != nil && emailMsg_.pass != nil){
         dispatch_async(dispatch_get_main_queue(), ^(void) {
-            [emailMsg_ send];});
-    }else{
+            [emailMsg_ send];
+        });
+    } else {
         dispatch_async(dispatch_get_main_queue(), ^(void) {
             [self performSelector:@selector(showErrorMessage:) withObject:@"E-Mail function in SignMe Settings not fully conigurated." afterDelay:3.0f];
         });
