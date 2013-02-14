@@ -427,10 +427,10 @@
                 control = [layoutData.fields objectAtIndex:i];
                 control.frame = [layoutData rectForFieldAtIndex:i];
 
-                maxHeight = MAX(maxHeight, control.frameBottom);
+                maxHeight = MAX(maxHeight, MAX(control.frameBottom, label.frameBottom));
             }
             
-            origin.y = control.frameBottom + kRBRowPadding;
+            origin.y = MAX(control.frameBottom, label.frameBottom) + kRBRowPadding;
         }
     }
     

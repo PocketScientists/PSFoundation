@@ -25,5 +25,12 @@
 //Update a value in the keychain - is called automatically from createKeychainValue... if entry already exists.
 + (BOOL)updateKeychainValueWithUser:(NSString *)username Token:(NSString *)tokenID;
 
+//Returns a string consisting offline created Outlets from the M.I.B app.
++ (NSString *)readOutletJSONFromKeychain;
+
+//Clears the offline created Outlet with id from the keychain.
++ (void)clearOutletJSONFromKeychain:(NSString *)outletID;
+
+
 
 @end

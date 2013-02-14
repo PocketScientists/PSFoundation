@@ -28,6 +28,7 @@ static RBMusketeer *musketeer;
 @synthesize application_url=application_url_;
 @synthesize country_iso=country_iso_;
 @synthesize uid=uid_;
+@synthesize lastLoginDate = lastLoginDate_;
 
 
 + (RBMusketeer *)loadEntity {

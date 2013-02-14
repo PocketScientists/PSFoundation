@@ -35,6 +35,7 @@
 #define kReachabilityUserXML @"https://stage-rbmib.v2a.net/api/1/sign_me/user.xml"
 #define kReachabilityOutletsXML @"https://stage-rbmib.v2a.net/api/1/sign_me/outlets.xml"
 #define kReachabilityFormsXML @"https://stage-rbmib.v2a.net/api/1/sign_me/templates.xml"
+#define kReachabilityData @"https://stage-rbmib.v2a.net"
 #define kApplicationURL [[RBMusketeer loadEntity] application_url]
 
 ////////////////////////////////////////////////////////////////////////
@@ -46,6 +47,7 @@
 #define kRBMIBURLPath @"rb-mib"
 #define kRBMIBCallType @"mibcalltype"
 #define kRBMIBCallClientID @"mibcallclientid"
+#define kRBMIBCallTypeJumpAction 0
 #define kRBMIBCallTypeAdd 1
 #define kRBMIBCallTypeEdit 2
 #define kRBMIBCallTypeDelete 3

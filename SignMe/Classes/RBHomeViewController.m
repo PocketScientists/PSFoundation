@@ -23,6 +23,7 @@
 #import "RBDocuSignService.h"
 #import "DocuSignService.h"
 #import "NSData+Base64Additions.h"
+#import "KeychainWrapper.h"
 
 
 #define kMinNumberOfItemsToWrap   6
@@ -820,30 +821,6 @@
             [actionSheet addButtonWithTitle:@"View" block:^(void) {
                 [self viewClient:(RBClient *)attachedObject];
             }];
-
-            // delete document
-            /*[actionSheet setDestructiveButtonWithTitle:@"Delete" block:^(void) {
-                PSAlertView *alertView = [PSAlertView alertWithTitle:[((RBClient *)attachedObject).name uppercaseString] message:[NSString stringWithFormat:@"Do you really want to delete client %@?", [((RBClient *)attachedObject).name uppercaseString]]];
-                
-                [alertView addButtonWithTitle:@"Delete" block:^(void) { //Delete client via MIB-APP
-                    NSURL *urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://outlet?id%@/delete",kRBMIBURLPath,((RBClient *)attachedObject).name]];
-                    [[NSUserDefaults standardUserDefaults] setInteger:kRBMIBCallTypeDelete forKey:kRBMIBCallType];
-                    [[NSUserDefaults standardUserDefaults] setObject:((RBClient *)attachedObject).identifier forKey:kRBMIBCallClientID];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                 [[NSUserDefaults standardUserDefaults] synchronize];
-                 if ([[UIApplication sharedApplication] canOpenURL:urlForRequest]) {
-                     [[UIApplication sharedApplication] openURL:urlForRequest];
-                 }
-                 else {
-                     //Display error
-                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"MIB App not found" message:@"The MIB App is not installed. It must be installed to send the request." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                     [alert show];
-                 }
-                }];
-                
-                [alertView setCancelButtonWithTitle:@"Cancel" block:nil];
-                [alertView show];
-            }];*/
             
             [self performBlock:^(void) {
                 [actionSheet showFromRect:[self.view convertRect:(CGRect){CGPointMake(gestureRecognizer.view.frameLeft,gestureRecognizer.view.frameTop),gestureRecognizer.view.size} fromView:gestureRecognizer.view] 
@@ -859,6 +836,7 @@
     NSURL *urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://",kRBMIBURLPath]];
     
     if ([[UIApplication sharedApplication] canOpenURL:urlForRequest]) {
+        [[NSUserDefaults standardUserDefaults] setInteger:kRBMIBCallTypeJumpAction forKey:kRBMIBCallType];
         [[UIApplication sharedApplication] openURL:urlForRequest];
     }
     else {
@@ -1228,7 +1206,28 @@
         [[NSUserDefaults standardUserDefaults] setObject:@"nil" forKey:kRBMIBCallClientID];
   
     }else{
-        urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://sign_me/outlets/%@/edit",kRBMIBURLPath,client.identifier]];
+        NSDictionary *dictToTransmit  = [[NSMutableDictionary alloc] init];
+        [dictToTransmit setValue:client.identifier forKey:@"id"];
+        [dictToTransmit setValue:client.updated_at forKey:@"updated_at"];
+        [dictToTransmit setValue:client.name forKey:@"name"];
+        [dictToTransmit setValue:client.postalcode forKey:@"postal_code"];
+        [dictToTransmit setValue:client.city forKey:@"city"];
+        [dictToTransmit setValue:client.country forKey:@"country"];
+        [dictToTransmit setValue:client.country_iso forKey:@"country_iso"];
+        [dictToTransmit setValue:client.classification1 forKey:@"classification_1"];
+        [dictToTransmit setValue:client.classification2 forKey:@"classification_2"];
+        [dictToTransmit setValue:client.classification3 forKey:@"classification_3"];
+        
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictToTransmit
+                                                           options:nil
+                                                             error:nil];
+        
+        NSString *jsonString = [NSString stringWithFormat:@"%@",client.identifier];
+        if (jsonData) {
+            jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            jsonString = [jsonString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        }
+        urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://sign_me/outlets/%@/edit",kRBMIBURLPath,jsonString]];
         [[NSUserDefaults standardUserDefaults] setInteger:kRBMIBCallTypeEdit forKey:kRBMIBCallType];
          [[NSUserDefaults standardUserDefaults] setObject:client.identifier forKey:kRBMIBCallClientID];
     }
@@ -1252,8 +1251,9 @@
              if( [[NSUserDefaults standardUserDefaults] addressBookAccess] == YES){
                  [self performBlock:^(void) {
                      RBForm *form = [[self.emptyForms objectAtIndex:self.detailCarouselSelectedIndex] copy];
+                     //RBForm *form = [[RBForm alloc] initWithPath:[kRBFolderUserEmptyForms stringByAppendingPathComponent:@"aForm/PA_Form.plist"] name:@"aForm"];
                      RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
-            
+                     //RBClient *client = [[RBClient alloc] init];
                      [self presentFormViewControllerForForm:form client:client];
                  } afterDelay:0.4];
              }else{
@@ -1339,14 +1339,6 @@
             predicate = [NSPredicate predicateWithFormat:@"status = %d", formStatus];
         }
     }
-    //self.documentsFetchController.fetchRequest.predicate = predicate;
-    /*
-    NSError *error = nil;
-    if (![self.documentsFetchController performFetch:&error]) {
-        DDLogError(@"Unresolved error fetching documents %@, %@", error, [error userInfo]);
-    }
-    NSLog(@"Fetch performed Number: %d",self.documentsFetchController.count);
-    return self.documentsFetchController.count;*/
   
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
    
@@ -1359,7 +1351,6 @@
 }
 
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {
-  //  RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
    
     switch (formStatus) {
         case RBFormStatusNew:
@@ -1411,7 +1402,6 @@
         NSArray * informationparts = [urlstring componentsSeparatedByString:@"&"];
         for(NSString *informationsnippet in informationparts){
             valuepart =[informationsnippet substringAfterSubstring:@"="];
-            //keypart = [informationsnippet substringBeforeSubstring:@"="];
             keypart = nil;
             if([informationsnippet hasSubstring:@"="])
                 keypart = [informationsnippet substringToIndex:[informationsnippet rangeOfString:@"="].location];
@@ -1468,6 +1458,9 @@
     NSString *downloadpath;
     NSFileManager *manager = [NSFileManager defaultManager];
     
+    NSLog(@"%@", [[NSString alloc] initWithData:respData
+                                                          encoding:NSUTF8StringEncoding]);
+    
     [[NSUserDefaults standardUserDefaults] deleteStoredObjectNames];
     
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData
@@ -1494,13 +1487,14 @@
                     GDataXMLElement *content = (GDataXMLElement *)[elements firstObject];
                     elemcontent = content.stringValue;
                     if([elementname isEqualToString:@"form_url"]){
-                        [[NSUserDefaults standardUserDefaults] setFormName:downloadpath forObjectWithNameIncludingExtension:[elemcontent lastPathComponent]];
+                        [[NSUserDefaults standardUserDefaults] setFormName:downloadpath forObjectWithNameIncludingExtension:[NSString stringWithFormat:@"%@___%@",formname,[elemcontent lastPathComponent]]];
+                        NSLog(@"downloadpath %@ formanme %@",downloadpath,[NSString stringWithFormat:@"%@___%@",formname,[elemcontent lastPathComponent]]);
                     }
+                    ASIHTTPRequest *ressourcereq = [ASIHTTPRequest requestWithURL:[RBFullFormRessourceURL(elemcontent) copy]];
+                    [ressourcereq setDownloadDestinationPath:[downloadpath stringByAppendingPathComponent:[elemcontent lastPathComponent]]];
+                    [ressourcereq setDelegate:self];
+                    [self.ressourceLoadingHttpRequests addOperation:ressourcereq];
                 }
-                ASIHTTPRequest *ressourcereq = [ASIHTTPRequest requestWithURL:RBFullFormRessourceURL(elemcontent)];
-                [ressourcereq setDownloadDestinationPath:[downloadpath stringByAppendingPathComponent:[elemcontent lastPathComponent]]];
-                [ressourcereq setDelegate:self];
-                [self.ressourceLoadingHttpRequests addOperation:ressourcereq];
             }
             
             elements = [form elementsForName:@"resources"];
@@ -1548,7 +1542,7 @@
         NSArray *elementstoload = [NSArray arrayWithObjects:@"updated_at",@"name",@"street",@"city",@"postalcode",@"region",@"country",
                                    @"country_iso",@"classification1",@"classification2",@"classification3",nil];
         
-        for(GDataXMLElement *outlet in [doc.rootElement elementsForName:@"outlet" ])
+        for(GDataXMLElement *outlet in [doc.rootElement elementsForName:@"outlet"])
         {
             //Special routine for id because of keyword conflict
             NSString * ident;
@@ -1564,12 +1558,12 @@
                 client = [RBClient createEntity];
                 client.identifier = ident;
             }
-
+            
             client.visible=$B(YES);
             //Special routine for Logo - add logo request
             elements = [outlet elementsForName:@"logo_url"];
             if (elements.count > 0) {
-                 GDataXMLElement *content = (GDataXMLElement *) [elements objectAtIndex:0];
+                GDataXMLElement *content = (GDataXMLElement *) [elements objectAtIndex:0];
                 client.logo_url = content.stringValue;
                 if(client.logo_url.length > 0){
                     ASIHTTPRequest *logoreq = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:client.logo_url ]];
@@ -1578,7 +1572,7 @@
                     logoreq.tag = kLogoReq;
                     [self.ressourceLoadingHttpRequests addOperation:logoreq];
                 }
-                 
+                
             }
             
             //Load the remaining objects
@@ -1590,11 +1584,8 @@
                     
                 }
             }
-            
-            
         }
-    
-    }else{
+    } else {
         NSLog(@"Parser Error");
     }
     
@@ -1608,15 +1599,13 @@
                 [self performSelector:@selector(updateUI) afterDelay:1.0];
                 [self.clientsCarousel scrollToItemAtIndex:0 animated:YES];
          });
-    }else{
+    } else {
         firstRequestFinished=YES;
     }
     NSLog(@"outlet finished");
 }
 
--(void)requestFailed:(ASIHTTPRequest *)request
-{
-
+- (void)requestFailed:(ASIHTTPRequest *)request {
     NSLog(@"req failed - code %d %@",[request responseStatusCode],[[request url] absoluteString]);
     //Display Error msg only once (Display no error message if a request for a logo fails - because they are optional)
     if(!oneRequestFailed && request.tag != kLogoReq){
@@ -1624,6 +1613,36 @@
     oneRequestFailed=YES;
 }
 
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Update Data to Webservice
+////////////////////////////////////////////////////////////////////////
+- (void)putOfflineClientDataToWebservice:(NSData *)clientData relativePathString:(NSString *)relativePath {
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kReachabilityData,relativePath]];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request appendPostData:clientData];
+    // Default becomes POST when you use appendPostData: / appendPostDataFromFile: / setPostBody:
+    [request setRequestMethod:@"PUT"];
+    request.username = [RBMusketeer loadEntity].email;
+    request.password = [RBMusketeer loadEntity].token;
+    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
+    request.delegate = self;
+    [request setDidFinishSelector:@selector(putClientDataRequestFinished:)];
+    [request setDidFailSelector:@selector(putClientDataRequestFailed:)];
+    [request startAsynchronous];
+}
+
+- (void)putClientDataRequestFinished:(ASIHTTPRequest *)request {
+    NSString *deletedOutletID = [request.url lastPathComponent];
+    deletedOutletID = [deletedOutletID substringToIndex:deletedOutletID.length - 5];
+    NSLog(@"Push successful delete keychain entry %@",deletedOutletID);
+
+    [KeychainWrapper clearOutletJSONFromKeychain:deletedOutletID];
+}
+
+- (void)putClientDataRequestFailed:(ASIHTTPRequest *)request {
+    NSLog(@"req failed - code %d %@",[request responseStatusCode],[[request url] absoluteString]);
+}
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -1641,13 +1660,14 @@
     emailMsg_.login = [[NSUserDefaults standardUserDefaults] stringForKey:@"kRBMailConfigLoginUser"];
     emailMsg_.pass = [[NSUserDefaults standardUserDefaults] stringForKey:@"kRBMailConfigLoginPwd"];
     emailMsg_.wantsSecure = YES;
-    emailMsg_.subject = [NSString stringWithFormat:@"<%@> SignMe <%@>",musketeer.uid,clientName];
+    //emailMsg_.subject = [NSString stringWithFormat:@"<%@> SignMe <%@>",musketeer.uid,clientName];
+    emailMsg_.subject = [NSString stringWithFormat:@"SignMe: The contract for %@ has been completed",clientName];
     emailMsg_.delegate = self;
     
     NSLog(@"From:%@ To:%@ host:%@ login:%@ pass:%@",emailMsg_.fromEmail,emailMsg_.toEmail,emailMsg_.relayHost,emailMsg_.login,emailMsg_.pass);
     
     //email contents
-    NSString * bodyMessage = [NSString stringWithFormat:@"### Contract Info ###\n-Type: %@ \n\n### Musketeer Info ####\n-Firstname: %@ \n-Lastname: %@\n-E-Mail: %@ \n\n",
+    NSString * bodyMessage = [NSString stringWithFormat:@"The following user has completed a contract:\n### Contract Info ###\n-Type: %@ \n\n### Musketeer Info ####\n-Firstname: %@ \n-Lastname: %@\n-E-Mail: %@ \n\n If you experience any problems or do have questions with the current eMail or any other SignMe functionality, please contact your local IT team or send a Sales Tools Support request via your Lotus Notes Home page.",
                               contractName,musketeer.firstname,musketeer.lastname,musketeer.email];
     NSDictionary *plainPart = [NSDictionary dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey,
                                bodyMessage ,kSKPSMTPPartMessageKey,@"8bit",kSKPSMTPPartContentTransferEncodingKey,nil];

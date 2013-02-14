@@ -17,6 +17,7 @@
 
 @property (nonatomic, strong) NSTimer *docuSignUpdateTimer;
 @property (nonatomic, strong) NSTimer *authorizationTimer;
+@property (nonatomic, strong) Reachability *reachability;
 
 - (void)configureLogger;
 - (void)appplicationPrepareForBackgroundOrTermination:(UIApplication *)application;
@@ -85,21 +86,18 @@
         [imageView removeFromSuperview];
     }];
     
-    //User Authentication part
-    self.userAuthentication = [[RBUserAuthentication alloc] init];
-    self.userAuthentication.delegate = self;
-    [self.userAuthentication displayUserAuthentication];
-    
+    [self authenticateUser];
     
     if (kPostFinishLaunchDelay > 0) {
         [self performSelector:@selector(postFinishLaunch) withObject:nil afterDelay:kPostFinishLaunchDelay];
     }
-    
 
     return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+    [_reachability stopNotifier];
 }
 
 
@@ -107,22 +105,28 @@
     [self appplicationPrepareForBackgroundOrTermination:application];
 }
 
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-}
-
-
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [[NSUserDefaults standardUserDefaults] synchronize];
-    //[RBMusketeer reloadEntity];
     [RBDocuSignService reloadCredentials];
- //  [self.homeViewController syncBoxNet:NO];
+    
+    RBMusketeer *musketeer = [RBMusketeer loadEntity];
+    if (musketeer && musketeer.lastLoginDate) {
+        NSTimeInterval time_intervall = -[musketeer.lastLoginDate timeIntervalSinceNow];
+        if(time_intervall > kRBAuthorizationTimeInterval) {
+            [self authenticateUser];
+        } else {
+            [self setTimerTo:kRBAuthorizationTimeInterval-time_intervall];
+        }
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    self.reachability = [Reachability reachabilityWithHostName:kReachabilityData];
+    [self.reachability startNotifier];
 }
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     [self appplicationPrepareForBackgroundOrTermination:application];
-    
     [ActiveRecordHelpers cleanUp];
 }
 
@@ -132,7 +136,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     
-   // [[[UIAlertView alloc] initWithTitle:@"Got  Call from M.I.B." message: [[url description] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     NSString *urlstring = [[url description] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     urlstring = [urlstring substringAfterSubstring:@"outlet?"];
     [self.homeViewController updateClientWithCustomURLCallString:urlstring];
@@ -173,16 +176,55 @@
 }
 
 
--(void)setTimerTo:(NSTimeInterval)intervall
-{
-    
+-(void)setTimerTo:(NSTimeInterval)intervall {
     if(self.authorizationTimer){
         [authorizationTimer_ invalidate];
     }
     self.authorizationTimer = [NSTimer scheduledTimerWithTimeInterval:intervall
                                                                 block:^(void) {
                                                                     [userAuthentication_ displayUserAuthentication];
-                                                                } repeats:NO];
+                                                        } repeats:NO];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark Offline created outlet handling
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+- (void)syncOfflineCreatedOutlets {
+    NSLog(@"=========== >>>>>> Before clean: %@",[KeychainWrapper readOutletJSONFromKeychain]);
+    NSString *keychain = [KeychainWrapper readOutletJSONFromKeychain];
+    NSData* data = [keychain dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSArray *jsonArray = nil;
+    if (data) {
+         jsonArray = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error:nil];
+    }
+    if (jsonArray) {
+        for(NSDictionary *item in jsonArray) {
+            NSString *identifier = [item valueForKey:@"id"];
+            if (identifier) {
+                RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
+                RBClient *client = [persistenceManager clientWithIdentifier:identifier];
+                client.identifier = identifier;
+                for(NSString * keyName in XARRAY(@"city",@"country",@"country_iso",@"updated_at",@"name")) {
+                    [client setValue:[item valueForKey:keyName] forKey:keyName];
+                }
+                client.classification1 = [item valueForKey:@"classification_1"];
+                client.classification2 = [item valueForKey:@"classification_2"];
+                client.classification3 = [item valueForKey:@"classification_3"];
+                NSData *jsonDataForSingleClient = [NSJSONSerialization dataWithJSONObject:item options:nil error:nil];
+                [self.homeViewController putOfflineClientDataToWebservice:jsonDataForSingleClient relativePathString:[NSString stringWithFormat:@"/api/1/outlets/%@.json",identifier]];
+            }
+        }
+        [[NSManagedObjectContext defaultContext] save]; 
+    }
+}
+
+- (void)reachabilityChanged:(id)obj {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self syncOfflineCreatedOutlets];
+    });
 }
 
 
@@ -270,6 +312,13 @@
 #pragma mark -
 #pragma mark Private Methods
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+- (void)authenticateUser {
+    //User Authentication part
+    self.userAuthentication = [[RBUserAuthentication alloc] init];
+    self.userAuthentication.delegate = self;
+    [self.userAuthentication displayUserAuthentication];
+}
 
 - (void)configureLogger {
     PSDDFormatter *psLogger = [[PSDDFormatter alloc] init];

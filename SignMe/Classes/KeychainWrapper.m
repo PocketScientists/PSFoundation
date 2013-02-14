@@ -66,14 +66,63 @@
         if(date)
         { [returnDictionary setObject:date forKey:@"last_auth_date"]; }
         
+        resdata = [result valueForKey:(__bridge id)kSecAttrLabel];
+        NSString *outletJSON = [[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding];
+        if(outletJSON){
+            [returnDictionary setObject:outletJSON forKey:@"outlet_json"];
+        }
+        
         //If all entries are in the dictionary
         if(returnDictionary.count >= 3){
             return returnDictionary;    }
         else{
-                return nil;
-            }
+            return nil;
+        }
     }else{
         return nil;}
+}
+
++ (NSString *)readOutletJSONFromKeychain {
+    RBMusketeer * rbmusketeer = [RBMusketeer loadEntity];
+    if (rbmusketeer && rbmusketeer.uid) {
+        NSDictionary *reqInfo =  [KeychainWrapper getKeychainDictionaryForUser:rbmusketeer.uid];
+        return [reqInfo valueForKey:@"outlet_json"];
+    }
+    return nil;
+}
+
++ (void)clearOutletJSONFromKeychain:(NSString *)outletID {
+    NSMutableDictionary *searchdictionary = [self setupSearchDirectory];
+    NSMutableDictionary *updateDictionary = [[NSMutableDictionary alloc] init];
+
+    RBMusketeer * rbmusketeer = [RBMusketeer loadEntity];
+    if (rbmusketeer && rbmusketeer.uid) {
+        NSDictionary *reqInfo =  [KeychainWrapper getKeychainDictionaryForUser:rbmusketeer.uid];
+        NSString *keychainOutlets = [reqInfo valueForKey:@"outlet_json"];
+        NSData* data = [keychainOutlets dataUsingEncoding:NSUTF8StringEncoding];
+        
+        NSArray *jsonArray = nil;
+        if (data) {
+            jsonArray = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error:nil];
+        }
+        
+        NSMutableArray *newArray = [[NSMutableArray alloc] init];
+        for(NSDictionary *item in jsonArray) {
+            NSString *identifier = [item valueForKey:@"id"];
+            if (![identifier isEqualToString:outletID]) {
+                [newArray addObject:item];
+            }
+        }
+
+        NSData *newKeychainContent = [NSJSONSerialization dataWithJSONObject:newArray options:nil error:nil];
+        
+        [searchdictionary setObject:[rbmusketeer.uid dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccount];
+        [updateDictionary setObject:[rbmusketeer.uid dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccount];
+        [updateDictionary setObject:[rbmusketeer.token dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecValueData];
+        [updateDictionary setObject:newKeychainContent forKey:(__bridge id)kSecAttrLabel];
+        
+        SecItemUpdate((__bridge CFDictionaryRef)searchdictionary, (__bridge CFDictionaryRef)updateDictionary);
+    }
 }
 
 
@@ -83,7 +132,6 @@
     
     [dictionary setObject:[username dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccount];
     [dictionary setObject:[tokenID dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecValueData];
-   // [dictionary setObject:[xmlStr dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrComment];
     
     //Create Timestamp
     NSString * time_stamp = [self createTimeStamp];
@@ -111,7 +159,6 @@
     [searchdictionary setObject:[username dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccount];
     [updateDictionary setObject:[username dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccount];
     [updateDictionary setObject:[tokenID dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecValueData];
-   // [updateDictionary setObject:[xmlStr dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrComment];
     
     //Create Timestamp
     NSString * time_stamp = [self createTimeStamp];
@@ -122,6 +169,7 @@
     if(status == errSecSuccess){
         return YES;
     }else{
+        [[[UIAlertView alloc] initWithTitle:@"SignMe-Keychain" message:[NSString stringWithFormat:@"%@ %d",@"Error updating shared Keychain: code %d",(int)status] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         return NO;
     }
 }
@@ -153,6 +201,7 @@
 
 + (NSString *)createTimeStamp{
     NSString *date_str =[[self getNSDateFormatterForTimestamp] stringFromDate:[NSDate date]];
+    NSLog(@"-----> SET TIMESTAMP %@",date_str);
     return date_str;
 }
 

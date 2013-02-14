@@ -203,41 +203,45 @@
 -(void)setNumberOfRBSigners:(NSInteger)noOfSigners{
     numberOfRBSigners_=noOfSigners;
     NSLog(@"Signer Number set %d",numberOfRBSigners_);
-  
-    RBRecipientTableViewCell *cell_signer1 = (RBRecipientTableViewCell *)[ [self.tableViews objectAtIndex:0] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    RBRecipientTableViewCell *cell_signer2 = (RBRecipientTableViewCell *)[ [self.tableViews objectAtIndex:0] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-    RBRecipientTableViewCell *cell_signer3 = (RBRecipientTableViewCell *)[ [self.tableViews objectAtIndex:0] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
     
-    //Musketeer always needed
-    cell_signer3.signerNeeded=YES;
     
-    if(noOfSigners == 1){
-        NSDictionary *recip = [self.recipients objectAtIndex:0];
-        [recip setValue:kRBisNeededSignerFALSE forKey:kRBisNeededSigner];
-        recip = [self.recipients objectAtIndex:1];
-        [recip setValue:kRBisNeededSignerFALSE forKey:kRBisNeededSigner];
-        cell_signer1.signerNeeded=NO;
-        cell_signer2.signerNeeded=NO;
+    if (self.tableViews != nil && self.tableViews.count > 0 ) {
+        
+        RBRecipientTableViewCell *cell_signer1 = (RBRecipientTableViewCell *)[ [self.tableViews objectAtIndex:0] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        RBRecipientTableViewCell *cell_signer2 = (RBRecipientTableViewCell *)[ [self.tableViews objectAtIndex:0] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+        RBRecipientTableViewCell *cell_signer3 = (RBRecipientTableViewCell *)[ [self.tableViews objectAtIndex:0] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+        
+        //Musketeer always needed
+        cell_signer3.signerNeeded=YES;
+        
+        if(noOfSigners == 1){
+            NSDictionary *recip = [self.recipients objectAtIndex:0];
+            [recip setValue:kRBisNeededSignerFALSE forKey:kRBisNeededSigner];
+            recip = [self.recipients objectAtIndex:1];
+            [recip setValue:kRBisNeededSignerFALSE forKey:kRBisNeededSigner];
+            cell_signer1.signerNeeded=NO;
+            cell_signer2.signerNeeded=NO;
+        }
+        if(noOfSigners == 2){
+            NSDictionary *recip = [self.recipients objectAtIndex:0];
+            [recip setValue:kRBisNeededSignerTRUE forKey:kRBisNeededSigner];
+            recip = [self.recipients objectAtIndex:1];
+            [recip setValue:kRBisNeededSignerFALSE forKey:kRBisNeededSigner];
+            cell_signer1.signerNeeded=YES;
+            cell_signer2.signerNeeded=NO;
+        }
+        if(noOfSigners == 3){
+            NSDictionary *recip = [self.recipients objectAtIndex:0];
+            [recip setValue:kRBisNeededSignerTRUE forKey:kRBisNeededSigner];
+            recip = [self.recipients objectAtIndex:1];
+            [recip setValue:kRBisNeededSignerTRUE forKey:kRBisNeededSigner];
+            cell_signer1.signerNeeded=YES;
+            cell_signer2.signerNeeded=YES;
+        }
+        
+        
+        [self redrawTableData:[self.tableViews objectAtIndex:0]];
     }
-    if(noOfSigners == 2){
-        NSDictionary *recip = [self.recipients objectAtIndex:0];
-        [recip setValue:kRBisNeededSignerTRUE forKey:kRBisNeededSigner];
-        recip = [self.recipients objectAtIndex:1];
-        [recip setValue:kRBisNeededSignerFALSE forKey:kRBisNeededSigner];
-        cell_signer1.signerNeeded=YES;
-        cell_signer2.signerNeeded=NO;
-    }
-    if(noOfSigners == 3){
-        NSDictionary *recip = [self.recipients objectAtIndex:0];
-        [recip setValue:kRBisNeededSignerTRUE forKey:kRBisNeededSigner];
-        recip = [self.recipients objectAtIndex:1];
-        [recip setValue:kRBisNeededSignerTRUE forKey:kRBisNeededSigner];
-        cell_signer1.signerNeeded=YES;
-        cell_signer2.signerNeeded=YES;
-    }
-    
-    
-    [self redrawTableData:[self.tableViews objectAtIndex:0]];
 }
           
 - (void)setRecipients:(NSArray *)recipients {

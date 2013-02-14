@@ -45,8 +45,9 @@
 - (void)syncBoxNet:(BOOL)forced;
 
 -(void)updateClientWithCustomURLCallString:(NSString *)urlstring;
+- (void)putOfflineClientDataToWebservice:(NSData *)clientData relativePathString:(NSString *)relativePath;
 
--(IBAction)updateDataViaWebservice;
+- (IBAction)updateDataViaWebservice;
 
 - (void)sendEMailMessageInBackgroundWithPDFAttachment:(NSData *)pdfData contractName:(NSString *)contractName client:(NSString *)clientName;
 

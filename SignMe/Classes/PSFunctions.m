@@ -28,7 +28,8 @@ inline NSString *RBFormattedDateWithFormat(NSDate *date, NSString *format) {
 
 inline NSURL *RBFullFormRessourceURL(NSString *urlressourcepart){
    
-    return [NSURL URLWithString:[NSString stringWithFormat:@"https://%@/%@",kApplicationURL,urlressourcepart]];
+    NSLog(@"%@",urlressourcepart);
+    return [NSURL URLWithString:[[NSString stringWithFormat:@"https://%@/%@",kApplicationURL,urlressourcepart] copy]];
 }
 
 inline NSString *RBFormSaveName(NSString *formname, NSString *ressourceurl){
@@ -52,6 +53,9 @@ inline NSString *RBFullPathToRessourceDirectoryForForm(NSString *formressourcena
 
 inline NSString *RBFullPathToEmptyFormWithName(NSString *formressourcename) {
     NSString *fullPath = RBFullPathToRessourceDirectoryForForm(formressourcename);
+    if ([formressourcename containsString:@"___"]) {
+        formressourcename = [formressourcename substringAfterSubstring:@"___"];
+    }
     fullPath = [NSString stringWithFormat:@"%@%@%@",fullPath,formressourcename,kRBFormExtension];
     return fullPath;
 }
@@ -61,9 +65,13 @@ inline NSString *RBFullPathToPDFTemplateWithFormName(NSString *formressourcename
     NSString *pdfname;
     if([formressourcename hasSubstring:@"_Form"])
 		pdfname = [formressourcename substringToIndex:[formressourcename rangeOfString:@"_Form"].location];
+    if ([pdfname containsString:@"___"]) {
+        pdfname = [pdfname substringAfterSubstring:@"___"];
+    }
     pdfname= [pdfname stringByAppendingString:@"_PDF"];
     NSString *fullPath = RBFullPathToRessourceDirectoryForForm(formressourcename);
     fullPath = [NSString stringWithFormat:@"%@%@%@",fullPath,pdfname,kRBFormExtension];
+    NSLog(@"Full path to pdf %@",fullPath);
     return fullPath;
 }
 

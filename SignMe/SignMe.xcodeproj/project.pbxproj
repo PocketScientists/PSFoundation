@@ -1701,9 +1701,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = SignMe_Int.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Red Bull North America Inc.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Red Bull North America Inc.";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)/**",
@@ -1725,8 +1724,6 @@
 				INFOPLIST_FILE = "Build-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = SignMe_Int;
-				PROVISIONING_PROFILE = "C779FEC4-21AC-4DA6-8793-52006C6EA264";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C779FEC4-21AC-4DA6-8793-52006C6EA264";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -1737,7 +1734,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = SignMe_Int.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Red Bull North America Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Red Bull North America Inc.";
 				COPY_PHASE_STRIP = YES;
@@ -1759,7 +1755,6 @@
 				INFOPLIST_FILE = "Build-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = SignMe_Int;
-				PROVISIONING_PROFILE = "C779FEC4-21AC-4DA6-8793-52006C6EA264";
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1820,8 +1815,9 @@
 			baseConfigurationReference = 7876F54F130D856A00A79E01 /* debug.xcconfig */;
 			buildSettings = {
 				ARCHS = armv7;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = SignMe_Int.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Red Bull North America Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Red Bull North America Inc.";
 				FRAMEWORK_SEARCH_PATHS = ../.;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1850,8 +1846,8 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-all_load";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "84FEDD63-9A02-483D-8BC6-C499AE44DE08";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "84FEDD63-9A02-483D-8BC6-C499AE44DE08";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = iphoneos;
 				VALID_ARCHS = armv7;
@@ -1863,6 +1859,7 @@
 			baseConfigurationReference = 7876F550130D856A00A79E01 /* distribution.xcconfig */;
 			buildSettings = {
 				ARCHS = armv7;
+				CODE_SIGN_ENTITLEMENTS = SignMe_Int.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Red Bull North America Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Red Bull North America Inc.";
 				FRAMEWORK_SEARCH_PATHS = ../.;
@@ -1894,8 +1891,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-all_load";
-				PROVISIONING_PROFILE = "C779FEC4-21AC-4DA6-8793-52006C6EA264";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C779FEC4-21AC-4DA6-8793-52006C6EA264";
+				PROVISIONING_PROFILE = "84FEDD63-9A02-483D-8BC6-C499AE44DE08";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "84FEDD63-9A02-483D-8BC6-C499AE44DE08";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = armv7;
 			};

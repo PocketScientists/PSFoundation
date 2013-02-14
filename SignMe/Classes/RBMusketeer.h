@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSString *adminemail;
 @property (nonatomic, strong) NSString *adminfirstname;
 @property (nonatomic, strong) NSString *adminlastname;
+@property (nonatomic, strong) NSDate *lastLoginDate;
 
 
 + (RBMusketeer *)loadEntity;

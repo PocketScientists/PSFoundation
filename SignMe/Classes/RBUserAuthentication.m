@@ -39,6 +39,7 @@
             NSDictionary *reqInfo =  [KeychainWrapper getKeychainDictionaryForUser:rbmusketeer.uid];
             if(reqInfo){
                 NSDate *last_auth = [reqInfo valueForKey:@"last_auth_date"];
+                rbmusketeer.lastLoginDate = last_auth;
                 rbmusketeer.token = [reqInfo valueForKey:@"Token"];
                 [rbmusketeer saveEntity];
                 time_intervall = -[last_auth timeIntervalSinceNow];
@@ -176,6 +177,7 @@
     rbmusketeer.uid = uid;
     rbmusketeer.email = email;
     rbmusketeer.token=token;
+    rbmusketeer.lastLoginDate = [NSDate date];
     [rbmusketeer saveEntity];
     
     [KeychainWrapper createKeychainValueWithUser:rbmusketeer.uid Token:rbmusketeer.token];
@@ -237,8 +239,6 @@
         }
         
         [rbmusketeer saveEntity];
-        
-        NSLog(@"adminmail %@, %@, %@",rbmusketeer.adminemail,rbmusketeer.adminfirstname,rbmusketeer.adminlastname);
         
         //Superior groups parsing
         for(int superiorgroup=1;superiorgroup<=2;superiorgroup++){
