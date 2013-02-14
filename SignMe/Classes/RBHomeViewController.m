@@ -773,12 +773,6 @@
 }
 
 - (IBAction)textFieldDidEndOnExit:(UITextField *)textField {
-//    if (self.clientCarouselShowsAddItem) {
-//        RBClient *client = [self clientWithName:textField.text];
-//        // add new client
-//        [self editClient:client];
-//    }
-    
     [textField resignFirstResponder];
 }
 
@@ -1416,6 +1410,7 @@
         }else{
              [self performSelector:@selector(showErrorMessage:) withObject:@"Update Error - Client data is missing!" afterDelay:0.5f];
         }
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kRBMIBCallType];
     }
     
     [[NSManagedObjectContext defaultContext] save];
@@ -1530,20 +1525,18 @@
     }
 }
 
--(void)outletRequestFinished:(ASIHTTPRequest *)request
-{  
+-(void)outletRequestFinished:(ASIHTTPRequest *)request {  
     RBClient *client=nil;
     NSData *respData = [request responseData];
  
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData
                                                            options:0 error:nil];
-    if (doc != nil){
+    if (doc != nil) {
         
         NSArray *elementstoload = [NSArray arrayWithObjects:@"updated_at",@"name",@"street",@"city",@"postalcode",@"region",@"country",
                                    @"country_iso",@"classification1",@"classification2",@"classification3",nil];
         
-        for(GDataXMLElement *outlet in [doc.rootElement elementsForName:@"outlet"])
-        {
+        for(GDataXMLElement *outlet in [doc.rootElement elementsForName:@"outlet"]) {
             //Special routine for id because of keyword conflict
             NSString * ident;
             NSArray *elements = [outlet elementsForName:@"id"];
@@ -1572,7 +1565,6 @@
                     logoreq.tag = kLogoReq;
                     [self.ressourceLoadingHttpRequests addOperation:logoreq];
                 }
-                
             }
             
             //Load the remaining objects
@@ -1608,20 +1600,21 @@
 - (void)requestFailed:(ASIHTTPRequest *)request {
     NSLog(@"req failed - code %d %@",[request responseStatusCode],[[request url] absoluteString]);
     //Display Error msg only once (Display no error message if a request for a logo fails - because they are optional)
-    if(!oneRequestFailed && request.tag != kLogoReq){
-        [self performSelector:@selector(showErrorMessage:) withObject:@"Update Error" afterDelay:0.5f];}
-    oneRequestFailed=YES;
+    if(!oneRequestFailed && request.tag != kLogoReq) {
+        [self performSelector:@selector(showErrorMessage:) withObject:@"Update Error" afterDelay:0.5f];
+        oneRequestFailed=YES;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Update Data to Webservice
 ////////////////////////////////////////////////////////////////////////
+
 - (void)putOfflineClientDataToWebservice:(NSData *)clientData relativePathString:(NSString *)relativePath {
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kReachabilityData,relativePath]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request appendPostData:clientData];
-    // Default becomes POST when you use appendPostData: / appendPostDataFromFile: / setPostBody:
     [request setRequestMethod:@"PUT"];
     request.username = [RBMusketeer loadEntity].email;
     request.password = [RBMusketeer loadEntity].token;
