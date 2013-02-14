@@ -32,9 +32,10 @@
 
 
 @implementation KeychainWrapper
- 
+
 + (NSDictionary *)getKeychainDictionaryForUser:(NSString *) user
 {
+    NSLog(@"Try to read Keychain Entries for user %@",user);
     NSMutableDictionary *returnDictionary = [[NSMutableDictionary alloc] init];
     
     NSMutableDictionary *searchDictionary = [self setupSearchDirectory];
@@ -67,9 +68,12 @@
         { [returnDictionary setObject:date forKey:@"last_auth_date"]; }
         
         resdata = [result valueForKey:(__bridge id)kSecAttrLabel];
-        NSString *outletJSON = [[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding];
-        if(outletJSON){
-            [returnDictionary setObject:outletJSON forKey:@"outlet_json"];
+        
+        if(resdata && [resdata isKindOfClass:[NSData class]] ) {
+            NSString *outletJSON = [[NSString alloc] initWithData:resdata encoding:NSUTF8StringEncoding];
+            if (outletJSON) {
+                [returnDictionary setObject:outletJSON forKey:@"outlet_json"];
+            }
         }
         
         //If all entries are in the dictionary
@@ -84,7 +88,7 @@
 
 + (NSString *)readOutletJSONFromKeychain {
     RBMusketeer * rbmusketeer = [RBMusketeer loadEntity];
-    if (rbmusketeer && rbmusketeer.uid) {
+    if (rbmusketeer.uid &&rbmusketeer.uid.length > 0) {
         NSDictionary *reqInfo =  [KeychainWrapper getKeychainDictionaryForUser:rbmusketeer.uid];
         return [reqInfo valueForKey:@"outlet_json"];
     }
@@ -96,7 +100,7 @@
     NSMutableDictionary *updateDictionary = [[NSMutableDictionary alloc] init];
 
     RBMusketeer * rbmusketeer = [RBMusketeer loadEntity];
-    if (rbmusketeer && rbmusketeer.uid) {
+    if (rbmusketeer.uid && rbmusketeer.uid.length > 0) {
         NSDictionary *reqInfo =  [KeychainWrapper getKeychainDictionaryForUser:rbmusketeer.uid];
         NSString *keychainOutlets = [reqInfo valueForKey:@"outlet_json"];
         NSData* data = [keychainOutlets dataUsingEncoding:NSUTF8StringEncoding];
@@ -114,7 +118,11 @@
             }
         }
 
+        
         NSData *newKeychainContent = [NSJSONSerialization dataWithJSONObject:newArray options:nil error:nil];
+        if (!newKeychainContent) {
+            newKeychainContent = [@"" dataUsingEncoding:NSUTF8StringEncoding];
+        }
         
         [searchdictionary setObject:[rbmusketeer.uid dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccount];
         [updateDictionary setObject:[rbmusketeer.uid dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccount];
@@ -201,7 +209,6 @@
 
 + (NSString *)createTimeStamp{
     NSString *date_str =[[self getNSDateFormatterForTimestamp] stringFromDate:[NSDate date]];
-    NSLog(@"-----> SET TIMESTAMP %@",date_str);
     return date_str;
 }
 

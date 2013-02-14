@@ -86,8 +86,6 @@
         [imageView removeFromSuperview];
     }];
     
-    [self authenticateUser];
-    
     if (kPostFinishLaunchDelay > 0) {
         [self performSelector:@selector(postFinishLaunch) withObject:nil afterDelay:kPostFinishLaunchDelay];
     }
@@ -117,6 +115,8 @@
         } else {
             [self setTimerTo:kRBAuthorizationTimeInterval-time_intervall];
         }
+    } else {
+        [self authenticateUser];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
