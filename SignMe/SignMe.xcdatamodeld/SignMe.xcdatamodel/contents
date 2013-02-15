@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1810" systemVersion="12C54" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2057" systemVersion="12C60" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="RBAvailableRecipients" representedClassName="RBAvailableRecipients" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="firstname" optional="YES" attributeType="String" syncable="YES"/>
@@ -19,6 +19,7 @@
         <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="country_iso" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastSyncDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="logo_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" defaultValueString="Unknown" indexed="YES">
             <userInfo/>
@@ -96,7 +97,7 @@
     </entity>
     <elements>
         <element name="RBAvailableRecipients" positionX="223" positionY="162" width="128" height="103"/>
-        <element name="RBClient" positionX="0" positionY="0" width="128" height="313"/>
+        <element name="RBClient" positionX="0" positionY="0" width="128" height="330"/>
         <element name="RBDocument" positionX="0" positionY="0" width="128" height="223"/>
         <element name="RBRecipient" positionX="0" positionY="0" width="128" height="180"/>
     </elements>

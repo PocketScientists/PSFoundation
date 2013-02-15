@@ -34,6 +34,7 @@
 @property (nonatomic, strong) NSString * zip;
 @property (nonatomic, strong) NSNumber * visible;
 @property (nonatomic, strong) NSSet *documents;
+@property (nonatomic, strong) NSDate *lastSyncDate;
 @end
 
 @interface RBClient (CoreDataGeneratedAccessors)

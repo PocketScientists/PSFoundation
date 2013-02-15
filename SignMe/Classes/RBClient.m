@@ -30,5 +30,6 @@
 @dynamic region;
 @dynamic updated_at;
 @dynamic logo_url;
+@dynamic lastSyncDate;
 
 @end

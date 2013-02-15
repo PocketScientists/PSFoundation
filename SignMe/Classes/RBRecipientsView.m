@@ -202,8 +202,6 @@
 
 -(void)setNumberOfRBSigners:(NSInteger)noOfSigners{
     numberOfRBSigners_=noOfSigners;
-    NSLog(@"Signer Number set %d",numberOfRBSigners_);
-    
     
     if (self.tableViews != nil && self.tableViews.count > 0 ) {
         
@@ -214,7 +212,7 @@
         //Musketeer always needed
         cell_signer3.signerNeeded=YES;
         
-        if(noOfSigners == 1){
+        if(noOfSigners == 1) {
             NSDictionary *recip = [self.recipients objectAtIndex:0];
             [recip setValue:kRBisNeededSignerFALSE forKey:kRBisNeededSigner];
             recip = [self.recipients objectAtIndex:1];
@@ -222,7 +220,7 @@
             cell_signer1.signerNeeded=NO;
             cell_signer2.signerNeeded=NO;
         }
-        if(noOfSigners == 2){
+        if(noOfSigners == 2) {
             NSDictionary *recip = [self.recipients objectAtIndex:0];
             [recip setValue:kRBisNeededSignerTRUE forKey:kRBisNeededSigner];
             recip = [self.recipients objectAtIndex:1];
@@ -230,7 +228,7 @@
             cell_signer1.signerNeeded=YES;
             cell_signer2.signerNeeded=NO;
         }
-        if(noOfSigners == 3){
+        if(noOfSigners == 3) {
             NSDictionary *recip = [self.recipients objectAtIndex:0];
             [recip setValue:kRBisNeededSignerTRUE forKey:kRBisNeededSigner];
             recip = [self.recipients objectAtIndex:1];
@@ -238,7 +236,6 @@
             cell_signer1.signerNeeded=YES;
             cell_signer2.signerNeeded=YES;
         }
-        
         
         [self redrawTableData:[self.tableViews objectAtIndex:0]];
     }

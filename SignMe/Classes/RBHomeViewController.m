@@ -1200,17 +1200,17 @@
         [[NSUserDefaults standardUserDefaults] setObject:@"nil" forKey:kRBMIBCallClientID];
   
     }else{
-        NSDictionary *dictToTransmit  = [[NSMutableDictionary alloc] init];
-        [dictToTransmit setValue:client.identifier forKey:@"id"];
-        [dictToTransmit setValue:client.updated_at forKey:@"updated_at"];
-        [dictToTransmit setValue:client.name forKey:@"name"];
-        [dictToTransmit setValue:client.postalcode forKey:@"postal_code"];
-        [dictToTransmit setValue:client.city forKey:@"city"];
-        [dictToTransmit setValue:client.country forKey:@"country"];
-        [dictToTransmit setValue:client.country_iso forKey:@"country_iso"];
-        [dictToTransmit setValue:client.classification1 forKey:@"classification_1"];
-        [dictToTransmit setValue:client.classification2 forKey:@"classification_2"];
-        [dictToTransmit setValue:client.classification3 forKey:@"classification_3"];
+        NSDictionary *dictToTransmit = @{@"id" : client.identifier,
+                                         @"updated_at" : client.updated_at,
+                                         @"name" : client.name,
+                                         @"postal_code" : client.postalcode,
+                                         @"city" : client.city,
+                                         @"country" : client.country,
+                                         @"country_iso" : client.country_iso,
+                                         @"street" : client.street,
+                                         @"classification_1" : client.classification1,
+                                         @"classification_2" : client.classification2,
+                                         @"classification_3" : client.classification3 };
         
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictToTransmit
                                                            options:nil
@@ -1223,7 +1223,7 @@
         }
         urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://sign_me/outlets/%@/edit",kRBMIBURLPath,jsonString]];
         [[NSUserDefaults standardUserDefaults] setInteger:kRBMIBCallTypeEdit forKey:kRBMIBCallType];
-         [[NSUserDefaults standardUserDefaults] setObject:client.identifier forKey:kRBMIBCallClientID];
+        [[NSUserDefaults standardUserDefaults] setObject:client.identifier forKey:kRBMIBCallClientID];
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
     
@@ -1422,8 +1422,8 @@
 #pragma mark -
 #pragma mark Update Data from Webservice
 ////////////////////////////////////////////////////////////////////////
--(void)updateDataViaWebservice
-{
+
+-(void)updateDataViaWebservice {
     NSURL *outleturl = [NSURL URLWithString:kReachabilityOutletsXML];
     NSURL *formurl = [NSURL URLWithString:kReachabilityFormsXML];
     self.ressourceLoadingHttpRequests = [[NSOperationQueue alloc] init];
@@ -1470,7 +1470,6 @@
             formname = content.stringValue;
         }
             
-            
         downloadpath = [kRBFolderUserEmptyForms stringByAppendingPathComponent:formname];
         if (![manager fileExistsAtPath:downloadpath]) {
             [manager createDirectoryAtPath:downloadpath withIntermediateDirectories:YES attributes:nil error:nil];
@@ -1506,7 +1505,6 @@
             }
         }
     }
-    
 
     [NSUserDefaults standardUserDefaults].formsUpdateDate = [NSDate date];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -1531,7 +1529,9 @@
  
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData
                                                            options:0 error:nil];
+    NSDate *lastSyncDate = nil;
     if (doc != nil) {
+        lastSyncDate = [NSDate date];
         
         NSArray *elementstoload = [NSArray arrayWithObjects:@"updated_at",@"name",@"street",@"city",@"postalcode",@"region",@"country",
                                    @"country_iso",@"classification1",@"classification2",@"classification3",nil];
@@ -1573,12 +1573,19 @@
                 if (elements.count > 0) {
                     GDataXMLElement *content = (GDataXMLElement *) [elements objectAtIndex:0];
                     [client setValue:content.stringValue forKey:elem];
-                    
                 }
             }
+            client.lastSyncDate = lastSyncDate;
         }
     } else {
         NSLog(@"Parser Error");
+    }
+    
+    if (lastSyncDate) {
+        NSArray *serverSideDeletedClients = [RBClient findAllWithPredicate:[NSPredicate predicateWithFormat:@"lastSyncDate <> %@",lastSyncDate]];
+        for (RBClient *clientToDelete in serverSideDeletedClients) {
+            [clientToDelete deleteEntity];
+        }
     }
     
     [[NSManagedObjectContext defaultContext] save];
@@ -1653,7 +1660,6 @@
     emailMsg_.login = [[NSUserDefaults standardUserDefaults] stringForKey:@"kRBMailConfigLoginUser"];
     emailMsg_.pass = [[NSUserDefaults standardUserDefaults] stringForKey:@"kRBMailConfigLoginPwd"];
     emailMsg_.wantsSecure = YES;
-    //emailMsg_.subject = [NSString stringWithFormat:@"<%@> SignMe <%@>",musketeer.uid,clientName];
     emailMsg_.subject = [NSString stringWithFormat:@"SignMe: The contract for %@ has been completed",clientName];
     emailMsg_.delegate = self;
     
@@ -1670,7 +1676,7 @@
     
     emailMsg_.parts = [NSArray arrayWithObjects:plainPart,attachmentPart,nil];
     
-    if(emailMsg_.fromEmail != nil && emailMsg_.toEmail != nil && emailMsg_.relayHost != nil && emailMsg_.login != nil && emailMsg_.pass != nil){
+    if(emailMsg_.fromEmail && emailMsg_.toEmail && emailMsg_.relayHost && emailMsg_.login && emailMsg_.pass){
         dispatch_async(dispatch_get_main_queue(), ^(void) {
             [emailMsg_ send];
         });
