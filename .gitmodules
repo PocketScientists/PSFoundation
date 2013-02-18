@@ -3,7 +3,7 @@
 	url = ssh://mschwarz@office.nousguide.com/var/cache/git/DocuSign.git
 [submodule "external/box.net"]
 	path = external/box.net
-	url = ../box.net.git
+	url = ssh://mschwarz@office.nousguide.com/var/cache/git/box.net.git
 [submodule "PSFoundation"]
 	path = PSFoundation
 	url = https://github.com/steipete/PSFoundation.git
@@ -21,7 +21,7 @@
 	url = https://github.com/domesticcatsoftware/DCIntrospect.git
 [submodule "iCarousel"]
 	path = iCarousel
-	url = https://github.com/NOUSguide/iCarousel
+	url = https://github.com/Blacky85/iCarousel.git
 [submodule "iPhoneContacts"]
 	path = iPhoneContacts
 	url = https://github.com/AlanQuatermain/iPhoneContacts.git
