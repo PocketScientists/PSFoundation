@@ -28,9 +28,9 @@
 - (void)updateToErrorMessage:(NSString *)message;
 - (void)hideMessage;
 
-
--(void)userAuthenticated;
--(void)setTimerTo:(NSTimeInterval)intervall;
+- (void)syncOfflineCreatedOutlets;
+- (void)userAuthenticated;
+- (void)setTimerTo:(NSTimeInterval)intervall;
 
 @end
 

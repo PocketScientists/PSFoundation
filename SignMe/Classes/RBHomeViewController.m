@@ -224,7 +224,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     emptyForms_ = [RBForm allEmptyForms];
     
     self.formsViewDefaultY = self.formsView.frameTop;
@@ -234,7 +234,7 @@
     NSError *error = nil;
 	if (self.clientsFetchController != nil && ![self.clientsFetchController performFetch:&error]) {
 		DDLogError(@"Unresolved error fetching clients %@, %@", error, [error userInfo]);
-	} 
+	}
     error = nil;
     if (self.documentsFetchController != nil && ![self.documentsFetchController performFetch:&error]) {
 		DDLogError(@"Unresolved error fetching documents %@, %@", error, [error userInfo]);
@@ -377,7 +377,7 @@
                                                            // save id of file under name of file in userDefaults
                                                            // this is to retreive the stored files later from the folder Documents/box.net
                                                            // because they are stored with objectID and objectName
-                                                           [[NSUserDefaults standardUserDefaults] setObjectID:file.objectId 
+                                                           [[NSUserDefaults standardUserDefaults] setObjectID:file.objectId
                                                                           forObjectWithNameIncludingExtension:file.objectName];
                                                            
                                                            if ([[file.objectName pathExtension] isEqualToString:@"plist"]) {
@@ -450,7 +450,7 @@
         NSUInteger documentCount = [self numberOfDocumentsWithFormStatus:formStatus];
         
         [view setFromFormStatus:formStatus count:documentCount];
-    } 
+    }
     
     else if (carousel == self.clientsCarousel) {
         view = [RBCarouselView carouselViewWithWidth:kRBClientsCarouselItemWidth];
@@ -458,7 +458,7 @@
         // do we have to show add item?
         if ([self numberOfClients] == 0 && index == 0) {
             view.isAddClientView = YES;
-            [view setText:[NSString stringWithFormat:@"Add client\n'%@'",self.searchField.text]]; 
+            [view setText:[NSString stringWithFormat:@"Add client\n'%@'",self.searchField.text]];
         }
         else  {
             RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
@@ -508,7 +508,7 @@
 - (float)carouselItemWidth:(iCarousel *)carousel {
     if (carousel == self.formsCarousel) {
         return kRBFormsCarouselItemWidth * kRBCarouselItemWidthScaleFactor;
-    } 
+    }
     
     else if (carousel == self.clientsCarousel) {
         return kRBClientsCarouselItemWidth * kRBCarouselItemWidthScaleFactor;
@@ -521,7 +521,7 @@
     return 0.f;
 }
 
-- (void)carouselCurrentItemIndexUpdated:(iCarousel *)carousel {        
+- (void)carouselCurrentItemIndexUpdated:(iCarousel *)carousel {
     // update detail view if user scrolled to new form while detailView is visible
     if (carousel == self.formsCarousel && self.detailViewVisible) {
         if (!self.formsCarouselChangeWasInitiatedByTap) {
@@ -567,7 +567,7 @@
                 [self showDetailViewWithDelay:0.4];
             }
         } afterDelay:kAnimationDuration];
-    } 
+    }
     
     // detail view is not visible currently -> show it
     else {
@@ -592,8 +592,8 @@
         self.clientsCarouselSelectedIndex = index;
     }
     
-   // [self.formsCarousel reloadData];
-
+    // [self.formsCarousel reloadData];
+    
     if (self.clientCarouselShowsAddItem && index == 0) {
         //RBClient *client = [self clientWithName:self.searchField.text];
         //client.clientCreatedForEditing = YES;
@@ -619,7 +619,7 @@
         if (self.emptyForms.count > 0) {
             [self presentFormIfPossible];
         }
-    } 
+    }
     
     // pre-signed documents can be viewed or edited
     else if (formStatus == RBFormStatusPreSignature) {
@@ -637,14 +637,14 @@
                     [self previewDocumentOnDocuSign:document];
                 }];
             }
-                
+            
             if (IsEmpty(document.docuSignEnvelopeID)) {
                 [actionSheet addButtonWithTitle:@"Edit" block:^(void) {
                     [self presentFormViewControllerForDocument:document];
                 }];
             }
             
-            if (!IsEmpty(document.docuSignEnvelopeID) 
+            if (!IsEmpty(document.docuSignEnvelopeID)
                 && [document.lastDocuSignStatus intValue] != DSAPIService_EnvelopeStatusCode_Completed
                 && [document.lastDocuSignStatus intValue] != DSAPIService_EnvelopeStatusCode_Voided
                 && [document.lastDocuSignStatus intValue] != DSAPIService_EnvelopeStatusCode_Deleted
@@ -679,7 +679,7 @@
                     [self cancelDocument:document];
                 }];
             }
-
+            
             if (IsEmpty(document.docuSignEnvelopeID)) {
                 // send to DocuSign
                 [actionSheet addButtonWithTitle:@"Finalize" block:^(void) {
@@ -716,12 +716,12 @@
             }
             
             [self performBlock:^(void) {
-                [actionSheet showFromRect:[self.view convertRect:(CGRect){CGPointMake(item.frameLeft,item.frameTop-30),item.size} fromView:item] 
-                                   inView:self.view 
+                [actionSheet showFromRect:[self.view convertRect:(CGRect){CGPointMake(item.frameLeft,item.frameTop-30),item.size} fromView:item]
+                                   inView:self.view
                                  animated:YES];
             } afterDelay:delay];
         }
-    } 
+    }
     // signed documents can only be displayed
     else if (formStatus == RBFormStatusSigned) {
         if ([self numberOfDocumentsWithFormStatus:formStatus] > 0) {
@@ -745,7 +745,7 @@
 
 - (IBAction)textFieldDidBeginEditing:(UITextField *)textField{
     UIButton * cancelSearchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-
+    
     UIImage *btnimg = [UIImage imageNamed:@"11-x.png"];
     
     [cancelSearchBtn setFrame:searchField_.rightView.frame];
@@ -817,8 +817,8 @@
             }];
             
             [self performBlock:^(void) {
-                [actionSheet showFromRect:[self.view convertRect:(CGRect){CGPointMake(gestureRecognizer.view.frameLeft,gestureRecognizer.view.frameTop),gestureRecognizer.view.size} fromView:gestureRecognizer.view] 
-                                   inView:self.view 
+                [actionSheet showFromRect:[self.view convertRect:(CGRect){CGPointMake(gestureRecognizer.view.frameLeft,gestureRecognizer.view.frameTop),gestureRecognizer.view.size} fromView:gestureRecognizer.view]
+                                   inView:self.view
                                  animated:YES];
             } afterDelay:0];
         }
@@ -895,7 +895,7 @@
 #pragma mark NSFetchedResultsControllerDelegate
 ////////////////////////////////////////////////////////////////////////
 
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller { 
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     if (controller == self.clientsFetchController) {
         [self.clientsCarousel reloadData];
     } else {
@@ -968,7 +968,7 @@
     [self updateCarouselSelectionState:self.formsCarousel selectedItem:nil];
     
     [UIView animateWithDuration:duration
-                          delay:0.f 
+                          delay:0.f
                         options:UIViewAnimationOptionAllowUserInteraction
                      animations:^(void) {
                          // 44.f = height of search-area -> clients-carousel is on same spot as forms-carousel before
@@ -986,12 +986,12 @@
                                                                      self.clientsView.frameWidth - self.clientsLabel.frameWidth, self.clientsCarousel.frameHeight);
                              self.clientsCarousel.viewpointOffset = CGSizeMake(355.f, 0);
                          }
-                     } 
+                     }
                      completion:nil];
 }
 
 - (void)hideSearchScreenWithDuration:(NSTimeInterval)duration {
-   self.formsView.userInteractionEnabled = YES;
+    self.formsView.userInteractionEnabled = YES;
     
     [UIView animateWithDuration:duration animations:^(void) {
         self.formsView.alpha = 1.f;
@@ -1112,7 +1112,7 @@
     return NO;
 }
 
-- (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus {    
+- (void)updateDetailViewWithFormStatus:(RBFormStatus)formStatus {
     if (formStatus != RBFormStatusNew) {
         NSPredicate *predicate=nil;
         RBClient *client=nil;
@@ -1131,10 +1131,10 @@
             }
         }
         self.documentsFetchController.fetchRequest.predicate = predicate;
-         NSError *error = nil;
-         if (![self.documentsFetchController performFetch:&error]) {
-         DDLogError(@"Unresolved error fetching documents %@, %@", error, [error userInfo]);
-         }
+        NSError *error = nil;
+        if (![self.documentsFetchController performFetch:&error]) {
+            DDLogError(@"Unresolved error fetching documents %@, %@", error, [error userInfo]);
+        }
     }
     
     [self.detailView reloadData];
@@ -1157,7 +1157,7 @@
     NSError *error = nil;
     if (![self.clientsFetchController performFetch:&error]) {
         DDLogError(@"Unresolved error %@, %@", error, [error userInfo]);
-    }  
+    }
     
     [self.clientsCarousel reloadData];
 }
@@ -1195,11 +1195,20 @@
     NSURL *urlForRequest;
     //New client request if nil / else edit existing client
     if(client == nil){
-         urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://sign_me/outlets/new",kRBMIBURLPath]];
+        urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://sign_me/outlets/new",kRBMIBURLPath]];
         [[NSUserDefaults standardUserDefaults] setInteger:kRBMIBCallTypeAdd forKey:kRBMIBCallType];
         [[NSUserDefaults standardUserDefaults] setObject:@"nil" forKey:kRBMIBCallClientID];
-  
+        
     }else{
+        NSString *classification;
+        if (client.classification3) {
+            classification = [NSString stringWithFormat:@"%@-%@-%@",client.classification1,client.classification2,client.classification3];
+        } else if (client.classification2) {
+            classification = [NSString stringWithFormat:@"%@-%@",client.classification1,client.classification2];
+        } else {
+            classification = client.classification1;
+        }
+        
         NSDictionary *dictToTransmit = @{@"id" : client.identifier,
                                          @"updated_at" : client.updated_at,
                                          @"name" : client.name,
@@ -1208,9 +1217,8 @@
                                          @"country" : client.country,
                                          @"country_iso" : client.country_iso,
                                          @"street" : client.street,
-                                         @"classification_1" : client.classification1,
-                                         @"classification_2" : client.classification2,
-                                         @"classification_3" : client.classification3 };
+                                         @"classification" : classification
+                                         };
         
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictToTransmit
                                                            options:nil
@@ -1234,27 +1242,27 @@
         //Display error
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"M.I.B. App not found" message:@"The M.I.B. App is not installed. It must be installed to send the request." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
-    }    
+    }
 }
 
 - (void)presentFormIfPossible {
-   
-        if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) == RBFormStatusNew 
-            && self.detailCarouselSelectedIndex != NSNotFound 
-            && self.clientsCarouselSelectedIndex != NSNotFound) {
-             if( [[NSUserDefaults standardUserDefaults] addressBookAccess] == YES){
-                 [self performBlock:^(void) {
-                     RBForm *form = [[self.emptyForms objectAtIndex:self.detailCarouselSelectedIndex] copy];
-                     //RBForm *form = [[RBForm alloc] initWithPath:[kRBFolderUserEmptyForms stringByAppendingPathComponent:@"aForm/PA_Form.plist"] name:@"aForm"];
-                     RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
-                     //RBClient *client = [[RBClient alloc] init];
-                     [self presentFormViewControllerForForm:form client:client];
-                 } afterDelay:0.4];
-             }else{
-                 [[[UIAlertView alloc] initWithTitle:@"Error" message:@"App has no permission to access the addressbook. Grant access in the ios settings to go on."
-                                            delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+    
+    if (RBFormStatusForIndex(self.formsCarousel.currentItemIndex) == RBFormStatusNew
+        && self.detailCarouselSelectedIndex != NSNotFound
+        && self.clientsCarouselSelectedIndex != NSNotFound) {
+        if( [[NSUserDefaults standardUserDefaults] addressBookAccess] == YES){
+            [self performBlock:^(void) {
+                RBForm *form = [[self.emptyForms objectAtIndex:self.detailCarouselSelectedIndex] copy];
+                //RBForm *form = [[RBForm alloc] initWithPath:[kRBFolderUserEmptyForms stringByAppendingPathComponent:@"aForm/PA_Form.plist"] name:@"aForm"];
+                RBClient *client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
+                //RBClient *client = [[RBClient alloc] init];
+                [self presentFormViewControllerForForm:form client:client];
+            } afterDelay:0.4];
+        }else{
+            [[[UIAlertView alloc] initWithTitle:@"Error" message:@"App has no permission to access the addressbook. Grant access in the ios settings to go on."
+                                       delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
         }
-   
+        
     }
 }
 
@@ -1333,9 +1341,9 @@
             predicate = [NSPredicate predicateWithFormat:@"status = %d", formStatus];
         }
     }
-  
+    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
-   
+    
     NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([RBDocument class])
                                               inManagedObjectContext:[NSManagedObjectContext defaultContext]];
     [request setEntity:entity];
@@ -1345,7 +1353,7 @@
 }
 
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {
-   
+    
     switch (formStatus) {
         case RBFormStatusNew:
             return self.emptyForms.count;
@@ -1408,7 +1416,7 @@
         if(client != nil){
             [self performSelector:@selector(showSuccessMessage:) withObject:@"Clients successfully updated" afterDelay:0.5f];
         }else{
-             [self performSelector:@selector(showErrorMessage:) withObject:@"Update Error - Client data is missing!" afterDelay:0.5f];
+            [self performSelector:@selector(showErrorMessage:) withObject:@"Update Error - Client data is missing!" afterDelay:0.5f];
         }
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:kRBMIBCallType];
     }
@@ -1434,7 +1442,7 @@
     [outletreq setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
     outletreq.delegate = self;
     [outletreq setDidFinishSelector:@selector(outletRequestFinished:)];
-
+    
     ASIHTTPRequest *formreq = [outletreq copy];
     formreq.url = formurl;
     [formreq setDidFinishSelector:@selector(formRequestFinished:)];
@@ -1454,7 +1462,7 @@
     NSFileManager *manager = [NSFileManager defaultManager];
     
     NSLog(@"%@", [[NSString alloc] initWithData:respData
-                                                          encoding:NSUTF8StringEncoding]);
+                                       encoding:NSUTF8StringEncoding]);
     
     [[NSUserDefaults standardUserDefaults] deleteStoredObjectNames];
     
@@ -1464,17 +1472,17 @@
         
         for(GDataXMLElement *form in [doc.rootElement elementsForName:@"form" ])
         {
-        NSArray *elements = [form elementsForName:@"name"];
-        if (elements.count > 0) {
-            GDataXMLElement *content = (GDataXMLElement *)[elements firstObject];
-            formname = content.stringValue;
-        }
+            NSArray *elements = [form elementsForName:@"name"];
+            if (elements.count > 0) {
+                GDataXMLElement *content = (GDataXMLElement *)[elements firstObject];
+                formname = content.stringValue;
+            }
             
-        downloadpath = [kRBFolderUserEmptyForms stringByAppendingPathComponent:formname];
-        if (![manager fileExistsAtPath:downloadpath]) {
-            [manager createDirectoryAtPath:downloadpath withIntermediateDirectories:YES attributes:nil error:nil];
-        }
-                
+            downloadpath = [kRBFolderUserEmptyForms stringByAppendingPathComponent:formname];
+            if (![manager fileExistsAtPath:downloadpath]) {
+                [manager createDirectoryAtPath:downloadpath withIntermediateDirectories:YES attributes:nil error:nil];
+            }
+            
             for(NSString *elementname in XARRAY(@"form_url",@"pdf_url",@"pdf_css")){
                 elements = [form elementsForName:elementname];
                 if (elements.count > 0) {
@@ -1505,7 +1513,7 @@
             }
         }
     }
-
+    
     [NSUserDefaults standardUserDefaults].formsUpdateDate = [NSDate date];
     [[NSUserDefaults standardUserDefaults] synchronize];
     emptyForms_ = [RBForm allEmptyForms];
@@ -1523,10 +1531,10 @@
     }
 }
 
--(void)outletRequestFinished:(ASIHTTPRequest *)request {  
+-(void)outletRequestFinished:(ASIHTTPRequest *)request {
     RBClient *client=nil;
     NSData *respData = [request responseData];
- 
+    
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:respData
                                                            options:0 error:nil];
     NSDate *lastSyncDate = nil;
@@ -1593,11 +1601,11 @@
     //if request for Forms already finished
     if(firstRequestFinished){
         [NSUserDefaults standardUserDefaults].webserviceUpdateDate = [NSDate date];
-         dispatch_async(dispatch_get_main_queue(), ^(void) {
-                [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:1.0f];
-                [self performSelector:@selector(updateUI) afterDelay:1.0];
-                [self.clientsCarousel scrollToItemAtIndex:0 animated:YES];
-         });
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [self performSelector:@selector(showSuccessMessage:) withObject:@"Finished Update!" afterDelay:1.0f];
+            [self performSelector:@selector(updateUI) afterDelay:1.0];
+            [self.clientsCarousel scrollToItemAtIndex:0 animated:YES];
+        });
     } else {
         firstRequestFinished=YES;
     }
@@ -1636,7 +1644,7 @@
     NSString *deletedOutletID = [request.url lastPathComponent];
     deletedOutletID = [deletedOutletID substringToIndex:deletedOutletID.length - 5];
     NSLog(@"Push successful delete keychain entry %@",deletedOutletID);
-
+    
     [KeychainWrapper clearOutletJSONFromKeychain:deletedOutletID];
 }
 

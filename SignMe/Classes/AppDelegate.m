@@ -207,12 +207,13 @@
                 RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
                 RBClient *client = [persistenceManager clientWithIdentifier:identifier];
                 client.identifier = identifier;
-                for(NSString * keyName in XARRAY(@"city",@"country",@"country_iso",@"updated_at",@"name")) {
+                for(NSString * keyName in XARRAY(@"city",@"country",@"country_iso",@"updated_at",@"name",@"street")) {
                     [client setValue:[item valueForKey:keyName] forKey:keyName];
                 }
                 client.classification1 = [item valueForKey:@"classification_1"];
                 client.classification2 = [item valueForKey:@"classification_2"];
                 client.classification3 = [item valueForKey:@"classification_3"];
+                client.postalcode = [item valueForKey:@"postal_code"];
                 NSData *jsonDataForSingleClient = [NSJSONSerialization dataWithJSONObject:item options:nil error:nil];
                 [self.homeViewController putOfflineClientDataToWebservice:jsonDataForSingleClient relativePathString:[NSString stringWithFormat:@"/api/1/outlets/%@.json",identifier]];
             }
