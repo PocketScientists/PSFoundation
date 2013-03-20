@@ -192,6 +192,10 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 - (void)syncOfflineCreatedOutlets {
+    //this array is used to save already updated client ids (MIB App writes duplicate entries into the keychain when the same client is several
+    //times updated (in offline mode) the first entry is thereby the newest - use just this entry for the update
+    NSMutableArray *alreadyUpdatedClientIDs = [[NSMutableArray alloc] init];
+    
     NSLog(@"=========== >>>>>> Before clean: %@",[KeychainWrapper readOutletJSONFromKeychain]);
     NSString *keychain = [KeychainWrapper readOutletJSONFromKeychain];
     NSData* data = [keychain dataUsingEncoding:NSUTF8StringEncoding];
@@ -203,17 +207,20 @@
     if (jsonArray) {
         for(NSDictionary *item in jsonArray) {
             NSString *identifier = [item valueForKey:@"id"];
-            if (identifier) {
+            
+            if (identifier && ![alreadyUpdatedClientIDs containsObject:identifier]) {
+                [alreadyUpdatedClientIDs addObject:identifier];
                 RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
                 RBClient *client = [persistenceManager clientWithIdentifier:identifier];
                 client.identifier = identifier;
                 for(NSString * keyName in XARRAY(@"city",@"country",@"country_iso",@"updated_at",@"name",@"street")) {
-                    [client setValue:[item valueForKey:keyName] forKey:keyName];
+                    NSString *value = [self stringOrBlankFromDictionary:item forKey:keyName];
+                    [client setValue:value forKey:keyName];
                 }
-                client.classification1 = [item valueForKey:@"classification_1"];
-                client.classification2 = [item valueForKey:@"classification_2"];
-                client.classification3 = [item valueForKey:@"classification_3"];
-                client.postalcode = [item valueForKey:@"postal_code"];
+                client.classification1 = [self stringOrBlankFromDictionary:item forKey:@"classification_1"];
+                client.classification2 = [self stringOrBlankFromDictionary:item forKey:@"classification_2"];
+                client.classification3 = [self stringOrBlankFromDictionary:item forKey:@"classification_3"];
+                client.postalcode = [self stringOrBlankFromDictionary:item forKey:@"postal_code"];
                 NSData *jsonDataForSingleClient = [NSJSONSerialization dataWithJSONObject:item options:nil error:nil];
                 [self.homeViewController putOfflineClientDataToWebservice:jsonDataForSingleClient relativePathString:[NSString stringWithFormat:@"/api/1/outlets/%@.json",identifier]];
             }
@@ -433,6 +440,14 @@
         [alertView setCancelButtonWithTitle:@"Keep Data" block:nil];
         [alertView show];
     }
+}
+
+- (NSString *)stringOrBlankFromDictionary:(NSDictionary *)dict forKey:(NSString *)key {
+    NSString *val = [dict valueForKey:key];
+    if (!val || ![val isKindOfClass:[NSString class]]) {
+        return @"";
+    }
+    return val;
 }
 
 @end

@@ -1391,7 +1391,6 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     NSUInteger calltype = [[NSUserDefaults standardUserDefaults] integerForKey:kRBMIBCallType];
     NSString * clientid = [[NSUserDefaults standardUserDefaults] valueForKey:kRBMIBCallClientID];
-    
     if(calltype == kRBMIBCallTypeDelete){
         RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
         client = [self clientWithIdentifier:clientid];
@@ -1400,7 +1399,6 @@
     }
     
     if(calltype == kRBMIBCallTypeAdd || calltype == kRBMIBCallTypeEdit){
-        
         NSArray * informationparts = [urlstring componentsSeparatedByString:@"&"];
         for(NSString *informationsnippet in informationparts){
             valuepart =[informationsnippet substringAfterSubstring:@"="];
@@ -1410,7 +1408,9 @@
             if([keypart isEqualToString:@"id"]){
                 client = [self clientWithIdentifier:valuepart];
             }else{
-                [client setValue:valuepart forKey:keypart];
+                if (valuepart != nil) {
+                    [client setValue:valuepart forKey:keypart];
+                }
             }
         }
         if(client != nil){

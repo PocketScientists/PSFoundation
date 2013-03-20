@@ -7,6 +7,168 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060184DF16D60E5300BBE22C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 78BCBB2712B5323D0093AE0C /* Localizable.strings */; };
+		060184E016D60E5300BBE22C /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = 395EEF2413D72E39003C4DA8 /* Background.png */; };
+		060184E116D60E5300BBE22C /* RBHomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39A7F07D13DA207A008338A4 /* RBHomeView.xib */; };
+		060184E216D60E5300BBE22C /* LogoEmpty.png in Resources */ = {isa = PBXBuildFile; fileRef = 3911A22713E22AA600CD4F6C /* LogoEmpty.png */; };
+		060184E316D60E5300BBE22C /* LogoFull.png in Resources */ = {isa = PBXBuildFile; fileRef = 3911A22813E22AA600CD4F6C /* LogoFull.png */; };
+		060184E416D60E5300BBE22C /* AbortButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7213E30F8700603CD6 /* AbortButton.png */; };
+		060184E516D60E5300BBE22C /* LogoSignMe.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7313E30F8700603CD6 /* LogoSignMe.png */; };
+		060184E616D60E5300BBE22C /* SaveButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7413E30F8700603CD6 /* SaveButton.png */; };
+		060184E716D60E5300BBE22C /* CarouselDetailBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7B13E358C000603CD6 /* CarouselDetailBackground.png */; };
+		060184E816D60E5300BBE22C /* AddClientButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A46C7D13E35C0B00603CD6 /* AddClientButton.png */; };
+		060184E916D60E5300BBE22C /* NextButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 399BBCA213E37E0E0062EC1E /* NextButton.png */; };
+		060184EA16D60E5300BBE22C /* PrevButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 399BBCA313E37E0E0062EC1E /* PrevButton.png */; };
+		060184EB16D60E5300BBE22C /* CarouselBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 39134E9413E38D84000D45B6 /* CarouselBackground.png */; };
+		060184EC16D60E5300BBE22C /* SearchFieldInactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 39134E9513E38D84000D45B6 /* SearchFieldInactive.png */; };
+		060184ED16D60E5300BBE22C /* SearchFieldRightView.png in Resources */ = {isa = PBXBuildFile; fileRef = 39134E9613E38D84000D45B6 /* SearchFieldRightView.png */; };
+		060184EE16D60E5300BBE22C /* SearchBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 39134E9A13E394CE000D45B6 /* SearchBackground.png */; };
+		060184EF16D60E5300BBE22C /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F2019F13E754E600DA9093 /* Default-Landscape~ipad.png */; };
+		060184F016D60E5300BBE22C /* EmptyContact.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F06FBC13E9CB5A008DAB60 /* EmptyContact.png */; };
+		060184F116D60E5300BBE22C /* AddButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 390396A313EA1CE6009465E7 /* AddButton.png */; };
+		060184F216D60E5300BBE22C /* StatusGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 391957F213EB6126000FF949 /* StatusGreen.png */; };
+		060184F316D60E5300BBE22C /* StatusRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 391957F313EB6126000FF949 /* StatusRed.png */; };
+		060184F416D60E5300BBE22C /* StatusYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 391957F413EB6126000FF949 /* StatusYellow.png */; };
+		060184F516D60E5300BBE22C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 39AA377113EB6E6B00338A3E /* Settings.bundle */; };
+		060184F616D60E5300BBE22C /* NewContactButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 39782EF413EC49E7005CE8D6 /* NewContactButton.png */; };
+		060184F716D60E5300BBE22C /* 11-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 397B77CC13ECC960009438F1 /* 11-x.png */; };
+		060184F816D60E5300BBE22C /* 19-check.png in Resources */ = {isa = PBXBuildFile; fileRef = 397B77CD13ECC960009438F1 /* 19-check.png */; };
+		060184F916D60E5300BBE22C /* TextFieldBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = A97FAC1A13ED7C590083EFC1 /* TextFieldBackground.png */; };
+		060184FA16D60E5300BBE22C /* CheckButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A97FAC1C13ED816D0083EFC1 /* CheckButton.png */; };
+		060184FB16D60E5300BBE22C /* CheckButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = A97FAC1D13ED816D0083EFC1 /* CheckButtonSelected.png */; };
+		060184FC16D60E5300BBE22C /* CheckButton2.png in Resources */ = {isa = PBXBuildFile; fileRef = A908264E145ED74E006249DE /* CheckButton2.png */; };
+		060184FD16D60E5300BBE22C /* CheckButton2Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A908264F145ED74F006249DE /* CheckButton2Selected.png */; };
+		060184FE16D60E5300BBE22C /* DeleteButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A9082650145ED750006249DE /* DeleteButton.png */; };
+		060184FF16D60E5300BBE22C /* Code.png in Resources */ = {isa = PBXBuildFile; fileRef = A9082654145F9903006249DE /* Code.png */; };
+		0601850016D60E5300BBE22C /* CodeSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = A9082655145F9904006249DE /* CodeSelected.png */; };
+		0601850116D60E5300BBE22C /* IDCard.png in Resources */ = {isa = PBXBuildFile; fileRef = A9082656145F9906006249DE /* IDCard.png */; };
+		0601850216D60E5300BBE22C /* IDCardSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = A9082657145F9908006249DE /* IDCardSelected.png */; };
+		0601850316D60E5300BBE22C /* InPersonSigner.png in Resources */ = {isa = PBXBuildFile; fileRef = A94D227C1483F6650077723B /* InPersonSigner.png */; };
+		0601850416D60E5300BBE22C /* RemoteSigner.png in Resources */ = {isa = PBXBuildFile; fileRef = A94D227D1483F6650077723B /* RemoteSigner.png */; };
+		0601850516D60E5300BBE22C /* FinalizeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A94D22801483FF8C0077723B /* FinalizeButton.png */; };
+		0601850616D60E5300BBE22C /* TextFieldBackgroundDisabled.png in Resources */ = {isa = PBXBuildFile; fileRef = A9B9367514B3E1E100C9A51B /* TextFieldBackgroundDisabled.png */; };
+		0601850716D60E5300BBE22C /* RemoveButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CB0D4814E9F541008AD4CE /* RemoveButton.png */; };
+		0601850816D60E5300BBE22C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A9FD5F93150E47B2006256DE /* Icon.png */; };
+		0601850916D60E5300BBE22C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9FD5F95150E484A006256DE /* Icon@2x.png */; };
+		0601850A16D60E5300BBE22C /* mibhome.png in Resources */ = {isa = PBXBuildFile; fileRef = 06316130160AFA0E003E9AEA /* mibhome.png */; };
+		0601850B16D60E5300BBE22C /* mibhome@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0670C024164D47AB0038AF4B /* mibhome@2x.png */; };
+		0601850D16D60E5300BBE22C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		0601850E16D60E5300BBE22C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
+		0601850F16D60E5300BBE22C /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B21A12B44DE400B32768 /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601851016D60E5300BBE22C /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B21D12B44DE400B32768 /* ASIDataCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601851116D60E5300BBE22C /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B21F12B44DE400B32768 /* ASIDataDecompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601851216D60E5300BBE22C /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B22112B44DE400B32768 /* ASIDownloadCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601851316D60E5300BBE22C /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B22312B44DE400B32768 /* ASIFormDataRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601851416D60E5300BBE22C /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B22512B44DE400B32768 /* ASIHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601851516D60E5300BBE22C /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B22912B44DE400B32768 /* ASIInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601851616D60E5300BBE22C /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9B22B12B44DE400B32768 /* ASINetworkQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601851716D60E5300BBE22C /* PSWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C9185A1398EBC40045489C /* PSWindow.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601851816D60E5300BBE22C /* PSBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F772A413B63DD9006E12AF /* PSBaseViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601851916D60E5300BBE22C /* PSBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916913D64BB1007BFF2E /* PSBaseTableViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601851A16D60E5300BBE22C /* RBHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916D13D64C62007BFF2E /* RBHomeViewController.m */; };
+		0601851B16D60E5300BBE22C /* RBTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 395EEF2813D72E85003C4DA8 /* RBTimeView.m */; };
+		0601851C16D60E5300BBE22C /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900891E13D77B8E0093E0B0 /* iCarousel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601851D16D60E5300BBE22C /* RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892113D77F790093E0B0 /* RBForm.m */; };
+		0601851E16D60E5300BBE22C /* RBCarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892413D780A30093E0B0 /* RBCarouselView.m */; };
+		0601851F16D60E5300BBE22C /* RBFormDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900892A13D799530093E0B0 /* RBFormDetailView.m */; };
+		0601852016D60E5300BBE22C /* RBArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3900894913D882760093E0B0 /* RBArrowView.m */; };
+		0601852116D60E5300BBE22C /* SignMe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 390DD51813D9D21400EB1EFD /* SignMe.xcdatamodeld */; };
+		0601852216D60E5300BBE22C /* RBPDFManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A7F07613D9FF2D008338A4 /* RBPDFManager.m */; };
+		0601852316D60E5300BBE22C /* RBUIGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D313DDE72B008810AF /* RBUIGenerator.m */; };
+		0601852416D60E5300BBE22C /* RBFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D613DDE75C008810AF /* RBFormView.m */; };
+		0601852516D60E5300BBE22C /* RBFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7DF13DDE863008810AF /* RBFormViewController.m */; };
+		0601852616D60E5300BBE22C /* RBPDFWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E12F13DF3C8F00B23A7D /* RBPDFWriter.m */; };
+		0601852716D60E5300BBE22C /* UIControl+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 3981E13913DF644F00B23A7D /* UIControl+RBForm.m */; };
+		0601852816D60E5300BBE22C /* RBPersistenceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39680E6513DF838A006B47C1 /* RBPersistenceManager.m */; };
+		0601852916D60E5300BBE22C /* RBClientEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39680E6913E06A8B006B47C1 /* RBClientEditViewController.m */; };
+		0601852A16D60E5300BBE22C /* RBRecipientsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A1C313E1C3C900CD4F6C /* RBRecipientsView.m */; };
+		0601852B16D60E5300BBE22C /* RBRecipientTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A1CB13E1CC5F00CD4F6C /* RBRecipientTableViewCell.m */; };
+		0601852C16D60E5300BBE22C /* ABTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A1E413E1CCE700CD4F6C /* ABTableViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601852D16D60E5300BBE22C /* ABPerson+RBMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A21E13E1E2AD00CD4F6C /* ABPerson+RBMail.m */; };
+		0601852E16D60E5300BBE22C /* NSUserDefaults+RBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A22113E226CA00CD4F6C /* NSUserDefaults+RBAdditions.m */; };
+		0601852F16D60E5300BBE22C /* RBBoxService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A22513E228FB00CD4F6C /* RBBoxService.m */; };
+		0601853016D60E5300BBE22C /* RBBoxLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393AB0A313E2361000F1BE04 /* RBBoxLoginViewController.m */; };
+		0601853116D60E5300BBE22C /* PSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393AB0A613E2762800F1BE04 /* PSFunctions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601853216D60E5300BBE22C /* SSLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A46C7013E30D2F00603CD6 /* SSLineView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601853316D60E5300BBE22C /* RBClient+RBProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BB88DA13E3CCE00074543E /* RBClient+RBProperties.m */; };
+		0601853416D60E5300BBE22C /* RBDocument+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BCFBA13E89FCF00568B25 /* RBDocument+RBForm.m */; };
+		0601853516D60E5300BBE22C /* RBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F06FA813E99B2C008DAB60 /* RBClient.m */; };
+		0601853616D60E5300BBE22C /* RBRecipient+RBDocuSign.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F06FAE13E9B5D0008DAB60 /* RBRecipient+RBDocuSign.m */; };
+		0601853716D60E5300BBE22C /* RBRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F06FBA13E9C1E1008DAB60 /* RBRecipient.m */; };
+		0601853816D60E5300BBE22C /* RBDocuSignService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3905750313EB11D7002CE9ED /* RBDocuSignService.m */; };
+		0601853916D60E5300BBE22C /* RBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 39AA379413EB781700338A3E /* RBDocument.m */; };
+		0601853A16D60E5300BBE22C /* RBTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B773613EC7694009438F1 /* RBTextField.m */; };
+		0601853B16D60E5300BBE22C /* RBKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B773913ECA619009438F1 /* RBKeyboardAvoidingScrollView.m */; };
+		0601853C16D60E5300BBE22C /* ATMHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B77D013ECC960009438F1 /* ATMHud.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601853D16D60E5300BBE22C /* ATMHudQueueItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B77D713ECC960009438F1 /* ATMHudQueueItem.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601853E16D60E5300BBE22C /* ATMHudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B77D913ECC960009438F1 /* ATMHudView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601853F16D60E5300BBE22C /* ATMProgressLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B77DB13ECC960009438F1 /* ATMProgressLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601854016D60E5300BBE22C /* ATMSoundFX.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B77DD13ECC960009438F1 /* ATMSoundFX.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601854116D60E5300BBE22C /* ATMTextLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 397B77DF13ECC960009438F1 /* ATMTextLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601854216D60E5300BBE22C /* UIView+RBForm.m in Sources */ = {isa = PBXBuildFile; fileRef = A948733E141DFAFF00B0E038 /* UIView+RBForm.m */; };
+		0601854316D60E5300BBE22C /* RBDocuSigningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A94873A3141F7CAA00B0E038 /* RBDocuSigningViewController.m */; };
+		0601854416D60E5300BBE22C /* VCTitleCase.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B49260144CCE20002F1D02 /* VCTitleCase.m */; };
+		0601854516D60E5300BBE22C /* RBMusketeerEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B49264144CE6BB002F1D02 /* RBMusketeerEditViewController.m */; };
+		0601854616D60E5300BBE22C /* RBMusketeer.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B49267144CE7FB002F1D02 /* RBMusketeer.m */; };
+		0601854716D60E5300BBE22C /* RBMusketeer+RBProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B4926A144CE975002F1D02 /* RBMusketeer+RBProperties.m */; };
+		0601854816D60E5300BBE22C /* RBFormLayoutData.m in Sources */ = {isa = PBXBuildFile; fileRef = A96DF4271452B65200E919E2 /* RBFormLayoutData.m */; };
+		0601854916D60E5300BBE22C /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D7A62D14636F460004C38A /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601854A16D60E5300BBE22C /* _DDFunctionContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913B714847630006CA234 /* _DDFunctionContainer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601854B16D60E5300BBE22C /* _DDFunctionExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913B914847630006CA234 /* _DDFunctionExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601854C16D60E5300BBE22C /* _DDFunctionTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913BB14847630006CA234 /* _DDFunctionTerm.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601854D16D60E5300BBE22C /* _DDFunctionUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913BD14847630006CA234 /* _DDFunctionUtilities.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601854E16D60E5300BBE22C /* _DDGroupTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913BF14847630006CA234 /* _DDGroupTerm.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601854F16D60E5300BBE22C /* _DDNumberExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913C114847630006CA234 /* _DDNumberExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855016D60E5300BBE22C /* _DDNumberTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913C314847630006CA234 /* _DDNumberTerm.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855116D60E5300BBE22C /* _DDOperatorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913C514847630006CA234 /* _DDOperatorInfo.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855216D60E5300BBE22C /* _DDOperatorTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913C714847630006CA234 /* _DDOperatorTerm.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855316D60E5300BBE22C /* _DDParserTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913C914847630006CA234 /* _DDParserTerm.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855416D60E5300BBE22C /* _DDRewriteRule.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913CB14847630006CA234 /* _DDRewriteRule.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855516D60E5300BBE22C /* _DDVariableExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913CD14847630006CA234 /* _DDVariableExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855616D60E5300BBE22C /* _DDVariableTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913CF14847630006CA234 /* _DDVariableTerm.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855716D60E5300BBE22C /* DDExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913D114847630006CA234 /* DDExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855816D60E5300BBE22C /* DDMathEvaluator.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913D414847630006CA234 /* DDMathEvaluator.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855916D60E5300BBE22C /* DDMathStringToken.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913D814847630006CA234 /* DDMathStringToken.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855A16D60E5300BBE22C /* DDMathStringTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913DA14847630006CA234 /* DDMathStringTokenizer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855B16D60E5300BBE22C /* DDParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913DC14847630006CA234 /* DDParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855C16D60E5300BBE22C /* DDParserTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913DE14847630006CA234 /* DDParserTypes.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855D16D60E5300BBE22C /* DDTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913E014847630006CA234 /* DDTypes.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855E16D60E5300BBE22C /* NSString+DDMathParsing.m in Sources */ = {isa = PBXBuildFile; fileRef = A90913E214847630006CA234 /* NSString+DDMathParsing.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601855F16D60E5300BBE22C /* RBMultiValueTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A918BF6C14E441800075E862 /* RBMultiValueTextField.m */; };
+		0601856016D60E5300BBE22C /* RBUserAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 06599BB515E27278006B6988 /* RBUserAuthentication.m */; };
+		0601856116D60E5300BBE22C /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 064DE1D915E2DF6B00177D1E /* KeychainWrapper.m */; };
+		0601856216D60E5300BBE22C /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 065493C915E5096E00936ECB /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601856316D60E5300BBE22C /* Base64Transcoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17EE15E77A530086A377 /* Base64Transcoder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601856416D60E5300BBE22C /* HSK_CFUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17F015E77A530086A377 /* HSK_CFUtilities.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601856516D60E5300BBE22C /* NSData+Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17F215E77A530086A377 /* NSData+Base64Additions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601856616D60E5300BBE22C /* NSStream+SKPSMTPExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17F415E77A530086A377 /* NSStream+SKPSMTPExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601856716D60E5300BBE22C /* SKPSMTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17F615E77A530086A377 /* SKPSMTPMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0601856816D60E5300BBE22C /* RBRecipientPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0666251915EF4A0800721CBB /* RBRecipientPickerViewController.m */; };
+		0601856916D60E5300BBE22C /* RBAvailableRecipients.m in Sources */ = {isa = PBXBuildFile; fileRef = 065CE85115FF7E4D00D4A94E /* RBAvailableRecipients.m */; };
+		0601856B16D60E5300BBE22C /* libPDFCreator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A918BF7E14E51BEC0075E862 /* libPDFCreator.a */; };
+		0601856C16D60E5300BBE22C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A94FC8DE14DA91D2008CCBB4 /* ImageIO.framework */; };
+		0601856D16D60E5300BBE22C /* DocuSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21913E1DB7B00CD4F6C /* DocuSign.framework */; };
+		0601856E16D60E5300BBE22C /* libDocuSign.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 394B916313D64924007BFF2E /* libDocuSign.a */; };
+		0601856F16D60E5300BBE22C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21B13E1DCC000CD4F6C /* libxml2.dylib */; };
+		0601857016D60E5300BBE22C /* libBox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 394B915613D6491B007BFF2E /* libBox.a */; };
+		0601857116D60E5300BBE22C /* libAddressBookWrappers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21313E1DA9400CD4F6C /* libAddressBookWrappers.a */; };
+		0601857216D60E5300BBE22C /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A1EB13E1CFD400CD4F6C /* AddressBook.framework */; };
+		0601857316D60E5300BBE22C /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A1EC13E1CFD400CD4F6C /* AddressBookUI.framework */; };
+		0601857416D60E5300BBE22C /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39A7F07813D9FFC3008338A4 /* CoreText.framework */; };
+		0601857516D60E5300BBE22C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 390DD52813D9E26600EB1EFD /* CoreData.framework */; };
+		0601857616D60E5300BBE22C /* libPSFoundation_CoreData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A47C12B444A80025424F /* libPSFoundation_CoreData.a */; };
+		0601857716D60E5300BBE22C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		0601857816D60E5300BBE22C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		0601857916D60E5300BBE22C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
+		0601857A16D60E5300BBE22C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A40B12B441D10025424F /* MobileCoreServices.framework */; };
+		0601857B16D60E5300BBE22C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A40D12B441E00025424F /* SystemConfiguration.framework */; };
+		0601857C16D60E5300BBE22C /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A41312B441F40025424F /* libz.1.1.3.dylib */; };
+		0601857D16D60E5300BBE22C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A41512B441FB0025424F /* AudioToolbox.framework */; };
+		0601857E16D60E5300BBE22C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A41712B442070025424F /* CFNetwork.framework */; };
+		0601857F16D60E5300BBE22C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A41912B4420E0025424F /* Security.framework */; };
+		0601858016D60E5300BBE22C /* libPSFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7856A47E12B444A80025424F /* libPSFoundation.a */; };
+		0601858116D60E5300BBE22C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78E9B1C212B44BB900B32768 /* QuartzCore.framework */; };
+		0601858216D60E5300BBE22C /* libicucore.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 78E9B25112B4514200B32768 /* libicucore.A.dylib */; };
 		060A17F715E77A530086A377 /* Base64Transcoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17EE15E77A530086A377 /* Base64Transcoder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		060A17F815E77A530086A377 /* HSK_CFUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17F015E77A530086A377 /* HSK_CFUtilities.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		060A17F915E77A530086A377 /* NSData+Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A17F215E77A530086A377 /* NSData+Base64Additions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -178,6 +340,41 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		060184D516D60E5300BBE22C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A918BF7514E51BEB0075E862 /* PDFCreator.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A94FC7EA14DA8AB2008CCBB4;
+			remoteInfo = PDFCreator;
+		};
+		060184D716D60E5300BBE22C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3911A20B13E1DA9300CD4F6C /* iPhoneContacts.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = iPhoneContacts;
+		};
+		060184D916D60E5300BBE22C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 394B915B13D64923007BFF2E /* DocuSign.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A90F779013D4A310009277B2;
+			remoteInfo = DocuSign;
+		};
+		060184DB16D60E5300BBE22C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 394B914E13D6491A007BFF2E /* box.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A90F777513D4A2D0009277B2;
+			remoteInfo = box;
+		};
+		060184DD16D60E5300BBE22C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7856A47312B444A80025424F /* PSFoundation.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 788E1E6D126C95B1009801E5;
+			remoteInfo = PSFoundation;
+		};
 		3911A1C013E1BADD00CD4F6C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 394B915B13D64923007BFF2E /* DocuSign.xcodeproj */;
@@ -313,6 +510,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0601858716D60E5300BBE22C /* SignMe2012.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SignMe2012.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		060A17ED15E77A530086A377 /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64Transcoder.h; path = ../../SMTPLibrary/Base64Transcoder.h; sourceTree = "<group>"; };
 		060A17EE15E77A530086A377 /* Base64Transcoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Base64Transcoder.m; path = ../../SMTPLibrary/Base64Transcoder.m; sourceTree = "<group>"; };
 		060A17EF15E77A530086A377 /* HSK_CFUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSK_CFUtilities.h; path = ../../SMTPLibrary/HSK_CFUtilities.h; sourceTree = "<group>"; };
@@ -595,6 +793,37 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0601856A16D60E5300BBE22C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0601856B16D60E5300BBE22C /* libPDFCreator.a in Frameworks */,
+				0601856C16D60E5300BBE22C /* ImageIO.framework in Frameworks */,
+				0601856D16D60E5300BBE22C /* DocuSign.framework in Frameworks */,
+				0601856E16D60E5300BBE22C /* libDocuSign.a in Frameworks */,
+				0601856F16D60E5300BBE22C /* libxml2.dylib in Frameworks */,
+				0601857016D60E5300BBE22C /* libBox.a in Frameworks */,
+				0601857116D60E5300BBE22C /* libAddressBookWrappers.a in Frameworks */,
+				0601857216D60E5300BBE22C /* AddressBook.framework in Frameworks */,
+				0601857316D60E5300BBE22C /* AddressBookUI.framework in Frameworks */,
+				0601857416D60E5300BBE22C /* CoreText.framework in Frameworks */,
+				0601857516D60E5300BBE22C /* CoreData.framework in Frameworks */,
+				0601857616D60E5300BBE22C /* libPSFoundation_CoreData.a in Frameworks */,
+				0601857716D60E5300BBE22C /* Foundation.framework in Frameworks */,
+				0601857816D60E5300BBE22C /* UIKit.framework in Frameworks */,
+				0601857916D60E5300BBE22C /* CoreGraphics.framework in Frameworks */,
+				0601857A16D60E5300BBE22C /* MobileCoreServices.framework in Frameworks */,
+				0601857B16D60E5300BBE22C /* SystemConfiguration.framework in Frameworks */,
+				0601857C16D60E5300BBE22C /* libz.1.1.3.dylib in Frameworks */,
+				0601857D16D60E5300BBE22C /* AudioToolbox.framework in Frameworks */,
+				0601857E16D60E5300BBE22C /* CFNetwork.framework in Frameworks */,
+				0601857F16D60E5300BBE22C /* Security.framework in Frameworks */,
+				0601858016D60E5300BBE22C /* libPSFoundation.a in Frameworks */,
+				0601858116D60E5300BBE22C /* QuartzCore.framework in Frameworks */,
+				0601858216D60E5300BBE22C /* libicucore.A.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -701,6 +930,7 @@
 			children = (
 				1D6058910D05DD3D006BFB54 /* SignMe_Int.app */,
 				3981E11E13DF3A4F00B23A7D /* PlistCreator */,
+				0601858716D60E5300BBE22C /* SignMe2012.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1293,6 +1523,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		060184D316D60E5300BBE22C /* SignMe2012 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0601858416D60E5300BBE22C /* Build configuration list for PBXNativeTarget "SignMe2012" */;
+			buildPhases = (
+				060184DE16D60E5300BBE22C /* Resources */,
+				0601850C16D60E5300BBE22C /* Sources */,
+				0601856A16D60E5300BBE22C /* Frameworks */,
+				0601858316D60E5300BBE22C /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				060184D416D60E5300BBE22C /* PBXTargetDependency */,
+				060184D616D60E5300BBE22C /* PBXTargetDependency */,
+				060184D816D60E5300BBE22C /* PBXTargetDependency */,
+				060184DA16D60E5300BBE22C /* PBXTargetDependency */,
+				060184DC16D60E5300BBE22C /* PBXTargetDependency */,
+			);
+			name = SignMe2012;
+			productName = PSAppTemplate;
+			productReference = 0601858716D60E5300BBE22C /* SignMe2012.app */;
+			productType = "com.apple.product-type.application";
+		};
 		1D6058900D05DD3D006BFB54 /* SignMe */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "SignMe" */;
@@ -1380,6 +1633,7 @@
 			targets = (
 				1D6058900D05DD3D006BFB54 /* SignMe */,
 				3981E11D13DF3A4F00B23A7D /* PlistCreator */,
+				060184D316D60E5300BBE22C /* SignMe2012 */,
 			);
 		};
 /* End PBXProject section */
@@ -1472,6 +1726,58 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		060184DE16D60E5300BBE22C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				060184DF16D60E5300BBE22C /* Localizable.strings in Resources */,
+				060184E016D60E5300BBE22C /* Background.png in Resources */,
+				060184E116D60E5300BBE22C /* RBHomeView.xib in Resources */,
+				060184E216D60E5300BBE22C /* LogoEmpty.png in Resources */,
+				060184E316D60E5300BBE22C /* LogoFull.png in Resources */,
+				060184E416D60E5300BBE22C /* AbortButton.png in Resources */,
+				060184E516D60E5300BBE22C /* LogoSignMe.png in Resources */,
+				060184E616D60E5300BBE22C /* SaveButton.png in Resources */,
+				060184E716D60E5300BBE22C /* CarouselDetailBackground.png in Resources */,
+				060184E816D60E5300BBE22C /* AddClientButton.png in Resources */,
+				060184E916D60E5300BBE22C /* NextButton.png in Resources */,
+				060184EA16D60E5300BBE22C /* PrevButton.png in Resources */,
+				060184EB16D60E5300BBE22C /* CarouselBackground.png in Resources */,
+				060184EC16D60E5300BBE22C /* SearchFieldInactive.png in Resources */,
+				060184ED16D60E5300BBE22C /* SearchFieldRightView.png in Resources */,
+				060184EE16D60E5300BBE22C /* SearchBackground.png in Resources */,
+				060184EF16D60E5300BBE22C /* Default-Landscape~ipad.png in Resources */,
+				060184F016D60E5300BBE22C /* EmptyContact.png in Resources */,
+				060184F116D60E5300BBE22C /* AddButton.png in Resources */,
+				060184F216D60E5300BBE22C /* StatusGreen.png in Resources */,
+				060184F316D60E5300BBE22C /* StatusRed.png in Resources */,
+				060184F416D60E5300BBE22C /* StatusYellow.png in Resources */,
+				060184F516D60E5300BBE22C /* Settings.bundle in Resources */,
+				060184F616D60E5300BBE22C /* NewContactButton.png in Resources */,
+				060184F716D60E5300BBE22C /* 11-x.png in Resources */,
+				060184F816D60E5300BBE22C /* 19-check.png in Resources */,
+				060184F916D60E5300BBE22C /* TextFieldBackground.png in Resources */,
+				060184FA16D60E5300BBE22C /* CheckButton.png in Resources */,
+				060184FB16D60E5300BBE22C /* CheckButtonSelected.png in Resources */,
+				060184FC16D60E5300BBE22C /* CheckButton2.png in Resources */,
+				060184FD16D60E5300BBE22C /* CheckButton2Selected.png in Resources */,
+				060184FE16D60E5300BBE22C /* DeleteButton.png in Resources */,
+				060184FF16D60E5300BBE22C /* Code.png in Resources */,
+				0601850016D60E5300BBE22C /* CodeSelected.png in Resources */,
+				0601850116D60E5300BBE22C /* IDCard.png in Resources */,
+				0601850216D60E5300BBE22C /* IDCardSelected.png in Resources */,
+				0601850316D60E5300BBE22C /* InPersonSigner.png in Resources */,
+				0601850416D60E5300BBE22C /* RemoteSigner.png in Resources */,
+				0601850516D60E5300BBE22C /* FinalizeButton.png in Resources */,
+				0601850616D60E5300BBE22C /* TextFieldBackgroundDisabled.png in Resources */,
+				0601850716D60E5300BBE22C /* RemoveButton.png in Resources */,
+				0601850816D60E5300BBE22C /* Icon.png in Resources */,
+				0601850916D60E5300BBE22C /* Icon@2x.png in Resources */,
+				0601850A16D60E5300BBE22C /* mibhome.png in Resources */,
+				0601850B16D60E5300BBE22C /* mibhome@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1D60588D0D05DD3D006BFB54 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1527,6 +1833,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0601858316D60E5300BBE22C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# increase build number for beta builds\nif [ \"$CONFIGURATION\" == \"Distribution\" ]\n\tthen /usr/bin/perl -pe 's/(BUILD_NUMBER = )(\\d+)/$1.($2+1)/eg' -i ../Xcode/buildnumber.xcconfig\nfi";
+		};
 		7876F55A130D858500A79E01 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1543,6 +1862,106 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0601850C16D60E5300BBE22C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0601850D16D60E5300BBE22C /* main.m in Sources */,
+				0601850E16D60E5300BBE22C /* AppDelegate.m in Sources */,
+				0601850F16D60E5300BBE22C /* ASIAuthenticationDialog.m in Sources */,
+				0601851016D60E5300BBE22C /* ASIDataCompressor.m in Sources */,
+				0601851116D60E5300BBE22C /* ASIDataDecompressor.m in Sources */,
+				0601851216D60E5300BBE22C /* ASIDownloadCache.m in Sources */,
+				0601851316D60E5300BBE22C /* ASIFormDataRequest.m in Sources */,
+				0601851416D60E5300BBE22C /* ASIHTTPRequest.m in Sources */,
+				0601851516D60E5300BBE22C /* ASIInputStream.m in Sources */,
+				0601851616D60E5300BBE22C /* ASINetworkQueue.m in Sources */,
+				0601851716D60E5300BBE22C /* PSWindow.m in Sources */,
+				0601851816D60E5300BBE22C /* PSBaseViewController.m in Sources */,
+				0601851916D60E5300BBE22C /* PSBaseTableViewController.m in Sources */,
+				0601851A16D60E5300BBE22C /* RBHomeViewController.m in Sources */,
+				0601851B16D60E5300BBE22C /* RBTimeView.m in Sources */,
+				0601851C16D60E5300BBE22C /* iCarousel.m in Sources */,
+				0601851D16D60E5300BBE22C /* RBForm.m in Sources */,
+				0601851E16D60E5300BBE22C /* RBCarouselView.m in Sources */,
+				0601851F16D60E5300BBE22C /* RBFormDetailView.m in Sources */,
+				0601852016D60E5300BBE22C /* RBArrowView.m in Sources */,
+				0601852116D60E5300BBE22C /* SignMe.xcdatamodeld in Sources */,
+				0601852216D60E5300BBE22C /* RBPDFManager.m in Sources */,
+				0601852316D60E5300BBE22C /* RBUIGenerator.m in Sources */,
+				0601852416D60E5300BBE22C /* RBFormView.m in Sources */,
+				0601852516D60E5300BBE22C /* RBFormViewController.m in Sources */,
+				0601852616D60E5300BBE22C /* RBPDFWriter.m in Sources */,
+				0601852716D60E5300BBE22C /* UIControl+RBForm.m in Sources */,
+				0601852816D60E5300BBE22C /* RBPersistenceManager.m in Sources */,
+				0601852916D60E5300BBE22C /* RBClientEditViewController.m in Sources */,
+				0601852A16D60E5300BBE22C /* RBRecipientsView.m in Sources */,
+				0601852B16D60E5300BBE22C /* RBRecipientTableViewCell.m in Sources */,
+				0601852C16D60E5300BBE22C /* ABTableViewCell.m in Sources */,
+				0601852D16D60E5300BBE22C /* ABPerson+RBMail.m in Sources */,
+				0601852E16D60E5300BBE22C /* NSUserDefaults+RBAdditions.m in Sources */,
+				0601852F16D60E5300BBE22C /* RBBoxService.m in Sources */,
+				0601853016D60E5300BBE22C /* RBBoxLoginViewController.m in Sources */,
+				0601853116D60E5300BBE22C /* PSFunctions.m in Sources */,
+				0601853216D60E5300BBE22C /* SSLineView.m in Sources */,
+				0601853316D60E5300BBE22C /* RBClient+RBProperties.m in Sources */,
+				0601853416D60E5300BBE22C /* RBDocument+RBForm.m in Sources */,
+				0601853516D60E5300BBE22C /* RBClient.m in Sources */,
+				0601853616D60E5300BBE22C /* RBRecipient+RBDocuSign.m in Sources */,
+				0601853716D60E5300BBE22C /* RBRecipient.m in Sources */,
+				0601853816D60E5300BBE22C /* RBDocuSignService.m in Sources */,
+				0601853916D60E5300BBE22C /* RBDocument.m in Sources */,
+				0601853A16D60E5300BBE22C /* RBTextField.m in Sources */,
+				0601853B16D60E5300BBE22C /* RBKeyboardAvoidingScrollView.m in Sources */,
+				0601853C16D60E5300BBE22C /* ATMHud.m in Sources */,
+				0601853D16D60E5300BBE22C /* ATMHudQueueItem.m in Sources */,
+				0601853E16D60E5300BBE22C /* ATMHudView.m in Sources */,
+				0601853F16D60E5300BBE22C /* ATMProgressLayer.m in Sources */,
+				0601854016D60E5300BBE22C /* ATMSoundFX.m in Sources */,
+				0601854116D60E5300BBE22C /* ATMTextLayer.m in Sources */,
+				0601854216D60E5300BBE22C /* UIView+RBForm.m in Sources */,
+				0601854316D60E5300BBE22C /* RBDocuSigningViewController.m in Sources */,
+				0601854416D60E5300BBE22C /* VCTitleCase.m in Sources */,
+				0601854516D60E5300BBE22C /* RBMusketeerEditViewController.m in Sources */,
+				0601854616D60E5300BBE22C /* RBMusketeer.m in Sources */,
+				0601854716D60E5300BBE22C /* RBMusketeer+RBProperties.m in Sources */,
+				0601854816D60E5300BBE22C /* RBFormLayoutData.m in Sources */,
+				0601854916D60E5300BBE22C /* RegexKitLite.m in Sources */,
+				0601854A16D60E5300BBE22C /* _DDFunctionContainer.m in Sources */,
+				0601854B16D60E5300BBE22C /* _DDFunctionExpression.m in Sources */,
+				0601854C16D60E5300BBE22C /* _DDFunctionTerm.m in Sources */,
+				0601854D16D60E5300BBE22C /* _DDFunctionUtilities.m in Sources */,
+				0601854E16D60E5300BBE22C /* _DDGroupTerm.m in Sources */,
+				0601854F16D60E5300BBE22C /* _DDNumberExpression.m in Sources */,
+				0601855016D60E5300BBE22C /* _DDNumberTerm.m in Sources */,
+				0601855116D60E5300BBE22C /* _DDOperatorInfo.m in Sources */,
+				0601855216D60E5300BBE22C /* _DDOperatorTerm.m in Sources */,
+				0601855316D60E5300BBE22C /* _DDParserTerm.m in Sources */,
+				0601855416D60E5300BBE22C /* _DDRewriteRule.m in Sources */,
+				0601855516D60E5300BBE22C /* _DDVariableExpression.m in Sources */,
+				0601855616D60E5300BBE22C /* _DDVariableTerm.m in Sources */,
+				0601855716D60E5300BBE22C /* DDExpression.m in Sources */,
+				0601855816D60E5300BBE22C /* DDMathEvaluator.m in Sources */,
+				0601855916D60E5300BBE22C /* DDMathStringToken.m in Sources */,
+				0601855A16D60E5300BBE22C /* DDMathStringTokenizer.m in Sources */,
+				0601855B16D60E5300BBE22C /* DDParser.m in Sources */,
+				0601855C16D60E5300BBE22C /* DDParserTypes.m in Sources */,
+				0601855D16D60E5300BBE22C /* DDTypes.m in Sources */,
+				0601855E16D60E5300BBE22C /* NSString+DDMathParsing.m in Sources */,
+				0601855F16D60E5300BBE22C /* RBMultiValueTextField.m in Sources */,
+				0601856016D60E5300BBE22C /* RBUserAuthentication.m in Sources */,
+				0601856116D60E5300BBE22C /* KeychainWrapper.m in Sources */,
+				0601856216D60E5300BBE22C /* GDataXMLNode.m in Sources */,
+				0601856316D60E5300BBE22C /* Base64Transcoder.m in Sources */,
+				0601856416D60E5300BBE22C /* HSK_CFUtilities.m in Sources */,
+				0601856516D60E5300BBE22C /* NSData+Base64Additions.m in Sources */,
+				0601856616D60E5300BBE22C /* NSStream+SKPSMTPExtensions.m in Sources */,
+				0601856716D60E5300BBE22C /* SKPSMTPMessage.m in Sources */,
+				0601856816D60E5300BBE22C /* RBRecipientPickerViewController.m in Sources */,
+				0601856916D60E5300BBE22C /* RBAvailableRecipients.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1655,6 +2074,31 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		060184D416D60E5300BBE22C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PDFCreator;
+			targetProxy = 060184D516D60E5300BBE22C /* PBXContainerItemProxy */;
+		};
+		060184D616D60E5300BBE22C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = iPhoneContacts;
+			targetProxy = 060184D716D60E5300BBE22C /* PBXContainerItemProxy */;
+		};
+		060184D816D60E5300BBE22C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DocuSign;
+			targetProxy = 060184D916D60E5300BBE22C /* PBXContainerItemProxy */;
+		};
+		060184DA16D60E5300BBE22C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = box;
+			targetProxy = 060184DB16D60E5300BBE22C /* PBXContainerItemProxy */;
+		};
+		060184DC16D60E5300BBE22C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PSFoundation;
+			targetProxy = 060184DD16D60E5300BBE22C /* PBXContainerItemProxy */;
+		};
 		3911A1C113E1BADD00CD4F6C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = DocuSign;
@@ -1695,6 +2139,71 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0601858516D60E5300BBE22C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = armv7;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"\"$(SRCROOT)/..\"/**",
+					"\"$(SRCROOT)/../external/DocuSign/DocuSign\"/**",
+					"\"$(SRCROOT)/../external/DocuSign/DocuSign\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2/**",
+					"../iPhoneContacts/**",
+					"../external/**",
+					"../PSFoundation/**",
+					"../PDFCreator/**",
+				);
+				INFOPLIST_FILE = "Build-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PRODUCT_NAME = SignMe2012;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		0601858616D60E5300BBE22C /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = armv7;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Red Bull North America Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Red Bull North America Inc.";
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"\"$(SRCROOT)/..\"/**",
+					"\"$(SRCROOT)/../external/DocuSign/DocuSign\"/**",
+					"\"$(SRCROOT)/../external/DocuSign/DocuSign\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2/**",
+					"../iPhoneContacts/**",
+					"../external/**",
+					"../PSFoundation/**",
+					"../PDFCreator/**",
+				);
+				INFOPLIST_FILE = "Build-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PRODUCT_NAME = SignMe2012;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Distribution;
+		};
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1724,6 +2233,7 @@
 				INFOPLIST_FILE = "Build-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = SignMe_Int;
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -1846,8 +2356,8 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-all_load";
-				PROVISIONING_PROFILE = "84FEDD63-9A02-483D-8BC6-C499AE44DE08";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "84FEDD63-9A02-483D-8BC6-C499AE44DE08";
+				PROVISIONING_PROFILE = "C779FEC4-21AC-4DA6-8793-52006C6EA264";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C779FEC4-21AC-4DA6-8793-52006C6EA264";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = iphoneos;
 				VALID_ARCHS = armv7;
@@ -1891,8 +2401,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-all_load";
-				PROVISIONING_PROFILE = "84FEDD63-9A02-483D-8BC6-C499AE44DE08";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "84FEDD63-9A02-483D-8BC6-C499AE44DE08";
+				PROVISIONING_PROFILE = "C779FEC4-21AC-4DA6-8793-52006C6EA264";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C779FEC4-21AC-4DA6-8793-52006C6EA264";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = armv7;
 			};
@@ -1901,6 +2411,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0601858416D60E5300BBE22C /* Build configuration list for PBXNativeTarget "SignMe2012" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0601858516D60E5300BBE22C /* Debug */,
+				0601858616D60E5300BBE22C /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Distribution;
+		};
 		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "SignMe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
