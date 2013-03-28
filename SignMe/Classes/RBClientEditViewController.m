@@ -93,8 +93,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSArray *propertiesToDisplayAtView = [NSArray arrayWithObjects:@"name",@"logo_url",@"classification1",@"classification2",@"classification3",
-                                          @"country",@"country_iso",@"region",@"postalcode",@"city",@"street",@"updated_at",nil];
+    NSArray *propertiesToDisplayAtView = [NSArray arrayWithObjects:@"name",@"logo_url",@"classification1",
+                                          @"classification2",@"classification3",@"region",
+                                          @"postalcode",@"city",@"street",nil];
     
     self.timeView.hidden = YES;
     self.fullLogoImageView.hidden = YES;

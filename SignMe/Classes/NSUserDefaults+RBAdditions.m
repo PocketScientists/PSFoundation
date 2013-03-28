@@ -70,6 +70,24 @@
     return [self integerForKey:kRBSettingsBoxFolderIDKey];
 }
 
+-(void)setLoggedInOnce:(BOOL)loggedInOnce{
+    [self setBool:loggedInOnce forKey:@"kLoggedInOnceKey"];
+    [self synchronize];
+}
+
+-(BOOL)loggedInOnce{
+    return [self boolForKey:@"kLoggedInOnceKey"];
+}
+
+-(void)setOfflineMode:(BOOL)offlineMode{
+    [self setBool:offlineMode forKey:@"kOfflineModeKey"];
+    [self synchronize];
+}
+
+-(BOOL)offlineMode{
+    return [self boolForKey:@"kOfflineModeKey"];
+}
+
 -(void)setAddressBookAccess:(BOOL)granted{
     [self setBool:granted forKey:kRBSettingsAddressBookAccess];
     [self synchronize];

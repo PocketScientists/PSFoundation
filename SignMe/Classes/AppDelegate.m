@@ -17,7 +17,6 @@
 
 @property (nonatomic, strong) NSTimer *docuSignUpdateTimer;
 @property (nonatomic, strong) NSTimer *authorizationTimer;
-@property (nonatomic, strong) Reachability *reachability;
 
 - (void)configureLogger;
 - (void)appplicationPrepareForBackgroundOrTermination:(UIApplication *)application;
@@ -89,7 +88,6 @@
     if (kPostFinishLaunchDelay > 0) {
         [self performSelector:@selector(postFinishLaunch) withObject:nil afterDelay:kPostFinishLaunchDelay];
     }
-
     return YES;
 }
 
@@ -97,7 +95,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
     [_reachability stopNotifier];
 }
-
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     [self appplicationPrepareForBackgroundOrTermination:application];
@@ -111,7 +108,9 @@
     if (musketeer && musketeer.lastLoginDate) {
         NSTimeInterval time_intervall = -[musketeer.lastLoginDate timeIntervalSinceNow];
         if(time_intervall > kRBAuthorizationTimeInterval) {
-            [self authenticateUser];
+            if (![NSUserDefaults standardUserDefaults].offlineMode) {
+                [self authenticateUser];
+            }
         } else {
             [self setTimerTo:kRBAuthorizationTimeInterval-time_intervall];
         }
@@ -120,7 +119,7 @@
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    self.reachability = [Reachability reachabilityWithHostName:kReachabilityData];
+    self.reachability = [Reachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
 }
 
@@ -175,14 +174,28 @@
     [self.homeViewController updateDataViaWebservice];
 }
 
+- (NSString *)userCancelledAuthentication {
+    if (self.reachability.currentReachabilityStatus == NotReachable) {
+        [NSUserDefaults standardUserDefaults].offlineMode = YES;
+        return @"You're currently using the app in offline mode.";
+    } else {
+        //If online and cancelled;
+        //Ask for reauthentication in 15 Minutes
+        [self setTimerTo:60*15];
+        return @"";
+    }
+}
 
--(void)setTimerTo:(NSTimeInterval)intervall {
+
+- (void)setTimerTo:(NSTimeInterval)intervall {
     if(self.authorizationTimer){
         [authorizationTimer_ invalidate];
     }
     self.authorizationTimer = [NSTimer scheduledTimerWithTimeInterval:intervall
                                                                 block:^(void) {
-                                                                    [userAuthentication_ displayUserAuthentication];
+                                                                    if (![NSUserDefaults standardUserDefaults].offlineMode) {
+                                                                        [userAuthentication_ displayUserAuthentication];
+                                                                    }
                                                         } repeats:NO];
 }
 
@@ -193,7 +206,7 @@
 
 - (void)syncOfflineCreatedOutlets {
     //this array is used to save already updated client ids (MIB App writes duplicate entries into the keychain when the same client is several
-    //times updated (in offline mode) the first entry is thereby the newest - use just this entry for the update
+    //times updated (in offline mode) the first entry is thereby the newest) - use just this entry for the update
     NSMutableArray *alreadyUpdatedClientIDs = [[NSMutableArray alloc] init];
     
     NSLog(@"=========== >>>>>> Before clean: %@",[KeychainWrapper readOutletJSONFromKeychain]);
@@ -232,6 +245,11 @@
 - (void)reachabilityChanged:(id)obj {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self syncOfflineCreatedOutlets];
+        
+        if (self.reachability.currentReachabilityStatus != NotReachable) {
+            if ([NSUserDefaults standardUserDefaults].offlineMode == YES)
+                [self authenticateUser];
+        }
     });
 }
 
@@ -323,9 +341,14 @@
 
 - (void)authenticateUser {
     //User Authentication part
-    self.userAuthentication = [[RBUserAuthentication alloc] init];
-    self.userAuthentication.delegate = self;
-    [self.userAuthentication displayUserAuthentication];
+    if (!self.userAuthentication) {
+        self.userAuthentication = [[RBUserAuthentication alloc] init];
+        self.userAuthentication.delegate = self;
+    }
+    
+    if (!self.userAuthentication.authenticationInProgress) {
+        [self.userAuthentication displayUserAuthentication];
+    }
 }
 
 - (void)configureLogger {

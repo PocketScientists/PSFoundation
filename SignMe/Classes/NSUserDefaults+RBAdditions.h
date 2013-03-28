@@ -20,6 +20,8 @@
 @property (nonatomic, retain) NSDate *docuSignUpdateDate;
 @property (nonatomic, retain) NSString *boxUserName;
 @property (nonatomic, retain) NSString *boxPassword;
+@property (nonatomic, assign) BOOL loggedInOnce;
+@property (nonatomic, assign) BOOL offlineMode;
 
 - (NSArray *)allStoredObjectNames;
 - (void)deleteStoredObjectNames;

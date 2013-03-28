@@ -19,6 +19,7 @@
 
 -(void)userAuthenticated;
 -(void)setTimerTo:(NSTimeInterval)intervall;
+-(NSString *)userCancelledAuthentication;
 
 @end
 
@@ -27,6 +28,7 @@
 
 @property (unsafe_unretained) id <RBUserAuthenticationDelegate> delegate;
 
+@property (nonatomic, readonly) BOOL authenticationInProgress;
 
 - (void)displayUserAuthentication;
 

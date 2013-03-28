@@ -20,6 +20,7 @@
 @property (nonatomic, strong) UINavigationController *navigationController;
 @property (nonatomic, strong) RBHomeViewController *homeViewController;
 @property (nonatomic, strong) RBUserAuthentication *userAuthentication;
+@property (nonatomic, strong) Reachability *reachability;
 
 - (void)showLoadingMessage:(NSString *)message;
 - (void)showSuccessMessage:(NSString *)message;

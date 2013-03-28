@@ -30,33 +30,41 @@
 
 @synthesize delegate=delegate_;
 
+- (RBUserAuthentication *)init {
+    if (self = [super init]) {
+        _authenticationInProgress = NO;
+    }
+    return self;
+}
+
 
 - (void)displayUserAuthentication{
+    _authenticationInProgress = YES;
     RBMusketeer * rbmusketeer = [RBMusketeer loadEntity];
     NSTimeInterval  time_intervall = 999999;
     //1. If Username exist - also Keychain entry exists - check for Timestamp
     if(rbmusketeer.uid){
-            NSDictionary *reqInfo =  [KeychainWrapper getKeychainDictionaryForUser:rbmusketeer.uid];
-            if(reqInfo){
-                NSDate *last_auth = [reqInfo valueForKey:@"last_auth_date"];
-                rbmusketeer.lastLoginDate = last_auth;
-                rbmusketeer.token = [reqInfo valueForKey:@"Token"];
-                [rbmusketeer saveEntity];
-                time_intervall = -[last_auth timeIntervalSinceNow];
-                NSLog(@"Time Intervall since last login: %f Seconds",time_intervall);
-            }
+        NSDictionary *reqInfo =  [KeychainWrapper getKeychainDictionaryForUser:rbmusketeer.uid];
+        if(reqInfo){
+            NSDate *last_auth = [reqInfo valueForKey:@"last_auth_date"];
+            rbmusketeer.lastLoginDate = last_auth;
+            rbmusketeer.token = [reqInfo valueForKey:@"Token"];
+            [rbmusketeer saveEntity];
+            time_intervall = -[last_auth timeIntervalSinceNow];
+            NSLog(@"Time Intervall since last login: %f Seconds",time_intervall);
+        }
     }
     
-
+    
     //2. if Timestamp is too old or username does not exist - pop up Login Window
     if(time_intervall > kRBAuthorizationTimeInterval )
     {
-    UIAlertView *userLogin = [[UIAlertView alloc] initWithTitle:@"Authorize your M.I.B App"
-                                                        message:@"Enter your Wiiings Login Data"
-                                                       delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-    [userLogin setAlertViewStyle:UIAlertViewStyleLoginAndPasswordInput];
-    userLogin.tag = kLoginAlert;
-    [userLogin show];
+        UIAlertView *userLogin = [[UIAlertView alloc] initWithTitle:@"Authorize your M.I.B App"
+                                                            message:@"Enter your Wiiings Login Data"
+                                                           delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        [userLogin setAlertViewStyle:UIAlertViewStyleLoginAndPasswordInput];
+        userLogin.tag = kLoginAlert;
+        [userLogin show];
     }else //3. if timestamp is Ok, set timer to remaining time
     {
         if ([delegate_ respondsToSelector:@selector(setTimerTo:)]) {
@@ -75,32 +83,34 @@
 #pragma mark -
 #pragma mark UIAlertView Delegate
 ///////////////////////////////////////////////////////////////////////////////////////////////////
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex == 1){
         NSString *usr = [alertView textFieldAtIndex:0].text;
         NSString *pwd = [alertView textFieldAtIndex:1].text;
         [self getUserCredentialsForName:usr AndPwd:pwd];
- 
+        
     }else{
         switch (alertView.tag) {
             case kLoginAlert:
                 [self displayErrorAlert:kCancelAlert];
                 break;
             case kCancelAlert:
-                [self displayUserAuthentication];
+                if (![NSUserDefaults standardUserDefaults].loggedInOnce) {
+                    [self displayUserAuthentication];
+                } 
                 break;
             case kFalseUserAlert:
                 [self displayUserAuthentication];
                 break;
             case kNoConnectionAlert:
-                [self displayUserAuthentication];
+                if (![NSUserDefaults standardUserDefaults].loggedInOnce) {
+                    [self displayUserAuthentication];
+                } 
                 break;
             default:
                 break;
         }
     }
-    
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -113,22 +123,39 @@
     UIAlertView *alert;
     switch(alertID){
         case kCancelAlert:
-            msg=@"No Wiiings Login Data entered!";
+            if ([NSUserDefaults standardUserDefaults].loggedInOnce) {
+                if ([delegate_ respondsToSelector:@selector(userCancelledAuthentication)]) {
+                    msg = [delegate_ userCancelledAuthentication];
+                    _authenticationInProgress = NO;
+                }
+            } else {
+                msg=@"Please enter your Wiiings Data!";
+            }
             break;
         case kFalseUserAlert:
             msg=@"Incorrect Wiiings Login Data entered!";
             break;
         case kNoConnectionAlert:
-            msg=@"No Connection to Webserver!";
+            if ([NSUserDefaults standardUserDefaults].loggedInOnce) {
+                msg = @"You're currently using the app in offline mode.";
+                [NSUserDefaults standardUserDefaults].offlineMode = YES;
+                _authenticationInProgress = NO;
+            } else {
+                msg = @"A internet connection is needed for the initial login";
+            }
+            
             break;
         default:
             break;
     }
-    alert = [[UIAlertView alloc] initWithTitle:@"Authorize your M.I.B App"
-                                       message:msg
-                                      delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    alert.tag = alertID;
-    [alert show];
+    
+    if (msg.length > 0) {
+        alert = [[UIAlertView alloc] initWithTitle:@"Authorize your M.I.B App"
+                                           message:msg
+                                          delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        alert.tag = alertID;
+        [alert show];
+    }
 }
 
 -(void)getUserCredentialsForName:(NSString *)usr AndPwd:(NSString *)pwd{
@@ -213,8 +240,8 @@
             NSString *xpath = [NSString stringWithFormat:@"//user/%@",prop];
             result = [doc nodesForXPath:xpath error:nil];
             if(result.count > 0){   //If property exists in xml
-                 GDataXMLElement *elem = (GDataXMLElement *)[result firstObject];
-                 [rbmusketeer setValue:elem.stringValue forKey:prop];
+                GDataXMLElement *elem = (GDataXMLElement *)[result firstObject];
+                [rbmusketeer setValue:elem.stringValue forKey:prop];
             }
         }
         
@@ -266,6 +293,9 @@
     }
     
     if ([delegate_ respondsToSelector:@selector(userAuthenticated)]) {
+        [NSUserDefaults standardUserDefaults].loggedInOnce = YES;
+        [NSUserDefaults standardUserDefaults].offlineMode = NO;
+        _authenticationInProgress = NO;
         [delegate_ userAuthenticated];
     }
 }
