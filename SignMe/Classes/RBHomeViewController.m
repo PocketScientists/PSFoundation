@@ -285,6 +285,7 @@
 
 - (void) viewDidUnload {
     [self setActualizeBtn:nil];
+    [self setActualizeLabel:nil];
     [super viewDidUnload];
     
     self.timeView = nil;
@@ -343,11 +344,12 @@
 
 - (void)updateUI {
     self.emptyForms = [RBForm allEmptyForms];
-    
-    //Update reload button-text
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"yyyy-MM-dd / HH:mm"];
-    [self.actualizeBtn setTitle:[NSString stringWithFormat:@"Updated - %@",[dateFormat stringFromDate:[NSUserDefaults standardUserDefaults].webserviceUpdateDate]] forState:UIControlStateNormal];
+    if ([NSUserDefaults standardUserDefaults].webserviceUpdateDate) {
+        //Update reload label-text
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"yyyy-MM-dd / HH:mm"];
+        [self.actualizeLabel setText:[NSString stringWithFormat:@"Updated - %@",[dateFormat stringFromDate:[NSUserDefaults standardUserDefaults].webserviceUpdateDate]]];
+    }
     
     if ([self isViewLoaded]) {
         [self.formsCarousel reloadData];
@@ -1416,7 +1418,7 @@
         if(client != nil){
             [self performSelector:@selector(showSuccessMessage:) withObject:@"Clients successfully updated" afterDelay:0.5f];
         }else{
-            [self performSelector:@selector(showErrorMessage:) withObject:@"Update Error - Client data is missing!" afterDelay:0.5f];
+        //    [self performSelector:@selector(showErrorMessage:) withObject:@"Update Error - Client data is missing!" afterDelay:0.5f];
         }
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:kRBMIBCallType];
     }

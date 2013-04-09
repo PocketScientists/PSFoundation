@@ -181,6 +181,8 @@
 		065CE85215FF7E4D00D4A94E /* RBAvailableRecipients.m in Sources */ = {isa = PBXBuildFile; fileRef = 065CE85115FF7E4D00D4A94E /* RBAvailableRecipients.m */; };
 		0666251A15EF4A0800721CBB /* RBRecipientPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0666251915EF4A0800721CBB /* RBRecipientPickerViewController.m */; };
 		0670C025164D47AB0038AF4B /* mibhome@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0670C024164D47AB0038AF4B /* mibhome@2x.png */; };
+		06CEBEE31714116700B0CBBF /* refresh_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 06CEBEE11714116700B0CBBF /* refresh_btn.png */; };
+		06CEBEE41714116700B0CBBF /* refresh_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06CEBEE21714116700B0CBBF /* refresh_btn@2x.png */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -534,6 +536,8 @@
 		0666251815EF4A0800721CBB /* RBRecipientPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBRecipientPickerViewController.h; sourceTree = "<group>"; };
 		0666251915EF4A0800721CBB /* RBRecipientPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBRecipientPickerViewController.m; sourceTree = "<group>"; };
 		0670C024164D47AB0038AF4B /* mibhome@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "mibhome@2x.png"; path = "Images/mibhome@2x.png"; sourceTree = "<group>"; };
+		06CEBEE11714116700B0CBBF /* refresh_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = refresh_btn.png; path = Images/refresh_btn.png; sourceTree = "<group>"; };
+		06CEBEE21714116700B0CBBF /* refresh_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "refresh_btn@2x.png"; path = "Images/refresh_btn@2x.png"; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -1143,6 +1147,8 @@
 		395EEF2613D72E3C003C4DA8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				06CEBEE11714116700B0CBBF /* refresh_btn.png */,
+				06CEBEE21714116700B0CBBF /* refresh_btn@2x.png */,
 				0670C024164D47AB0038AF4B /* mibhome@2x.png */,
 				06316130160AFA0E003E9AEA /* mibhome.png */,
 				A9CB0D4814E9F541008AD4CE /* RemoveButton.png */,
@@ -1827,6 +1833,8 @@
 				A9FD5F96150E484A006256DE /* Icon@2x.png in Resources */,
 				06316131160AFA0F003E9AEA /* mibhome.png in Resources */,
 				0670C025164D47AB0038AF4B /* mibhome@2x.png in Resources */,
+				06CEBEE31714116700B0CBBF /* refresh_btn.png in Resources */,
+				06CEBEE41714116700B0CBBF /* refresh_btn@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

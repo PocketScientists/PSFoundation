@@ -29,6 +29,7 @@
 
 @property (nonatomic, strong) IBOutlet UITextField *searchField;
 @property (nonatomic, strong) IBOutlet UIButton *actualizeBtn;
+@property (unsafe_unretained, nonatomic) IBOutlet UILabel *actualizeLabel;
 
 
 - (IBAction)textFieldDidEndEditing:(UITextField *)textField;
