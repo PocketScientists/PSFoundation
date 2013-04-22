@@ -1203,9 +1203,9 @@
         
     }else{
         NSString *classification;
-        if (client.classification3) {
+        if (client.classification3 && client.classification3.length > 0) {
             classification = [NSString stringWithFormat:@"%@-%@-%@",client.classification1,client.classification2,client.classification3];
-        } else if (client.classification2) {
+        } else if (client.classification2 && client.classification2.length > 0) {
             classification = [NSString stringWithFormat:@"%@-%@",client.classification1,client.classification2];
         } else {
             classification = client.classification1;
@@ -1232,6 +1232,7 @@
             jsonString = [jsonString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         }
         urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://sign_me/outlets/%@/edit",kRBMIBURLPath,jsonString]];
+        NSLog(@"url: %@",urlForRequest);
         [[NSUserDefaults standardUserDefaults] setInteger:kRBMIBCallTypeEdit forKey:kRBMIBCallType];
         [[NSUserDefaults standardUserDefaults] setObject:client.identifier forKey:kRBMIBCallClientID];
     }
@@ -1410,7 +1411,7 @@
             if([keypart isEqualToString:@"id"]){
                 client = [self clientWithIdentifier:valuepart];
             }else{
-                if (valuepart != nil) {
+                if (valuepart != nil && valuepart.length > 0 && ![valuepart isEqualToStringIgnoringCase:@"undefined"]) {
                     [client setValue:valuepart forKey:keypart];
                 }
             }
@@ -1462,9 +1463,6 @@
     NSString * elemcontent,*formname;
     NSString *downloadpath;
     NSFileManager *manager = [NSFileManager defaultManager];
-    
-    NSLog(@"%@", [[NSString alloc] initWithData:respData
-                                       encoding:NSUTF8StringEncoding]);
     
     [[NSUserDefaults standardUserDefaults] deleteStoredObjectNames];
     
