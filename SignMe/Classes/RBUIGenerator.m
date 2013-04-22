@@ -352,14 +352,18 @@
     //RBHQ - Same order each time
     //recipientsView.useRoutingOrder = [document.obeyRoutingOrder boolValue];
     recipientsView.useRoutingOrder = YES;
-    //Set default signer number to 3
-    
     
     //RBHQ Add -> Look for the Contract Size (Field Total) and set the number of signers depending on the size
     NSString *totalAmount = (NSString *)[form valueForKey:kRBFormKeyValue ofField:@"total" inSection:1];
+    
     totalAmount=[totalAmount substringAfterSubstring:@"$"];
-    NSUInteger numberofSigners =RBNumberOfSignersForContractSum([totalAmount integerValue]);;
-    recipientsView.numberOfRBSigners = numberofSigners;
+    if (![form.name containsString:@"NSL_"]) { //Signing limit just when contract is no NSL_
+        NSUInteger numberofSigners = RBNumberOfSignersForContractSum([totalAmount integerValue]);
+        recipientsView.numberOfRBSigners = numberofSigners;
+    } else {
+        recipientsView.numberOfRBSigners = 1;
+    }
+
 
     return recipientsView;
 }

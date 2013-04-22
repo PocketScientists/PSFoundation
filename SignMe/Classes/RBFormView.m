@@ -295,7 +295,9 @@
             //Add to RBHQ -> If Contract Total changes -> update number of necessary signers
             if([textField.formID isEqualToString:@"total"]){
                 RBRecipientsView *recipientsView = (RBRecipientsView *)[self.innerScrollView viewWithTag:kRBRecipientsViewTag];
-                [recipientsView setNumberOfRBSigners:RBNumberOfSignersForContractSum([textField.formTextValue integerValue])];
+                if (![self.form.name containsString:@"NSL_"]) {
+                    [recipientsView setNumberOfRBSigners:RBNumberOfSignersForContractSum([textField.formTextValue integerValue])];
+                }
             }
             
             NSString *prefix = [textField.formTextFormat substringToIndex:r.location];
