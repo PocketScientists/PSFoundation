@@ -31,11 +31,11 @@
 
 #define kReachabilityHostURL    @"www.box.net"
 
-#define kReachabilitySessionXML @"https://wss21-s.wiiings.com/saleshq_mibsync/api/sign_me/session.xml"
-#define kReachabilityUserXML @"https://stage-rbmib.v2a.net/api/1/sign_me/user.xml"
-#define kReachabilityOutletsXML @"https://stage-rbmib.v2a.net/api/1/sign_me/outlets.xml"
-#define kReachabilityFormsXML @"https://stage-rbmib.v2a.net/api/1/sign_me/templates.xml"
-#define kReachabilityData @"https://stage-rbmib.v2a.net"
+#define kReachabilitySessionXML @"https://wss21-p.wiiings.com/saleshq_mibsync/api/1/session"
+#define kReachabilityUserXML @"https://rbmib.v2a.net/api/1/sign_me/user.xml"
+#define kReachabilityOutletsXML @"https://rbmib.v2a.net/api/1/sign_me/outlets.xml"
+#define kReachabilityFormsXML @"https://rbmib.v2a.net/api/1/sign_me/templates.xml"
+#define kReachabilityData @"https://rbmib.v2a.net"
 #define kApplicationURL [[RBMusketeer loadEntity] application_url]
 
 ////////////////////////////////////////////////////////////////////////

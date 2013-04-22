@@ -104,6 +104,10 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     [RBDocuSignService reloadCredentials];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    self.reachability = [Reachability reachabilityForInternetConnection];
+    [self.reachability startNotifier];
+    
     RBMusketeer *musketeer = [RBMusketeer loadEntity];
     if (musketeer && musketeer.lastLoginDate) {
         NSTimeInterval time_intervall = -[musketeer.lastLoginDate timeIntervalSinceNow];
@@ -117,10 +121,6 @@
     } else {
         [self authenticateUser];
     }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    self.reachability = [Reachability reachabilityForInternetConnection];
-    [self.reachability startNotifier];
 }
 
 
@@ -147,8 +147,7 @@
 #pragma mark User Authentication Delegates
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
--(void)userAuthenticated
-{
+-(void)userAuthenticated {
     //Ask for Adressbook permission if needed (ios6)
     if(ABAddressBookCreateWithOptions != NULL){
         if(ABAddressBookGetAuthorizationStatus() != kABAuthorizationStatusAuthorized ){
@@ -186,7 +185,6 @@
     }
 }
 
-
 - (void)setTimerTo:(NSTimeInterval)intervall {
     if(self.authorizationTimer){
         [authorizationTimer_ invalidate];
@@ -209,7 +207,6 @@
     //times updated (in offline mode) the first entry is thereby the newest) - use just this entry for the update
     NSMutableArray *alreadyUpdatedClientIDs = [[NSMutableArray alloc] init];
     
-    NSLog(@"=========== >>>>>> Before clean: %@",[KeychainWrapper readOutletJSONFromKeychain]);
     NSString *keychain = [KeychainWrapper readOutletJSONFromKeychain];
     NSData* data = [keychain dataUsingEncoding:NSUTF8StringEncoding];
     
@@ -243,6 +240,7 @@
 }
 
 - (void)reachabilityChanged:(id)obj {
+    NSLog(@"reachability changed");
     dispatch_async(dispatch_get_main_queue(), ^{
         [self syncOfflineCreatedOutlets];
         
@@ -467,7 +465,7 @@
 
 - (NSString *)stringOrBlankFromDictionary:(NSDictionary *)dict forKey:(NSString *)key {
     NSString *val = [dict valueForKey:key];
-    if (!val || ![val isKindOfClass:[NSString class]]) {
+    if (!val || ![val isKindOfClass:[NSString class]] || [val isEqualToStringIgnoringCase:@"undefined"]) {
         return @"";
     }
     return val;
