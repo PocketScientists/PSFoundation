@@ -41,7 +41,7 @@
                 
                 //Get the default value specified in the plist file.
                 id defaultValue = [item objectForKey:@"DefaultValue"];
-                NSLog(@"key: %@ %@",keyValue,defaultValue);
+
                 if (keyValue && defaultValue) {				
                     [standardUserDefaults setObject:defaultValue forKey:keyValue];
                 }

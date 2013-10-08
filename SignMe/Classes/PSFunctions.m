@@ -28,7 +28,6 @@ inline NSString *RBFormattedDateWithFormat(NSDate *date, NSString *format) {
 
 inline NSURL *RBFullFormRessourceURL(NSString *urlressourcepart){
    
-    NSLog(@"%@",urlressourcepart);
     return [NSURL URLWithString:[[NSString stringWithFormat:@"https://%@/%@",kApplicationURL,urlressourcepart] copy]];
 }
 
@@ -71,7 +70,6 @@ inline NSString *RBFullPathToPDFTemplateWithFormName(NSString *formressourcename
     pdfname= [pdfname stringByAppendingString:@"_PDF"];
     NSString *fullPath = RBFullPathToRessourceDirectoryForForm(formressourcename);
     fullPath = [NSString stringWithFormat:@"%@%@%@",fullPath,pdfname,kRBFormExtension];
-    NSLog(@"Full path to pdf %@",fullPath);
     return fullPath;
 }
 

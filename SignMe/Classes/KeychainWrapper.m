@@ -35,7 +35,6 @@
 
 + (NSDictionary *)getKeychainDictionaryForUser:(NSString *) user
 {
-    NSLog(@"Try to read Keychain Entries for user %@",user);
     NSMutableDictionary *returnDictionary = [[NSMutableDictionary alloc] init];
     
     NSMutableDictionary *searchDictionary = [self setupSearchDirectory];

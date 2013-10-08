@@ -275,9 +275,7 @@
     NSMutableArray *recipients = [NSMutableArray array];
     if (document.recipients == nil || [document.recipients count] == 0) {
         RBMusketeer *musketeer = [RBMusketeer loadEntity];
-        NSLog(@"Firstname %@",musketeer.firstname);
         NSArray *people = [[ABAddressBook sharedAddressBook] allPeople];
-        NSLog(@"Count people: %d",people.count);
         ABPerson *abMusketeer = nil;
         for (ABPerson *person in people) {
             if ([[person getFirstName] isEqualToStringIgnoringCase:musketeer.firstname] && 

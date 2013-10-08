@@ -609,13 +609,10 @@
                 }
                 
                 //now insert recipients in the right slots
-                NSLog(@"Number of recipients %d",document.recipients.count);
                 for (RBRecipient *recipient in document.recipients) {
-                    NSLog(@"order %@",recipient.order);
                     [recipients replaceObjectAtIndex:[recipient.order integerValue]-1 withObject:recipient];
                 }
                 [recipients removeObjectIdenticalTo:[NSNull null]];
-                NSLog(@"%d",recipients.count);
                 //finally add the buttons for the on device signers
                 for (RBRecipient *recipient in recipients) {
                     if ([recipient.type intValue] == kRBRecipientTypeInPerson) {
@@ -1181,7 +1178,6 @@
             jsonString = [jsonString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         }
         urlForRequest = [NSURL URLWithString:[NSString stringWithFormat:@"%@://sign_me/outlets/%@/edit",kRBMIBURLPath,jsonString]];
-        NSLog(@"url: %@",urlForRequest);
         [[NSUserDefaults standardUserDefaults] setInteger:kRBMIBCallTypeEdit forKey:kRBMIBCallType];
         [[NSUserDefaults standardUserDefaults] setObject:client.identifier forKey:kRBMIBCallClientID];
     }
@@ -1449,7 +1445,6 @@
                     elemcontent = content.stringValue;
                     if([elementname isEqualToString:@"form_url"]){
                         [[NSUserDefaults standardUserDefaults] setFormName:downloadpath forObjectWithNameIncludingExtension:[NSString stringWithFormat:@"%@___%@",formname,[elemcontent lastPathComponent]]];
-                        NSLog(@"downloadpath %@ formanme %@",downloadpath,[NSString stringWithFormat:@"%@___%@",formname,[elemcontent lastPathComponent]]);
                     }
                     ASIHTTPRequest *ressourcereq = [ASIHTTPRequest requestWithURL:[RBFullFormRessourceURL(elemcontent) copy]];
                     [ressourcereq setDownloadDestinationPath:[downloadpath stringByAppendingPathComponent:[elemcontent lastPathComponent]]];
@@ -1569,7 +1564,6 @@
     } else {
         firstRequestFinished=YES;
     }
-    NSLog(@"outlet finished");
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request {
