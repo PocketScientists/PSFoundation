@@ -12,6 +12,6 @@
 
 @property (nonatomic, strong) UIWebView *webView;
 
-- (void)loadURL:(NSString *)urlString;
+- (id)initWithURL:(NSString *)urlString;
 
 @end

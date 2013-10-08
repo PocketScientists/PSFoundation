@@ -144,15 +144,13 @@ static DocuSignService *docuSign = nil;
             NSString *token = [docuSign authenticationToken:document.docuSignEnvelopeID error:&error];
             if (token) {
                 dispatch_async(dispatch_get_main_queue(), ^(void) {
-                    RBDocuSigningViewController *vc = [[RBDocuSigningViewController alloc] initWithNibName:nil bundle:nil];
+                    RBDocuSigningViewController *vc = [[RBDocuSigningViewController alloc] initWithURL:token];
                     
                     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
                     navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
                     navigationController.navigationBar.barStyle = UIBarStyleBlack;
                     
                     [MTApplicationDelegate.homeViewController presentModalViewController:navigationController animated:YES];
-                    
-                    [vc loadURL:token];
                 });
             } else {
                 [MTApplicationDelegate showErrorMessage:[NSString stringWithFormat:@"Eror initiating document viewing: %@. Please contact your IT-support team if the error persists.", [error localizedDescription]]];
@@ -179,15 +177,13 @@ static DocuSignService *docuSign = nil;
             NSString *token = [docuSign recipientToken:document.docuSignEnvelopeID recipient:recipient error:&error];
             if (token) {
                 dispatch_async(dispatch_get_main_queue(), ^(void) {
-                    RBDocuSigningViewController *vc = [[RBDocuSigningViewController alloc] initWithNibName:nil bundle:nil];
+                    RBDocuSigningViewController *vc = [[RBDocuSigningViewController alloc] initWithURL:token];
                     
                     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
                     navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
                     navigationController.navigationBar.barStyle = UIBarStyleBlack;
                     
                     [MTApplicationDelegate.homeViewController presentModalViewController:navigationController animated:YES];
-                    
-                    [vc loadURL:token];
                 });
             } else {
                 if ([[error localizedDescription] containsString:@"out of sequence"]) {

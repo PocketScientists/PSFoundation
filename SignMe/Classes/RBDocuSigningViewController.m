@@ -16,6 +16,8 @@
 
 - (void)handleDonePress:(id)sender;
 
+@property (nonatomic, strong) NSString *urlString;
+
 @end
 
 
@@ -29,30 +31,36 @@
 #pragma mark Lifecycle
 ////////////////////////////////////////////////////////////////////////
 
+- (id)initWithURL:(NSString *)urlString {
+    if (self = [super initWithNibName:nil bundle:nil]) {
+        _urlString = [urlString copy];
+    }
+    return  self;
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark UIView
 ////////////////////////////////////////////////////////////////////////
 
-- (void)loadView {
-    self.webView = [[UIWebView alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.bounds];
-    self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.webView.scalesPageToFit = YES;
-    self.webView.delegate = self;
-    
-    self.view = self.webView;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(handleDonePress:)];
-    // self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(handleRefreshPress:)] autorelease];
+    
+    self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.webView.scalesPageToFit = YES;
+    self.webView.delegate = self;
+    
+    [self.view addSubview:self.webView];
+    NSLog(@"view did load");
 }
 
-- (void)loadURL:(NSString *)urlString {
-    [webView_ loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [webView_ loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -76,6 +84,7 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if ([request.URL.query containsString:@"showdoc=true"]) {
+        NSLog(@"return NO");
         return NO;
     }
     if ([request.URL.host isEqualToString:@"localhost"]) {
@@ -106,6 +115,7 @@
         }
         return NO;
     }
+    NSLog(@"Start loading");
     return YES;
 }
 
