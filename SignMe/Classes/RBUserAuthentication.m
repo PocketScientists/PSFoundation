@@ -200,30 +200,36 @@
         token=nil;
     }
     
-    RBMusketeer * rbmusketeer = [RBMusketeer loadEntity];
-    rbmusketeer.uid = uid;
-    rbmusketeer.email = email;
-    rbmusketeer.token=token;
-    rbmusketeer.lastLoginDate = [NSDate date];
-    [rbmusketeer saveEntity];
-    
-    [KeychainWrapper createKeychainValueWithUser:rbmusketeer.uid Token:rbmusketeer.token];
-    
-    if ([delegate_ respondsToSelector:@selector(setTimerTo:)]) {
-        [delegate_ setTimerTo:kRBAuthorizationTimeInterval];
+    if (token != nil && uid != nil && email != nil) {
+        RBMusketeer * rbmusketeer = [RBMusketeer loadEntity];
+        rbmusketeer.uid = uid;
+        rbmusketeer.email = email;
+        rbmusketeer.token=token;
+        rbmusketeer.lastLoginDate = [NSDate date];
+        [rbmusketeer saveEntity];
+        
+        [KeychainWrapper createKeychainValueWithUser:rbmusketeer.uid Token:rbmusketeer.token];
+        
+        if ([delegate_ respondsToSelector:@selector(setTimerTo:)]) {
+            [delegate_ setTimerTo:kRBAuthorizationTimeInterval];
+        }
+        
+        
+        NSURL *url = [NSURL URLWithString:kReachabilityUserXML];
+        ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
+        [req setUseCookiePersistence:NO];
+        [req setUseKeychainPersistence:NO];
+        [req setUseSessionPersistence:NO];
+        req.username = rbmusketeer.email;
+        req.password = rbmusketeer.token;
+        req.delegate = self;
+        [req setDidFinishSelector:@selector(userDataRequestFinished:)];
+        [req startAsynchronous];
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [self performSelector:@selector(showErrorMessage:) withObject:@"Incomplete session data received - try to re-login after restart." afterDelay:1.0f];
+        });
     }
-    
-    
-    NSURL *url = [NSURL URLWithString:kReachabilityUserXML];
-    ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
-    [req setUseCookiePersistence:NO];
-    [req setUseKeychainPersistence:NO];
-    [req setUseSessionPersistence:NO];
-    req.username = rbmusketeer.email;
-    req.password = rbmusketeer.token;
-    req.delegate = self;
-    [req setDidFinishSelector:@selector(userDataRequestFinished:)];
-    [req startAsynchronous];
 }
 
 -(void)userDataRequestFinished:(ASIHTTPRequest *)request{

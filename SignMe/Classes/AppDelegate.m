@@ -231,6 +231,7 @@
                 client.classification2 = [self stringOrBlankFromDictionary:item forKey:@"classification_2"];
                 client.classification3 = [self stringOrBlankFromDictionary:item forKey:@"classification_3"];
                 client.postalcode = [self stringOrBlankFromDictionary:item forKey:@"postal_code"];
+                client.zip = [self stringOrBlankFromDictionary:item forKey:@"postal_code"];
                 NSData *jsonDataForSingleClient = [NSJSONSerialization dataWithJSONObject:item options:nil error:nil];
                 [self.homeViewController putOfflineClientDataToWebservice:jsonDataForSingleClient relativePathString:[NSString stringWithFormat:@"/api/1/outlets/%@.json",identifier]];
             }
