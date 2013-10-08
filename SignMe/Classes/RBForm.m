@@ -81,6 +81,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
 // overwrite property as read/write and mutable
 @property (nonatomic, copy, readwrite) NSString *name;
 @property (nonatomic, strong, readwrite) NSMutableDictionary *formData;
+@property (nonatomic, strong) NSDate *creationDate;
 
 - (NSInteger)indexOfObjectWithFieldID:(NSString *)fieldID inArray:(NSArray *)array;
 
@@ -133,6 +134,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
     if ((self = [super init])) {
         formData_ = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
         name_ = [name copy];
+        _creationDate = [NSDate date];
     }
     
     return self;
@@ -160,13 +162,11 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
 ////////////////////////////////////////////////////////////////////////
 
 - (NSString *)fileName {
-    static NSDate *creationDate = nil;
-    
-    if (creationDate == nil) {
-        creationDate = [NSDate date];
+    if (self.creationDate == nil) {
+        self.creationDate = [NSDate date];
     }
     
-    return [NSString stringWithFormat:@"%@__%@", self.name, RBFormattedDateWithFormat(creationDate, kRBDateTimeFormat)];
+    return [NSString stringWithFormat:@"%@__%@", self.name, RBFormattedDateWithFormat(self.creationDate, kRBDateTimeFormat)];
 }
 
 - (NSString *)displayName {
@@ -538,7 +538,7 @@ NSString *RBUpdateStringForFormStatus(RBFormStatus formStatus) {
         DDLogWarn(@"Index %d out of bounds", section);
         return;
     }
-    
+     
     NSArray *sectionData = [self.sections objectAtIndex:section];
     NSInteger index = [self indexOfObjectWithFieldID:fieldID inArray:sectionData];
     

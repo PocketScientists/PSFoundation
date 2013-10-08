@@ -1123,7 +1123,7 @@
             client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
         }
         
-        if(![self.searchField.text isEqual:@""]){
+        if(![self.searchField.text isEqual:@""] && !(self.searchField.text == nil)){
             predicate = [NSPredicate predicateWithFormat:@"status = %d AND client.name contains[cd] %@ AND client.visible = YES",formStatus, self.searchField.text];
         }else{
             if (client != nil) {
@@ -1335,13 +1335,18 @@
         client = [self.clientsFetchController objectAtIndexPath:[NSIndexPath indexPathForRow:self.clientsCarouselSelectedIndex inSection:0]];
     }
     
-    if(![self.searchField.text isEqual:@""]){
+    if(![self.searchField.text isEqual:@""] && !(self.searchField.text == nil)){
         predicate = [NSPredicate predicateWithFormat:@"status = %d AND client.name contains[cd] %@ AND client.visible = YES",formStatus, self.searchField.text];
     }else{
         if (client != nil) {
             predicate = [NSPredicate predicateWithFormat:@"status = %d AND client = %@", formStatus, client];
         } else {
-            predicate = [NSPredicate predicateWithFormat:@"status = %d", formStatus];
+            if (formStatus) {
+                predicate = [NSPredicate predicateWithFormat:@"status = %d", formStatus];
+            } else {
+                predicate = nil;
+            }
+            
         }
     }
     
@@ -1352,7 +1357,12 @@
     [request setEntity:entity];
     
     request.predicate = predicate;
-    return [[NSManagedObjectContext defaultContext] countForFetchRequest:request error:nil];
+    if (predicate) {
+        return [[NSManagedObjectContext defaultContext] countForFetchRequest:request error:nil];
+    } else {
+        return 0;
+    }
+    
 }
 
 - (NSUInteger)numberOfDocumentsWithFormStatus:(RBFormStatus)formStatus {
@@ -1583,6 +1593,7 @@
                     [client setValue:content.stringValue forKey:elem];
                 }
             }
+            client.zip = client.postalcode;
             client.lastSyncDate = lastSyncDate;
         }
     } else {

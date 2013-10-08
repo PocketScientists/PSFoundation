@@ -320,23 +320,6 @@
     }
 }
 
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    [self performBlock:^{
-        textField.text = [textField.text titlecaseString];
-        
-        UITextPosition *pos = [textField positionFromPosition:[textField beginningOfDocument] offset:range.location + 1 - range.length];
-        if (pos) {
-            UITextRange *selectedRange = [textField textRangeFromPosition:pos toPosition:pos];
-            textField.selectedTextRange = selectedRange;
-        }
-    } afterDelay:0];
-
-    return YES;
-}
-
-
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Private
