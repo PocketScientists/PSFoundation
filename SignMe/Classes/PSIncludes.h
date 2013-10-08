@@ -15,6 +15,4 @@
 #import "PSFoundation.h"
 #import "PSFoundation_CoreData.h"
 #import "NSUserDefaults+RBAdditions.h"
-#import "Box.h"
-#import "RBBoxService.h"
 

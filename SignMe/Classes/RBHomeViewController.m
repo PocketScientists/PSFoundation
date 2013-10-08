@@ -360,57 +360,6 @@
     }
 }
 
-- (void)syncBoxNet:(BOOL)forced {
-    // only update forms once a day
-    if (forced || [RBBoxService shouldSyncFolder]) {
-        [RBBoxService syncFolderWithID:[NSUserDefaults standardUserDefaults].folderID
-                           startedFrom:self
-                          successBlock:^(id boxObject) {
-                              BoxFolder *formsFolder = (BoxFolder *)[boxObject objectAtFilePath:RBPathToEmptyForms()];
-                              
-                              // download empty forms and plists
-                              if (formsFolder != nil) {
-                                  [[NSUserDefaults standardUserDefaults] deleteStoredObjectNames];
-                                  for (BoxFile *file in [formsFolder filesWithExtensions:XARRAY(kRBFormDataType,kRBPDFDataType)]) {
-                                      DDLogInfo(@"Downloading %@", file.objectName);
-                                      [[RBBoxService box] downloadFile:file
-                                                         progressBlock:nil
-                                                       completionBlock:^(BoxResponseType resultType, NSString *filePath) {
-                                                           // save id of file under name of file in userDefaults
-                                                           // this is to retreive the stored files later from the folder Documents/box.net
-                                                           // because they are stored with objectID and objectName
-                                                           [[NSUserDefaults standardUserDefaults] setObjectID:file.objectId
-                                                                          forObjectWithNameIncludingExtension:file.objectName];
-                                                           
-                                                           if ([[file.objectName pathExtension] isEqualToString:@"plist"]) {
-                                                               // update forms carousel
-                                                               self.emptyForms = [RBForm allEmptyForms];
-                                                               
-                                                               dispatch_async(dispatch_get_main_queue(), ^(void) {
-                                                                   [NSUserDefaults standardUserDefaults].formsUpdateDate = [NSDate date];
-                                                                   [self updateUI];
-                                                               });
-                                                           }
-                                                       }];
-                                  }
-                              }
-                              
-                              // create folder for muskateer (userName)
-                              if ([boxObject objectAtFilePath:kRBFolderUser] == nil) {
-                                  [[RBBoxService box] createFolder:kRBFolderUser
-                                                          inFolder:boxObject
-                                                   completionBlock:^(BoxResponseType resultTypeCreation, NSObject *boxObjectCreation) {
-                                                       if (resultTypeCreation != BoxResponseSuccess) {
-                                                           DDLogError(@"Error creating folder for muskateer: %@, %d", kRBFolderUser, resultTypeCreation);
-                                                           [self showErrorMessage:[NSString stringWithFormat:@"Error creating box.net folder for user %@", [BoxUser savedUser].userName]];
-                                                       }
-                                                   }];
-                              }
-                              
-                          } failureBlock:nil];
-    }
-}
-
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark iCarouselDataSource

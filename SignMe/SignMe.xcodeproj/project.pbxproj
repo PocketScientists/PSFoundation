@@ -86,8 +86,6 @@
 		0601852C16D60E5300BBE22C /* ABTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A1E413E1CCE700CD4F6C /* ABTableViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0601852D16D60E5300BBE22C /* ABPerson+RBMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A21E13E1E2AD00CD4F6C /* ABPerson+RBMail.m */; };
 		0601852E16D60E5300BBE22C /* NSUserDefaults+RBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A22113E226CA00CD4F6C /* NSUserDefaults+RBAdditions.m */; };
-		0601852F16D60E5300BBE22C /* RBBoxService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A22513E228FB00CD4F6C /* RBBoxService.m */; };
-		0601853016D60E5300BBE22C /* RBBoxLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393AB0A313E2361000F1BE04 /* RBBoxLoginViewController.m */; };
 		0601853116D60E5300BBE22C /* PSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393AB0A613E2762800F1BE04 /* PSFunctions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0601853216D60E5300BBE22C /* SSLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A46C7013E30D2F00603CD6 /* SSLineView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0601853316D60E5300BBE22C /* RBClient+RBProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BB88DA13E3CCE00074543E /* RBClient+RBProperties.m */; };
@@ -150,7 +148,6 @@
 		0601856D16D60E5300BBE22C /* DocuSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21913E1DB7B00CD4F6C /* DocuSign.framework */; };
 		0601856E16D60E5300BBE22C /* libDocuSign.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 394B916313D64924007BFF2E /* libDocuSign.a */; };
 		0601856F16D60E5300BBE22C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21B13E1DCC000CD4F6C /* libxml2.dylib */; };
-		0601857016D60E5300BBE22C /* libBox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 394B915613D6491B007BFF2E /* libBox.a */; };
 		0601857116D60E5300BBE22C /* libAddressBookWrappers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21313E1DA9400CD4F6C /* libAddressBookWrappers.a */; };
 		0601857216D60E5300BBE22C /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A1EB13E1CFD400CD4F6C /* AddressBook.framework */; };
 		0601857316D60E5300BBE22C /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A1EC13E1CFD400CD4F6C /* AddressBookUI.framework */; };
@@ -205,11 +202,9 @@
 		3911A1ED13E1CFD400CD4F6C /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A1EB13E1CFD400CD4F6C /* AddressBook.framework */; };
 		3911A1EE13E1CFD400CD4F6C /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A1EC13E1CFD400CD4F6C /* AddressBookUI.framework */; };
 		3911A21613E1DAAC00CD4F6C /* libAddressBookWrappers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21313E1DA9400CD4F6C /* libAddressBookWrappers.a */; };
-		3911A21713E1DAB400CD4F6C /* libBox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 394B915613D6491B007BFF2E /* libBox.a */; };
 		3911A21C13E1DCC000CD4F6C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3911A21B13E1DCC000CD4F6C /* libxml2.dylib */; };
 		3911A21F13E1E2AD00CD4F6C /* ABPerson+RBMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A21E13E1E2AD00CD4F6C /* ABPerson+RBMail.m */; };
 		3911A22213E226CB00CD4F6C /* NSUserDefaults+RBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A22113E226CA00CD4F6C /* NSUserDefaults+RBAdditions.m */; };
-		3911A22613E228FB00CD4F6C /* RBBoxService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3911A22513E228FB00CD4F6C /* RBBoxService.m */; };
 		3911A22913E22AA600CD4F6C /* LogoEmpty.png in Resources */ = {isa = PBXBuildFile; fileRef = 3911A22713E22AA600CD4F6C /* LogoEmpty.png */; };
 		3911A22A13E22AA600CD4F6C /* LogoFull.png in Resources */ = {isa = PBXBuildFile; fileRef = 3911A22813E22AA600CD4F6C /* LogoFull.png */; };
 		39134E9713E38D84000D45B6 /* CarouselBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 39134E9413E38D84000D45B6 /* CarouselBackground.png */; };
@@ -222,7 +217,6 @@
 		3925C7D413DDE72B008810AF /* RBUIGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D313DDE72B008810AF /* RBUIGenerator.m */; };
 		3925C7D713DDE75C008810AF /* RBFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7D613DDE75C008810AF /* RBFormView.m */; };
 		3925C7E013DDE863008810AF /* RBFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3925C7DF13DDE863008810AF /* RBFormViewController.m */; };
-		393AB0A413E2361000F1BE04 /* RBBoxLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 393AB0A313E2361000F1BE04 /* RBBoxLoginViewController.m */; };
 		393AB0A713E2762900F1BE04 /* PSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 393AB0A613E2762800F1BE04 /* PSFunctions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		394B916A13D64BB1007BFF2E /* PSBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916913D64BB1007BFF2E /* PSBaseTableViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		394B916E13D64C62007BFF2E /* RBHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B916D13D64C62007BFF2E /* RBHomeViewController.m */; };
@@ -363,13 +357,6 @@
 			remoteGlobalIDString = A90F779013D4A310009277B2;
 			remoteInfo = DocuSign;
 		};
-		060184DB16D60E5300BBE22C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 394B914E13D6491A007BFF2E /* box.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A90F777513D4A2D0009277B2;
-			remoteInfo = box;
-		};
 		060184DD16D60E5300BBE22C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7856A47312B444A80025424F /* PSFoundation.xcodeproj */;
@@ -405,33 +392,12 @@
 			remoteGlobalIDString = 390BAB2712C9438B00C39661;
 			remoteInfo = PSFoundation_CoreLocation;
 		};
-		394B915513D6491B007BFF2E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 394B914E13D6491A007BFF2E /* box.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A90F777613D4A2D0009277B2;
-			remoteInfo = box;
-		};
 		394B916213D64924007BFF2E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 394B915B13D64923007BFF2E /* DocuSign.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = A90F779113D4A310009277B2;
 			remoteInfo = DocuSign;
-		};
-		394B916613D64B0A007BFF2E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 394B914E13D6491A007BFF2E /* box.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A90F777513D4A2D0009277B2;
-			remoteInfo = box;
-		};
-		39680E7713E08B65006B47C1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 394B914E13D6491A007BFF2E /* box.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A90F788913D5F3FD009277B2;
-			remoteInfo = BoxTest;
 		};
 		39680E7A13E08B65006B47C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -578,8 +544,6 @@
 		3911A21E13E1E2AD00CD4F6C /* ABPerson+RBMail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ABPerson+RBMail.m"; sourceTree = "<group>"; };
 		3911A22013E226CA00CD4F6C /* NSUserDefaults+RBAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+RBAdditions.h"; sourceTree = "<group>"; };
 		3911A22113E226CA00CD4F6C /* NSUserDefaults+RBAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+RBAdditions.m"; sourceTree = "<group>"; };
-		3911A22413E228FB00CD4F6C /* RBBoxService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBBoxService.h; sourceTree = "<group>"; };
-		3911A22513E228FB00CD4F6C /* RBBoxService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBBoxService.m; sourceTree = "<group>"; };
 		3911A22713E22AA600CD4F6C /* LogoEmpty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LogoEmpty.png; path = Images/LogoEmpty.png; sourceTree = "<group>"; };
 		3911A22813E22AA600CD4F6C /* LogoFull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LogoFull.png; path = Images/LogoFull.png; sourceTree = "<group>"; };
 		39134E9413E38D84000D45B6 /* CarouselBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CarouselBackground.png; path = Images/CarouselBackground.png; sourceTree = "<group>"; };
@@ -595,11 +559,8 @@
 		3925C7D613DDE75C008810AF /* RBFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFormView.m; sourceTree = "<group>"; };
 		3925C7DE13DDE863008810AF /* RBFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFormViewController.h; sourceTree = "<group>"; };
 		3925C7DF13DDE863008810AF /* RBFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFormViewController.m; sourceTree = "<group>"; };
-		393AB0A213E2361000F1BE04 /* RBBoxLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBBoxLoginViewController.h; sourceTree = "<group>"; };
-		393AB0A313E2361000F1BE04 /* RBBoxLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBBoxLoginViewController.m; sourceTree = "<group>"; };
 		393AB0A513E2762800F1BE04 /* PSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSFunctions.h; sourceTree = "<group>"; };
 		393AB0A613E2762800F1BE04 /* PSFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSFunctions.m; sourceTree = "<group>"; };
-		394B914E13D6491A007BFF2E /* box.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box.xcodeproj; path = ../external/box.net/box.xcodeproj; sourceTree = "<group>"; };
 		394B915B13D64923007BFF2E /* DocuSign.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DocuSign.xcodeproj; path = ../external/DocuSign/DocuSign.xcodeproj; sourceTree = "<group>"; };
 		394B916813D64BB1007BFF2E /* PSBaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSBaseTableViewController.h; sourceTree = "<group>"; };
 		394B916913D64BB1007BFF2E /* PSBaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSBaseTableViewController.m; sourceTree = "<group>"; };
@@ -806,7 +767,6 @@
 				0601856D16D60E5300BBE22C /* DocuSign.framework in Frameworks */,
 				0601856E16D60E5300BBE22C /* libDocuSign.a in Frameworks */,
 				0601856F16D60E5300BBE22C /* libxml2.dylib in Frameworks */,
-				0601857016D60E5300BBE22C /* libBox.a in Frameworks */,
 				0601857116D60E5300BBE22C /* libAddressBookWrappers.a in Frameworks */,
 				0601857216D60E5300BBE22C /* AddressBook.framework in Frameworks */,
 				0601857316D60E5300BBE22C /* AddressBookUI.framework in Frameworks */,
@@ -837,7 +797,6 @@
 				A96DF320144F0D0D00E919E2 /* DocuSign.framework in Frameworks */,
 				A96DF31D144F030900E919E2 /* libDocuSign.a in Frameworks */,
 				3911A21C13E1DCC000CD4F6C /* libxml2.dylib in Frameworks */,
-				3911A21713E1DAB400CD4F6C /* libBox.a in Frameworks */,
 				3911A21613E1DAAC00CD4F6C /* libAddressBookWrappers.a in Frameworks */,
 				3911A1ED13E1CFD400CD4F6C /* AddressBook.framework in Frameworks */,
 				3911A1EE13E1CFD400CD4F6C /* AddressBookUI.framework in Frameworks */,
@@ -988,7 +947,6 @@
 				A9B4925E144CCE20002F1D02 /* VCTitleCase */,
 				3911A20B13E1DA9300CD4F6C /* iPhoneContacts.xcodeproj */,
 				394B915B13D64923007BFF2E /* DocuSign.xcodeproj */,
-				394B914E13D6491A007BFF2E /* box.xcodeproj */,
 				7856A47312B444A80025424F /* PSFoundation.xcodeproj */,
 				397B773E13ECC960009438F1 /* ATMHud */,
 				3911A1E213E1CCE700CD4F6C /* ABTableViewCell */,
@@ -1064,8 +1022,6 @@
 		3911A22313E228C400CD4F6C /* APIs */ = {
 			isa = PBXGroup;
 			children = (
-				3911A22413E228FB00CD4F6C /* RBBoxService.h */,
-				3911A22513E228FB00CD4F6C /* RBBoxService.m */,
 				3905750213EB11D7002CE9ED /* RBDocuSignService.h */,
 				3905750313EB11D7002CE9ED /* RBDocuSignService.m */,
 			);
@@ -1104,24 +1060,6 @@
 				0666251915EF4A0800721CBB /* RBRecipientPickerViewController.m */,
 			);
 			name = Form;
-			sourceTree = "<group>";
-		};
-		393AB0A113E235EE00F1BE04 /* Box.net */ = {
-			isa = PBXGroup;
-			children = (
-				393AB0A213E2361000F1BE04 /* RBBoxLoginViewController.h */,
-				393AB0A313E2361000F1BE04 /* RBBoxLoginViewController.m */,
-			);
-			name = Box.net;
-			sourceTree = "<group>";
-		};
-		394B914F13D6491A007BFF2E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				394B915613D6491B007BFF2E /* libBox.a */,
-				39680E7813E08B65006B47C1 /* BoxTest.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		394B915C13D64923007BFF2E /* Products */ = {
@@ -1296,7 +1234,6 @@
 				39680E6713E06A60006B47C1 /* Client */,
 				39A7F07F13DA208A008338A4 /* Home */,
 				3925C7D813DDE82C008810AF /* Form */,
-				393AB0A113E235EE00F1BE04 /* Box.net */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -1544,7 +1481,6 @@
 				060184D416D60E5300BBE22C /* PBXTargetDependency */,
 				060184D616D60E5300BBE22C /* PBXTargetDependency */,
 				060184D816D60E5300BBE22C /* PBXTargetDependency */,
-				060184DA16D60E5300BBE22C /* PBXTargetDependency */,
 				060184DC16D60E5300BBE22C /* PBXTargetDependency */,
 			);
 			name = SignMe2012;
@@ -1567,7 +1503,6 @@
 				A918BF8214E51BFC0075E862 /* PBXTargetDependency */,
 				3911A21513E1DA9F00CD4F6C /* PBXTargetDependency */,
 				3911A1C113E1BADD00CD4F6C /* PBXTargetDependency */,
-				394B916713D64B0A007BFF2E /* PBXTargetDependency */,
 				7856A48112B444B10025424F /* PBXTargetDependency */,
 			);
 			name = SignMe;
@@ -1624,10 +1559,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 394B914F13D6491A007BFF2E /* Products */;
-					ProjectRef = 394B914E13D6491A007BFF2E /* box.xcodeproj */;
-				},
-				{
 					ProductGroup = 394B915C13D64923007BFF2E /* Products */;
 					ProjectRef = 394B915B13D64923007BFF2E /* DocuSign.xcodeproj */;
 				},
@@ -1668,25 +1599,11 @@
 			remoteRef = 3939D5B112CA36EA00089568 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		394B915613D6491B007BFF2E /* libBox.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libBox.a;
-			remoteRef = 394B915513D6491B007BFF2E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		394B916313D64924007BFF2E /* libDocuSign.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libDocuSign.a;
 			remoteRef = 394B916213D64924007BFF2E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		39680E7813E08B65006B47C1 /* BoxTest.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = BoxTest.app;
-			remoteRef = 39680E7713E08B65006B47C1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		39680E7B13E08B65006B47C1 /* DocuSignTest.octest */ = {
@@ -1917,8 +1834,6 @@
 				0601852C16D60E5300BBE22C /* ABTableViewCell.m in Sources */,
 				0601852D16D60E5300BBE22C /* ABPerson+RBMail.m in Sources */,
 				0601852E16D60E5300BBE22C /* NSUserDefaults+RBAdditions.m in Sources */,
-				0601852F16D60E5300BBE22C /* RBBoxService.m in Sources */,
-				0601853016D60E5300BBE22C /* RBBoxLoginViewController.m in Sources */,
 				0601853116D60E5300BBE22C /* PSFunctions.m in Sources */,
 				0601853216D60E5300BBE22C /* SSLineView.m in Sources */,
 				0601853316D60E5300BBE22C /* RBClient+RBProperties.m in Sources */,
@@ -2017,8 +1932,6 @@
 				3911A1E513E1CCE700CD4F6C /* ABTableViewCell.m in Sources */,
 				3911A21F13E1E2AD00CD4F6C /* ABPerson+RBMail.m in Sources */,
 				3911A22213E226CB00CD4F6C /* NSUserDefaults+RBAdditions.m in Sources */,
-				3911A22613E228FB00CD4F6C /* RBBoxService.m in Sources */,
-				393AB0A413E2361000F1BE04 /* RBBoxLoginViewController.m in Sources */,
 				393AB0A713E2762900F1BE04 /* PSFunctions.m in Sources */,
 				39A46C7113E30D2F00603CD6 /* SSLineView.m in Sources */,
 				39BB88DB13E3CCE00074543E /* RBClient+RBProperties.m in Sources */,
@@ -2106,11 +2019,6 @@
 			name = DocuSign;
 			targetProxy = 060184D916D60E5300BBE22C /* PBXContainerItemProxy */;
 		};
-		060184DA16D60E5300BBE22C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = box;
-			targetProxy = 060184DB16D60E5300BBE22C /* PBXContainerItemProxy */;
-		};
 		060184DC16D60E5300BBE22C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = PSFoundation;
@@ -2125,11 +2033,6 @@
 			isa = PBXTargetDependency;
 			name = iPhoneContacts;
 			targetProxy = 3911A21413E1DA9F00CD4F6C /* PBXContainerItemProxy */;
-		};
-		394B916713D64B0A007BFF2E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = box;
-			targetProxy = 394B916613D64B0A007BFF2E /* PBXContainerItemProxy */;
 		};
 		7856A48112B444B10025424F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

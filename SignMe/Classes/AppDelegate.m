@@ -22,7 +22,6 @@
 - (void)appplicationPrepareForBackgroundOrTermination:(UIApplication *)application;
 - (void)postFinishLaunch;
 - (void)setupFileStructure;
-- (void)logoutUserIfSpecifiedInSettings;
 - (void)redirectNSLogToDocumentFolder;
 @end
 
@@ -57,8 +56,6 @@
     // create needed folders
     [self setupFileStructure];
     
-    // log out of box.net? was set in Settings Application
-    //[self logoutUserIfSpecifiedInSettings];
     // setup CoreData
 	[ActiveRecordHelpers setupAutoMigratingCoreDataStack];
     
@@ -432,35 +429,6 @@
         if (![manager fileExistsAtPath:directoryPath]) {
             [manager createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:nil];
         }
-    }
-}
-
-
-- (void)logoutUserIfSpecifiedInSettings {
-    if ([NSUserDefaults standardUserDefaults].shouldLogOutOfBox && [[BoxUser savedUser] loggedIn]) {
-        // log out from Box.net
-        [[BoxUser savedUser] logOut];
-        [NSUserDefaults standardUserDefaults].shouldLogOutOfBox = NO;
-        
-        PSAlertView *alertView = [PSAlertView alertWithTitle:[BoxUser savedUser].userName
-                                                     message:@"You got logged out of box.net?\nDo you want to delete all locally stored data?"];
-        
-        [alertView addButtonWithTitle:@"Delete" block:^(void) {
-            RBPersistenceManager *persistenceManager = [[RBPersistenceManager alloc] init];
-            
-            // delete CoreData and folder in Documents-Directory
-            [persistenceManager deleteAllSavedData];
-            
-            // delete UserDefaults
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:kRBSettingsFormsUpdateDateKey];
-            [[NSUserDefaults standardUserDefaults] deleteStoredObjectNames];
-            // reflect new status on UI
-            [self.homeViewController updateUI];
-            [self.homeViewController syncBoxNet:NO];
-        }];
-        
-        [alertView setCancelButtonWithTitle:@"Keep Data" block:nil];
-        [alertView show];
     }
 }
 

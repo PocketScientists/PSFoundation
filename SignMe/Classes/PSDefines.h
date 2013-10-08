@@ -6,7 +6,6 @@
 //
 
 #import "PSIncludes.h"
-#import "BoxUser.h"
 #import "RBMusketeer.h"
 #import "VCTitleCase.h"
 
@@ -28,8 +27,6 @@
 #pragma mark -
 #pragma mark URLs
 ////////////////////////////////////////////////////////////////////////
-
-#define kReachabilityHostURL    @"www.box.net"
 
 #define kReachabilitySessionXML @"https://wss21-p.wiiings.com/saleshq_mibsync/api/1/session"
 #define kReachabilityUserXML @"https://rbmib.v2a.net/api/1/sign_me/user.xml"
@@ -65,11 +62,9 @@
 #define kRBPDFDataType              @"pdf"
 #define kRBPDFExtension             @"." kRBPDFDataType
 
-#define kRBBoxNetDirectoryName      @"box.net"
 #define kRBFormSavedDirectoryName   @"SavedForms"
 #define kRBPDFSavedDirectoryName    @"PDFs"
 #define kRBLogoSavedDirectoryName   @"Logos"
-#define kRBBoxNetDirectoryPath      ([NSDocumentsFolder() stringByAppendingPathComponent:kRBBoxNetDirectoryName])
 #define kRBFormSavedDirectoryPath   ([NSDocumentsFolder() stringByAppendingPathComponent:kRBFormSavedDirectoryName])
 #define kRBPDFSavedDirectoryPath    ([NSDocumentsFolder() stringByAppendingPathComponent:kRBPDFSavedDirectoryName])
 #define kRBLogoSavedDirectorypath   ([NSDocumentsFolder() stringByAppendingPathComponent:kRBLogoSavedDirectoryName])
@@ -97,11 +92,9 @@
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
-#pragma mark Box.net Folder Structure
+#pragma mark Folder Structure
 ////////////////////////////////////////////////////////////////////////
 
-//#define kRBFolderUser               [[[BoxUser savedUser] userName] lowercaseString]
-//#define kRBFolderUser               [[[RBMusketeer loadEntity] firstname] titlecaseString]
 #define kRBFolderUser               [[NSString stringWithFormat:@"%@ %@", [[RBMusketeer loadEntity] firstname], \
                                     [[RBMusketeer loadEntity] lastname]] titlecaseString]
 #define kRBFolderUserEmptyForms     ([NSDocumentsFolder() stringByAppendingPathComponent:kRBFormSavedDirectoryName])
@@ -114,10 +107,6 @@
 #pragma mark Settings
 ////////////////////////////////////////////////////////////////////////
 
-#define kRBSettingsBoxFolderIDKey           @"kRBSettingsBoxFolderIDKey"
-#define kRBSettingsBoxLogoutKey             @"kRBSettingsBoxLogoutKey"
-#define kRBSettingsBoxUsernameKey           @"kRBSettingsBoxUsernameKey"
-#define kRBSettingsBoxPasswordKey           @"kRBSettingsBoxPasswordKey"
 #define kRBSettingsFormsUpdateDateKey       @"kRBSettingsFormsUpdateDateKey"
 #define kRBSettingsWebserviceUpdateDateKey  @"kRBSettingsWebserviceUpdateKey"
 #define kRBSettingsDocuSignUserNameKey      @"kRBSettingsDocuSignUserNameKey"
@@ -134,5 +123,4 @@
 #define kAppplicationWillSuspendNotification @"kAppplicationWillSuspendNotification"
 // device shaken
 #define kDeviceWasShakenNotification         @"kDeviceWasShakenNotification"
-// Download of a file finished
-#define kBoxNetFileDownloadFinishedNotification     @"kBoxNetFileDownloadFinishedNotification"
+

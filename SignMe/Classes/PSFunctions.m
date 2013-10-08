@@ -76,10 +76,6 @@ inline NSString *RBFullPathToPDFTemplateWithFormName(NSString *formressourcename
 }
 
 inline NSString *RBPathToSignedFolderForClientWithName(NSString *clientName) {
-    if (![BoxUser savedUser].loggedIn) {
-        return nil;
-    }
-    
     return [[kRBFolderUser stringByAppendingPathComponent:[clientName lowercaseString]] stringByAppendingPathComponent:kRBFolderSigned];
 }
 
@@ -107,10 +103,6 @@ inline BOOL RBAllRecipientsSet(NSArray *recipients,NSUInteger numberOfRBSigner){
 }
 
 inline NSString *RBPathToPreSignatureFolderForClientWithName(NSString *clientName) {
-    if (![BoxUser savedUser].loggedIn) {
-        return nil;
-    }
-    
     return [[kRBFolderUser stringByAppendingPathComponent:[clientName lowercaseString]] stringByAppendingPathComponent:kRBFolderPreSignature];
 }
 

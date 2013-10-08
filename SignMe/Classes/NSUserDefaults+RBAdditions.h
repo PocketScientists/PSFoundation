@@ -10,16 +10,12 @@
 
 @interface NSUserDefaults (NSUserDefaults_RBAdditions)
 
-@property (nonatomic, assign) NSInteger folderID;
-@property (nonatomic, assign) BOOL shouldLogOutOfBox;
 @property (nonatomic, assign) BOOL addressBookAccess;
 @property (nonatomic, retain) NSDate *formsUpdateDate;
 @property (nonatomic, retain) NSDate *webserviceUpdateDate;
 @property (nonatomic, retain) NSString *docuSignUserName;
 @property (nonatomic, retain) NSString *docuSignPassword;
 @property (nonatomic, retain) NSDate *docuSignUpdateDate;
-@property (nonatomic, retain) NSString *boxUserName;
-@property (nonatomic, retain) NSString *boxPassword;
 @property (nonatomic, assign) BOOL loggedInOnce;
 @property (nonatomic, assign) BOOL offlineMode;
 

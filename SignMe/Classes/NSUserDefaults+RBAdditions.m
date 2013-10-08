@@ -13,11 +13,6 @@
 
 + (void)initialize {
     if (self == [NSUserDefaults class]) {
-//        // Setting Defaults for Settings
-//        NSDictionary *appDefaults = XDICT($B(NO), kRBSettingsBoxLogoutKey, $I(162865479), kRBSettingsBoxFolderIDKey, [NSDate date], kRBSettingsDocuSignUpdateDateKey);
-//        [[self standardUserDefaults] registerDefaults:appDefaults];
-//        [[self standardUserDefaults] synchronize];
-
         NSUserDefaults *standardUserDefaults = [self standardUserDefaults];
         NSString *val = nil;
         
@@ -61,15 +56,6 @@
 #pragma mark General UserDefaults
 ////////////////////////////////////////////////////////////////////////
 
-- (void)setFolderID:(NSInteger)folderID {
-    [self setInteger:folderID forKey:kRBSettingsBoxFolderIDKey];
-    [self synchronize];
-}
-
-- (NSInteger)folderID {
-    return [self integerForKey:kRBSettingsBoxFolderIDKey];
-}
-
 -(void)setLoggedInOnce:(BOOL)loggedInOnce{
     [self setBool:loggedInOnce forKey:@"kLoggedInOnceKey"];
     [self synchronize];
@@ -96,10 +82,6 @@
 -(BOOL)addressBookAccess{
     return [self boolForKey:kRBSettingsAddressBookAccess];
 }
-- (void)setShouldLogOutOfBox:(BOOL)shouldLogOutOfBox {
-    [self setBool:shouldLogOutOfBox forKey:kRBSettingsBoxLogoutKey];
-    [self synchronize];
-}
 
 - (void)setWebserviceUpdateDate:(NSDate *)webserviceUpdateDate {
     [self setObject:webserviceUpdateDate forKey:kRBSettingsWebserviceUpdateDateKey];
@@ -108,10 +90,6 @@
 
 - (NSDate *)webserviceUpdateDate {
     return [self objectForKey:kRBSettingsWebserviceUpdateDateKey];
-}
-
-- (BOOL)shouldLogOutOfBox {
-    return [self boolForKey:kRBSettingsBoxLogoutKey];
 }
 
 - (void)setFormsUpdateDate:(NSDate *)formsUpdateDate {
@@ -154,29 +132,9 @@
     return updateDate;
 }
 
-- (void)setBoxUserName:(NSString *)boxUserName {
-    [self setObject:boxUserName forKey:kRBSettingsBoxUsernameKey];
-    [self synchronize];
-}
-
-- (NSString *)boxUserName {
-    return [self stringForKey:kRBSettingsBoxUsernameKey];
-}
-
-- (void)setBoxPassword:(NSString *)boxPassword {
-    [self setObject:boxPassword forKey:kRBSettingsBoxPasswordKey];
-    [self synchronize];
-}
-
-- (NSString *)boxPassword {
-    return [self stringForKey:kRBSettingsBoxPasswordKey];
-}
-
-
-
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
-#pragma mark Box.net objects
+#pragma mark Objects
 ////////////////////////////////////////////////////////////////////////
 
 - (NSArray *)allStoredObjectNames {

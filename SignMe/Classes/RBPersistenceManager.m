@@ -169,10 +169,6 @@
     
     // delete files
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    if ([fileManager fileExistsAtPath:kRBBoxNetDirectoryPath]) {
-        [fileManager removeItemAtPath:kRBBoxNetDirectoryPath error:nil];
-    }
 
     if ([fileManager fileExistsAtPath:kRBPDFSavedDirectoryPath]) {
         [fileManager removeItemAtPath:kRBPDFSavedDirectoryPath error:nil];

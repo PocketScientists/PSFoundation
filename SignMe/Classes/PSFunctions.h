@@ -14,7 +14,7 @@ NSString *RBFormattedDateWithFormat(NSDate *date, NSString *format);
 
 NSUInteger RBNumberOfSignersForContractSum(NSUInteger contractValue);
 
-// path to Box.net folders
+// path to folders
 NSString *RBPathToEmptyForms();
 NSString *RBPathToSignedFolderForClientWithName(NSString *clientName);
 NSString *RBPathToPreSignatureFolderForClientWithName(NSString *clientName);
