@@ -16,7 +16,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>prometheusinc@gmail.com</string>
+			<string>user</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
@@ -34,7 +34,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>asdf1234</string>
+			<string>password</string>
 			<key>IsSecure</key>
 			<true/>
 			<key>Key</key>
@@ -138,7 +138,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>signme@redbull.com</string>
+			<string>signme@support.redbull.com</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>
@@ -174,7 +174,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>signmeapp</string>
+			<string>signmeapp2</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>
