@@ -2152,6 +2152,10 @@
 				);
 				INFOPLIST_FILE = "Build-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SignMe-fnkfypdrfztfzsgokvsexdfjallx/Build/Products/Debug-iphoneos",
+				);
 				PRODUCT_NAME = SignMe_Int;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos6.1;
@@ -2185,6 +2189,10 @@
 				);
 				INFOPLIST_FILE = "Build-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SignMe-fnkfypdrfztfzsgokvsexdfjallx/Build/Products/Debug-iphoneos",
+				);
 				PRODUCT_NAME = SignMe_Int;
 				PROVISIONING_PROFILE = "8084470F-1881-4D34-BD6B-591AAE9FBC4F";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8084470F-1881-4D34-BD6B-591AAE9FBC4F";
