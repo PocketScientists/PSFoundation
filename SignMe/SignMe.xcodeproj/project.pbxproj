@@ -507,7 +507,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* SignMe_Int.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SignMe_Int.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* SignMe iOS7.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SignMe iOS7.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AAE50D9B0CCF005BE974 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
@@ -891,7 +891,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* SignMe_Int.app */,
+				1D6058910D05DD3D006BFB54 /* SignMe iOS7.app */,
 				3981E11E13DF3A4F00B23A7D /* PlistCreator */,
 				0601858716D60E5300BBE22C /* SignMe2012.app */,
 			);
@@ -1507,7 +1507,7 @@
 			);
 			name = SignMe;
 			productName = PSAppTemplate;
-			productReference = 1D6058910D05DD3D006BFB54 /* SignMe_Int.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* SignMe iOS7.app */;
 			productType = "com.apple.product-type.application";
 		};
 		3981E11D13DF3A4F00B23A7D /* PlistCreator */ = {
@@ -1536,9 +1536,10 @@
 				LastUpgradeCheck = 0430;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = N97U5EA58L;
 						SystemCapabilities = {
 							com.apple.Keychain = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -2130,6 +2131,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = SignMe_Int.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -2156,7 +2158,7 @@
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SignMe-fnkfypdrfztfzsgokvsexdfjallx/Build/Products/Debug-iphoneos",
 				);
-				PRODUCT_NAME = SignMe_Int;
+				PRODUCT_NAME = "SignMe iOS7";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos6.1;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -2169,6 +2171,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = SignMe_Int.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Red Bull North America Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Red Bull North America Inc.";
 				COPY_PHASE_STRIP = YES;
@@ -2193,8 +2196,8 @@
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SignMe-fnkfypdrfztfzsgokvsexdfjallx/Build/Products/Debug-iphoneos",
 				);
-				PRODUCT_NAME = SignMe_Int;
-				PROVISIONING_PROFILE = "8084470F-1881-4D34-BD6B-591AAE9FBC4F";
+				PRODUCT_NAME = "SignMe iOS7";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8084470F-1881-4D34-BD6B-591AAE9FBC4F";
 				SDKROOT = iphoneos6.1;
 				TARGETED_DEVICE_FAMILY = 2;
