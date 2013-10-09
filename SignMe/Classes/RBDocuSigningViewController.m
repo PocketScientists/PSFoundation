@@ -55,7 +55,6 @@
     self.webView.delegate = self;
     
     [self.view addSubview:self.webView];
-    NSLog(@"view did load");
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -115,7 +114,6 @@
         }
         return NO;
     }
-    NSLog(@"Start loading");
     return YES;
 }
 
