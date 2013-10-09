@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		065DEE691805812500A77953 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 065DEE681805812500A77953 /* libxml2.2.dylib */; };
 		3900165F130C28D8006F7477 /* CoreGraphicsHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 3900165E130C28D8006F7477 /* CoreGraphicsHelper.h */; };
 		390BAB3112C943D000C39661 /* NSData+MTAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 390BAB2F12C943D000C39661 /* NSData+MTAdditions.h */; };
 		390BAB3212C943D000C39661 /* NSData+MTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 390BAB3012C943D000C39661 /* NSData+MTAdditions.m */; };
@@ -444,7 +445,6 @@
 		788E1F18126C95B1009801E5 /* UACellBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78692151126B4195000259AC /* UACellBackgroundView.m */; };
 		788E1F2D126C95B1009801E5 /* PSCompatibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 786921A5126B4195000259AC /* PSCompatibility.m */; };
 		788E1F30126C95B1009801E5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
-		788E1F32126C95B1009801E5 /* libxml2.2.7.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 786922A4126B450C000259AC /* libxml2.2.7.3.dylib */; };
 		78993B7C12AA860F00DA480C /* UIScreen+PSAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 78993B7A12AA860F00DA480C /* UIScreen+PSAdditions.h */; };
 		78993B7D12AA860F00DA480C /* UIScreen+PSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 78993B7B12AA860F00DA480C /* UIScreen+PSAdditions.m */; };
 		789FFE5E129A7E3C003C3AC7 /* NSString+InflectionSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 789FFE5C129A7E3C003C3AC7 /* NSString+InflectionSupport.h */; };
@@ -596,6 +596,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		065DEE681805812500A77953 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		3900165E130C28D8006F7477 /* CoreGraphicsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreGraphicsHelper.h; sourceTree = SOURCE_ROOT; };
 		390BAB2712C9438B00C39661 /* libPSFoundation_CoreLocation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPSFoundation_CoreLocation.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		390BAB2F12C943D000C39661 /* NSData+MTAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+MTAdditions.h"; path = "Categories/NSData/NSData+MTAdditions.h"; sourceTree = SOURCE_ROOT; };
@@ -954,9 +955,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				065DEE691805812500A77953 /* libxml2.2.dylib in Frameworks */,
 				782EE80A1376E38000AAA233 /* UIKit.framework in Frameworks */,
 				788E1F30126C95B1009801E5 /* Foundation.framework in Frameworks */,
-				788E1F32126C95B1009801E5 /* libxml2.2.7.3.dylib in Frameworks */,
 				3936595A12C7F3AE001D4D53 /* AudioToolbox.framework in Frameworks */,
 				3936595C12C7F3AE001D4D53 /* QuartzCore.framework in Frameworks */,
 			);
@@ -992,6 +993,7 @@
 		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				065DEE681805812500A77953 /* libxml2.2.dylib */,
 				782EE8091376E38000AAA233 /* UIKit.framework */,
 				390BAB3912C9448500C39661 /* CoreLocation.framework */,
 				7867A4FA126C99EA0012E520 /* CoreData.framework */,
