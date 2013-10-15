@@ -240,7 +240,7 @@
         [self redrawTableData:[self.tableViews objectAtIndex:0]];
     }
 }
-          
+
 - (void)setRecipients:(NSArray *)recipients {
     NSMutableArray *r = [NSMutableArray array];
     for (NSString *type in self.recipientTypes) {
@@ -322,7 +322,7 @@
             }
             tableView.backgroundColor = [UIColor clearColor];
             tableView.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-            tableView.tableHeaderView = headerView; 
+            tableView.tableHeaderView = headerView;
             tableView.tag = typeIndex;
             // tableView_.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
             tableView.editing = YES;
@@ -332,7 +332,7 @@
         }
         self.tableViews = tableViews;
         self.addContactButtons = addContactButtons;
-    }        
+    }
     
 }
 
@@ -369,7 +369,7 @@
     cell.idcheck = NO;
     [cell disableAuth];
     [cell disableTypeSelection];
-        //RBHQ -> fix placeholder to RedBull Inc. if group 0
+    //RBHQ -> fix placeholder to RedBull Inc. if group 0
     if(tableView.tag == 1){
         NSString *type = [self.recipientTypes objectAtIndex:tableView.tag];
         cell.placeholderText = [[[self tabsForType:type] objectAtIndex:indexPath.row] objectForKey:kRBFormKeyTabLabel];}
@@ -377,13 +377,13 @@
         cell.placeholderText = [NSString stringWithFormat:@"Red Bull Inc. %d",indexPath.row+1];}
     
     if (indexPath.row < [[self.recipientsForTypes objectAtIndex:tableView.tag] count]) {
-       
+        
         NSDictionary *personDict = [[self.recipientsForTypes objectAtIndex:tableView.tag] objectAtIndex:indexPath.row];
-         //RBHQ - Temp Cells - if RecipientPersonID = 0
+        //RBHQ - Temp Cells - if RecipientPersonID = 0
         if([[personDict valueForKey:kRBRecipientPersonID] intValue] != 0){
-        
-        ABPerson *person;
-        
+            
+            ABPerson *person;
+            
             person = [[ABAddressBook sharedAddressBook] personWithRecordID:[[personDict valueForKey:kRBRecipientPersonID] intValue]];
             if (person.imageData != nil) {
                 cell.image = [UIImage imageWithData:person.imageData];
@@ -422,31 +422,31 @@
 - (void)didSelectRowWithOrderOfSigner:(NSUInteger)orderType AndTouches:(NSSet *)touches{
     if(orderType != NOSUPERIORGROUP && orderType <3)
     {
-    CGPoint point = [[touches anyObject] locationInView:self];
-    self.recPicTVC = [[RBRecipientPickerViewController alloc] init];
-    self.recPicTVC.delegate=self;
+        CGPoint point = [[touches anyObject] locationInView:self];
+        self.recPicTVC = [[RBRecipientPickerViewController alloc] init];
+        self.recPicTVC.delegate=self;
         
-    NSArray *selectedEmails =[selectedRecipientsAtPosition_ allValues];
-    NSArray * recipients = [RBAvailableRecipients findByAttribute:@"superiorGroup" withValue:[NSNumber numberWithInt:orderType]];
-    NSMutableArray *recNames = [[NSMutableArray alloc] initWithArray:recipients];
-    //Remove Recipients which are already selected
-    for(RBAvailableRecipients *recip in recipients) {
-        if([selectedEmails containsObject:recip.email]) {
-            [recNames removeObject:recip];
+        NSArray *selectedEmails =[selectedRecipientsAtPosition_ allValues];
+        NSArray * recipients = [RBAvailableRecipients findByAttribute:@"superiorGroup" withValue:[NSNumber numberWithInt:orderType]];
+        NSMutableArray *recNames = [[NSMutableArray alloc] initWithArray:recipients];
+        //Remove Recipients which are already selected
+        for(RBAvailableRecipients *recip in recipients) {
+            if([selectedEmails containsObject:recip.email]) {
+                [recNames removeObject:recip];
+            }
         }
-    }
         
-    self.recPicTVC.recipientnames =recNames;
-    self.recipientPopover = [[UIPopoverController alloc] initWithContentViewController:self.recPicTVC];
+        self.recPicTVC.recipientnames =recNames;
+        self.recipientPopover = [[UIPopoverController alloc] initWithContentViewController:self.recPicTVC];
         
-    self.noOfCellPickerActive=orderType-1;
-    [recipientPopover_ presentPopoverFromRect:CGRectMake(point.x-20, point.y, 40, 20) inView:self permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+        self.noOfCellPickerActive=orderType-1;
+        [recipientPopover_ presentPopoverFromRect:CGRectMake(point.x-20, point.y, 40, 20) inView:self permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
     }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-   //Change RBHQ
-   // only account signer cell is deletable
+    //Change RBHQ
+    // only account signer cell is deletable
     RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     if ((rbAccountSignerSelected_ == 1 || cell.detailText.length > 0) && tableView.tag==1) {
         return YES;
@@ -457,7 +457,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [(NSMutableArray *)[self.recipientsForTypes objectAtIndex:tableView.tag] removeObjectAtIndex:indexPath.row];
-
+        
         rbAccountSignerSelected_=NO;
         [self redrawTableData:tableView];
         ((UIButton *)[self.addContactButtons objectAtIndex:[self.tableViews indexOfObject:tableView]]).enabled = YES;
@@ -465,12 +465,12 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-   //Change RBHQ 
+    //Change RBHQ
     
-  //  RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-  //  if (cell.mainText) {
-  //      return YES;
-  //  }
+    //  RBRecipientTableViewCell *cell = (RBRecipientTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    //  if (cell.mainText) {
+    //      return YES;
+    //  }
     return NO;
 }
 
@@ -519,27 +519,27 @@
         
         if (i < [[self.recipientsForTypes objectAtIndex:tableView.tag] count]) {
             NSDictionary *personDict = [[self.recipientsForTypes objectAtIndex:tableView.tag] objectAtIndex:i];
-      
+            
             ABPerson *person=nil;
             person = [[ABAddressBook sharedAddressBook] personWithRecordID:[[personDict valueForKey:kRBRecipientPersonID] intValue]];
             if(person != nil){
-            if (person.imageData != nil) {
-                cell.image = [UIImage imageWithData:person.imageData];
-            }
-            else {
-                cell.image = [UIImage imageNamed:@"EmptyContact"];
-            }
-            [cell enableTypeSelection];
-            cell.mainText = person.fullName;
-            cell.code = [personDict valueForKey:kRBRecipientCode] ? [[personDict valueForKey:kRBRecipientCode] intValue] : 0;
-            cell.signerType = [personDict valueForKey:kRBRecipientType] ? [[personDict valueForKey:kRBRecipientType] intValue] : 0;
-            cell.idcheck = [personDict valueForKey:kRBRecipientIDCheck] && [[personDict valueForKey:kRBRecipientIDCheck] intValue] > 0 ? YES : NO;
-            cell.detailText = [person emailForID:[personDict valueForKey:kRBRecipientEmailID]];
-            cell.placeholderText = nil;
-            if(tableView.tag == 1) {
-                rbAccountSignerSelected_=YES;
-                [cell setEditing:YES animated:NO];
-                [tableView reloadData];
+                if (person.imageData != nil) {
+                    cell.image = [UIImage imageWithData:person.imageData];
+                }
+                else {
+                    cell.image = [UIImage imageNamed:@"EmptyContact"];
+                }
+                [cell enableTypeSelection];
+                cell.mainText = person.fullName;
+                cell.code = [personDict valueForKey:kRBRecipientCode] ? [[personDict valueForKey:kRBRecipientCode] intValue] : 0;
+                cell.signerType = [personDict valueForKey:kRBRecipientType] ? [[personDict valueForKey:kRBRecipientType] intValue] : 0;
+                cell.idcheck = [personDict valueForKey:kRBRecipientIDCheck] && [[personDict valueForKey:kRBRecipientIDCheck] intValue] > 0 ? YES : NO;
+                cell.detailText = [person emailForID:[personDict valueForKey:kRBRecipientEmailID]];
+                cell.placeholderText = nil;
+                if(tableView.tag == 1) {
+                    rbAccountSignerSelected_=YES;
+                    [cell setEditing:YES animated:NO];
+                    [tableView reloadData];
                 }
             }
         }
@@ -595,13 +595,13 @@
     [self.viewControllerResponder dismissModalViewControllerAnimated:YES];
 }
 
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker 
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
       shouldContinueAfterSelectingPerson:(ABRecordRef)person {
     return YES;
 }
 
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker 
-      shouldContinueAfterSelectingPerson:(ABRecordRef)person 
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
+      shouldContinueAfterSelectingPerson:(ABRecordRef)person
                                 property:(ABPropertyID)property
                               identifier:(ABMultiValueIdentifier)identifier {
     NSString *type = [self.recipientTypes objectAtIndex:lastButtonPressed.tag];
@@ -640,8 +640,8 @@
     if ([self recipientsForType:type].count >= [self maxNumberOfRecipientsForType:type]) {
         lastButtonPressed.enabled = NO;
         [self.viewControllerResponder dismissModalViewControllerAnimated:YES];
-        [self.viewControllerResponder performSelector:@selector(showSuccessMessage:) 
-                                           withObject:[NSString stringWithFormat:@"Maximum number of %@ signers for this form added.", [type isEqualToString:@"default"] ? @"" : type] 
+        [self.viewControllerResponder performSelector:@selector(showSuccessMessage:)
+                                           withObject:[NSString stringWithFormat:@"Maximum number of %@ signers for this form added.", [type isEqualToString:@"default"] ? @"" : type]
                                            afterDelay:1.5];
     }
     
@@ -707,7 +707,7 @@
 	picker.displayedProperties = XARRAY([NSNumber numberWithInt:kABPersonEmailProperty]);
     picker.modalPresentationStyle = UIModalPresentationFormSheet;
     
-	// Show the picker 
+	// Show the picker
 	[self.viewControllerResponder presentModalViewController:picker animated:YES];
 }
 
@@ -726,9 +726,7 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    [self performBlock:^{
-        textField.text = [textField.text titlecaseString];
-    } afterDelay:0];
+    textField.text = [textField.text titlecaseString];
     return YES;
 }
 
@@ -786,7 +784,7 @@
     
     NSMutableDictionary *personDict = XMDICT($I(recipPerson.recordID), kRBRecipientPersonID, $I(identifier), kRBRecipientEmailID, $I(kRBRecipientTypeInPerson), kRBRecipientType, @"RB", kRBRecipientKind,kRBisNeededSignerTRUE,kRBisNeededSigner);
     
-
+    
     [(NSMutableArray *)[self.recipientsForTypes objectAtIndex:0] replaceObjectAtIndex:noOfCellPickerActive_ withObject:personDict];
     
     [self redrawTableData:[self.tableViews objectAtIndex:0]];
